@@ -1,0 +1,15 @@
+"darkrp"
+{
+	"base"		"darkrp"
+    "title"  "StarWarsRP"
+    "version"   "0.0.1"
+    "menusystem"	"1"
+
+    "author_name"   "whosgotch"
+    "author_email"  ""
+    "author_url"    ""
+
+    "icon"  ""
+    "info"  ""
+    "hide"  "0"
+}

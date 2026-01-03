@@ -1,0 +1,47 @@
+.vscode/
+
+# source files
+appcache/
+bin/
+config/
+logs/
+platform/
+sourceengine/
+steamapps/
+steam_appid.txt
+ThirdPartyLegalNotices.txt
+
+
+# garrysmod files
+garrysmod/backgrounds/
+garrysmod/bin/
+garrysmod/cfg/
+garrysmod/data/
+garrysmod/download/
+garrysmod/downloadlists/
+garrysmod/lua/
+garrysmod/maps/
+garrysmod/particles/
+garrysmod/resource/
+garrysmod/scenes/
+garrysmod/settings/
+garrysmod/clientside_errors.txt
+garrysmod/gameinfo.txt
+
+# gamemodes
+garrysmod/gamemodes/base/
+garrysmod/gamemodes/DarkRP/
+garrysmod/gamemodes/sandbox/
+garrysmod/gamemodes/terrortown/
+
+# other files
+*.exe
+*.bat
+*.dll
+*.vbsp
+*.vpk
+*.rad
+*.cache
+*.db
+*.inf
+*.ver
