@@ -28,6 +28,10 @@ garrysmod/settings/
 garrysmod/clientside_errors.txt
 garrysmod/gameinfo.txt
 
+# addons
+garrysmod/addons/ulx
+garrysmod/addons/ulib
+
 # gamemodes
 garrysmod/gamemodes/base/
 garrysmod/gamemodes/DarkRP/

@@ -1,3 +1,4 @@
+if CLIENT then
 hook.Add("OnPlayerChat", "highborn_whitelist", function(ply, text, team, dead)
     if ply == LocalPlayer() then
         if string.lower(text) == HIGHBORN_WHITELIST_CHATCMD then
@@ -36,17 +37,17 @@ net.Receive("highborn_whitelist_get", function()
     local steamid = net.ReadString()
     
     local frame = vgui.Create("DFrame")
-    frame:SetSize(400, 450)
+    frame:SetSize(200, 150)
     frame:ShowCloseButton(true)
-    frame:SetTitle("Changing for " .. steamid)
+    frame:SetTitle("Whitelist")
     frame:Center()
     frame:MakePopup(true)
     
-    local namePanel = vgui.Create("DLabel", frame)
-    namePanel:Dock(TOP)
-    namePanel:DockMargin(35, 10, 10, 0)
-    namePanel:SetText("Jobs (" .. steamid .. ")")
-    namePanel:SetFont("Trebuchet18")
+    -- local namePanel = vgui.Create("DLabel", frame)
+    -- namePanel:Dock(TOP)
+    -- namePanel:DockMargin(35, 10, 10, 0)
+    -- namePanel:SetText("Jobs (" .. steamid .. ")")
+    -- namePanel:SetFont("Trebuchet18")
     
     local selectedJob = nil
     local DComboBox = vgui.Create("DComboBox", frame)
@@ -62,16 +63,30 @@ net.Receive("highborn_whitelist_get", function()
             end
         end
     end
-
+    
+    local DCheckBoxLabel = vgui.Create("DCheckBoxLabel", frame)
+    DCheckBoxLabel:Dock(LEFT)
+    DCheckBoxLabel:DockMargin(5, 0, 0, 0)
+    DCheckBoxLabel:SetText("Respawn")
+    DCheckBoxLabel:SetValue(false)
+    DCheckBoxLabel:SizeToContents()		
+    DCheckBoxLabel:SetFont("Trebuchet18")	
+    
     local SaveButton = vgui.Create("DButton", frame)
     SaveButton:Dock(BOTTOM)
     SaveButton:SetText("Save")
     SaveButton:DockMargin(10, 10, 10, 10)
     SaveButton:SetTextColor(color_white)
+    DCheckBoxLabel:SizeToContents()		
     SaveButton.DoClick = function()
+        local spawn = false
+        if DCheckBoxLabel:GetChecked() then 
+            spawn = true
+        end
         net.Start("highborn_whitelist_set")
         net.WriteString(steamid)
         net.WriteInt(selectedJob, 17)
+        net.WriteBool(spawn)
         net.SendToServer()
         frame:Close()
     end
@@ -79,3 +94,4 @@ end)
 
 concommand.Add("whitelist", openWhitelist)
 print("[Highborn] Whitelist client loaded")
+end

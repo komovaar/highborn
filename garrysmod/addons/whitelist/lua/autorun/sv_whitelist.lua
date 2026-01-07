@@ -1,11 +1,13 @@
+if SERVER then
+
 util.AddNetworkString("highborn_whitelist_set")
 util.AddNetworkString("highborn_whitelist_get")
 
-hook.Add("playerCanChangeTeam", "highborn_whitelist", function(ply, team, force)
-    if force then return true, "Job change was forced!" end
-    local jobname = team.GetName(team)
-    return false, HIGHBORN_WHITELIST_ERRMESSAGE
-end)
+-- hook.Add("playerCanChangeTeam", "highborn_whitelist", function(ply, team, force)
+--     if force then return true, "Job change was forced!" end
+--     -- local jobname = team.GetName(team)
+--     -- return false, HIGHBORN_WHITELIST_ERRMESSAGE
+-- end)
 
 hook.Add("PlayerInitialSpawn", "highborn_whitelist", function(ply, transition)
     local job = sql.QueryValue("SELECT job FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID()))
@@ -39,10 +41,14 @@ net.Receive("highborn_whitelist_set", function(len, ply)
     for k, v in pairs(player.GetAll()) do
         if v:SteamID() == steamid then
             targetPly = v
-            print(job)
             targetPly:changeTeam(job, true, true)
             break
         end
+    end
+
+    local spawn = net.ReadBool()
+    if spawn then 
+        targetPly:Spawn()
     end
     hook.Run("HighbornWhitelistUpdate", ply, targetPly, steamid, job)
 end)
@@ -50,7 +56,6 @@ end)
 net.Receive("highborn_whitelist_get", function(len, ply)
     -- if not HIGHBORN_WHITELIST_ALLOWED_RANKS[ply:GetUserGroup()] then return end
     local steamid = net.ReadString()
-    print("Enblaed")
 
     if not (steamid:find("^STEAM_%d:%d:%d+$")) then
         DarkRP.notify(ply, 1, 5, "You didn't send a valid SteamID!")
@@ -63,3 +68,5 @@ net.Receive("highborn_whitelist_get", function(len, ply)
 end)
 
 print("[Highborn] Whitelist server loaded")
+
+end
