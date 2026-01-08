@@ -8,7 +8,7 @@ hook.Add("OnPlayerChat", "highborn_whitelist", function(ply, text, team, dead)
 end)
 
 function openWhitelist()
-    -- if not HIGHBORN_WHITELIST_ALLOWED_RANKS[LocalPlayer():GetUserGroup()] then -- notification.AddLegacy("You aren't allowed to open the whitelist!", 1, 5) -- return -- end
+    if not HIGHBORN_WHITELIST_ALLOWED_RANKS[LocalPlayer():GetUserGroup()] then return end
     local frame = vgui.Create("DFrame")
     frame:SetSize(600, 400)
     frame:ShowCloseButton(true)
@@ -22,7 +22,7 @@ function openWhitelist()
     PlayerList:AddColumn("Name")
     PlayerList:AddColumn("SteamID")
     PlayerList:SetSize(200, 0)
-    for k, v in pairs(player.GetAll()) do
+    for _, v in pairs(player.GetAll()) do
         PlayerList:AddLine(v:Name(), v:SteamID())
     end
 
@@ -35,6 +35,8 @@ end
 
 net.Receive("highborn_whitelist_get", function()
     local steamid = net.ReadString()
+    local can_stunstick = net.ReadBool()
+    print(can_stunstick)
     
     local frame = vgui.Create("DFrame")
     frame:SetSize(200, 150)
@@ -42,18 +44,12 @@ net.Receive("highborn_whitelist_get", function()
     frame:SetTitle("Whitelist")
     frame:Center()
     frame:MakePopup(true)
-    
-    -- local namePanel = vgui.Create("DLabel", frame)
-    -- namePanel:Dock(TOP)
-    -- namePanel:DockMargin(35, 10, 10, 0)
-    -- namePanel:SetText("Jobs (" .. steamid .. ")")
-    -- namePanel:SetFont("Trebuchet18")
-    
+
     local selectedJob = nil
     local DComboBox = vgui.Create("DComboBox", frame)
     DComboBox:Dock(TOP)
     DComboBox:DockMargin(5, 5, 0, 0)
-    for job_index, job in pairs(RPExtraTeams) do
+    for _, job in pairs(RPExtraTeams) do
         DComboBox:AddChoice(job.name)
     end
     DComboBox.OnSelect = function(self, index, value)
@@ -70,7 +66,16 @@ net.Receive("highborn_whitelist_get", function()
     DCheckBoxLabel:SetText("Respawn")
     DCheckBoxLabel:SetValue(false)
     DCheckBoxLabel:SizeToContents()		
-    DCheckBoxLabel:SetFont("Trebuchet18")	
+    DCheckBoxLabel:SetFont("Trebuchet18")
+    
+    local DCheckBoxLabelStunstick = vgui.Create("DCheckBoxLabel", frame)
+    DCheckBoxLabelStunstick:Dock(LEFT)
+    DCheckBoxLabelStunstick:DockMargin(10, 0, 0, 0)
+    DCheckBoxLabelStunstick:SetText("Stunstick")
+    DCheckBoxLabelStunstick:SetValue(false)
+    DCheckBoxLabelStunstick:SizeToContents()		
+    DCheckBoxLabelStunstick:SetFont("Trebuchet18")
+    DCheckBoxLabelStunstick:SetChecked(can_stunstick)
     
     local SaveButton = vgui.Create("DButton", frame)
     SaveButton:Dock(BOTTOM)
@@ -83,9 +88,12 @@ net.Receive("highborn_whitelist_get", function()
         if DCheckBoxLabel:GetChecked() then 
             spawn = true
         end
+        local can_stunstick_return = DCheckBoxLabelStunstick:GetChecked() and 1 or 0
+
         net.Start("highborn_whitelist_set")
         net.WriteString(steamid)
         net.WriteInt(selectedJob, 17)
+        net.WriteInt(can_stunstick_return, 11)
         net.WriteBool(spawn)
         net.SendToServer()
         frame:Close()
