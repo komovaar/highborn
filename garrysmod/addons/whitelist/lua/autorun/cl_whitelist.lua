@@ -35,8 +35,9 @@ end
 
 net.Receive("highborn_whitelist_get", function()
     local steamid = net.ReadString()
+    local job = net.ReadInt(17)
+    local rank = net.ReadString()
     local can_stunstick = net.ReadBool()
-    print(can_stunstick)
     
     local frame = vgui.Create("DFrame")
     frame:SetSize(200, 150)
@@ -45,10 +46,17 @@ net.Receive("highborn_whitelist_get", function()
     frame:Center()
     frame:MakePopup(true)
 
+    local jobName = nil 
+    for index, name in pairs(RPExtraTeams) do 
+        if index == job then 
+            jobName = name.name
+        end
+    end
     local selectedJob = nil
     local DComboBox = vgui.Create("DComboBox", frame)
     DComboBox:Dock(TOP)
     DComboBox:DockMargin(5, 5, 0, 0)
+    DComboBox:SetValue(jobName)
     for _, job in pairs(RPExtraTeams) do
         DComboBox:AddChoice(job.name)
     end
@@ -59,6 +67,11 @@ net.Receive("highborn_whitelist_get", function()
             end
         end
     end
+
+    local DTextEntry = vgui.Create("DTextEntry", frame)
+    DTextEntry:Dock(TOP)
+    DTextEntry:DockMargin(5, 5, 0, 0)
+    DTextEntry:SetValue(rank)
     
     local DCheckBoxLabel = vgui.Create("DCheckBoxLabel", frame)
     DCheckBoxLabel:Dock(LEFT)
@@ -93,6 +106,7 @@ net.Receive("highborn_whitelist_get", function()
         net.Start("highborn_whitelist_set")
         net.WriteString(steamid)
         net.WriteInt(selectedJob, 17)
+        net.WriteString(DTextEntry:GetValue())
         net.WriteInt(can_stunstick_return, 11)
         net.WriteBool(spawn)
         net.SendToServer()

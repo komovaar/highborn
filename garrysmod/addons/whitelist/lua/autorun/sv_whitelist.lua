@@ -29,8 +29,8 @@ hook.Add("PlayerLoadout", "highborn_whitelist_autojob", function(ply)
 end)
 
 hook.Add("InitPostEntity", "highborn_whitelist", function()
-    sql.Query("CREATE TABLE IF NOT EXISTS highborn_whitelist(steamid TEXT, job INT, can_stunstick INT DEFAULT 0)")
-end)b  
+    sql.Query("CREATE TABLE IF NOT EXISTS highborn_whitelist(steamid TEXT, job INT, rank TEXT CHECK(LENGTH(rank) <= 3), can_stunstick INT DEFAULT 0)")
+end)
 
 net.Receive("highborn_whitelist_set", function(len, ply)
     if not HIGHBORN_WHITELIST_ALLOWED_RANKS[ply:GetUserGroup()] then return end
@@ -42,6 +42,7 @@ net.Receive("highborn_whitelist_set", function(len, ply)
     end
   
     local job = net.ReadInt(17)
+    local rank = net.ReadString()
     local can_stunstick = net.ReadInt(11)
     
     local query = sql.Query("DELETE FROM highborn_whitelist WHERE steamid = "..sql.SQLStr(steamid))
@@ -51,7 +52,7 @@ net.Receive("highborn_whitelist_set", function(len, ply)
         print("[Highborn] Successfully deleted old whitelist for user " .. steamid)
     end
 
-    local res = sql.Query("INSERT INTO highborn_whitelist(steamid, job, can_stunstick) VALUES(" .. sql.SQLStr(steamid) .. ", " ..sql.SQLStr(job).. ", " .. SQLStr(can_stunstick) .. ")")
+    local res = sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" .. sql.SQLStr(steamid) .. ", " ..sql.SQLStr(job).. ", " .. SQLStr(rank) .. ", " .. SQLStr(can_stunstick) .. ")")
     if res == false then
         ErrorNoHaltWithStack(sql.LastError())
     else
@@ -88,14 +89,23 @@ net.Receive("highborn_whitelist_get", function(len, ply)
         return
     end
 
-    local can_stunstick = sql.QueryValue(
-        "SELECT can_stunstick FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(steamid)
+    local row = sql.QueryRow(
+        "SELECT job, rank, can_stunstick FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(steamid)
     )
 
+    if not row then return end
+
+    local job = tonumber(row.job)
+    local rank = row.rank
+    local can_stunstick = tobool(tonumber(row.can_stunstick))
+
+    print(can_stunstick)
+
     net.Start("highborn_whitelist_get")
-    net.WriteString(steamid)
-    net.WriteBool(tobool(can_stunstick))
-    
+        net.WriteString(steamid)
+        net.WriteInt(job, 17)
+        net.WriteString(rank)
+        net.WriteBool(can_stunstick)
     net.Send(ply)
 end)
 
