@@ -67,6 +67,13 @@ net.Receive("highborn_whitelist_get", function()
             end
         end
     end
+    if not selectedJob then 
+        for job_index, job in pairs(RPExtraTeams) do
+            if job.name == DComboBox:GetValue() then
+                selectedJob = tonumber(job_index)
+            end
+        end
+    end
 
     local DTextEntry = vgui.Create("DTextEntry", frame)
     DTextEntry:Dock(TOP)

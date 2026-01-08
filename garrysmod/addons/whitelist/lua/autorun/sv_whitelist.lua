@@ -4,28 +4,40 @@ util.AddNetworkString("highborn_whitelist_set")
 util.AddNetworkString("highborn_whitelist_get")
 stunstick_weapons = {"stunstick", "unarrest_stick", "arrest_stick"}
 
+
+
+
 hook.Add("PlayerLoadout", "highborn_whitelist_autojob", function(ply)
     if ply._WhitelistApplied then return end
     ply._WhitelistApplied = true
-
-    local job = sql.QueryValue(
-        "SELECT job FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
-    )
-    local can_stunstick = sql.QueryValue(
-        "SELECT can_stunstick FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
+    
+    local row = sql.QueryRow(
+        "SELECT job, can_stunstick, rank FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
     )
 
-    if job then
-        local jobID = tonumber(job)
-        if ply:Team() ~= jobID then
-            ply:changeTeam(jobID, true, true)
+    if not row then 
+        local res = sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" .. sql.SQLStr(ply:SteamID()) .. ", " ..sql.SQLStr("1").. ", " .. SQLStr("TRP") .. ", " .. SQLStr("0") .. ")")
+        if res == false then
+            ErrorNoHaltWithStack(sql.LastError())
+        else
+            print("[Highborn] Successfully inserted new whitelist for user " .. ply:SteamID())
+            row = res
         end
     end
-    if can_stunstick then 
-        for swep in stunstick_weapons do
+
+    local jobID = tonumber(row.job)
+    if jobID and ply:Team() ~= jobID then
+        ply:changeTeam(jobID, true, true)
+    end
+
+    local can_stunstick = tonumber(row.can_stunstick) == 1
+    if can_stunstick then
+        for _, swep in ipairs(stunstick_weapons) do
             ply:Give(swep)
         end
     end
+
+    local rank = row.rank or ""
 end)
 
 hook.Add("InitPostEntity", "highborn_whitelist", function()
@@ -64,6 +76,7 @@ net.Receive("highborn_whitelist_set", function(len, ply)
         if v:SteamID() == steamid then
             targetPly = v
             targetPly:changeTeam(job, true, true)
+
             if can_stunstick == 1 then 
                 for _, swep in ipairs(stunstick_weapons) do
                     targetPly:Give(swep)
@@ -83,6 +96,7 @@ end)
 net.Receive("highborn_whitelist_get", function(len, ply)
     if not HIGHBORN_WHITELIST_ALLOWED_RANKS[ply:GetUserGroup()] then return end
     local steamid = net.ReadString()
+    print("server get")
 
     if not (steamid:find("^STEAM_%d:%d:%d+$")) then
         DarkRP.notify(ply, 1, 5, "You didn't send a valid SteamID!")
@@ -98,8 +112,6 @@ net.Receive("highborn_whitelist_get", function(len, ply)
     local job = tonumber(row.job)
     local rank = row.rank
     local can_stunstick = tobool(tonumber(row.can_stunstick))
-
-    print(can_stunstick)
 
     net.Start("highborn_whitelist_get")
         net.WriteString(steamid)
