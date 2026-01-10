@@ -4,10 +4,13 @@
 appcache/
 bin/
 config/
+depotcache/
 logs/
 platform/
 sourceengine/
 steamapps/
+steam_cache/
+userdata/
 steam_appid.txt
 ThirdPartyLegalNotices.txt
 
@@ -15,6 +18,8 @@ ThirdPartyLegalNotices.txt
 # garrysmod files
 garrysmod/backgrounds/
 garrysmod/bin/
+garrysmod/cfg/
+garrysmod/cache/
 garrysmod/cfg/
 garrysmod/data/
 garrysmod/download/
