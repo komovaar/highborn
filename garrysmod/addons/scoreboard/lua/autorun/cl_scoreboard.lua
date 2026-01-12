@@ -1,0 +1,207 @@
+local BG = Color(18,18,18,245)
+local ROW = Color(28,28,28)
+local ROW_HOVER = Color(42,42,42)
+local ACCENT = Color(60,120,200)
+local BG_MENU = Color(28,28,28)
+local HOVER = Color(42,42,42)
+local TXT = Color(255,255,255)
+
+local function CreateModernMenu(options)
+    local menu = DermaMenu()
+
+    menu.Paint = function(s, w, h)
+        draw.RoundedBox(6, 0, 0, w, h, BG_MENU)
+    end
+
+    for _, opt in ipairs(options) do
+        local btn = menu:AddOption(opt.name, opt.func)
+        btn.Paint = function(s, w, h)
+            draw.RoundedBox(0, 0, 0, w, h, s:IsHovered() and HOVER or BG_MENU)
+            if s:IsHovered() then
+                draw.RoundedBox(0, w-6, h/2-10, 4, 20, ACCENT)
+            end
+        end
+    end
+
+    menu:Open()
+end
+
+--------------------------------------------------
+-- PLAYER ROW
+--------------------------------------------------
+local function CreatePlayerRow(parent, ply)
+    local jobTable = ply:getJobTable()
+    local jobColor = (jobTable and jobTable.color) or Color(160,160,160)
+
+    local row = vgui.Create("DButton", parent)
+    row:Dock(TOP)
+    row:DockMargin(20, 6, 20, 0)
+    row:SetTall(54)
+    row:SetText("")
+
+    row.Paint = function(s, w, h)
+        draw.RoundedBox(8, 0, 0, w, h, s:IsHovered() and ROW_HOVER or ROW)
+
+        -- цветная полоса профессии
+        draw.RoundedBox(0, 0, 0, 4, h, jobColor)
+    end
+
+    -- ПКМ меню
+row.DoRightClick = function()
+    local options = {
+        { name = "Скопировать ник", func = function() SetClipboardText(ply:Nick()) end },
+        { name = "Скопировать SteamID", func = function() SetClipboardText(ply:SteamID()) end },
+        { name = "Скопировать SteamID64", func = function() SetClipboardText(ply:SteamID64()) end },
+        { name = "Скопировать профессию", func = function() SetClipboardText(ply:getDarkRPVar("job") or "Unknown") end },
+        { name = "Открыть профиль Steam", func = function() gui.OpenURL("https://steamcommunity.com/profiles/" .. ply:SteamID64()) end }
+    }
+
+    CreateModernMenu(options)
+end
+
+    -- Avatar
+    local avatar = vgui.Create("AvatarImage", row)
+    avatar:SetSize(36, 36)
+    avatar:SetPos(12, 9)
+    avatar:SetPlayer(ply, 64)
+
+    -- Nick
+    local nick = vgui.Create("DLabel", row)
+    nick:SetFont("Trebuchet18")
+    nick:SetText(ply:Nick())
+    nick:SetTextColor(color_white)
+    nick:SetPos(58, 6)
+    nick:SizeToContents()
+
+    -- Job
+    local job = vgui.Create("DLabel", row)
+    job:SetFont("Trebuchet18")
+    job:SetText(ply:getDarkRPVar("job") or "Unknown")
+    job:SetTextColor(jobColor)
+    job:SetPos(58, 26)
+    job:SizeToContents()
+
+    -- K/D
+    local kd = vgui.Create("DLabel", row)
+    kd:SetFont("Trebuchet18")
+    kd:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
+    kd:SetTextColor(Color(200,200,200))
+    kd:SizeToContents()
+    kd:SetPos(row:GetWide() - 200, 18)
+    kd.Think = function(s)
+        s:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
+        s:SizeToContents()
+        s:SetPos(row:GetWide() - 200, 18)
+    end
+
+    -- Ping
+    local ping = vgui.Create("DLabel", row)
+    ping:SetFont("Trebuchet18")
+    ping:SetText(ply:Ping() .. " ms")
+    ping:SetTextColor(jobColor)
+    ping:SizeToContents()
+    ping:SetPos(row:GetWide() - 90, 18)
+    ping.Think = function(s)
+        s:SetText(ply:Ping() .. " ms")
+        s:SizeToContents()
+        s:SetPos(row:GetWide() - 90, 18)
+    end
+end
+
+--------------------------------------------------
+-- SCOREBOARD PANEL
+--------------------------------------------------
+local PANEL = {}
+
+function PANEL:Init()
+    self:SetSize(ScrW()*0.6, ScrH()*0.8)
+    self:Center()
+    self:MakePopup()
+    self:SetKeyboardInputEnabled(false)
+
+    self.Paint = function(_, w, h)
+        draw.RoundedBox(6, 0, 0, w, h, BG)
+    end
+
+    self.Header = vgui.Create("DPanel", self)
+    self.Header:Dock(TOP)
+    self.Header:SetTall(56)
+    self.Header.Paint = function(_, w, h)
+        draw.RoundedBoxEx(14, 0, 0, w, h, Color(24,24,24), true, true, false, false)
+        draw.SimpleText("STAR WARS ROLEPLAY", "DermaLarge", 20, h/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        draw.SimpleText("TAB — список игроков", "Trebuchet18", w-20, h/2, Color(150,150,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+    end
+
+    self.Scroll = vgui.Create("DScrollPanel", self)
+    self.Scroll:Dock(FILL)
+end
+
+function PANEL:AddCategory(name, color)
+    local cat = vgui.Create("DPanel", self.Scroll)
+    cat:Dock(TOP)
+    cat:DockMargin(10, 18, 10, 6)
+    cat:SetTall(38)
+
+    cat.Paint = function(_, w, h)
+        draw.RoundedBox(8, 0, 0, w, h, Color(32,32,32))
+        draw.RoundedBox(0, 0, 0, 6, h, color)
+        draw.SimpleText(name, "Trebuchet24", 16, h/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    end
+end
+
+function PANEL:Populate()
+    self.Scroll:Clear()
+
+    local categories = {}
+
+    -- получаем реальные категории DarkRP
+    for _, cat in ipairs(DarkRP.getCategories().jobs or {}) do
+        categories[cat.name] = {
+            color = cat.color or Color(100,100,100),
+            players = {}
+        }
+    end
+
+    -- распределяем игроков
+    for _, ply in ipairs(player.GetAll()) do
+        local jobTable = ply:getJobTable()
+        local catName = jobTable and jobTable.category or "Other"
+
+        categories[catName] = categories[catName] or {
+            color = Color(100,100,100),
+            players = {}
+        }
+
+        table.insert(categories[catName].players, ply)
+    end
+
+    -- рисуем
+    for catName, data in SortedPairs(categories) do
+        if #data.players > 0 then
+            self:AddCategory(catName, data.color)
+
+            for _, ply in ipairs(data.players) do
+                CreatePlayerRow(self.Scroll, ply)
+            end
+        end
+    end
+end
+
+vgui.Register("SW_Scoreboard", PANEL, "EditablePanel")
+
+--------------------------------------------------
+-- TAB HOOKS
+--------------------------------------------------
+local sb
+
+hook.Add("ScoreboardShow", "SW_OpenScoreboard", function()
+    if IsValid(sb) then sb:Remove() end
+    sb = vgui.Create("SW_Scoreboard")
+    sb:Populate()
+    return false
+end)
+
+hook.Add("ScoreboardHide", "SW_CloseScoreboard", function()
+    if IsValid(sb) then sb:Remove() end
+    return false
+end)
