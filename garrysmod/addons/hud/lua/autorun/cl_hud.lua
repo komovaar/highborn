@@ -1,25 +1,14 @@
 if CLIENT then
-    hook.Add("InitPostEntity", "SW_CreateFontAndLogo", function()
-        -- Шрифт
+    hook.Add("InitPostEntity", "SW_CreateFont", function()
         surface.CreateFont("SW_HUD_Main", {
             font = "DM Sans",
-            size = 24,
-            weight = 1000,
+            size = 22,
+            weight = 800,
             antialias = true,
             extended = true
         })
-        print("[SW HUD] Font created")
-
-        -- Картинка
-        SW_HUD_Logo = Material("hud/gar.png")
-        if SW_HUD_Logo:IsError() then
-            print("[SW HUD] ERROR: Logo not found!")
-        else
-            print("[SW HUD] Logo loaded successfully")
-        end
     end)
 end
-
 
 -- Отключаем стандартный HUD
 hook.Add("HUDShouldDraw", "DisableDefaultHUD", function(name)
@@ -32,61 +21,73 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
     local ply = LocalPlayer()
     if not IsValid(ply) then return end
 
-    local barWidth = 240
+    local font = "SW_HUD_Main"
+    surface.SetFont(font)
+
+    ----------------------------------------------------------------
+    -- 🔹 ЛЕВЫЙ НИЖНИЙ УГОЛ (HP / ARMOR / MONEY / JOB)
+    ----------------------------------------------------------------
+
+    local xBase = 30
+    local yBase = ScrH() - 120
+
+    local barWidth = 220
     local barHeight = 10
-    local xBars = ScrW() / 2 - barWidth
-    local yBars = ScrH() - 80
+    local spacing = 6
 
     local hp = math.Clamp(ply:Health(), 0, ply:GetMaxHealth())
     local armor = math.Clamp(ply:Armor(), 0, 100)
 
-    -- HP
-    draw.RoundedBox(0, xBars, yBars, barWidth, barHeight, Color(30,30,30,220))
-    draw.RoundedBox(0, xBars, yBars, barWidth * (hp / ply:GetMaxHealth()), barHeight, Color(200,60,60,255))
+    -- HP BAR
+    draw.RoundedBox(0, xBase, yBase, barWidth, barHeight, Color(25,25,25,220))
+    draw.RoundedBox(0, xBase, yBase, barWidth * (hp / ply:GetMaxHealth()), barHeight, Color(200,60,60))
 
-    -- Armor
-    draw.RoundedBox(0, xBars + barWidth, yBars, barWidth, barHeight, Color(30,30,30,220))
-    draw.RoundedBox(0, xBars + barWidth, yBars, barWidth * (armor / 100), barHeight, Color(60,120,200,255))
+    -- ARMOR BAR
+    draw.RoundedBox(0, xBase, yBase + barHeight + spacing, barWidth, barHeight, Color(25,25,25,220))
+    draw.RoundedBox(0, xBase, yBase + barHeight + spacing, barWidth * (armor / 100), barHeight, Color(60,120,200))
 
-    local font = "SW_HUD_Main"
-    surface.SetFont(font)
+    -- TEXT INFO
+    local textY = yBase + barHeight * 2 + spacing * 2 + 6
+
+    local money = "RC " .. (ply:getDarkRPVar("money") or 0)
+    local job = ply:getDarkRPVar("job") or "Unknown"
+    
+    draw.SimpleText(job, font, xBase, textY, Color(255,255,255))
+    draw.SimpleText(money, font, xBase, textY + 22, Color(255,255,255))
+
+    ----------------------------------------------------------------
+    -- 🔹 ПРАВЫЙ ВЕРХ (NAME + TIME)
+    ----------------------------------------------------------------
 
     local textLines = {
         "Highborn",
-        os.date("%d/%m/%Y"),
-        "$" .. (ply:getDarkRPVar("money") or "0")
+        os.date("%H:%M")
     }
 
-    local maxW, lineH = 0, 0
-    for _, line in ipairs(textLines) do
-        local w, h = surface.GetTextSize(line)
-        if w > maxW then maxW = w end
-        lineH = h
-    end
-
     local padding = 10
-    local xText = ScrW() - maxW - 76 - padding*2 
-    local yText = 30
+    local lineX = ScrW() - padding - 2
+    local yText = 20
 
-    for i, line in ipairs(textLines) do
-        draw.SimpleText(line, font, xText + 2, yText + 2 + (i-1)*(lineH+2), Color(0,0,0,150))
-        draw.SimpleText(line, font, xText, yText + (i-1)*(lineH+2), Color(220,220,220,255))
+    local lineH = 0
+    for _, line in ipairs(textLines) do
+        local _, h = surface.GetTextSize(line)
+        lineH = lineH + h + 4
     end
 
-    local lineX = xText + maxW + padding
-    local lineY = yText
-    local lineHFull = (#textLines * (lineH + 2)) + 10
-    draw.RoundedBox(0, lineX, lineY, 2, lineHFull, Color(255,255,255,255))
-
-    -- Рисуем картинку справа от линии
-    if SW_HUD_Logo and not SW_HUD_Logo:IsError() then
-        local logoSize = 64
-        local xLogo = lineX + 10
-        local yLogo = lineY
-
-        surface.SetMaterial(SW_HUD_Logo)
-        surface.SetDrawColor(255, 255, 255, 255)  -- делаем белой
-        surface.DrawTexturedRect(xLogo, yLogo, logoSize, logoSize)
+    -- TEXT
+    local yOffset = yText
+    for _, line in ipairs(textLines) do
+        draw.SimpleText(
+            line,
+            font,
+            lineX - padding,
+            yOffset,
+            Color(255,255,255),
+            TEXT_ALIGN_RIGHT
+        )
+        yOffset = yOffset + 24
     end
 
+    -- VERTICAL LINE
+    draw.RoundedBox(0, lineX, yText - 4, 2, lineH + 4, Color(60,120,200))
 end)
