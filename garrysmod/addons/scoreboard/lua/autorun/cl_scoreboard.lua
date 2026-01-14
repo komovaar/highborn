@@ -1,10 +1,31 @@
-local BG = Color(18,18,18,245)
+local BG = Color(0,0,0,50)
 local ROW = Color(28,28,28)
 local ROW_HOVER = Color(42,42,42)
 local ACCENT = Color(60,120,200)
 local BG_MENU = Color(28,28,28)
 local HOVER = Color(42,42,42)
 local TXT = Color(255,255,255)
+
+if CLIENT then
+    hook.Add("InitPostEntity", "SW_CreateFont", function()
+        surface.CreateFont("SW_Scoreboard_Main", {
+            font = "Montserrat",
+            size = 18,
+            weight = 800,
+            shadow=true,
+        })
+    end)
+
+        hook.Add("InitPostEntity", "SW_CreateFont", function()
+        surface.CreateFont("SW_Scoreboard_Large", {
+            font = "Montserrat",
+            size = 48,
+            weight = 800,
+            shadow=true,
+        })
+    end)
+end
+
 
 local function CreateModernMenu(options)
     local menu = DermaMenu()
@@ -35,12 +56,12 @@ local function CreatePlayerRow(parent, ply)
 
     local row = vgui.Create("DButton", parent)
     row:Dock(TOP)
-    row:DockMargin(20, 6, 20, 0)
+    row:DockMargin(0, 6, 0, 0)
     row:SetTall(54)
     row:SetText("")
 
     row.Paint = function(s, w, h)
-        draw.RoundedBox(8, 0, 0, w, h, s:IsHovered() and ROW_HOVER or ROW)
+        draw.RoundedBox(5, 0, 0, w, h, s:IsHovered() and ROW_HOVER or ROW)
 
         -- цветная полоса профессии
         draw.RoundedBox(0, 0, 0, 4, h, jobColor)
@@ -67,7 +88,7 @@ end
 
     -- Nick
     local nick = vgui.Create("DLabel", row)
-    nick:SetFont("Trebuchet18")
+    nick:SetFont("SW_Scoreboard_Main")
     nick:SetText(ply:Nick())
     nick:SetTextColor(color_white)
     nick:SetPos(58, 6)
@@ -75,7 +96,7 @@ end
 
     -- Job
     local job = vgui.Create("DLabel", row)
-    job:SetFont("Trebuchet18")
+    job:SetFont("SW_Scoreboard_Main")
     job:SetText(ply:getDarkRPVar("job") or "Unknown")
     job:SetTextColor(jobColor)
     job:SetPos(58, 26)
@@ -83,7 +104,7 @@ end
 
     -- K/D
     local kd = vgui.Create("DLabel", row)
-    kd:SetFont("Trebuchet18")
+    kd:SetFont("SW_Scoreboard_Main")
     kd:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
     kd:SetTextColor(Color(200,200,200))
     kd:SizeToContents()
@@ -96,7 +117,7 @@ end
 
     -- Ping
     local ping = vgui.Create("DLabel", row)
-    ping:SetFont("Trebuchet18")
+    ping:SetFont("SW_Scoreboard_Main")
     ping:SetText(ply:Ping() .. " ms")
     ping:SetTextColor(jobColor)
     ping:SizeToContents()
@@ -114,7 +135,7 @@ end
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetSize(ScrW()*0.6, ScrH()*0.8)
+    self:SetSize(ScrW()*0.4, ScrH()*0.8)
     self:Center()
     self:MakePopup()
     self:SetKeyboardInputEnabled(false)
@@ -127,9 +148,8 @@ function PANEL:Init()
     self.Header:Dock(TOP)
     self.Header:SetTall(56)
     self.Header.Paint = function(_, w, h)
-        draw.RoundedBoxEx(14, 0, 0, w, h, Color(24,24,24), true, true, false, false)
-        draw.SimpleText("STAR WARS ROLEPLAY", "DermaLarge", 20, h/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-        draw.SimpleText("TAB — список игроков", "Trebuchet18", w-20, h/2, Color(150,150,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+        draw.RoundedBoxEx(6, 0, 0, w, h, Color(24,24,24, 0), true, true, false, false)
+        draw.SimpleText("Highborn", "SW_Scoreboard_Large", w / 2 - 36, h/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     end
 
     self.Scroll = vgui.Create("DScrollPanel", self)
@@ -139,13 +159,13 @@ end
 function PANEL:AddCategory(name, color)
     local cat = vgui.Create("DPanel", self.Scroll)
     cat:Dock(TOP)
-    cat:DockMargin(10, 18, 10, 6)
+    cat:DockMargin(0, 0, 0, 0)
     cat:SetTall(38)
 
     cat.Paint = function(_, w, h)
-        draw.RoundedBox(8, 0, 0, w, h, Color(32,32,32))
-        draw.RoundedBox(0, 0, 0, 6, h, color)
-        draw.SimpleText(name, "Trebuchet24", 16, h/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        draw.RoundedBox(8, 0, 0, w, h, Color(32,32,32, 0))
+        -- draw.RoundedBox(0, 0, 0, 6, h, color)
+        draw.SimpleText(name, "SW_Scoreboard_Main", 16, h/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     end
 end
 
