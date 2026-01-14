@@ -28,12 +28,12 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
     -- 🔹 ЛЕВЫЙ НИЖНИЙ УГОЛ (HP / ARMOR / MONEY / JOB)
     ----------------------------------------------------------------
 
-    local xBase = 30
-    local yBase = ScrH() - 120
-
     local barWidth = 220
     local barHeight = 10
     local spacing = 6
+
+    local xBase = ScrW() / 2 - barWidth 
+    local yBase = ScrH() - 120
 
     local hp = math.Clamp(ply:Health(), 0, ply:GetMaxHealth())
     local armor = math.Clamp(ply:Armor(), 0, 100)
@@ -43,8 +43,8 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
     draw.RoundedBox(0, xBase, yBase, barWidth * (hp / ply:GetMaxHealth()), barHeight, Color(200,60,60))
 
     -- ARMOR BAR
-    draw.RoundedBox(0, xBase, yBase + barHeight + spacing, barWidth, barHeight, Color(25,25,25,220))
-    draw.RoundedBox(0, xBase, yBase + barHeight + spacing, barWidth * (armor / 100), barHeight, Color(60,120,200))
+    draw.RoundedBox(0, xBase + barWidth, yBase, barWidth, barHeight, Color(25,25,25,220))
+    draw.RoundedBox(0, xBase + barWidth, yBase, barWidth * (armor / 100), barHeight, Color(60,120,200))
 
     -- TEXT INFO
     local textY = yBase + barHeight * 2 + spacing * 2 + 6
