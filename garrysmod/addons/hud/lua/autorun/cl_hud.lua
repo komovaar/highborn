@@ -61,7 +61,6 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
 
     local textLines = {
         "Highborn",
-        os.date("%H:%M")
     }
 
     local padding = 10
@@ -75,19 +74,24 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
     end
 
     -- TEXT
-    local yOffset = yText
-    for _, line in ipairs(textLines) do
-        draw.SimpleText(
-            line,
-            font,
-            lineX - padding,
-            yOffset,
-            Color(255,255,255),
-            TEXT_ALIGN_RIGHT
-        )
-        yOffset = yOffset + 24
-    end
+     draw.SimpleText(
+        "Highborn",
+        font,
+        lineX - padding,
+        yText,
+        Color(255,255,255),
+        TEXT_ALIGN_RIGHT
+    )
+
+    draw.SimpleText(
+        os.date("%H:%M"),
+        font,
+        lineX - padding,
+        yText + 24,
+        Color(200,200,200),
+        TEXT_ALIGN_RIGHT
+    )
 
     -- VERTICAL LINE
-    draw.RoundedBox(0, lineX, yText - 4, 2, lineH + 4, Color(60,120,200))
+    draw.RoundedBox(0, lineX, yText - 4, 2, lineH * 2 + 4, Color(60,120,200))
 end)
