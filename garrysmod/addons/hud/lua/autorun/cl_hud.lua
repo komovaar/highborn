@@ -1,11 +1,10 @@
 if CLIENT then
     hook.Add("InitPostEntity", "SW_CreateFont", function()
         surface.CreateFont("SW_HUD_Main", {
-            font = "DM Sans",
-            size = 22,
+            font = "Montserrat",
+            size = 28,
             weight = 800,
-            antialias = true,
-            extended = true
+            shadow=true,
         })
     end)
 end
@@ -43,7 +42,7 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
 
     -- ARMOR BAR
     draw.RoundedBox(0, xBase + barWidth, yBase, barWidth, barHeight, Color(25,25,25,220))
-    draw.RoundedBox(0, xBase + barWidth, yBase, barWidth * (armor / 100), barHeight, Color(60,120,200))
+    draw.RoundedBox(0, xBase + barWidth, yBase, barWidth * (armor / ply:GetMaxArmor()), barHeight, Color(60,120,200))
 
     -- TEXT INFO
     local textY = yBase + barHeight * 2 
