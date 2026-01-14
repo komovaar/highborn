@@ -30,10 +30,9 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
 
     local barWidth = 220
     local barHeight = 10
-    local spacing = 6
 
     local xBase = ScrW() / 2 - barWidth 
-    local yBase = ScrH() - 120
+    local yBase = ScrH() - 80
 
     local hp = math.Clamp(ply:Health(), 0, ply:GetMaxHealth())
     local armor = math.Clamp(ply:Armor(), 0, 100)
@@ -47,7 +46,7 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
     draw.RoundedBox(0, xBase + barWidth, yBase, barWidth * (armor / 100), barHeight, Color(60,120,200))
 
     -- TEXT INFO
-    local textY = yBase + barHeight * 2 + spacing * 2 + 6
+    local textY = yBase + barHeight * 2 
 
     local money = "RC " .. (ply:getDarkRPVar("money") or 0)
     local job = ply:getDarkRPVar("job") or "Unknown"
