@@ -50,8 +50,8 @@ hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
     local money = "RC " .. (ply:getDarkRPVar("money") or 0)
     local job = ply:getDarkRPVar("job") or "Unknown"
     
-    draw.SimpleText(job, font, xBase, textY, Color(255,255,255))
-    draw.SimpleText(money, font, xBase, textY + 22, Color(255,255,255))
+    draw.DrawText(job, font, xBase, textY, Color(255,255,255))
+    draw.DrawText(money, font, xBase, textY + 22, Color(255,255,255))
 
     ----------------------------------------------------------------
     -- 🔹 ПРАВЫЙ ВЕРХ (NAME + TIME)

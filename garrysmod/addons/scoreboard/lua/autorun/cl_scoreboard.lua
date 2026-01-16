@@ -1,4 +1,4 @@
-local BG = Color(0,0,0,50)
+local BG = Color(0,0,0,0)
 local ROW = Color(28,28,28)
 local ROW_HOVER = Color(42,42,42)
 local ACCENT = Color(60,120,200)
@@ -7,16 +7,13 @@ local HOVER = Color(42,42,42)
 local TXT = Color(255,255,255)
 
 if CLIENT then
-    hook.Add("InitPostEntity", "SW_CreateFont", function()
+    hook.Add("InitPostEntity", "SW_CreateFontScoreaboard", function()
         surface.CreateFont("SW_Scoreboard_Main", {
             font = "Montserrat",
-            size = 18,
+            size = 24,
             weight = 800,
             shadow=true,
         })
-    end)
-
-        hook.Add("InitPostEntity", "SW_CreateFont", function()
         surface.CreateFont("SW_Scoreboard_Large", {
             font = "Montserrat",
             size = 48,
