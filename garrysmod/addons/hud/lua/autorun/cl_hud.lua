@@ -24,6 +24,14 @@ if CLIENT then
             antialias = true,
             extended = true
         })
+
+        surface.CreateFont("HB_Overhead", {
+            font = "Roboto",
+            size = 72,
+            weight = 600,
+            antialias = true,
+            extended = true
+        })
     end)
 end
 
