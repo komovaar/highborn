@@ -1,18 +1,3 @@
-local function DrawTextOutlined(text, font, x, y, col, outlineCol, ax, ay)
-    draw.SimpleText(text, font, x+1, y, outlineCol, ax, ay)
-    draw.SimpleText(text, font, x-1, y, outlineCol, ax, ay)
-    draw.SimpleText(text, font, x, y+1, outlineCol, ax, ay)
-    draw.SimpleText(text, font, x, y-1, outlineCol, ax, ay)
-
-    draw.SimpleText(text, font, x, y, col, ax, ay)
-end
-
-local function DrawTextShadow(text, font, x, y, col, shadowCol, ax, ay)
-    draw.SimpleText(text, font, x+1, y+1, shadowCol, ax, ay)
-    draw.SimpleText(text, font, x, y, col, ax, ay)
-end
-
-
 if CLIENT then
     hook.Add("InitPostEntity", "Highborn_CreateHUDFonts", function()
 
@@ -42,6 +27,7 @@ if CLIENT then
     end)
 end
 
+
 hook.Add("HUDShouldDraw", "Highborn_DisableDefaultHUD", function(name)
     if name == "CHudHealth" or name == "CHudBattery" then
         return false
@@ -70,6 +56,8 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
 
     local job = ply:getDarkRPVar("job") or "Unknown"
     local money = ply:getDarkRPVar("money") or 0
+
+    
 
     DrawTextOutlined(
         job,
@@ -118,7 +106,6 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
         TEXT_ALIGN_RIGHT,
         TEXT_ALIGN_TOP
     )
-
 
     draw.RoundedBox(0, rightX + 8, topY + 2, 2, 48, Color(80,140,220))
 end)
