@@ -1,95 +1,124 @@
+local function DrawTextOutlined(text, font, x, y, col, outlineCol, ax, ay)
+    draw.SimpleText(text, font, x+1, y, outlineCol, ax, ay)
+    draw.SimpleText(text, font, x-1, y, outlineCol, ax, ay)
+    draw.SimpleText(text, font, x, y+1, outlineCol, ax, ay)
+    draw.SimpleText(text, font, x, y-1, outlineCol, ax, ay)
+
+    draw.SimpleText(text, font, x, y, col, ax, ay)
+end
+
+local function DrawTextShadow(text, font, x, y, col, shadowCol, ax, ay)
+    draw.SimpleText(text, font, x+1, y+1, shadowCol, ax, ay)
+    draw.SimpleText(text, font, x, y, col, ax, ay)
+end
+
+
 if CLIENT then
-    hook.Add("InitPostEntity", "SW_CreateFont", function()
-        surface.CreateFont("SW_HUD_Main", {
-            font = "Montserrat",
-            size = 28,
-            weight = 800,
-            shadow=true,
+    hook.Add("InitPostEntity", "Highborn_CreateHUDFonts", function()
+
+        surface.CreateFont("HB_HUD_Title", {
+            font = "Roboto",
+            size = 26,
+            weight = 700,
+            antialias = true,
+            extended = true
+        })
+
+        surface.CreateFont("HB_HUD_Main", {
+            font = "Roboto",
+            size = 21,
+            weight = 500,
+            antialias = true,
+            extended = true
+        })
+
+        surface.CreateFont("HB_HUD_Small", {
+            font = "Roboto",
+            size = 18,
+            weight = 400,
+            antialias = true,
+            extended = true
         })
     end)
 end
 
--- Отключаем стандартный HUD
-hook.Add("HUDShouldDraw", "DisableDefaultHUD", function(name)
+hook.Add("HUDShouldDraw", "Highborn_DisableDefaultHUD", function(name)
     if name == "CHudHealth" or name == "CHudBattery" then
         return false
     end
 end)
 
-hook.Add("HUDPaint", "StarWarsRP_CustomHUD", function()
+
+hook.Add("HUDPaint", "Highborn_HUD", function()
     local ply = LocalPlayer()
     if not IsValid(ply) then return end
 
-    local font = "SW_HUD_Main"
-    surface.SetFont(font)
+    local barW = 220
+    local barH = 10
 
-    ----------------------------------------------------------------
-    -- 🔹 ЛЕВЫЙ НИЖНИЙ УГОЛ (HP / ARMOR / MONEY / JOB)
-    ----------------------------------------------------------------
-
-    local barWidth = 220
-    local barHeight = 10
-
-    local xBase = ScrW() / 2 - barWidth 
-    local yBase = ScrH() - 80
+    local xBase = math.floor(ScrW() / 2 - barW)
+    local yBase = math.floor(ScrH() - 90)
 
     local hp = math.Clamp(ply:Health(), 0, ply:GetMaxHealth())
-    local armor = math.Clamp(ply:Armor(), 0, 100)
+    local armor = math.Clamp(ply:Armor(), 0, ply:GetMaxArmor())
 
-    -- HP BAR
-    draw.RoundedBox(0, xBase, yBase, barWidth, barHeight, Color(25,25,25,220))
-    draw.RoundedBox(0, xBase, yBase, barWidth * (hp / ply:GetMaxHealth()), barHeight, Color(200,60,60))
+    draw.RoundedBox(0, xBase, yBase, barW, barH, Color(35,35,35,220))
+    draw.RoundedBox(0, xBase, yBase, barW * (hp / ply:GetMaxHealth()), barH, Color(200,60,60))
 
-    -- ARMOR BAR
-    draw.RoundedBox(0, xBase + barWidth, yBase, barWidth, barHeight, Color(25,25,25,220))
-    draw.RoundedBox(0, xBase + barWidth, yBase, barWidth * (armor / ply:GetMaxArmor()), barHeight, Color(60,120,200))
+    draw.RoundedBox(0, xBase + barW, yBase, barW, barH, Color(35,35,35,220))
+    draw.RoundedBox(0, xBase + barW, yBase, barW * (armor / ply:GetMaxArmor()), barH, Color(70,130,220))
 
-    -- TEXT INFO
-    local textY = yBase + barHeight * 2 
-
-    local money = "RC " .. (ply:getDarkRPVar("money") or 0)
     local job = ply:getDarkRPVar("job") or "Unknown"
-    
-    draw.DrawText(job, font, xBase, textY, Color(255,255,255))
-    draw.DrawText(money, font, xBase, textY + 22, Color(255,255,255))
+    local money = ply:getDarkRPVar("money") or 0
 
-    ----------------------------------------------------------------
-    -- 🔹 ПРАВЫЙ ВЕРХ (NAME + TIME)
-    ----------------------------------------------------------------
-
-    local textLines = {
-        "Highborn",
-    }
-
-    local padding = 10
-    local lineX = ScrW() - padding - 2
-    local yText = 20
-
-    local lineH = 0
-    for _, line in ipairs(textLines) do
-        local _, h = surface.GetTextSize(line)
-        lineH = lineH + h + 4
-    end
-
-    -- TEXT
-     draw.SimpleText(
-        "Highborn",
-        font,
-        lineX - padding,
-        yText,
+    DrawTextOutlined(
+        job,
+        "HB_HUD_Main",
+        xBase,
+        yBase + 18,
         Color(255,255,255),
-        TEXT_ALIGN_RIGHT
+        Color(0,0,0,200),
+        TEXT_ALIGN_LEFT,
+        TEXT_ALIGN_TOP
     )
 
-    draw.SimpleText(
-        os.date("%H:%M"),
-        font,
-        lineX - padding,
-        yText + 24,
-        Color(200,200,200),
-        TEXT_ALIGN_RIGHT
+    DrawTextOutlined(
+        "RC " .. money,
+        "HB_HUD_Small",
+        xBase,
+        yBase + 38,
+        Color(220,220,220),
+        Color(0,0,0,200),
+        TEXT_ALIGN_LEFT,
+        TEXT_ALIGN_TOP
     )
 
-    -- VERTICAL LINE
-    draw.RoundedBox(0, lineX, yText - 4, 2, lineH * 2 + 4, Color(60,120,200))
+
+    local rightX = ScrW() - 30
+    local topY = 22
+
+    DrawTextShadow(
+        "Highborn",
+        "HB_HUD_Title",
+        rightX,
+        topY,
+        Color(255,255,255),
+        Color(0,0,0,180),
+        TEXT_ALIGN_RIGHT,
+        TEXT_ALIGN_TOP
+    )
+
+    DrawTextShadow(
+        os.date("%d.%m.%y  %H:%M"),
+        "HB_HUD_Small",
+        rightX,
+        topY + 30,
+        Color(180,180,180),
+        Color(0,0,0,160),
+        TEXT_ALIGN_RIGHT,
+        TEXT_ALIGN_TOP
+    )
+
+
+    draw.RoundedBox(0, rightX + 8, topY + 2, 2, 48, Color(80,140,220))
 end)
