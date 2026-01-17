@@ -4,9 +4,9 @@ local ACCENT = Color(60,120,200)
 local BG_MENU = Color(28,28,28)
 
 if CLIENT then
-    hook.Add("InitPostEntity", "SW_CreateFontScoreaboard", function()
+    hook.Add("InitPostEntity", "HB_CreateFontScoreaboard", function()
         surface.CreateFont("HB_Scoreboard_Main", {
-            font = "Robot",
+            font = "Roboto",
             size = 20,
             weight = 600,
             shadow=true,
@@ -80,21 +80,21 @@ end
     avatar:SetPlayer(ply, 64)
 
     local nick = vgui.Create("DLabel", row)
-    nick:SetFont("SW_Scoreboard_Main")
+    nick:SetFont("HB_Scoreboard_Main")
     nick:SetText(ply:Nick())
     nick:SetTextColor(color_white)
     nick:SetPos(58, 6)
     nick:SizeToContents()
 
     local job = vgui.Create("DLabel", row)
-    job:SetFont("SW_Scoreboard_Main")
+    job:SetFont("HB_Scoreboard_Main")
     job:SetText(ply:getDarkRPVar("job") or "Unknown")
     job:SetTextColor(jobColor)
     job:SetPos(58, 26)
     job:SizeToContents()
 
     local kd = vgui.Create("DLabel", row)
-    kd:SetFont("SW_Scoreboard_Main")
+    kd:SetFont("HB_Scoreboard_Main")
     kd:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
     kd:SetTextColor(Color(200,200,200))
     kd:SizeToContents()
@@ -106,7 +106,7 @@ end
     end
 
     local ping = vgui.Create("DLabel", row)
-    ping:SetFont("SW_Scoreboard_Main")
+    ping:SetFont("HB_Scoreboard_Main")
     ping:SetText(ply:Ping() .. " ms")
     ping:SetTextColor(jobColor)
     ping:SizeToContents()
@@ -198,18 +198,18 @@ function PANEL:Populate()
     end
 end
 
-vgui.Register("SW_Scoreboard", PANEL, "EditablePanel")
+vgui.Register("HB_Scoreboard", PANEL, "EditablePanel")
 
 local sb
 
-hook.Add("ScoreboardShow", "SW_OpenScoreboard", function()
+hook.Add("ScoreboardShow", "HB_OpenScoreboard", function()
     if IsValid(sb) then sb:Remove() end
-    sb = vgui.Create("SW_Scoreboard")
+    sb = vgui.Create("HB_Scoreboard")
     sb:Populate()
     return false
 end)
 
-hook.Add("ScoreboardHide", "SW_CloseScoreboard", function()
+hook.Add("ScoreboardHide", "HB_CloseScoreboard", function()
     if IsValid(sb) then sb:Remove() end
     return false
 end)
