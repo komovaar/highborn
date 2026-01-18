@@ -1,6 +1,5 @@
 if not CLIENT then return end
 
--- НАСТРОЙКИ
 local MAX_DIST = 500 * 500
 local SCALE = 0.045
 
@@ -21,7 +20,6 @@ hook.Add("PostDrawTranslucentRenderables", "HB_DrawOverheadNames_3D2D", function
         local pos = ply:GetPos() + Vector(0, 0, 78)
         local ang = Angle(0, lp:EyeAngles().y - 90, 90)
 
-        -- LOS (не через стены)
         local tr = util.TraceLine({
             start = lp:EyePos(),
             endpos = pos,
