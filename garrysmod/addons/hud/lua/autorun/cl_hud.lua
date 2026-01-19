@@ -72,7 +72,7 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
         "Highborn",
         "HB_HUD_Title",
         rightX,
-        topY,
+        topY + 5,
         Color(255,255,255),
         Color(0,0,0,180),
         TEXT_ALIGN_RIGHT,
