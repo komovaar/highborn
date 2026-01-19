@@ -25,8 +25,6 @@ mCompass_Settings.Styles = {
 		spacing = 2.5,		-- This value changes the spacing between lines. (Default: 2.5)
 		ratio = 2,			-- The is the ratio of the size of the letters and numbers text. (Default: 2)
 		offset = 0,			-- The number of degrees the compass will offset by. (Default: 0)
-		maxMarkerSize = 1,	-- Maximum size of the marker, note that this affects scaling (Default: 1)
-		minMarkerSize = 0.5, -- Minimum size of the marker, note that this affects scaling (Default: 0.5)
 		color = Color(255, 255, 255) -- The color of the compass.
 	},
 	["squad"] = {
@@ -38,8 +36,6 @@ mCompass_Settings.Styles = {
 		spacing = 2,		-- This value changes the spacing between lines. (Default: 2.5)
 		ratio = 1.8,		-- The is the ratio of the size of the letters and numbers text. (Default: 1.8)
 		offset = 0,			-- The number of degrees the compass will offset by. (Default: 0)
-		maxMarkerSize = 1,	-- Maximum size of the marker, note that this affects scaling (Default: 1)
-		minMarkerSize = 0.5, -- Minimum size of the marker, note that this affects scaling (Default: 0.5)
 		color = Color(255, 255, 255) -- The color of the compass.
 	},
 	["pubg"] = {
@@ -51,8 +47,6 @@ mCompass_Settings.Styles = {
 		spacing = 2.5,		-- This value changes the spacing between lines. (Default: 2.5)
 		ratio = 1.1,		-- The is the ratio of the size of the letters and numbers text. (Default: 1.8)
 		offset = 0,			-- The number of degrees the compass will offset by. (Default: 0)
-		maxMarkerSize = 1,	-- Maximum size of the marker, note that this affects scaling (Default: 1)
-		minMarkerSize = 0.5, -- Minimum size of the marker, note that this affects scaling (Default: 0.5)
 		color = Color(255, 255, 255) -- The color of the compass.
 	}
 }
@@ -63,124 +57,10 @@ mCompass_Settings.Styles = {
 
 if SERVER then
 
-	util.AddNetworkString("mCompass_AddMarker")
-	util.AddNetworkString("mCompass_RemoveMarker")
-
-	local mCompass_MarkerTable = mCompass_MarkerTable or {}
-
-	-- DOCSTRING FOR THE 2 FUNCTIONS BELOW --
-	-- ply: player who is currently spotting (used to grab info about players team)
-	-- ent: entity that was spotted (used to track ent)
-	-- pos: if not tracking ent, can also supply vector to pos
-	-- time: amount of time marker is active for
-	function mCompass_AddMarker(ply, pos, players, time, color, icon, name)
-		name = name or ""
-		icon = icon or ""
-		color = color or mCompass_Settings.Spotted_Enemy_Color
-		players = players or (ply and ply:IsPlayer()) and team.GetPlayers(ply:Team())
-
-		local id = #mCompass_MarkerTable + 1
-		if players then
-			for k, v in pairs(players) do
-				net.Start("mCompass_AddMarker")
-					net.WriteInt(id, 4)
-					net.WriteBool(false) -- IsEntity
-					net.WriteVector(pos)
-					net.WriteFloat(time)
-					net.WriteColor(color)
-					net.WriteString(icon)
-					net.WriteString(name)
-				net.Send(v)
-			end
-		else
-			net.Start("mCompass_AddMarker")
-				net.WriteInt(id, 4)
-				net.WriteBool(false) -- IsEntity
-				net.WriteVector(pos)
-				net.WriteFloat(time)
-				net.WriteColor(color)
-				net.WriteString(icon)
-				net.WriteString(name)
-			net.Broadcast()
-		end
-		table.insert(mCompass_MarkerTable, {id, pos, time, color, icon, name})
-		return id
-	end
-
-	function mCompass_AddEntityMarker(ply, ent, players, time, color, icon, name)
-		name = name or ""
-		icon = icon or ""
-		color = color or mCompass_Settings.Spotted_Enemy_Color
-		players = players or (ply and ply:IsPlayer()) and team.GetPlayers(ply:Team())
-
-		local id = #mCompass_MarkerTable + 1
-		if players then
-			for k, v in pairs(players) do
-				net.Start("mCompass_AddMarker")
-					net.WriteInt(id, 4)
-					net.WriteBool(true) -- IsEntity
-					net.WriteEntity(ent)
-					net.WriteFloat(time)
-					net.WriteColor(color)
-					net.WriteString(icon)
-					net.WriteString(name)
-				net.Send(v)
-			end
-		else
-			net.Start("mCompass_AddMarker")
-				net.WriteInt(id, 4)
-				net.WriteBool(true) -- IsEntity
-				net.WriteEntity(ent)
-				net.WriteFloat(time)
-				net.WriteColor(color)
-				net.WriteString(icon)
-				net.WriteString(name)
-			net.Broadcast()
-		end
-		table.insert(mCompass_MarkerTable, {id, pos, time, color, icon, name})
-		return id
-	end
-
-	function Adv_Compass_RemoveMarker(markerID)
-		for k, v in pairs(mCompass_MarkerTable) do
-			if markerID == v[1] then
-				net.Start("mCompass_RemoveMarker")
-					net.WriteInt(markerID, 4)
-				net.Broadcast()
-				table.remove(mCompass_MarkerTable, k)
-			end
-		end
-	end
-
-	if mCompass_Settings.Use_FastDL then
-		resource.AddFile("materials/compass/compass_marker_01.vmt")
-		resource.AddFile("materials/compass/compass_marker_02.vmt")
-		resource.AddFile("resource/fonts/exo/Exo-Regular.ttf")
-	end
-
 	local function v(arg)
 		local arg = tonumber(arg)
 		return math.Clamp(arg and arg or 255, 0, 255)
 	end
-
-	concommand.Add("mcompass_spot", function(ply, cmd, args)
-		if mCompass_Settings.Allow_Player_Spotting then
-			local color = string.ToColor(v(args[1]).." "..v(args[2]).." "..v(args[3]).." "..v(args[4]))
-			local tr = util.TraceLine({
-				start = ply:EyePos(),
-				endpos = ply:EyePos() + ply:EyeAngles():Forward() * mCompass_Settings.Max_Spot_Distance,
-				filter = ply
-			})
-			local id
-			local t = CurTime() + mCompass_Settings.Spot_Duration
-			if tr.Entity and !tr.HitWorld then
-				id = mCompass_AddEntityMarker(ply, tr.Entity, nil, t)
-			else
-				id = mCompass_AddMarker(ply, tr.HitPos, nil, t)
-			end
-		end
-	end)
-
 end
 
 if CLIENT then
@@ -226,8 +106,6 @@ if CLIENT then
 				ratio = cl_cvar_mcompass_ratio,
 				offset = mCompass_Settings.Styles[cl_style_selected_str].offset,
 				color = cl_cvar_mcompass_color,
-				maxMarkerSize = 1,
-				minMarkerSize = 0.5
 			}
 		if mCompass_Settings.Force_Server_Style then
 			compass_style.style = mCompass_Settings.Style_Selected
@@ -339,34 +217,6 @@ if CLIENT then
 	----====----====----====----====----====----====----====----====----====----====----====----====----====----====----====----====----====----
 
 	displayDistanceFontTable = displayDistanceFontTable or {}
-
-	-- Function that handles fonts for the spot marker.
-	local function markerScaleFunc(markerSizeScale)
-		local returnVal
-		local n = math.Round(markerSizeScale)
-		if !oldMarkerSizeScale or oldMarkerSizeScale != n then
-			if displayDistanceFontTable[n] then
-				returnVal = displayDistanceFontTable[n].name
-			else
-				local newFontName = tostring("exo_compass_DDN_"..n)
-				displayDistanceFontTable[n] = {
-					name = newFontName,
-					size = n
-				}
-				surface.CreateFont(newFontName, {
-					font = "Exo",
-					size = n,
-					antialias = true
-				})
-				returnVal = displayDistanceFontTable[n].name
-			end
-			oldMarkerSizeScale = n
-		else
-			return displayDistanceFontTable[oldMarkerSizeScale].name
-		end
-		return returnVal
-	end
-
 	-- This table is just going to hold all of the generated fonts for later use.
 	fontRatioChangeTable = fontRatioChangeTable or {}
 
@@ -374,7 +224,6 @@ if CLIENT then
 	hook.Add("mCompass_loadFonts", "mCompass_loadFonts_addon", function()
 		local h = compass_style.height
 		local r = compass_style.ratio
-		local ms = ScrH() * (compass_style.maxMarkerSize / 45)
 		if r != mCompass_oldFontRatio then
 			for k, v in pairs(fontRatioChangeTable) do
 				if "exo_compass_Numbers_"..r == v.numberName then
@@ -383,17 +232,12 @@ if CLIENT then
 				end
 			end
 			surface.CreateFont("exo_compass_Numbers_"..r, {
-				font = "Exo",
+				font = "Roboto",
 				size = math.Round((ScrH() * h) / r),
 				antialias = true
 			})
-			surface.CreateFont("exo_compass_Distance-Display-Numbers_"..r, {
-				font = "Exo",
-				size = (ScrH() * (h / r)) * compass_style.maxMarkerSize,
-				antialias = true
-			})
 			surface.CreateFont("exo_compass_Letters", {
-				font = "Exo",
+				font = "Roboto",
 				size = ScrH() * h,
 				antialias = true
 			})
@@ -409,34 +253,6 @@ if CLIENT then
 	updateCompassSettings()
 
 	----------------------------------------------------------------------------------------------------------------
-
-	local cl_mCompass_MarkerTable = cl_mCompass_MarkerTable or {}
-
-	local mat = Material("compass/compass_marker_01")
-	local mat2 = Material("compass/compass_marker_02")
-
-	net.Receive("mCompass_AddMarker", function(len)
-		local id = net.ReadInt(4)
-		local isEntity = net.ReadBool()
-		local pos = (!isEntity and net.ReadVector() or nil)
-		local ent = (isEntity and net.ReadEntity() or nil)
-		local time = net.ReadFloat()
-		local color = net.ReadColor()
-		local icon_mat = net.ReadString()
-		local icon_name = net.ReadString()
-		icon_mat = (icon_mat == "") and mat or Material(icon_mat)
-		icon_name = icon_name or ""
-		table.insert(cl_mCompass_MarkerTable, {isEntity, (pos or (ent or nil)), time, color, id, icon_mat, icon_name})
-	end)
-
-	net.Receive("mCompass_RemoveMarker", function(len)
-		local id = net.ReadInt(4)
-		for k, v in pairs(cl_mCompass_MarkerTable) do
-			if id == v[5] then
-				table.remove(cl_mCompass_MarkerTable, k)
-			end
-		end
-	end)
 
 	local function getMetricValue(units)
 		local meters = math.Round(units * 0.01905)
@@ -497,8 +313,6 @@ if CLIENT then
 			local cl_spacing = compass_style.spacing
 			local ratio = compass_style.ratio
 			local color = compass_style.color
-			local minMarkerSize = ScrH() * (compass_style.minMarkerSize / 45)
-			local maxMarkerSize = ScrH() * (compass_style.maxMarkerSize / 45)
 			local heading = compass_style.heading
 			local offset = compass_style.offset
 
@@ -588,35 +402,6 @@ if CLIENT then
 						custom_compass_DrawLineFunc(mask1, mask2, line, col)
 					end
 				end
-			end
-
-			for k, v in pairs(cl_mCompass_MarkerTable) do
-				if CurTime() > v[3] or (v[1] and !IsValid(v[2]))  then
-					table.remove(cl_mCompass_MarkerTable, k)
-					continue
-				end
-
-				local spotPos = (v[1] and v[2]:GetPos() or v[2])
-				local d = ply:GetPos():Distance(spotPos)
-				local currentVar = 1 - (d / (300 / 0.01905)) -- Converting 300m to gmod units
-				local markerScale = Lerp(currentVar, minMarkerSize, maxMarkerSize)
-				local font = markerScaleFunc(markerScale)
-
-				local yAng = ang.y - (spotPos - ply:GetPos()):GetNormalized():Angle().y
-				local markerSpot = math.Clamp(((compassX + (width / 2 * cl_spacing)) - (((-yAng - offset - 180) % 360) * spacing)), compassX - (width / 2), compassX + (width / 2))
-
-				surface.SetMaterial(v[6])
-				surface.SetDrawColor(v[4])
-				surface.DrawTexturedRect(markerSpot - markerScale/2, compassY - markerScale - markerScale/2, markerScale, markerScale)
-
-				-- Drawing text above markers
-				local text = (v[7] != "") and v[7].." - "..getMetricValue(d) or getMetricValue(d)
-				local w, h = getTextSize(font, text)
-
-				surface.SetFont(font)
-				surface.SetTextColor(Color(255, 255, 255))
-				surface.SetTextPos(markerSpot - w/2, compassY - markerScale - markerScale/2 - h)
-				surface.DrawText(text)
 			end
 
 			if compass_style.heading and compass_style.style != "squad" then
