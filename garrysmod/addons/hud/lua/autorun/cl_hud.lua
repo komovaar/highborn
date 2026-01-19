@@ -65,19 +65,6 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
     local job = ply:getDarkRPVar("job") or "Unknown"
     local money = ply:getDarkRPVar("money") or 0
 
-    
-
-    -- DrawTextOutlined(
-    --     job,
-    --     "HB_HUD_Main",
-    --     xBase,
-    --     yBase + 18,
-    --     Color(255,255,255),
-    --     Color(0,0,0,200),
-    --     TEXT_ALIGN_LEFT,
-    --     TEXT_ALIGN_TOP
-    -- )
-
     local rightX = ScrW() - 30
     local topY = 26
 
