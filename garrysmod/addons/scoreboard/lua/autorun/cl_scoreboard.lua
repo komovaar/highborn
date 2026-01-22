@@ -22,6 +22,12 @@ if CLIENT then
             size = 36,
             weight = 700,
         })
+
+         surface.CreateFont("HB_Scoreboard_Small", {
+            font = "Roboto",
+            size = 12,
+            weight = 700,
+        })
     end)
 end
 
@@ -35,6 +41,7 @@ local function CreateModernMenu(options)
 
     for _, opt in ipairs(options) do
         local btn = menu:AddOption(opt.name, opt.func)
+        btn:SetFont("HB_Scoreboard_Small")
         btn.Paint = function(s, w, h)
             if s:IsHovered() then
                 draw.RoundedBox(0, w-6, h/2-10, 4, 20, ACCENT)
