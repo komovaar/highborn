@@ -45,7 +45,7 @@ mCompass_Settings.Styles = {
 		width = 0.17,		-- This value is multiplied by users screen width. (Default: 0.25)
 		height = 0.01,		-- This value is multiplied by users screen height. (Default: 0.03)
 		spacing = 2.5,		-- This value changes the spacing between lines. (Default: 2.5)
-		ratio = 1.1,		-- The is the ratio of the size of the letters and numbers text. (Default: 1.8)
+		ratio = 1.9,		-- The is the ratio of the size of the letters and numbers text. (Default: 1.8)
 		offset = 0,			-- The number of degrees the compass will offset by. (Default: 0)
 		color = Color(255, 255, 255) -- The color of the compass.
 	}
@@ -64,20 +64,6 @@ if SERVER then
 end
 
 if CLIENT then
-
-	-- concommand.Add("mcompass_reset", function(ply, cmd, args)
-	-- 	RunConsoleCommand("mcompass_enabled", "1")
-	-- 	RunConsoleCommand("mcompass_style", "1")
-	-- 	RunConsoleCommand("mcompass_heading", "1")
-	-- 	RunConsoleCommand("mcompass_xposition", "0.5")
-	-- 	RunConsoleCommand("mcompass_yposition", "0.05")
-	-- 	RunConsoleCommand("mcompass_width", "0.25")
-	-- 	RunConsoleCommand("mcompass_height", "0.03")
-	-- 	RunConsoleCommand("mcompass_spacing", "2.5")
-	-- 	RunConsoleCommand("mcompass_ratio", "1.8")
-	-- 	RunConsoleCommand("mcompass_color", "255", "255", "255", "255")
-	-- end)
-
 	-- cvars defined by client
 	local cl_cvar_mcompass_enabled, cl_cvar_mcompass_style, cl_cvar_mcompass_heading
 	local cl_cvar_mcompass_xposition, cl_cvar_mcompass_yposition, cl_cvar_mcompass_width, cl_cvar_mcompass_height
