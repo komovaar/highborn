@@ -36,12 +36,12 @@ if CLIENT then
 end
 
 
-hook.Add("HUDShouldDraw", "Highborn_DisableDefaultHUD", function(name)
-    if name == "CHudHealth" or name == "CHudBattery" then
-        return false
-    end
+hook.Add("Initialize", "nodn", function()
+	GM = GM or GAMEMODE
+	function GM:AddDeathNotice()
+		return
+	end
 end)
-
 
 hook.Add("HUDPaint", "Highborn_HUD", function()
     local ply = LocalPlayer()
