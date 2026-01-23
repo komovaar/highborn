@@ -40,7 +40,7 @@ hook.Add("HUDShouldDraw", "Highborn_DisableDefaultHUD", function(name)
     if name == "CHudHealth" or name == "CHudBattery" then
         return false
     end
-)
+end)
 
 hook.Add("HUDPaint", "Highborn_HUD", function()
     local ply = LocalPlayer()
