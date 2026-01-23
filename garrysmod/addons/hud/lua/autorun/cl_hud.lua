@@ -2,31 +2,31 @@ if CLIENT then
     hook.Add("InitPostEntity", "Highborn_CreateHUDFonts", function()
 
         surface.CreateFont("HB_HUD_Title", {
-            font = "Roboto",
-            size = 26,
+            font = "Overpass",
+            size = 32,
             weight = 700,
             antialias = true,
             extended = true
         })
 
         surface.CreateFont("HB_HUD_Main", {
-            font = "Roboto",
-            size = 21,
+            font = "Overpass",
+            size = 24,
             weight = 500,
             antialias = true,
             extended = true
         })
 
         surface.CreateFont("HB_HUD_Small", {
-            font = "Roboto",
-            size = 18,
+            font = "Overpass",
+            size = 24,
             weight = 400,
             antialias = true,
             extended = true
         })
 
         surface.CreateFont("HB_Overhead", {
-            font = "Roboto",
+            font = "Overpass",
             size = 72,
             weight = 600,
             antialias = true,
@@ -71,7 +71,7 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
         "Highborn",
         "HB_HUD_Title",
         rightX,
-        topY + 5,
+        topY,
         Color(255,255,255),
         Color(0,0,0,180),
         TEXT_ALIGN_RIGHT,

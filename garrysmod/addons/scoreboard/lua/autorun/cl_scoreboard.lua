@@ -6,27 +6,27 @@ local BG_MENU = Color(28,28,28)
 if CLIENT then
     hook.Add("InitPostEntity", "HB_CreateFontScoreaboard", function()
         surface.CreateFont("HB_Scoreboard_Main", {
-            font = "Roboto",
+            font = "Overpass",
             size = 20,
             weight = 600,
-            shadow=true,
         })
+        
         surface.CreateFont("HB_Scoreboard_Category", {
-            font = "Roboto",
+            font = "Overpass",
             size = 26,
             weight = 600,
-            shadow=true,
         })
+
         surface.CreateFont("HB_Scoreboard_Large", {
-            font = "Roboto",
+            font = "Overpass",
             size = 36,
             weight = 700,
         })
 
          surface.CreateFont("HB_Scoreboard_Small", {
-            font = "Roboto",
+            font = "Overpass",
             size = 12,
-            weight = 700,
+            weight = 500,
         })
     end)
 end
@@ -141,6 +141,7 @@ function PANEL:Init()
 
     self.PlayerCount.Think = function(s)
         local total = #player.GetAll()
+        s:SetFont("HB_Scoreboard_Small")
         s:SetText("Гравців онлайн: " .. total)
         s:SizeToContents()
         s:SetPos(self:GetWide() - s:GetWide() - 10, 10)
