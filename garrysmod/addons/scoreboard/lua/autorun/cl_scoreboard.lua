@@ -93,12 +93,34 @@ end
     nick:SetPos(58, 6)
     nick:SizeToContents()
 
-    local job = vgui.Create("DLabel", row)
-    job:SetFont("HB_Scoreboard_Main")
-    job:SetText(ply:getDarkRPVar("job") or "Unknown")
-    job:SetTextColor(jobColor)
-    job:SetPos(58, 26)
-    job:SizeToContents()
+    local catRank = vgui.Create("DLabel", row)
+    catRank:SetFont("HB_Scoreboard_Main")
+    catRank:SetTextColor(jobColor)
+    catRank:SetPos(58, 26)
+
+    local function UpdateRank()
+        local jobTable = ply:getJobTable()
+        local category = jobTable and jobTable.category or "Other"
+        local rank = ply:GetNWString("HighbornRank", "")
+
+        if category ~= "" and rank ~= "" then
+            catRank:SetText(category .. " " .. rank)
+        elseif category ~= "" then
+            catRank:SetText(category)
+        elseif rank ~= "" then
+            catRank:SetText(rank)
+        else
+            catRank:SetText(ply:getDarkRPVar("job") or "Unknown")
+        end
+
+        catRank:SizeToContents()
+    end
+
+    UpdateRank()
+
+    catRank.Think = function()
+        UpdateRank()
+    end
 
     local kd = vgui.Create("DLabel", row)
     kd:SetFont("HB_Scoreboard_Main")

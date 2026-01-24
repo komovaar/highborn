@@ -11,6 +11,7 @@ hook.Add("PlayerLoadout", "highborn_whitelist_autojob", function(ply)
     local row = sql.QueryRow(
         "SELECT job, can_stunstick, rank FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
     )
+    ply:SetNWString("HighbornRank", row.rank or "")
 
     if not row then 
         local res = sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" .. sql.SQLStr(ply:SteamID()) .. ", " ..sql.SQLStr("1").. ", " .. SQLStr("TRP") .. ", " .. SQLStr("0") .. ")")
@@ -84,10 +85,12 @@ net.Receive("highborn_whitelist_set", function(len, ply)
     for _, v in pairs(player.GetAll()) do
         if v:SteamID() == steamid then
             targetPly = v
+            targetPly:SetNWString("HighbornRank", rank)
             targetPly:SetNWBool("HighbornCanGL", canGL == 1)
             targetPly:SetNWBool("HighbornCanGH", canGH == 1)
             targetPly:SetNWBool("HighbornCanAL", canAL == 1)
             targetPly:SetNWBool("HighbornCanAH", canAH == 1)
+            
             targetPly:changeTeam(job, true, true)
 
             if can_stunstick == 1 then 
