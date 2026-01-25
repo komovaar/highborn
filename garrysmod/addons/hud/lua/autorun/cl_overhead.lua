@@ -30,9 +30,46 @@ hook.Add("PostDrawTranslucentRenderables", "HB_DrawOverheadNames_3D2D", function
         local jobTable = ply:getJobTable()
         local jobColor = (jobTable and jobTable.color) or Color(160,160,160)
 
+        -- === Категория + звание (как в табе) ===
+        local category = jobTable and jobTable.category or ""
+        local rank = ply:GetNWString("HighbornRank", "")
+
+        local title = ""
+
+        if category ~= "" and rank ~= "" then
+            title = category .. " " .. rank
+        elseif category ~= "" then
+            title = category
+        elseif rank ~= "" then
+            title = rank
+        else
+            title = ply:getDarkRPVar("job") or ""
+        end
+
         cam.Start3D2D(pos, ang, SCALE)
-        DrawTextShadow(ply:Nick(), NAME_FONT, 0, 19, Color(255,255,255,255), Color(0,0,0,180), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM ) 
-        DrawTextShadow(ply:getDarkRPVar("job") or "", JOB_FONT, 0, 0, Color(jobColor.r, jobColor.g, jobColor.b, 255), Color(0,0,0,180), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
+
+            DrawTextShadow(
+                ply:Nick(),
+                NAME_FONT,
+                0,
+                22,
+                color_white,
+                Color(0, 0, 0, 180),
+                TEXT_ALIGN_CENTER,
+                TEXT_ALIGN_BOTTOM
+            )
+
+            DrawTextShadow(
+                title,
+                JOB_FONT,
+                0,
+                0,
+                Color(jobColor.r, jobColor.g, jobColor.b, 255),
+                Color(0, 0, 0, 180),
+                TEXT_ALIGN_CENTER,
+                TEXT_ALIGN_TOP
+            )
+
         cam.End3D2D()
     end
 end)
