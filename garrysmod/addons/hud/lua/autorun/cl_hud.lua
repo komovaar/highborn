@@ -55,15 +55,40 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
     local hp = math.Clamp(ply:Health(), 0, ply:GetMaxHealth())
     local armor = math.Clamp(ply:Armor(), 0, ply:GetMaxArmor())
 
+    -- HP BAR
     draw.RoundedBox(0, xBase, yBase, barW, barH, Color(35,35,35,220))
     draw.RoundedBox(0, xBase, yBase, barW * (hp / ply:GetMaxHealth()), barH, Color(200,60,60))
 
+    -- ARMOR BAR
     draw.RoundedBox(0, xBase + barW, yBase, barW, barH, Color(35,35,35,220))
     draw.RoundedBox(0, xBase + barW, yBase, barW * (armor / ply:GetMaxArmor()), barH, Color(70,130,220))
 
-    local job = ply:getDarkRPVar("job") or "Unknown"
-    local money = ply:getDarkRPVar("money") or 0
+    -- HP NUMBER
+    DrawTextShadow(
+        tostring(hp),
+        "HB_HUD_Small",
+        xBase - 8,
+        yBase + barH / 2,
+        Color(220,220,220),
+        Color(0,0,0,180),
+        TEXT_ALIGN_RIGHT,
+        TEXT_ALIGN_CENTER
+    )
 
+    -- ARMOR NUMBER
+    DrawTextShadow(
+        tostring(armor),
+        "HB_HUD_Small",
+        xBase + barW * 2 + 8,
+        yBase + barH / 2,
+        Color(220,220,220),
+        Color(0,0,0,180),
+        TEXT_ALIGN_LEFT,
+        TEXT_ALIGN_CENTER
+    )
+
+    -- RIGHT INFO
+    local money = ply:getDarkRPVar("money") or 0
     local rightX = ScrW() - 30
     local topY = 26
 
@@ -72,8 +97,19 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
         "HB_HUD_Title",
         rightX,
         topY,
-        Color(255,255,255),
+        color_white,
         Color(0,0,0,180),
+        TEXT_ALIGN_RIGHT,
+        TEXT_ALIGN_TOP
+    )
+
+    DrawTextShadow(
+        "RC " .. money,
+        "HB_HUD_Small",
+        rightX,
+        topY + 30,
+        Color(180,180,180),
+        Color(0,0,0,160),
         TEXT_ALIGN_RIGHT,
         TEXT_ALIGN_TOP
     )
@@ -88,15 +124,7 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
         TEXT_ALIGN_RIGHT,
         TEXT_ALIGN_TOP
     )
-    DrawTextShadow(
-        "RC " .. money,
-        "HB_HUD_Small",
-        rightX,
-        topY + 30,
-        Color(180,180,180),
-        Color(0,0,0,160),
-        TEXT_ALIGN_RIGHT,
-        TEXT_ALIGN_TOP
-    )
+
     draw.RoundedBox(0, rightX + 8, topY, 2, 78, Color(80,140,220))
 end)
+
