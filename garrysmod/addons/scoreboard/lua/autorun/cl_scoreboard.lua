@@ -7,14 +7,14 @@ if CLIENT then
     hook.Add("InitPostEntity", "HB_CreateFontScoreaboard", function()
         surface.CreateFont("HB_Scoreboard_Main", {
             font = "Overpass",
-            size = 20,
-            weight = 600,
+            size = 24,
+            weight = 300,
         })
-        
+
         surface.CreateFont("HB_Scoreboard_Category", {
             font = "Overpass",
             size = 26,
-            weight = 600,
+            weight = 300,
         })
 
         surface.CreateFont("HB_Scoreboard_Large", {
@@ -23,14 +23,13 @@ if CLIENT then
             weight = 700,
         })
 
-         surface.CreateFont("HB_Scoreboard_Small", {
+        surface.CreateFont("HB_Scoreboard_Small", {
             font = "Overpass",
             size = 12,
-            weight = 500,
+            weight = 300,
         })
     end)
 end
-
 
 local function CreateModernMenu(options)
     local menu = DermaMenu()
@@ -52,7 +51,6 @@ local function CreateModernMenu(options)
     menu:Open()
 end
 
-
 local function CreatePlayerRow(parent, ply)
     local jobTable = ply:getJobTable()
     local jobColor = (jobTable and jobTable.color) or Color(160,160,160)
@@ -65,21 +63,20 @@ local function CreatePlayerRow(parent, ply)
 
     row.Paint = function(s, w, h)
         draw.RoundedBox(5, 0, 0, w, h, s:IsHovered() and ROW_HOVER or ROW)
-
         draw.RoundedBox(0, 0, 0, 4, h, jobColor)
     end
 
-row.DoRightClick = function()
-    local options = {
-        { name = "Скопіювати нікнейм", func = function() SetClipboardText(ply:Nick()) end },
-        { name = "Скопіювати SteamID", func = function() SetClipboardText(ply:SteamID()) end },
-        { name = "Скопіювати SteamID64", func = function() SetClipboardText(ply:SteamID64()) end },
-        { name = "Скопіювати професію", func = function() SetClipboardText(ply:getDarkRPVar("job") or "Unknown") end },
-        { name = "Відкрити профіль Steam", func = function() gui.OpenURL("https://steamcommunity.com/profiles/" .. ply:SteamID64()) end }
-    }
+    row.DoRightClick = function()
+        local options = {
+            { name = "Скопіювати нікнейм", func = function() SetClipboardText(ply:Nick()) end },
+            { name = "Скопіювати SteamID", func = function() SetClipboardText(ply:SteamID()) end },
+            { name = "Скопіювати SteamID64", func = function() SetClipboardText(ply:SteamID64()) end },
+            { name = "Скопіювати професію", func = function() SetClipboardText(ply:getDarkRPVar("job") or "Unknown") end },
+            { name = "Відкрити профіль Steam", func = function() gui.OpenURL("https://steamcommunity.com/profiles/" .. ply:SteamID64()) end }
+        }
 
-    CreateModernMenu(options)
-end
+        CreateModernMenu(options)
+    end
 
     local avatar = vgui.Create("AvatarImage", row)
     avatar:SetSize(36, 36)
@@ -90,13 +87,13 @@ end
     nick:SetFont("HB_Scoreboard_Main")
     nick:SetText(ply:Nick())
     nick:SetTextColor(color_white)
-    nick:SetPos(58, 6)
+    nick:SetPos(58, 4)
     nick:SizeToContents()
 
     local catRank = vgui.Create("DLabel", row)
     catRank:SetFont("HB_Scoreboard_Main")
     catRank:SetTextColor(jobColor)
-    catRank:SetPos(58, 26)
+    catRank:SetPos(58, 22)
 
     local function UpdateRank()
         local jobTable = ply:getJobTable()
@@ -117,79 +114,97 @@ end
     end
 
     UpdateRank()
-
-    catRank.Think = function()
-        UpdateRank()
-    end
+    catRank.Think = UpdateRank
 
     local kd = vgui.Create("DLabel", row)
     kd:SetFont("HB_Scoreboard_Main")
-    kd:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
     kd:SetTextColor(Color(200,200,200))
-    kd:SizeToContents()
-    kd:SetPos(row:GetWide() - 200, 18)
+
     kd.Think = function(s)
         s:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
         s:SizeToContents()
-        s:SetPos(row:GetWide() - 200, 18)
+        s:SetPos(row:GetWide() - 200, 14)
     end
 
     local ping = vgui.Create("DLabel", row)
     ping:SetFont("HB_Scoreboard_Main")
-    ping:SetText(ply:Ping() .. " ms")
     ping:SetTextColor(jobColor)
-    ping:SizeToContents()
-    ping:SetPos(row:GetWide() - 90, 18)
+
     ping.Think = function(s)
         s:SetText(ply:Ping() .. " ms")
         s:SizeToContents()
-        s:SetPos(row:GetWide() - 90, 18)
+        s:SetPos(row:GetWide() - 90, 14)
     end
 end
 
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetSize(ScrW()*0.4, ScrH()*0.8)
+    self:SetSize(ScrW() * 0.4, ScrH() * 0.8)
     self:Center()
     self:MakePopup()
     self:SetKeyboardInputEnabled(false)
 
-    self.PlayerCount = vgui.Create("DLabel", self)
-    self.PlayerCount:SetFont("HB_Scoreboard_Main")
-    self.PlayerCount:SetTextColor(color_white)
-    self.PlayerCount:SetText("Players online: 0")
-    self.PlayerCount:SizeToContents()
+    -- HEADER
+    self.HeaderH = 90
 
-    self.PlayerCount.Think = function(s)
-        local total = #player.GetAll()
-        s:SetFont("HB_Scoreboard_Small")
-        s:SetText("Гравців онлайн: " .. total)
-        s:SizeToContents()
-        s:SetPos(self:GetWide() - s:GetWide() - 10, 10)
+    self.Header = vgui.Create("DPanel", self)
+    self.Header:Dock(TOP)
+    self.Header:SetTall(self.HeaderH)
+    self.Header.Paint = function(_, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Color(0,0,0,0))
+    end
+
+    self.ServerName = vgui.Create("DLabel", self.Header)
+    self.ServerName:SetFont("HB_Scoreboard_Large")
+    self.ServerName:SetText("Highborn")
+    self.ServerName:SetTextColor(color_white)
+    self.ServerName:SizeToContents()
+
+    self.ServerInfo = vgui.Create("DLabel", self.Header)
+    self.ServerInfo:SetFont("HB_Scoreboard_Main")
+    self.ServerInfo:SetTextColor(Color(180,180,180))
+
+    self.Header.PerformLayout = function(s, w, h)
+        self.ServerName:SetPos(w/2 - self.ServerName:GetWide()/2, 38)
+
+        local info =
+            #player.GetAll() ..
+            " / " ..
+            game.MaxPlayers()
+
+        self.ServerInfo:SetText(info)
+        self.ServerInfo:SizeToContents()
+        self.ServerInfo:SetPos(w/2 - self.ServerInfo:GetWide()/2, 72)
     end
 
     self.Scroll = vgui.Create("DScrollPanel", self)
     self.Scroll:Dock(FILL)
 
     local vbar = self.Scroll:GetVBar()
-    vbar:SetWide(0)          
+    vbar:SetWide(0)
     vbar.Paint = function() end
     vbar.btnUp.Paint = function() end
     vbar.btnDown.Paint = function() end
     vbar.btnGrip.Paint = function() end
-    
 end
 
 function PANEL:AddCategory(name, color)
     local cat = vgui.Create("DPanel", self.Scroll)
     cat:Dock(TOP)
-    cat:DockMargin(0, 0, 0, 0)
     cat:SetTall(38)
 
     cat.Paint = function(_, w, h)
-        draw.RoundedBox(8, 0, 0, w, h, Color(32,32,32, 0))
-        DrawTextShadow(name, "HB_Scoreboard_Category", 16, h/2, color_white, Color(0, 0, 0, 180), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        DrawTextShadow(
+            name,
+            "HB_Scoreboard_Category",
+            16,
+            h / 2,
+            color_white,
+            Color(0, 0, 0, 180),
+            TEXT_ALIGN_LEFT,
+            TEXT_ALIGN_CENTER
+        )
     end
 end
 
@@ -220,7 +235,6 @@ function PANEL:Populate()
     for catName, data in SortedPairs(categories) do
         if #data.players > 0 then
             self:AddCategory(catName, data.color)
-
             for _, ply in ipairs(data.players) do
                 CreatePlayerRow(self.Scroll, ply)
             end
