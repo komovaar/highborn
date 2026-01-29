@@ -1,25 +1,17 @@
 net.Receive("WeaponTrader.Buy", function(_, ply)
     local weaponClass = net.ReadString()
 
+    if IsBlockedJob(ply) then
+        ply:ChatPrint("🚫 Ваша профессия не может использовать оружие")
+        return
+    end
+
     for _, wep in ipairs(WeaponTraderConfig.Weapons) do
         if wep.class == weaponClass then
-
-            if not weapons.Get(weaponClass) then
-                ply:ChatPrint("❌ Оружие не существует")
-                return
-            end
 
             local money = ply:getDarkRPVar("money") or 0
             if money < wep.price then
                 ply:ChatPrint("❌ Недостаточно денег")
-                return
-            end
-
-            -- защита от повторной покупки
-            local exists = sql.QueryRow("SELECT 1 FROM perma_weapons WHERE steamid = " ..
-                sql.SQLStr(ply:SteamID()) .. " AND weapon = " .. sql.SQLStr(weaponClass))
-            if exists then
-                ply:ChatPrint("⚠️ Это оружие уже куплено")
                 return
             end
 
@@ -29,15 +21,14 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
                 sql.SQLStr(ply:SteamID()) .. ", " ..
                 sql.SQLStr(weaponClass) .. ")")
 
-            -- ВЫДАЁМ СРАЗУ
             timer.Simple(0.1, function()
-                if IsValid(ply) then
+                if IsValid(ply) and not IsBlockedJob(ply) then
                     ply:Give(weaponClass)
                     ply:SelectWeapon(weaponClass)
                 end
             end)
 
-            ply:ChatPrint("✅ Оружие куплено навсегда")
+            ply:ChatPrint("✅ Оружие приобретено")
             return
         end
     end
