@@ -13,7 +13,7 @@ if CLIENT then
 
         surface.CreateFont("HB_Scoreboard_Category", {
             font = "Overpass",
-            size = 26,
+            size = 32,
             weight = 300,
         })
 
