@@ -1,82 +1,102 @@
 include("shared.lua")
 
-local mainColor = WeaponTraderConfig.MainColor
-local selectedWeapon = nil
-
-local function GetWeaponModel(wep)
-    if wep.model and util.IsValidModel(wep.model) then
-        return wep.model
-    end
-
-    -- fallback (если модель не указана или сломана)
-    return "models/weapons/w_pistol.mdl"
-end
-
+local MAIN_COLOR = Color(80,140,220)
 
 net.Receive("WeaponTrader.Open", function()
-    if IsValid(WeaponTraderMenu) then WeaponTraderMenu:Remove() end
+
+    if IsValid(WeaponTraderMenu) then
+        WeaponTraderMenu:Remove()
+    end
+
+    local selectedWeapon = nil
 
     WeaponTraderMenu = vgui.Create("DFrame")
-    WeaponTraderMenu:SetSize(900, 520)
-    WeaponTraderMenu:Center()
+    WeaponTraderMenu:SetSize(ScrW(), ScrH())
+    WeaponTraderMenu:SetPos(0, 0)
     WeaponTraderMenu:SetTitle("")
+    WeaponTraderMenu:ShowCloseButton(false)
+    WeaponTraderMenu:SetDraggable(false)
     WeaponTraderMenu:MakePopup()
-    WeaponTraderMenu.Paint = function(self, w, h)
-        draw.RoundedBox(14, 0, 0, w, h, Color(10,15,25,245))
-        surface.SetDrawColor(mainColor)
-        surface.DrawOutlinedRect(0, 0, w, h, 2)
-    end
 
-    -- 🧊 МОДЕЛЬ
-   local model = vgui.Create("DModelPanel", WeaponTraderMenu)
-    model:SetSize(360, 360)
-    model:SetPos(270, 80)
-    model:SetVisible(false)
-    
-    local placeholder = vgui.Create("DPanel", WeaponTraderMenu)
-    placeholder:SetSize(360, 360)
-    placeholder:SetPos(270, 80)
-    placeholder.Paint = function(self, w, h)
-        draw.RoundedBox(12, 0, 0, w, h, Color(14, 20, 32))
+    WeaponTraderMenu.Paint = function(self, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Color(10, 14, 22, 245))
         draw.SimpleText(
-            "SELECT A WEAPON",
+            "WEAPON TRADER",
             "DermaLarge",
             w / 2,
-            h / 2 - 10,
-            WeaponTraderConfig.MainColor,
-            TEXT_ALIGN_CENTER,
+            25,
+            MAIN_COLOR,
             TEXT_ALIGN_CENTER
         )
-        draw.SimpleText(
-            "Choose from the list on the left",
-            "DermaDefault",
-            w / 2,
-            h / 2 + 20,
-            Color(160, 180, 210),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER
-        )
-end
-
-    -- 📊 ХАРАКТЕРИСТИКИ
-    local stats = vgui.Create("DPanel", WeaponTraderMenu)
-    stats:SetPos(650, 90)
-    stats:SetSize(220, 300)
-    stats:SetVisible(false)
-    stats.Paint = function(self, w, h)
-        draw.SimpleText("STATS", "DermaLarge", 10, 10, mainColor)
-
-        local y = 50
-        for k, v in pairs(selectedWeapon.stats) do
-            draw.SimpleText(k .. ": " .. tostring(v), "DermaDefaultBold", 10, y, color_white)
-            y = y + 30
-        end
     end
 
-    -- 📜 СПИСОК
+    -- ❌ КНОПКА ЗАКРЫТИЯ
+    local close = vgui.Create("DButton", WeaponTraderMenu)
+    close:SetSize(40, 40)
+    close:SetPos(ScrW() - 55, 15)
+    close:SetText("✕")
+    close:SetFont("DermaLarge")
+    close:SetTextColor(color_white)
+    close.Paint = function(self, w, h)
+        draw.RoundedBox(8, 0, 0, w, h, Color(30, 40, 60))
+    end
+    close.DoClick = function()
+        WeaponTraderMenu:Remove()
+    end
+
     local list = vgui.Create("DScrollPanel", WeaponTraderMenu)
+    list:SetSize(320, ScrH() - 120)
     list:SetPos(20, 80)
-    list:SetSize(230, 400)
+
+    local placeholder = vgui.Create("DPanel", WeaponTraderMenu)
+    placeholder:SetSize(520, 520)
+    placeholder:SetPos(ScrW() - 600, 120)
+    placeholder.Paint = function(self, w, h)
+        draw.RoundedBox(14, 0, 0, w, h, Color(15, 20, 30))
+        draw.SimpleText("SELECT A WEAPON", "DermaLarge", w / 2, h / 2 - 10, MAIN_COLOR, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Choose from the list on the left", "DermaDefault", w / 2, h / 2 + 20, Color(180, 200, 220), TEXT_ALIGN_CENTER)
+    end
+
+    local modelPanel = vgui.Create("DModelPanel", WeaponTraderMenu)
+    modelPanel:SetSize(520, 520)
+    modelPanel:SetPos(ScrW() - 600, 120)
+    modelPanel:SetVisible(false)
+    modelPanel:SetCamPos(Vector(50, 50, 40))
+    modelPanel:SetLookAt(Vector(0, 0, 0))
+    modelPanel:SetFOV(35)
+    modelPanel.LayoutEntity = function(self, ent)
+        ent:SetAngles(Angle(0, CurTime() * 30 % 360, 0))
+    end
+
+    local stats = vgui.Create("DPanel", WeaponTraderMenu)
+    stats:SetSize(520, 110)
+    stats:SetPos(ScrW() - 600, 80)
+    stats:SetVisible(false)
+    stats.Paint = function(self, w, h)
+        if not selectedWeapon then return end
+        draw.RoundedBox(10, 0, 0, w, h, Color(15, 20, 30))
+        draw.SimpleText(selectedWeapon.name, "DermaLarge", 20, 10, MAIN_COLOR)
+        draw.SimpleText("Damage: " .. selectedWeapon.stats.damage, "DermaDefaultBold", 20, 55, color_white)
+        draw.SimpleText("RPM: " .. selectedWeapon.stats.rpm, "DermaDefaultBold", 200, 55, color_white)
+        draw.SimpleText("$" .. selectedWeapon.price, "DermaDefaultBold", w - 20, 55, MAIN_COLOR, TEXT_ALIGN_RIGHT)
+    end
+
+    local buy = vgui.Create("DButton", WeaponTraderMenu)
+    buy:SetSize(520, 55)
+    buy:SetPos(ScrW() - 600, ScrH() - 90)
+    buy:SetText("PURCHASE")
+    buy:SetFont("DermaLarge")
+    buy:SetTextColor(Color(10, 10, 10))
+    buy:SetVisible(false)
+    buy.Paint = function(self, w, h)
+        draw.RoundedBox(12, 0, 0, w, h, MAIN_COLOR)
+    end
+    buy.DoClick = function()
+        if not selectedWeapon then return end
+        net.Start("WeaponTrader.Buy")
+        net.WriteString(selectedWeapon.class)
+        net.SendToServer()
+    end
 
     for _, wep in ipairs(WeaponTraderConfig.Weapons) do
         local btn = list:Add("DButton")
@@ -88,29 +108,24 @@ end
 
         btn.Paint = function(self, w, h)
             self.hover = Lerp(FrameTime() * 10, self.hover, self:IsHovered() and 1 or 0)
-            local glow = Color(
-                mainColor.r,
-                mainColor.g,
-                mainColor.b,
-                50 + self.hover * 80
+            draw.RoundedBox(10, 0, 0, w, h,
+                Color(
+                    20 + self.hover * 20,
+                    30 + self.hover * 40,
+                    50 + self.hover * 80
+                )
             )
-
-            draw.RoundedBox(8, 0, 0, w, h, Color(18,25,38))
-            draw.RoundedBox(8, 0, 0, w, h, glow)
-            draw.SimpleText(wep.name, "DermaDefaultBold", 10, 20, color_white)
+            draw.SimpleText(wep.name, "DermaLarge", 15, h / 2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+            draw.SimpleText("$" .. wep.price, "DermaDefaultBold", w - 15, h / 2, MAIN_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
         end
 
-      btn.DoClick = function()
-    selectedWeapon = wep
-
-    placeholder:SetVisible(false)
-
-    model:SetVisible(true)
-    model:SetModel(GetWeaponModel(wep))
-
-    stats:SetVisible(true)
-
-end
-
+        btn.DoClick = function()
+            selectedWeapon = wep
+            placeholder:SetVisible(false)
+            modelPanel:SetVisible(true)
+            stats:SetVisible(true)
+            buy:SetVisible(true)
+            modelPanel:SetModel(wep.model)
+        end
     end
 end)
