@@ -14,11 +14,12 @@ WeaponTraderConfig.Weapons = {
         class = "rw_sw_dc15a",
         price = 10,
         stats = {
-            Damage = 35,
-            RPM = 600,
-            Accuracy = "High",
-            Mode = "Auto"
-        }
+            damage = 35,
+            rpm = 600,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon"
     },
     {
         name = "M4A1",
@@ -26,11 +27,12 @@ WeaponTraderConfig.Weapons = {
         price = 15,
         model = "models/weapons/w_dc15a.mdl",
         stats = {
-            Damage = 35,
-            RPM = 600,
-            Accuracy = "High",
-            Mode = "Auto"
-        }
+            damage = 35,
+            rpm = 600,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon"
     },
     {
         name = "M5",
@@ -38,10 +40,11 @@ WeaponTraderConfig.Weapons = {
         price = 5,
         model = "models/weapons/w_dc15a.mdl",
         stats = {
-            Damage = 35,
-            RPM = 600,
-            Accuracy = "High",
-            Mode = "Auto"
-        }
+            damage = 35,
+            rpm = 600,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon"
     }
 }

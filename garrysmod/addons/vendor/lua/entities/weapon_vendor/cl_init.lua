@@ -73,8 +73,6 @@ net.Receive("WeaponTrader.Open", function()
         local money = LocalPlayer():getDarkRPVar("money") or 0
         draw.SimpleText("БАЛАНС", "WT.Balance", w - 220, 36, C.soft)
         draw.SimpleText("$"..money, "WT.Balance", w - 220, 58, C.accent)
-
-        -- Цена оружия сбоку
     end
 
     -- ================= CLOSE =================

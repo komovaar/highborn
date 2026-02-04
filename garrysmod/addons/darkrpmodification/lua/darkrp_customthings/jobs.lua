@@ -16,6 +16,25 @@ https://darkrp.miraheze.org/wiki/DarkRP:CustomJobFields
 Add your custom jobs under the following line:
 ---------------------------------------------------------------------------]]
 
+TEAM_212 = DarkRP.createJob("212th", {
+    color = Color(25, 25, 170, 255),
+    model = {"models/aussiwozzi/cgi/base/212th_trooper.mdl"},
+    description = [[The protector of every citizen that lives in the city.
+        You have the power to arrest criminals and protect innocents.
+        Hit a player with your arrest baton to put them in jail.
+        Bash a player with a stunstick and they may learn to obey the law.
+        The Battering Ram can break down the door of a criminal, with a warrant for their arrest.
+        The Battering Ram can also unfreeze frozen props (if enabled).
+        Type /wanted <name> to alert the public to the presence of a criminal.]],
+    weapons = {"rw_sw_dc15a"},
+    command = "212",
+    max = 4,
+    salary = GAMEMODE.Config.normalsalary * 1.45,
+    admin = 0,
+    vote = true,
+    hasLicense = true,
+    category = "Civil Protection",
+})
 
 
 --[[---------------------------------------------------------------------------

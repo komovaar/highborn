@@ -7,8 +7,6 @@ local function IsBlockedJob(ply)
     return false
 end
 
-
-
 if SERVER then
     sql.Query([[
         CREATE TABLE IF NOT EXISTS perma_weapons (
