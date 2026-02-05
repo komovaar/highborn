@@ -48,3 +48,12 @@ WeaponTraderConfig.Weapons = {
         category = "weapon"
     }
 }
+
+BodygroupTraderConfig = BodygroupTraderConfig or {}
+
+BodygroupTraderConfig.PricePerLevel = 1000
+
+-- запрещённые профессии (по желанию)
+BodygroupTraderConfig.BlockedJobs = {
+    ["Citizen"] = true
+}
