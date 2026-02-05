@@ -203,22 +203,22 @@ net.Receive("WeaponTrader.Open", function()
 
 
     -- ================= BUY =================
-    local buy = vgui.Create("DButton", frame)
-    buy:SetSize(320, 64)
-    buy:SetPos(ScrW() - 360, ScrH() - 100)
-    buy:SetText("ПРИДБАТИ")
-    buy:SetFont("WT.Button")
-    buy:SetTextColor(Color(10,10,10))
-    buy:SetVisible(false)
-    buy.Paint = function(self, w, h)
-        draw.RoundedBox(22, 0, 0, w, h, C.accent)
-    end
-    buy.DoClick = function()
-        if not selectedWeapon then return end
-        net.Start("WeaponTrader.Buy")
-        net.WriteString(selectedWeapon.class)
-        net.SendToServer()
-    end
+        local buy = vgui.Create("DButton", frame)
+        buy:SetSize(320, 64)
+        buy:SetPos(ScrW() - 360, ScrH() - 100)
+        buy:SetText("ПРИДБАТИ")
+        buy:SetFont("WT.Button")
+        buy:SetTextColor(Color(10,10,10))
+        buy:SetVisible(false)
+        buy.Paint = function(self, w, h)
+            draw.RoundedBox(22, 0, 0, w, h, C.accent)
+        end
+        buy.DoClick = function()
+            if not selectedWeapon then return end
+            net.Start("WeaponTrader.Buy")
+            net.WriteString(selectedWeapon.class)
+            net.SendToServer()
+        end
 
     -- ================= POPULATE =================
     function PopulateList()
