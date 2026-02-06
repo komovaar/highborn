@@ -1,64 +1,87 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-
 include("shared.lua")
 
 util.AddNetworkString("BGTrader.Open")
 util.AddNetworkString("BGTrader.Buy")
 
--- SQL
-if not sql.TableExists("bg_trader") then
-    sql.Query([[
-        CREATE TABLE bg_trader (
-            steamid TEXT,
-            bgid INTEGER,
-            value INTEGER
-        )
-    ]])
-end
-
+-- ================================
+-- INITIALIZE
+-- ================================
 function ENT:Initialize()
     self:SetModel(self.Model)
+
     self:PhysicsInit(SOLID_VPHYSICS)
-    self:SetSolid(SOLID_VPHYSICS)
-    self:SetUseType(SIMPLE_USE)
     self:SetMoveType(MOVETYPE_NONE)
+    self:SetSolid(SOLID_VPHYSICS)
 
     local phys = self:GetPhysicsObject()
-    if IsValid(phys) then phys:Wake() end
+    if IsValid(phys) then
+        phys:EnableMotion(false)
+        phys:Wake()
+    end
+
+    self:SetUseType(SIMPLE_USE)
 end
 
-function ENT:Use(ply)
-    if not IsValid(ply) or not ply:IsPlayer() then return end
-
+-- ================================
+-- USE (НАЖАТИЕ E)
+-- ================================
+function ENT:Use(activator, caller)
+    if not IsValid(activator) or not activator:IsPlayer() then return end
     net.Start("BGTrader.Open")
-    net.Send(ply)
+    net.Send(activator)
 end
 
+-- ================================
+-- BUY BODYGROUP
+-- ================================
 net.Receive("BGTrader.Buy", function(_, ply)
-    local bgid  = net.ReadUInt(8)
+    local bgKey = net.ReadString()
     local value = net.ReadUInt(8)
 
-    ply:SetBodygroup(bgid, value)
+    local model = ply:GetModel()
+    local cfg = BodygroupTraderConfig.Models[model]
+    if not cfg then return end
 
-    sql.Query("DELETE FROM bg_trader WHERE steamid = " ..
-        sql.SQLStr(ply:SteamID()) .. " AND bgid = " .. bgid)
+    local bg = cfg[bgKey]
+    if not bg then return end
 
-    sql.Query("INSERT INTO bg_trader VALUES (" ..
-        sql.SQLStr(ply:SteamID()) .. ", " .. bgid .. ", " .. value .. ")")
+    if bg.vip and not BodygroupTraderConfig.IsVIP(ply) then
+        ply:ChatPrint("❌ Доступно лише для VIP")
+        return
+    end
+
+    local money = ply:getDarkRPVar("money") or 0
+    if money < bg.price then
+        ply:ChatPrint("❌ Недостатньо коштів")
+        return
+    end
+
+    ply:addMoney(-bg.price)
+
+    ply:SetPData("bg_" .. bgKey, value)
+    ply:SetBodygroup(bg.id, value)
+
+    ply:ChatPrint("✅ Придбано: " .. bg.name)
 end)
 
-hook.Add("PlayerSpawn", "BGTrader.Load", function(ply)
+-- ================================
+-- APPLY ON SPAWN
+-- ================================
+hook.Add("PlayerSpawn", "BGTrader.ApplySaved", function(ply)
     timer.Simple(0.2, function()
         if not IsValid(ply) then return end
 
-        local data = sql.Query("SELECT * FROM bg_trader WHERE steamid = " ..
-            sql.SQLStr(ply:SteamID()))
+        local model = ply:GetModel()
+        local cfg = BodygroupTraderConfig.Models[model]
+        if not cfg then return end
 
-        if not data then return end
-
-        for _, row in ipairs(data) do
-            ply:SetBodygroup(tonumber(row.bgid), tonumber(row.value))
+        for key, bg in pairs(cfg) do
+            local saved = ply:GetPData("bg_" .. key)
+            if saved then
+                ply:SetBodygroup(bg.id, tonumber(saved))
+            end
         end
     end)
 end)
