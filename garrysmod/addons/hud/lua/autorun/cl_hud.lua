@@ -128,3 +128,12 @@ hook.Add("HUDPaint", "Highborn_HUD", function()
     draw.RoundedBox(0, rightX + 8, topY, 2, 78, Color(80,140,220))
 end)
 
+local notificationSound = GM.Config.notificationSound
+local function DisplayNotify(msg)
+    local txt = msg:ReadString()
+    GAMEMODE:AddNotify(txt, msg:ReadShort(), msg:ReadLong())
+    surface.PlaySound(notificationSound)
+
+    MsgC(Color(255, 20, 20, 255), Color(200, 200, 200, 255), txt, "\n")
+end
+usermessage.Hook("_Notify", DisplayNotify)
