@@ -63,7 +63,7 @@ net.Receive("BGTrader.Open", function()
         draw.SimpleText("ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ", "BT.Title", 40, 30, C.accent)
         local money = ply:getDarkRPVar("money") or 0
         draw.SimpleText("БАЛАНС", "BT.Balance", w - 220, 36, C.soft)
-        draw.SimpleText("$"..money, "BT.Balance", w - 220, 58, C.accent)
+        draw.SimpleText("RC "..money, "BT.Balance", w - 220, 58, C.accent)
     end
 
     -- ================= CLOSE =================
@@ -102,11 +102,6 @@ net.Receive("BGTrader.Open", function()
     vbar.btnDown.Paint = function() end
     vbar.btnGrip.Paint = function() end
 
-    -- ================= RIGHT PANEL =================
-    local right = vgui.Create("DScrollPanel", frame)
-    right:SetSize(300,ScrH()-190)
-    right:SetPos(ScrW()-330,100)
-
     -- ================= MODEL =================
     local model = vgui.Create("DModelPanel", frame)
     model:SetPos(350, 90)
@@ -120,32 +115,50 @@ net.Receive("BGTrader.Open", function()
     local ent = model.Entity
     if not IsValid(ent) then return end
     for _, bg in ipairs(ent:GetBodyGroups()) do
-        originalBodygroups[bg.id] = ent:GetBodygroup(bg.id)
+        local id = bg.id
+        local val = ply:GetBodygroup(id)
+
+        ent:SetBodygroup(id, val)
+        originalBodygroups[id] = val
     end
+end
 
     -- ================= BODYGROUP LIST =================
     local cfg = BodygroupTraderConfig.Models[ent:GetModel()]
-    if not cfg then return end 
+    if not cfg then return end
 
-    for key, bg in ipairs(cfg) do
-        for v, name in pairs(bg.options) do
+    for key, values in pairs(cfg) do
+        for i, name in pairs(values.options) do
+            if i == 0 then continue end
+
             local opt = vgui.Create("DButton", list)
             opt:Dock(TOP)
             opt:SetTall(60)
             opt:DockMargin(0,0,0,10)
-            opt:SetText(name .. " " .. v)
+            opt:SetText(values.name)
             opt:SetFont("BT.List")
             opt:SetTextColor(C.text)
 
             opt.Paint = function(self,w,h)
-                draw.RoundedBox(12,0,0,w,h,
-                    selectedValue == v  and C.accent or C.card
+                draw.RoundedBox(
+                    12, 0, 0, w, h,
+                    (selectedBG == values.id and selectedValue == i)
+                        and C.accent or C.card
                 )
             end
 
             opt.DoClick = function()
-                selectedValue = v
-                model.Entity:SetBodygroup(bg.id, v)
+                if selectedBG then
+                    ent:SetBodygroup(
+                        selectedBG,
+                        originalBodygroups[selectedBG]
+                    )
+                end
+
+                selectedBG = values.id
+                selectedValue = i
+
+                ent:SetBodygroup(values.id, i)
             end
         end
     end
@@ -156,6 +169,7 @@ net.Receive("BGTrader.Open", function()
     buy:SetPos(ScrW()-360,ScrH()-100)
     buy:SetFont("BT.Button")
     buy:SetTextColor(Color(10,10,10))
+    buy:SetText("")
     buy.Paint = function(self,w,h)
         draw.RoundedBox(22,0,0,w,h,C.accent)
 
@@ -185,7 +199,7 @@ net.Receive("BGTrader.Open", function()
                 net.WriteUInt(selectedBG, 8)
                 net.WriteUInt(selectedValue, 8)
             net.SendToServer()
-            bought[selectedBG] = true
+            bought[selectedBG] = true 
         end
     end
 end)
