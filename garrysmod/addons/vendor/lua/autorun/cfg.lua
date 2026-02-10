@@ -11,8 +11,9 @@ end
 Vendor.Weapons = {
     {
         name = "AK-47",
-        class = "rw_sw_dc15a",
+        class = "rw_sw_dc15s",
         price = 10,
+        model = "models/sw_battlefront/weapons/2019/dc15s_base1.mdl",
         stats = {
             damage = 35,
             rpm = 600,
@@ -25,7 +26,7 @@ Vendor.Weapons = {
         name = "M4A1",
         class = "rw_sw_dc15a",
         price = 15,
-        model = "models/weapons/w_dc15a.mdl",
+        model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
         stats = {
             damage = 35,
             rpm = 600,
@@ -38,7 +39,20 @@ Vendor.Weapons = {
         name = "M5",
         class = "rw_sw_westarm5",
         price = 5,
-        model = "models/weapons/w_dc15a.mdl",
+        model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
+        stats = {
+            damage = 35,
+            rpm = 600,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon"
+    },
+    {
+        name = "DC17-s",
+        class = "rw_sw_dc17s",
+        price = 2000,
+        model = "models/fisher/dc17s/dc17s.mdl",
         stats = {
             damage = 35,
             rpm = 600,

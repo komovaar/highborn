@@ -51,6 +51,7 @@ F("WT.Balance", 36, 500)
 -- ======================================================
 net.Receive("WeaponTrader.Open", function()
 
+    local player_weapons = net.ReadTable(false)
     if IsValid(WeaponTraderMenu) then WeaponTraderMenu:Remove() end
 
     local selectedWeapon
@@ -72,7 +73,7 @@ net.Receive("WeaponTrader.Open", function()
 
         local money = LocalPlayer():getDarkRPVar("money") or 0
         draw.SimpleText("БАЛАНС", "WT.Balance", w - 220, 36, C.soft)
-        draw.SimpleText("$"..money, "WT.Balance", w - 220, 58, C.accent)
+        draw.SimpleText("RC "..money, "WT.Balance", w - 220, 58, C.accent)
     end
 
     -- ================= CLOSE =================
@@ -162,7 +163,6 @@ net.Receive("WeaponTrader.Open", function()
             local y = (i - 1) * spacing
             local frac = math.Clamp(stat.value / stat.max, 0, 1)
 
-            -- BAR
             surface.SetDrawColor(80, 140, 220, 220)
             surface.DrawRect(
                 0,
@@ -171,7 +171,6 @@ net.Receive("WeaponTrader.Open", function()
                 barHeight
             )
 
-            -- SOFT GLOW
             surface.SetDrawColor(80, 140, 220, 40)
             surface.DrawRect(
                 0,
@@ -180,7 +179,6 @@ net.Receive("WeaponTrader.Open", function()
                 barHeight + 2
             )
 
-            -- TEXT
             draw.SimpleText(
                 stat.name,
                 "WT.StatLabel",
@@ -201,14 +199,13 @@ net.Receive("WeaponTrader.Open", function()
         end
     end
 
-
     -- ================= BUY =================
         local buy = vgui.Create("DButton", frame)
         buy:SetSize(320, 64)
         buy:SetPos(ScrW() - 360, ScrH() - 100)
         buy:SetText("ПРИДБАТИ")
-        buy:SetFont("WT.Button")
         buy:SetTextColor(Color(10,10,10))
+        buy:SetFont("WT.Button")
         buy:SetVisible(false)
         buy.Paint = function(self, w, h)
             draw.RoundedBox(22, 0, 0, w, h, C.accent)
@@ -216,11 +213,10 @@ net.Receive("WeaponTrader.Open", function()
         buy.DoClick = function()
             if not selectedWeapon then return end
             net.Start("WeaponTrader.Buy")
-            net.WriteString(selectedWeapon.class)
+                net.WriteString(selectedWeapon.class)
             net.SendToServer()
         end
 
-    -- ================= POPULATE =================
     function PopulateList()
         list:Clear()
         model:SetVisible(false)
@@ -238,7 +234,7 @@ net.Receive("WeaponTrader.Open", function()
             b.Paint = function(self, w, h)
                 draw.RoundedBox(14, 0, 0, w, h, C.card)
                 draw.SimpleText(wep.name, "WT.List", 16, h/2, C.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-                draw.SimpleText("$"..wep.price, "WT.List", w-16, h/2, C.accent, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+                draw.SimpleText("RC "..wep.price, "WT.List", w-16, h/2, C.accent, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
             end
             b.DoClick = function()
                 selectedWeapon = wep
@@ -246,6 +242,13 @@ net.Receive("WeaponTrader.Open", function()
                 model:SetVisible(true)
                 stats:SetVisible(true)
                 buy:SetVisible(true)
+                for _, row in ipairs(player_weapons) do
+                    print(row.weapon)
+                    print(selectedWeapon.class)
+                    if row.weapon == selectedWeapon.class then
+                        buy:SetText("ПРИДБАНО")
+                    end
+                end 
             end
         end
     end

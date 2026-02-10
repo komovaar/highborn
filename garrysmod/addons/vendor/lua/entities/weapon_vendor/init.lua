@@ -19,6 +19,40 @@ local function IsBlockedJob(ply)
     return Vendor.BlockedJobs[job] == true
 end
 
+local function GivePermaWeapons(ply)
+    if not IsValid(ply) then return end
+
+    if IsBlockedJob(ply) then
+        ply:StripWeapons()
+        return
+    end
+
+    timer.Simple(0.1, function()
+        if not IsValid(ply) then return end
+
+        local data = sql.Query(
+            "SELECT weapon FROM perma_weapons WHERE steamid = " ..
+            sql.SQLStr(ply:SteamID())
+        )
+        if not data then return end
+
+        for _, row in ipairs(data) do
+            if weapons.Get(row.weapon) and not ply:HasWeapon(row.weapon) then
+                ply:Give(row.weapon)
+            end
+        end
+    end)
+end
+
+hook.Add("PlayerSpawn", "PermaWeaponsSpawn", GivePermaWeapons)
+hook.Add("OnPlayerChangedTeam", "PermaWeaponsJobCheck", function(ply)
+    timer.Simple(0, function()
+        if IsValid(ply) then
+            GivePermaWeapons(ply)
+        end
+    end)
+end)
+
 function ENT:Initialize()
     self:SetModel(self.Model)
     self:PhysicsInit(SOLID_VPHYSICS)
@@ -34,9 +68,15 @@ end
 
 function ENT:Use(activator)
     if not IsValid(activator) or not activator:IsPlayer() then return end
+    local data = sql.Query(
+            "SELECT weapon FROM perma_weapons WHERE steamid = " ..
+            sql.SQLStr(activator:SteamID())
+        )
 
     net.Start("WeaponTrader.Open")
+        net.WriteTable(data, false)
     net.Send(activator)
+
 end
 
 net.Receive("WeaponTrader.Buy", function(_, ply)
