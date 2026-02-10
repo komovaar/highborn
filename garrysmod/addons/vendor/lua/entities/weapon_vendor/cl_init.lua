@@ -243,8 +243,6 @@ net.Receive("WeaponTrader.Open", function()
                 stats:SetVisible(true)
                 buy:SetVisible(true)
                 for _, row in ipairs(player_weapons) do
-                    print(row.weapon)
-                    print(selectedWeapon.class)
                     if row.weapon == selectedWeapon.class then
                         buy:SetText("ПРИДБАНО")
                     end
