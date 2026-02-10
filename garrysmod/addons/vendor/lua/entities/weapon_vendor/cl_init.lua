@@ -227,7 +227,7 @@ net.Receive("WeaponTrader.Open", function()
         stats:SetVisible(false)
         buy:SetVisible(false)
 
-        for _, wep in ipairs(WeaponTraderConfig.Weapons) do
+        for _, wep in ipairs(Vendor.Weapons) do
             if wep.category ~= selectedCategory then continue end
 
             local b = list:Add("DButton")

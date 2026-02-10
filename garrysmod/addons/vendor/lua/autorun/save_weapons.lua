@@ -1,5 +1,5 @@
 local function IsBlockedJob(ply)
-    for _, teamID in ipairs(WeaponTraderConfig.BlockedJobs) do
+    for _, teamID in ipairs(Vendor.BlockedJobs) do
         if ply:Team() == teamID then
             return true
         end

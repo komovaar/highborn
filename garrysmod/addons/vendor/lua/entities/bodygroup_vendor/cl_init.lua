@@ -124,7 +124,7 @@ net.Receive("BGTrader.Open", function()
 end
 
     -- ================= BODYGROUP LIST =================
-    local cfg = BodygroupTraderConfig.Models[ent:GetModel()]
+    local cfg = Vendor.Models[ent:GetModel()]
     if not cfg then return end
 
     for key, values in pairs(cfg) do
