@@ -16,17 +16,15 @@ sql.Query([[
 local function IsBlockedJob(ply)
     local job = ply:getDarkRPVar("job")
     if not job then return false end
-    return WeaponTraderConfig.BlockedJobs[job] == true
+    return Vendor.BlockedJobs[job] == true
 end
 
 function ENT:Initialize()
     self:SetModel(self.Model)
-
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_NONE)
     self:SetSolid(SOLID_VPHYSICS)
-
-    self:SetUseType(SIMPLE_USE) -- ⭐ ОБЯЗАТЕЛЬНО
+    self:SetUseType(SIMPLE_USE)
 
     local phys = self:GetPhysicsObject()
     if IsValid(phys) then
@@ -41,22 +39,18 @@ function ENT:Use(activator)
     net.Send(activator)
 end
 
-
-
 net.Receive("WeaponTrader.Buy", function(_, ply)
     local weaponClass = net.ReadString()
 
     if IsBlockedJob(ply) then
-        ply:ChatPrint("🚫 Ваша профессия не может использовать оружие")
         return
     end
 
-    for _, wep in ipairs(WeaponTraderConfig.Weapons) do
+    for _, wep in ipairs(Vendor.Weapons) do
         if wep.class == weaponClass then
 
             local money = ply:getDarkRPVar("money") or 0
             if money < wep.price then
-                ply:ChatPrint("❌ Недостаточно денег")
                 return
             end
 
@@ -68,7 +62,6 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
             )
 
             if exists then
-                ply:ChatPrint("ℹ️ У вас уже есть это оружие")
                 return
             end
 
@@ -84,8 +77,6 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
                     ply:SelectWeapon(weaponClass)
                 end
             end)
-
-            ply:ChatPrint("✅ Оружие приобретено")
             return
         end
     end

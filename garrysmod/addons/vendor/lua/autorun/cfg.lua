@@ -1,13 +1,14 @@
-WeaponTraderConfig = {}
-
-WeaponTraderConfig.MainColor = Color(80,140,220)
-
-WeaponTraderConfig.BlockedJobs = {
+Vendor = Vendor or {}
+Vendor.CurrencySymbol = "RC "
+Vendor.BlockedJobs = {
     TEAM_CITIZEN,
     TEAM_MEDIC,
 }
+Vendor.IsVIP = function(ply)
+    return ply:IsUserGroup("vip") or ply:IsUserGroup("supervip")
+end
 
-WeaponTraderConfig.Weapons = {
+Vendor.Weapons = {
     {
         name = "AK-47",
         class = "rw_sw_dc15a",
@@ -48,15 +49,7 @@ WeaponTraderConfig.Weapons = {
     }
 }
 
-
-BodygroupTraderConfig = BodygroupTraderConfig or {}
-BodygroupTraderConfig.CurrencySymbol = "$"
-
-BodygroupTraderConfig.IsVIP = function(ply)
-    return ply:IsUserGroup("vip") or ply:IsUserGroup("supervip")
-end
-
-BodygroupTraderConfig.Models = {
+Vendor.Models = {
     ["models/aussiwozzi/cgi/base/212th_trooper.mdl"] = {
         armor = {
             id = 5,
@@ -68,7 +61,6 @@ BodygroupTraderConfig.Models = {
                 [1] = "Наплечник",
             }
         },
-
         backpack = {
             id = 6,
             name = "Кама",

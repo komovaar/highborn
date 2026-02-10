@@ -5,6 +5,25 @@ include("shared.lua")
 util.AddNetworkString("BGTrader.Open")
 util.AddNetworkString("BGTrader.Buy")
 
+local function GetPlayerBodygroups(ply)
+    local data = {}
+
+    local rows = sql.Query(
+        "SELECT * FROM bodygroup_purchases WHERE steamid = " .. sql.SQLStr(ply:SteamID())
+    )
+
+    if rows then
+        for _, row in ipairs(rows) do
+            data[row.bg_key] = tonumber(row.bg_value)
+        end
+    end
+
+    return data
+end
+
+
+
+
 function ENT:Initialize()
     self:SetModel(self.Model)
     self:PhysicsInit(SOLID_VPHYSICS)
@@ -30,13 +49,13 @@ net.Receive("BGTrader.Buy", function(_, ply)
     local value = net.ReadUInt(8)
 
     local model = ply:GetModel()
-    local cfg = BodygroupTraderConfig.Models[model]
+    local cfg = Vendor.Models[model]
     if not cfg then return end
 
     local bg = cfg[bgKey]
     if not bg then return end
 
-    if bg.vip and not BodygroupTraderConfig.IsVIP(ply) then
+    if bg.vip and not Vendor.IsVIP(ply) then
         return
     end
 
@@ -58,7 +77,7 @@ hook.Add("PlayerSpawn", "BGTrader.ApplySaved", function(ply)
     timer.Simple(0.2, function()
         if not IsValid(ply) then return end
 
-        local cfg = BodygroupTraderConfig.Models[ply:GetModel()]
+        local cfg = Vendor.Models[ply:GetModel()]
         if not cfg then return end
 
         for key, bg in pairs(cfg) do
