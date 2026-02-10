@@ -29,17 +29,13 @@ local function DrawBlur(panel)
 end
 
 -- ======================================================
--- FONTS (Overpass)
+-- FONTS
 -- ======================================================
-local function F(name, size, weight)
-    surface.CreateFont(name, {font="Overpass", size=size, weight=weight, extended=true})
-end
-
-F("BT.Title", 42, 800)
-F("BT.List", 20, 600)
-F("BT.Option", 20, 500)
-F("BT.Button", 26, 800)
-F("BT.Balance", 36, 500)
+surface.CreateFont("BT.Title", {font="Overpass", size=42, weight=800, extended=true})
+surface.CreateFont("BT.List", {font="Overpass", size=20, weight=600, extended=true})
+surface.CreateFont("BT.Option", {font="Overpass", size=20, weight=500, extended=true})
+surface.CreateFont("BT.Button", {font="Overpass", size=26, weight=800, extended=true})
+surface.CreateFont("BT.Balance", {font="Overpass", size=36, weight=500, extended=true})
 
 -- ======================================================
 -- UI
@@ -51,6 +47,7 @@ net.Receive("BGTrader.Open", function()
     local selectedBG
     local selectedValue
     local originalBodygroups = {}
+    local bought = {}
 
     -- ================= FRAME =================
     local frame = vgui.Create("DFrame")
@@ -76,9 +73,10 @@ net.Receive("BGTrader.Open", function()
     close:SetText("✕")
     close:SetFont("BT.List")
     close:SetTextColor(C.text)
-    close.Paint = function(self,w,h) draw.RoundedBox(14,0,0,w,h,C.panel) end
+    close.Paint = function(self,w,h)
+        draw.RoundedBox(14,0,0,w,h,C.panel)
+    end
     close.DoClick = function()
-        -- откат всех несохранённых бодигруп
         for bgid,val in pairs(originalBodygroups) do
             ply:SetBodygroup(bgid,val)
         end
@@ -92,9 +90,17 @@ net.Receive("BGTrader.Open", function()
     left.Paint = function(self,w,h)
         draw.RoundedBox(18,0,0,w,h,C.panel)
     end
+
     local list = vgui.Create("DScrollPanel", left)
     list:SetSize(left:GetWide()-24,left:GetTall()-20)
     list:SetPos(12,10)
+    
+    local vbar = list:GetVBar()
+    vbar:SetWide(0)
+    vbar.Paint = function() end
+    vbar.btnUp.Paint = function() end
+    vbar.btnDown.Paint = function() end
+    vbar.btnGrip.Paint = function() end
 
     -- ================= RIGHT PANEL =================
     local right = vgui.Create("DScrollPanel", frame)
@@ -118,47 +124,28 @@ net.Receive("BGTrader.Open", function()
     end
 
     -- ================= BODYGROUP LIST =================
-    for _, bg in ipairs(ent:GetBodyGroups()) do
-        if bg.num <= 1 then continue end
+    local cfg = BodygroupTraderConfig.Models[ent:GetModel()]
+    if not cfg then return end 
 
-        local btn = vgui.Create("DButton", list)
-        btn:Dock(TOP)
-        btn:SetTall(60)
-        btn:DockMargin(0,0,0,10)
-        btn:SetText(bg.name)
-        btn:SetFont("BT.List")
-        btn:SetTextColor(C.text)
-        btn.Paint = function(self,w,h)
-            draw.RoundedBox(12,0,0,w,h,C.card)
-        end
+    for key, bg in ipairs(cfg) do
+        for v, name in pairs(bg.options) do
+            local opt = vgui.Create("DButton", list)
+            opt:Dock(TOP)
+            opt:SetTall(60)
+            opt:DockMargin(0,0,0,10)
+            opt:SetText(name .. " " .. v)
+            opt:SetFont("BT.List")
+            opt:SetTextColor(C.text)
 
-        btn.DoClick = function()
-            -- откат предыдущей категории если не куплено
-            if selectedBG and selectedValue ~= nil then
-                model.Entity:SetBodygroup(selectedBG,originalBodygroups[selectedBG])
+            opt.Paint = function(self,w,h)
+                draw.RoundedBox(12,0,0,w,h,
+                    selectedValue == v  and C.accent or C.card
+                )
             end
 
-            selectedBG = bg.id
-            selectedValue = nil
-            right:Clear()
-
-            for v=0,bg.num-1 do
-                local opt = vgui.Create("DButton", right)
-                opt:Dock(TOP)
-                opt:SetTall(50)
-                opt:DockMargin(0,0,0,6)
-                opt:SetText(v)
-                opt:SetFont("BT.Option")
-                opt:SetTextColor(C.text)
-
-                opt.Paint = function(self,w,h)
-                    draw.RoundedBox(8,0,0,w,h,selectedValue==v and C.accent or C.card)
-                end
-
-                opt.DoClick = function()
-                    selectedValue=v
-                    model.Entity:SetBodygroup(bg.id,v)
-                end
+            opt.DoClick = function()
+                selectedValue = v
+                model.Entity:SetBodygroup(bg.id, v)
             end
         end
     end
@@ -167,18 +154,38 @@ net.Receive("BGTrader.Open", function()
     local buy = vgui.Create("DButton", frame)
     buy:SetSize(320,64)
     buy:SetPos(ScrW()-360,ScrH()-100)
-    buy:SetText("ПРИДБАТИ")
     buy:SetFont("BT.Button")
     buy:SetTextColor(Color(10,10,10))
     buy.Paint = function(self,w,h)
         draw.RoundedBox(22,0,0,w,h,C.accent)
+
+        local text = "ПРИДБАТИ"
+        if selectedBG and bought[selectedBG] then
+            text = "ЗМІНИТИ"
+        end
+
+        draw.SimpleText(
+            text,
+            "BT.Button",
+            w/2,
+            h/2,
+            Color(10,10,10),
+            TEXT_ALIGN_CENTER,
+            TEXT_ALIGN_CENTER
+        )
     end
+
     buy.DoClick = function()
-        if not selectedBG or selectedValue==nil then return end
-        originalBodygroups[selectedBG] = selectedValue
-        net.Start("BGTrader.Buy")
-            net.WriteUInt(selectedBG,8)
-            net.WriteUInt(selectedValue,8)
-        net.SendToServer()
+        if not selectedBG or selectedValue == nil then return end
+
+        ply:SetBodygroup(selectedBG, selectedValue)
+
+        if not bought[selectedBG] then
+            net.Start("BGTrader.Buy")
+                net.WriteUInt(selectedBG, 8)
+                net.WriteUInt(selectedValue, 8)
+            net.SendToServer()
+            bought[selectedBG] = true
+        end
     end
 end)
