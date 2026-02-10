@@ -37,7 +37,6 @@ net.Receive("BGTrader.Buy", function(_, ply)
     if not bg then return end
 
     if bg.vip and not BodygroupTraderConfig.IsVIP(ply) then
-        ply:ChatPrint("❌ Лише для VIP")
         return
     end
 
@@ -45,7 +44,6 @@ net.Receive("BGTrader.Buy", function(_, ply)
     if not saved then
         local money = ply:getDarkRPVar("money") or 0
         if money < bg.price then
-            ply:ChatPrint("❌ Недостатньо коштів")
             return
         end
         ply:addMoney(-bg.price)
@@ -54,7 +52,6 @@ net.Receive("BGTrader.Buy", function(_, ply)
     ply:SetPData("bg_" .. bgKey, value)
     ply:SetBodygroup(bg.id, value)
 
-    ply:ChatPrint("✅ Змінено: " .. bg.name)
 end)
 
 hook.Add("PlayerSpawn", "BGTrader.ApplySaved", function(ply)
