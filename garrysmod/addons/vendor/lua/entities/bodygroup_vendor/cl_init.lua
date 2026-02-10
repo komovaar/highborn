@@ -121,7 +121,6 @@ net.Receive("BGTrader.Open", function()
         ent:SetBodygroup(id, val)
         originalBodygroups[id] = val
     end
-end
 
     -- ================= BODYGROUP LIST =================
     local cfg = Vendor.Models[ent:GetModel()]
