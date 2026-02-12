@@ -75,7 +75,7 @@ Vendor.Models = {
                 [1] = "Наплечник",
             }
         },
-        backpack = {
+        kama = {
             id = 6,
             name = "Кама",
             price = 300,
@@ -83,6 +83,16 @@ Vendor.Models = {
             options = {
                 [0] = "Немає",
                 [1] = "Кама",
+            }
+        },
+        backpack = {
+            id = 14,
+            name = "Кама",
+            price = 300,
+            vip = false,
+            options = {
+                [0] = "Немає",
+                [1] = "Рюкзак",
             }
         }
     }
