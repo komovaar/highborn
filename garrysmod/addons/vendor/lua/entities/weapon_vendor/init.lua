@@ -74,7 +74,9 @@ function ENT:Use(activator)
         )
 
     net.Start("WeaponTrader.Open")
-        net.WriteTable(data, false)
+        if data then 
+            net.WriteTable(data, false)
+        end
     net.Send(activator)
 
 end

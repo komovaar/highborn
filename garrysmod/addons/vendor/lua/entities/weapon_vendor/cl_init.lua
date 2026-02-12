@@ -52,6 +52,9 @@ F("WT.Balance", 36, 500)
 net.Receive("WeaponTrader.Open", function()
 
     local player_weapons = net.ReadTable(false)
+    if not player_weapons then 
+        player_weapons = {}
+    end
     if IsValid(WeaponTraderMenu) then WeaponTraderMenu:Remove() end
 
     local selectedWeapon
