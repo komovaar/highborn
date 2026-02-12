@@ -2,13 +2,13 @@ include("shared.lua")
 
 local C = {
     bg     = Color(15,18,25,230),
-    panel  = Color(25,30,45,240),
-    card   = Color(35,40,60,240),
+    panel  = Color(20, 24, 36, 220),
+    card   = Color(26,32,48,230),
     green  = Color(80,200,120),
     blue   = Color(80,140,220),
     red    = Color(220,80,80),
     text   = Color(230,235,255),
-    soft   = Color(160,170,200)
+    soft   = Color(160,170,200),
 }
 
 local blur = Material("pp/blurscreen")
@@ -112,18 +112,26 @@ net.Receive("BGTrader.Open", function()
         draw.SimpleText(self:GetText(),"WT.Button",w/2,h/2,Color(15,15,15),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
     end
 
+    -- ================= LEFT LIST =================
+    local left = vgui.Create("DPanel", frame)
+    left:SetSize(360, ScrH() - 220)
+    left:SetPos(30, 130)
+    left.Paint = function(self, w, h)
+        draw.RoundedBox(18, 0, 0, w, h, C.panel)
+    end
+
     -- LIST LEFT
-    local list = vgui.Create("DScrollPanel",frame)
-    list:SetSize(340,ScrH()-220)
-    list:SetPos(40,120)
+    local list = vgui.Create("DScrollPanel", left)
+    list:SetSize(left:GetWide() - 24, left:GetTall() - 20)
+    list:SetPos(12, 10)
 
     for key,data in pairs(cfg) do
 
         local card = list:Add("DButton")
-        card:SetTall(70)
         card:Dock(TOP)
         card:DockMargin(0,0,0,10)
         card:SetText("")
+        card:SetTall(60)
 
         card.Paint=function(self,w,h)
             draw.RoundedBox(12,0,0,w,h,
