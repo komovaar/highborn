@@ -1,204 +1,232 @@
 include("shared.lua")
 
--- ======================================================
--- THEME
--- ======================================================
 local C = {
-    bg     = Color(10, 12, 18, 220),
-    panel  = Color(20, 24, 36, 220),
-    card   = Color(26, 32, 48, 230),
-    accent = Color(80,140,220),
-    soft   = Color(150,160,190),
-    text   = Color(220,230,255)
+    bg     = Color(15,18,25,230),
+    panel  = Color(25,30,45,240),
+    card   = Color(35,40,60,240),
+    green  = Color(80,200,120),
+    blue   = Color(80,140,220),
+    red    = Color(220,80,80),
+    text   = Color(230,235,255),
+    soft   = Color(160,170,200)
 }
 
--- ======================================================
--- BLUR
--- ======================================================
 local blur = Material("pp/blurscreen")
+
 local function DrawBlur(panel)
-    local x, y = panel:LocalToScreen(0, 0)
+    local x,y = panel:LocalToScreen(0,0)
     surface.SetMaterial(blur)
     surface.SetDrawColor(255,255,255)
-    for i = 1, 6 do
-        blur:SetFloat("$blur", i * 1.2)
+    for i=1,6 do
+        blur:SetFloat("$blur",i*1.2)
         blur:Recompute()
         render.UpdateScreenEffectTexture()
-        surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
+        surface.DrawTexturedRect(-x,-y,ScrW(),ScrH())
     end
 end
 
--- ======================================================
--- FONTS
--- ======================================================
-surface.CreateFont("BT.Title", {font="Overpass", size=42, weight=800, extended=true})
-surface.CreateFont("BT.List", {font="Overpass", size=20, weight=600, extended=true})
-surface.CreateFont("BT.Option", {font="Overpass", size=20, weight=500, extended=true})
-surface.CreateFont("BT.Button", {font="Overpass", size=26, weight=800, extended=true})
-surface.CreateFont("BT.Balance", {font="Overpass", size=36, weight=500, extended=true})
-
--- ======================================================
--- UI
--- ======================================================
 net.Receive("BGTrader.Open", function()
+
+    local serverData = net.ReadTable() or {}
+
     if IsValid(BGTraderFrame) then BGTraderFrame:Remove() end
 
     local ply = LocalPlayer()
-    local selectedBG
-    local selectedValue
-    local originalBodygroups = {}
-    local bought = {}
+    local modelPath = ply:GetModel()
+    local cfg = Vendor.Models[modelPath]
+    if not cfg then return end
 
-    -- ================= FRAME =================
+    -- Преобразуем БД
+    local owned = {}
+    for _, row in ipairs(serverData) do
+        owned[row.bg_key] = {
+            value = tonumber(row.owned_value),
+            equipped = tonumber(row.equipped)
+        }
+    end
+
+    local selectedKey
+    local selectedData
+    local selectedValue
+
+    -- FRAME
     local frame = vgui.Create("DFrame")
     BGTraderFrame = frame
-    frame:SetSize(ScrW(), ScrH())
+    frame:SetSize(ScrW(),ScrH())
     frame:SetTitle("")
     frame:ShowCloseButton(false)
     frame:MakePopup()
 
-    frame.Paint = function(self, w, h)
+    frame.Paint = function(self,w,h)
         DrawBlur(self)
-        draw.RoundedBox(0, 0, 0, w, h, C.bg)
-        draw.SimpleText("ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ", "BT.Title", 40, 30, C.accent)
-        local money = ply:getDarkRPVar("money") or 0
-        draw.SimpleText("БАЛАНС", "BT.Balance", w - 220, 36, C.soft)
-        draw.SimpleText("RC "..money, "BT.Balance", w - 220, 58, C.accent)
+        draw.RoundedBox(0,0,0,w,h,C.bg)
+        draw.SimpleText("ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ","WT.Title",40,30,C.blue)
     end
-
+    
     -- ================= CLOSE =================
     local close = vgui.Create("DButton", frame)
     close:SetSize(42,42)
     close:SetPos(ScrW()-60,30)
     close:SetText("✕")
-    close:SetFont("BT.List")
+    close:SetFont("WT.List")
     close:SetTextColor(C.text)
     close.Paint = function(self,w,h)
         draw.RoundedBox(14,0,0,w,h,C.panel)
     end
     close.DoClick = function()
-        for bgid,val in pairs(originalBodygroups) do
-            ply:SetBodygroup(bgid,val)
-        end
         frame:Remove()
     end
 
-    -- ================= LEFT PANEL =================
-    local left = vgui.Create("DPanel", frame)
-    left:SetSize(360,ScrH()-190)
-    left:SetPos(30,100)
-    left.Paint = function(self,w,h)
-        draw.RoundedBox(18,0,0,w,h,C.panel)
-    end
-
-    local list = vgui.Create("DScrollPanel", left)
-    list:SetSize(left:GetWide()-24,left:GetTall()-20)
-    list:SetPos(12,10)
-    
-    local vbar = list:GetVBar()
-    vbar:SetWide(0)
-    vbar.Paint = function() end
-    vbar.btnUp.Paint = function() end
-    vbar.btnDown.Paint = function() end
-    vbar.btnGrip.Paint = function() end
-
-    -- ================= MODEL =================
-    local model = vgui.Create("DModelPanel", frame)
-    model:SetPos(350, 90)
-    model:SetSize(ScrW() - 700, ScrH() - 200)
-    model:SetModel(ply:GetModel())
-    model:SetFOV(70)
-    model.LayoutEntity = function(_,ent)
+    -- MODEL
+    local modelPanel = vgui.Create("DModelPanel",frame)
+    modelPanel:SetSize(ScrW()/2,ScrH()-220)
+    modelPanel:SetPos(420,120)
+    modelPanel:SetModel(modelPath)
+    modelPanel:SetFOV(70)
+    modelPanel.LayoutEntity=function(_,ent)
         ent:SetAngles(Angle(0,45,0))
     end
 
-    local ent = model.Entity
-    if not IsValid(ent) then return end
+    local ent = modelPanel.Entity
     for _, bg in ipairs(ent:GetBodyGroups()) do
-        local id = bg.id
-        local val = ply:GetBodygroup(id)
-
-        ent:SetBodygroup(id, val)
-        originalBodygroups[id] = val
+        ent:SetBodygroup(bg.id, ply:GetBodygroup(bg.id))
     end
 
-    -- ================= BODYGROUP LIST =================
-    local cfg = Vendor.Models[ent:GetModel()]
-    if not cfg then return end
+    -- ACTION BUTTON (ОДНА КНОПКА СПРАВА)
+    local action = vgui.Create("DButton",frame)
+    action:SetSize(300,60)
+    action:SetPos(ScrW()-360,ScrH()-120)
+    action:SetFont("WT.Button")
+    action:SetText("")
+    action.mode = nil
+    action:SetVisible(false)
 
-    for key, values in pairs(cfg) do
-        for i, name in pairs(values.options) do
-            if i == 0 then continue end
+    action.Paint=function(self,w,h)
+        if not self.mode then return end
 
-            local opt = vgui.Create("DButton", list)
-            opt:Dock(TOP)
-            opt:SetTall(60)
-            opt:DockMargin(0,0,0,10)
-            opt:SetText(values.name)
-            opt:SetFont("BT.List")
-            opt:SetTextColor(C.text)
+        local col = C.green
+        if self.mode=="equip" then col=C.blue end
+        if self.mode=="remove" then col=C.red end
 
-            opt.Paint = function(self,w,h)
-                draw.RoundedBox(
-                    12, 0, 0, w, h,
-                    (selectedBG == values.id and selectedValue == i)
-                        and C.accent or C.card
-                )
+        draw.RoundedBox(16,0,0,w,h,col)
+        draw.SimpleText(self:GetText(),"WT.Button",w/2,h/2,Color(15,15,15),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+    end
+
+    -- LIST LEFT
+    local list = vgui.Create("DScrollPanel",frame)
+    list:SetSize(340,ScrH()-220)
+    list:SetPos(40,120)
+
+    for key,data in pairs(cfg) do
+
+        local card = list:Add("DButton")
+        card:SetTall(70)
+        card:Dock(TOP)
+        card:DockMargin(0,0,0,10)
+        card:SetText("")
+
+        card.Paint=function(self,w,h)
+            draw.RoundedBox(12,0,0,w,h,
+                selectedKey==key and C.blue or C.card
+            )
+
+            draw.SimpleText(
+                data.name,
+                "WT.List",
+                15,20,
+                C.text
+            )
+
+            draw.SimpleText(
+                data.price.." RC",
+                "WT.List",
+                w-80,25,
+                C.soft
+            )
+        end
+
+        card.DoClick=function()
+            selectedKey = key
+            selectedData = data
+            selectedValue = data.default or 1
+
+            if (not owned[selectedKey]) then
+                ent:SetBodygroup(data.id, selectedValue)
             end
 
-            opt.DoClick = function()
-                if selectedBG then
-                    ent:SetBodygroup(
-                        selectedBG,
-                        originalBodygroups[selectedBG]
-                    )
-                end
 
-                selectedBG = values.id
-                selectedValue = i
+            local state = owned[key]
 
-                ent:SetBodygroup(values.id, i)
+            action:SetVisible(true)
+
+            if not state then
+                action:SetText("ПРИДБАТИ")
+                action.mode="buy"
+
+            elseif state.equipped==1 then
+                action:SetText("ЗНЯТИ")
+                action.mode="remove"
+
+            else
+                action:SetText("ОДЯГТИ")
+                action.mode="equip"
             end
         end
     end
 
-    -- ================= BUY =================
-    local buy = vgui.Create("DButton", frame)
-    buy:SetSize(320,64)
-    buy:SetPos(ScrW()-360,ScrH()-100)
-    buy:SetFont("BT.Button")
-    buy:SetTextColor(Color(10,10,10))
-    buy:SetText("")
-    buy.Paint = function(self,w,h)
-        draw.RoundedBox(22,0,0,w,h,C.accent)
+    -- BUTTON LOGIC
+    action.DoClick=function()
 
-        local text = "ПРИДБАТИ"
-        if selectedBG and bought[selectedBG] then
-            text = "ЗМІНИТИ"
-        end
+        if not selectedData then return end
 
-        draw.SimpleText(
-            text,
-            "BT.Button",
-            w/2,
-            h/2,
-            Color(10,10,10),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER
-        )
-    end
+        if action.mode=="buy" then
 
-    buy.DoClick = function()
-        if not selectedBG or selectedValue == nil then return end
-
-        ply:SetBodygroup(selectedBG, selectedValue)
-
-        if not bought[selectedBG] then
             net.Start("BGTrader.Buy")
-                net.WriteUInt(selectedBG, 8)
-                net.WriteUInt(selectedValue, 8)
+                net.WriteUInt(selectedData.id,8)
+                net.WriteUInt(selectedValue,8)
             net.SendToServer()
-            bought[selectedBG] = true 
+
+            owned[selectedKey]={
+                value=selectedValue,
+                equipped=1
+            }
+
+            ply:SetBodygroup(selectedData.id,selectedValue)
+            ent:SetBodygroup(selectedData.id,selectedValue)
+            local money = ply:getDarkRPVar("money") or 0
+            if money > selectedData.price then 
+                action:SetText("ЗНЯТИ")
+                action.mode="remove"
+            end
+
+        elseif action.mode=="equip" then
+
+            net.Start("BGTrader.Buy")
+                net.WriteUInt(selectedData.id,8)
+                net.WriteUInt(selectedValue,8)
+            net.SendToServer()
+
+            owned[selectedKey].equipped=1
+
+            ply:SetBodygroup(selectedData.id,selectedValue)
+            ent:SetBodygroup(selectedData.id,selectedValue)
+
+            action:SetText("ЗНЯТИ")
+            action.mode="remove"
+
+        elseif action.mode=="remove" then
+
+            net.Start("BGTrader.Remove")
+                net.WriteUInt(selectedData.id,8)
+            net.SendToServer()
+
+            owned[selectedKey].equipped=0
+
+            ply:SetBodygroup(selectedData.id,0)
+            ent:SetBodygroup(selectedData.id,0)
+
+            action:SetText("ОДЯГТИ")
+            action.mode="equip"
         end
     end
 end)
