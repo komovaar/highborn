@@ -46,6 +46,14 @@ F("WT.StatLabel", 24, 500)
 F("WT.Button", 26, 800)
 F("WT.Balance", 36, 500)
 
+ surface.CreateFont("WT.Model", {
+        font = "Overpass",
+        size = 42,
+        weight = 800,
+        extended = true,
+        shadow=true
+    })
+
 -- ======================================================
 -- UI
 -- ======================================================
@@ -276,7 +284,7 @@ function ENT:Draw()
 
         draw.SimpleText(
             "ТОРГОВЕЦЬ ЗБРОЄЮ",
-            "WT.Title",
+            "WT.Model",
             0,
             0,
             Color(80,140,220),

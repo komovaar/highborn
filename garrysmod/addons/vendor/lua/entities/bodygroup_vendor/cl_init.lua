@@ -264,7 +264,7 @@ function ENT:Draw()
 
         draw.SimpleText(
             "ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ",
-            "WT.Title",
+            "WT.Model",
             0,
             0,
             Color(80,140,220),
