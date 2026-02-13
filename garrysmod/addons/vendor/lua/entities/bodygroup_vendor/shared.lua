@@ -1,8 +1,8 @@
 ENT.Type = "anim"
 ENT.Base = "base_gmodentity"
 
-ENT.PrintName = "Торговец бодигрупами"
-ENT.Category = "Highborn"
+ENT.PrintName = "Екіпірування"
+ENT.Category = "Highborn | Торговці"
 ENT.Spawnable = true
 
-ENT.Model = "models/props_wasteland/controlroom_storagecloset001a.mdl"
+ENT.Model = "models/reizer_props/srsp/sci_fi/armory_02_2/armory_02_2.mdl"

@@ -61,7 +61,7 @@ net.Receive("BGTrader.Open", function()
     frame.Paint = function(self,w,h)
         DrawBlur(self)
         draw.RoundedBox(0,0,0,w,h,C.bg)
-        draw.SimpleText("СПОРЯДЖЕННЯ","WT.Title",40,30,C.blue)
+        draw.SimpleText("ЕКІПІРУВАННЯ","WT.Title",40,30,C.blue)
 
         local money = LocalPlayer():getDarkRPVar("money") or 0
         draw.SimpleText("БАЛАНС", "WT.Balance", w - 220, 36, C.soft)
@@ -250,8 +250,8 @@ function ENT:Draw()
 
     -- Позиция немного впереди шкафа
     local pos = self:GetPos() 
-        + self:GetUp() * 30    -- выше
-        + self:GetForward() * 15 -- чуть вперед
+        + self:GetUp() * 50    -- выше
+        + self:GetForward() * 25 -- чуть вперед
 
     local ang = self:GetAngles()
 
@@ -263,11 +263,11 @@ function ENT:Draw()
 
 
         draw.SimpleText(
-            "ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ",
+            "ЕКІПІРУВАННЯ",
             "WT.Model",
             0,
             0,
-            Color(80,140,220),
+            C.accent,
             TEXT_ALIGN_CENTER,
             TEXT_ALIGN_CENTER
         )

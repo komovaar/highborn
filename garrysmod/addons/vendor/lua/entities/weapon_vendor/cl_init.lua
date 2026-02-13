@@ -48,10 +48,9 @@ F("WT.Balance", 36, 500)
 
  surface.CreateFont("WT.Model", {
         font = "Overpass",
-        size = 42,
+        size = 64,
         weight = 800,
         extended = true,
-        shadow=true
     })
 
 -- ======================================================
@@ -270,8 +269,8 @@ function ENT:Draw()
 
     -- Позиция немного впереди шкафа
     local pos = self:GetPos() 
-        + self:GetUp() * 30    -- выше
-        + self:GetForward() * 15 -- чуть вперед
+        + self:GetUp() * 50    -- выше
+        + self:GetForward() * 10-- чуть вперед
 
     local ang = self:GetAngles()
 
@@ -283,11 +282,11 @@ function ENT:Draw()
 
 
         draw.SimpleText(
-            "ТОРГОВЕЦЬ ЗБРОЄЮ",
+            "ЗБРОЯРНЯ",
             "WT.Model",
             0,
             0,
-            Color(80,140,220),
+            C.accent,
             TEXT_ALIGN_CENTER,
             TEXT_ALIGN_CENTER
         )
