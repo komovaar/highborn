@@ -72,7 +72,7 @@ net.Receive("WeaponTrader.Open", function()
         DrawBlur(self)
         draw.RoundedBox(0, 0, 0, w, h, C.bg)
 
-        draw.SimpleText("ТОРГОВЕЦЬ ЗБРОЄЮ", "WT.Title", 40, 30, C.accent)
+        draw.SimpleText("ЗБРОЯРНЯ", "WT.Title", 40, 30, C.accent)
 
         local money = LocalPlayer():getDarkRPVar("money") or 0
         draw.SimpleText("БАЛАНС", "WT.Balance", w - 220, 36, C.soft)
@@ -256,3 +256,33 @@ net.Receive("WeaponTrader.Open", function()
 
     PopulateList()
 end)
+
+function ENT:Draw()
+    self:DrawModel()
+
+    -- Позиция немного впереди шкафа
+    local pos = self:GetPos() 
+        + self:GetUp() * 30    -- выше
+        + self:GetForward() * 15 -- чуть вперед
+
+    local ang = self:GetAngles()
+
+    -- Поворачиваем текст по плоскости шкафа
+    ang:RotateAroundAxis(ang:Up(), 90)
+    ang:RotateAroundAxis(ang:Forward(), 90)
+
+    cam.Start3D2D(pos, ang, 0.08)
+
+
+        draw.SimpleText(
+            "ТОРГОВЕЦЬ ЗБРОЄЮ",
+            "WT.Title",
+            0,
+            0,
+            Color(80,140,220),
+            TEXT_ALIGN_CENTER,
+            TEXT_ALIGN_CENTER
+        )
+
+    cam.End3D2D()
+end
