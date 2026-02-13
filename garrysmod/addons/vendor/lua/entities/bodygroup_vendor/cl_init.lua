@@ -8,7 +8,8 @@ local C = {
     blue   = Color(80,140,220),
     red    = Color(220,80,80),
     text   = Color(230,235,255),
-    soft   = Color(160,170,200),
+    soft   = Color(150,160,190),
+    accent = Color(80,140,220),
 }
 
 local blur = Material("pp/blurscreen")
@@ -60,7 +61,11 @@ net.Receive("BGTrader.Open", function()
     frame.Paint = function(self,w,h)
         DrawBlur(self)
         draw.RoundedBox(0,0,0,w,h,C.bg)
-        draw.SimpleText("ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ","WT.Title",40,30,C.blue)
+        draw.SimpleText("СПОРЯДЖЕННЯ","WT.Title",40,30,C.blue)
+
+        local money = LocalPlayer():getDarkRPVar("money") or 0
+        draw.SimpleText("БАЛАНС", "WT.Balance", w - 220, 36, C.soft)
+        draw.SimpleText("RC "..money, "WT.Balance", w - 220, 58, C.accent)
     end
     
     -- ================= CLOSE =================
@@ -109,7 +114,7 @@ net.Receive("BGTrader.Open", function()
         if self.mode=="remove" then col=C.red end
 
         draw.RoundedBox(16,0,0,w,h,col)
-        draw.SimpleText(self:GetText(),"WT.Button",w/2,h/2,Color(15,15,15),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+        draw.SimpleText(self:GetText(),"WT.Button",w/2,h/2,Color(10,10,10),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
     end
 
     -- ================= LEFT LIST =================
@@ -149,7 +154,7 @@ net.Receive("BGTrader.Open", function()
                 data.price.." RC",
                 "WT.List",
                 w-80,25,
-                C.soft
+                C.accent
             )
         end
 
@@ -176,7 +181,7 @@ net.Receive("BGTrader.Open", function()
                 action.mode="remove"
 
             else
-                action:SetText("ОДЯГТИ")
+                action:SetText("ОДЯГНУТИ")
                 action.mode="equip"
             end
         end
@@ -233,8 +238,39 @@ net.Receive("BGTrader.Open", function()
             ply:SetBodygroup(selectedData.id,0)
             ent:SetBodygroup(selectedData.id,0)
 
-            action:SetText("ОДЯГТИ")
+            action:SetText("ОДЯГНУТИ")
             action.mode="equip"
         end
     end
 end)
+
+
+function ENT:Draw()
+    self:DrawModel()
+
+    -- Позиция немного впереди шкафа
+    local pos = self:GetPos() 
+        + self:GetUp() * 30    -- выше
+        + self:GetForward() * 15 -- чуть вперед
+
+    local ang = self:GetAngles()
+
+    -- Поворачиваем текст по плоскости шкафа
+    ang:RotateAroundAxis(ang:Up(), 90)
+    ang:RotateAroundAxis(ang:Forward(), 90)
+
+    cam.Start3D2D(pos, ang, 0.08)
+
+
+        draw.SimpleText(
+            "ТОРГОВЕЦЬ СПОРЯДЖЕННЯМ",
+            "WT.Title",
+            0,
+            0,
+            Color(80,140,220),
+            TEXT_ALIGN_CENTER,
+            TEXT_ALIGN_CENTER
+        )
+
+    cam.End3D2D()
+end
