@@ -18,7 +18,7 @@ Add your custom jobs under the following line:
 
 TEAM_212 = DarkRP.createJob("212th", {
     color = Color(25, 25, 170, 255),
-    model = {"models/aussiwozzi/cgi/base/212th_trooper.mdl"},
+    model = {"models/212th_trp/pm_212th_trp.mdl"},
     description = [[The protector of every citizen that lives in the city.
         You have the power to arrest criminals and protect innocents.
         Hit a player with your arrest baton to put them in jail.
