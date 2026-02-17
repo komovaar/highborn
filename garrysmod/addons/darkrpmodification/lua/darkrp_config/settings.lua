@@ -370,12 +370,7 @@ GM.Config.DisallowDrop = {
 
 -- The list of weapons people spawn with.
 GM.Config.DefaultWeapons = {
-    "keys",
-    "weapon_physcannon",
-    "gmod_camera",
-    "gmod_tool",
-    "pocket",
-    "weapon_physgun",
+    "hands",
 }
 
 -- Override categories.
