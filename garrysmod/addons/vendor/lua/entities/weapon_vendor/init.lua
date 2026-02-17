@@ -22,11 +22,6 @@ end
 local function GivePermaWeapons(ply)
     if not IsValid(ply) then return end
 
-    if IsBlockedJob(ply) then
-        ply:StripWeapons()
-        return
-    end
-
     timer.Simple(0.1, function()
         if not IsValid(ply) then return end
 
@@ -41,7 +36,11 @@ local function GivePermaWeapons(ply)
                 ply:Give(row.weapon)
             end
         end
+
+        ply:SelectWeapon("hands")
+
     end)
+
 end
 
 hook.Add("PlayerSpawn", "PermaWeaponsSpawn", GivePermaWeapons)

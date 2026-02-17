@@ -5,7 +5,7 @@ Vendor.BlockedJobs = {
     TEAM_MEDIC,
 }
 Vendor.IsVIP = function(ply)
-    return ply:IsUserGroup("vip") or ply:IsUserGroup("supervip")
+    return ply:IsUserGroup("vip")
 end
 
 Vendor.Weapons = {
@@ -64,9 +64,9 @@ Vendor.Weapons = {
 }
 
 Vendor.Models = {
-    ["models/aussiwozzi/cgi/base/212th_trooper.mdl"] = {
+    ["models/212th_trp/pm_212th_trp.mdl"] = {
         armor = {
-            id = 5,
+            id = 4,
             name = "Наплечник",
             price = 1200,
             vip = false,
@@ -76,7 +76,7 @@ Vendor.Models = {
             }
         },
         kama = {
-            id = 6,
+            id = 3,
             name = "Кама",
             price = 300,
             vip = false,
@@ -86,7 +86,7 @@ Vendor.Models = {
             }
         },
         backpack = {
-            id = 14,
+            id = 5,
             name = "Кама",
             price = 300,
             vip = false,

@@ -37,7 +37,6 @@ net.Receive("BGTrader.Open", function()
     local cfg = Vendor.Models[modelPath]
     if not cfg then return end
 
-    -- Преобразуем БД
     local owned = {}
     for _, row in ipairs(serverData) do
         owned[row.bg_key] = {
@@ -85,19 +84,62 @@ net.Receive("BGTrader.Open", function()
     -- MODEL
     local modelPanel = vgui.Create("DModelPanel",frame)
     modelPanel:SetSize(ScrW()/2,ScrH()-220)
-    modelPanel:SetPos(420,120)
+    modelPanel:SetPos(650,120)
     modelPanel:SetModel(modelPath)
     modelPanel:SetFOV(70)
-    modelPanel.LayoutEntity=function(_,ent)
-        ent:SetAngles(Angle(0,45,0))
-    end
+	modelPanel.CurrAng = 0
+	modelPanel.CamX = 0
+	modelPanel.CamY = 0
+    function modelPanel:Think()
+		local pX, pY = self:GetParent():GetPos()
+		local thisX, thisY, thisW, thisH = self:GetBounds()
+		thisX = thisX + pX
+		thisY = thisY + pY
+		if gui.MouseX() < thisX or gui.MouseX() > thisX + thisW or gui.MouseY() < thisY or gui.MouseY() > thisY + thisH then
+			if self.Rotating and not input.IsMouseDown( MOUSE_LEFT ) then
+				self.Rotating = false 
+			end
+		end
+	end
+	function modelPanel:LayoutEntity( ent )
+		if ( self.bAnimated ) then
+			self:RunAnimation()
+		end
+
+		local pX, pY = self:GetParent():GetPos()
+
+		if self.Rotating then
+			local angDiff = gui.MouseX() - self.InitPos
+			self.CurrAng = self.CurrAng + angDiff * 0.001
+			if self.CurrAng >= 360 then
+				self.CurrAng = self.CurrAng - 360
+			end
+			if self.CurrAng < 0 then
+				self.CurrAng = self.CurrAng + 360
+			end
+
+		end
+    		ent:SetAngles( Angle( 0, self.CurrAng, 0 ) )
+
+	end
+
+    function modelPanel:OnMousePressed( key )
+		if key == MOUSE_LEFT then
+			self.Rotating = true
+			self.InitPos = gui.MouseX()
+		end
+	end
+	function modelPanel:OnMouseReleased( key )
+		if key == MOUSE_LEFT then
+			self.Rotating = false
+		end
+	end
 
     local ent = modelPanel.Entity
     for _, bg in ipairs(ent:GetBodyGroups()) do
         ent:SetBodygroup(bg.id, ply:GetBodygroup(bg.id))
     end
 
-    -- ACTION BUTTON (ОДНА КНОПКА СПРАВА)
     local action = vgui.Create("DButton",frame)
     action:SetSize(300,60)
     action:SetPos(ScrW()-360,ScrH()-120)
