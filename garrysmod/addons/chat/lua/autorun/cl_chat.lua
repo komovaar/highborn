@@ -1,9 +1,11 @@
+
 local LUCTUS_CHAT_USE_TIMESTAMPS = true
 local LUCTUS_CHAT_MSG_FADETIME = 10
 
 local color_background = Color(26, 26, 26, 200)
 local color_textentry = Color(30, 30, 30, 100)
 
+if CLIENT then
 surface.CreateFont( "eChat_18", {
     font = "Roboto",
     size = 18,
@@ -12,7 +14,7 @@ surface.CreateFont( "eChat_18", {
     shadow = true,
     outline = false,
 })
-
+end
 local blur = Material("pp/blurscreen")
 
 local function DrawBlur(panel)
@@ -127,9 +129,9 @@ function eChat.buildBox()
     end
 
     eChat.chatLog = vgui.Create("RichText", eChat.frame) 
-    eChat.chatLog:SetPos(0, 5)
+    eChat.chatLog:SetPos(0, 0)
+    eChat.chatLog:SetVerticalScrollbarEnabled(false)
     eChat.chatLog.Paint = function() end
-    echat.SetVerticalScrollbarEnabled(false)
     
     
     function eChat.chatLog:OnKeyCodeReleased(code)
