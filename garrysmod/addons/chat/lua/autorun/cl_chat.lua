@@ -130,7 +130,6 @@ function eChat.buildBox()
 
     eChat.chatLog = vgui.Create("RichText", eChat.frame) 
     eChat.chatLog:SetPos(0, 0)
-    eChat.chatLog:SetVerticalScrollbarEnabled(false)
     eChat.chatLog.Paint = function() end
     
     
