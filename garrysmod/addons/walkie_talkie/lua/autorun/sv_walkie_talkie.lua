@@ -1,73 +1,48 @@
 if SERVER then
+    util.AddNetworkString("WalkieTalkie.SwapChannels")
+    util.AddNetworkString("WalkieTalkie.SetActiveChannel")
+    util.AddNetworkString("WalkieTalkie.SetAltChannel")
     util.AddNetworkString("WalkieTalkie.SpeakerToggle")
     util.AddNetworkString("WalkieTalkie.MicroToggle")
     util.AddNetworkString("WalkieTalkie.ChangeChannel")
 
-    hook.Add("PlayerInitialSpawn", "WalkieTalkie_PlayerInitialSpawn", function(ply)
-        ply.walkie_talkie = {
-            speaker = false,
-            micro = false
-        }
-        ply:SetNW2Var("hborn_radio", nil)
+    hook.Add("PlayerInitialSpawn", "WalkieTalkie_Init", function(ply)
+        ply.walkie_talkie = { speaker = false, micro = false }
+        ply:SetNW2Var("radio_main", nil)
+        ply:SetNW2Var("radio_alt", nil)
+        ply:SetNW2Var("radio_active", nil)
     end)
 
-    net.Receive("WalkieTalkie.SpeakerToggle", function(len, ply)
-        ply.walkie_talkie.speaker = not ply.walkie_talkie.speaker
-        local status = ply.walkie_talkie.speaker and "увімкнули" or "вимкнули"
-    end)
-
-    net.Receive("WalkieTalkie.MicroToggle", function(len, ply)
-        ply.walkie_talkie.micro = not ply.walkie_talkie.micro
-        local status = ply.walkie_talkie.micro and "увімкнули" or "вимкнули"
-    end)
-
-    net.Receive("WalkieTalkie.ChangeChannel", function(len, ply)
+    net.Receive("WalkieTalkie.SetActiveChannel", function(len, ply)
         local channel = net.ReadInt(8)
-        if not channel or channel < 0 or channel > 999 then
-            ply:ChatPrint("Частота може бути від 0 до 999!")
-            return
-        end
-        ply:SetNW2Var("hborn_radio", channel)
-        ply:ChatPrint("Ви встановили канал рації на " .. channel)
+        ply:SetNW2Var("radio_active", channel)
     end)
 
-    hook.Add("PlayerSay", "WalkieTalkie_SetRadio", function(ply, text)
-        local args = string.Explode(" ", text)
-        if args[1]:lower() == "/setradio" then
-            local channel = tonumber(args[2])
-            if not channel then
-                ply:ChatPrint("Вкажіть частоту!")
-                return ""
-            end
-            if channel < 0 or channel > 999 then
-                ply:ChatPrint("Частота може бути від 0 до 999!")
-                return ""
-            end
-            ply:SetNW2Var("hborn_radio", channel)
-            ply:ChatPrint("Ви встановили частоту рації на " .. channel)
-            return ""
-        end
+    net.Receive("WalkieTalkie.SetAltChannel", function(len, ply)
+        local channel = net.ReadInt(8)
+        ply:SetNW2Var("radio_alt", channel)
     end)
 
-    -- Голосовой чат по каналу
-    hook.Add("PlayerCanHearPlayersVoice", "WalkieTalkie_PlayerCanHearPlayersVoice", function(listener, talker)
+    hook.Add("PlayerCanHearPlayersVoice", "WalkieTalkie_VoiceChat", function(listener, talker)
         if not IsValid(listener) or not IsValid(talker) then return end
         if not listener.walkie_talkie or not talker.walkie_talkie then return end
+        if not talker.walkie_talkie.micro or not talker.walkie_talkie.speaker then return end
 
-        local listener_channel = listener:GetNW2Var("hborn_radio")
-        local talker_channel = talker:GetNW2Var("hborn_radio")
+        local talker_chan = talker:GetNW2Var("radio_active")
+        local listener_main = listener:GetNW2Var("radio_main")
+        local listener_alt = listener:GetNW2Var("radio_alt")
 
-        if talker.walkie_talkie.micro and talker.walkie_talkie.speaker and listener.walkie_talkie.speaker then
-            if listener_channel and talker_channel and listener_channel == talker_channel then
-                return true
-            end
+        if talker_chan and (talker_chan == listener_main or talker_chan == listener_alt) and listener.walkie_talkie.speaker then
+            return true
         end
     end)
 
     local function getPlayersInChannel(channel)
         local targets = {}
         for _, ply in ipairs(player.GetAll()) do
-            if ply:GetNW2Var("hborn_radio") == channel then
+            local main = ply:GetNW2Var("radio_main")
+            local alt = ply:GetNW2Var("radio_alt")
+            if main == channel or alt == channel then
                 table.insert(targets, ply)
             end
         end
@@ -75,20 +50,45 @@ if SERVER then
     end
 
     local function sendGroupMessage(ply, text)
-        local channel = ply:GetNW2Var("hborn_radio")
+        local channel = ply:GetNW2Var("radio_active")
         if not channel then
-            ply:ChatPrint("Ви не підключені до рації.")
-            return
+            local main = ply:GetNW2Var("radio_main")
+            if main then
+                ply:SetNW2Var("radio_active", main)
+                channel = ply:GetNW2Var("radio_active")
+            end
         end
         text = string.gsub(text, "^/g%s*", "")
         for _, target in ipairs(getPlayersInChannel(channel)) do
-            DarkRP.talkToPerson(target, team.GetColor(ply:Team()), "[" .. channel .. "] " .. ply:Nick(), color_white, text, ply)
+            DarkRP.talkToPerson(target, team.GetColor(ply:Team()), "["..channel.."] ", color_white, text, ply)
         end
     end
 
     hook.Add("PlayerSay", "WalkieTalkie_PlayerSay", function(ply, text, teamonly)
-        if string.StartWith(text, "/g") or teamonly then
+        local txt = text:lower()
+        local args = string.Explode(" ", text)
+
+        if string.StartWith(txt, "/g") or teamonly then
             sendGroupMessage(ply, text)
+            return ""
+        elseif string.StartWith(txt, "/setmain") then
+            local chan = tonumber(args[2])
+            if chan then
+                ply:SetNW2Var("radio_main", chan)
+                local main = ply:GetNW2Var("radio_main")
+                ply:SetNW2Var("radio_active", main)
+            end
+            return ""
+        elseif string.StartWith(txt, "/setalt") then
+            local chan = tonumber(args[2])
+            if chan then
+                ply:SetNW2Var("radio_alt", chan)
+                if not ply:GetNW2Var("radio_main") then 
+                    local alt = ply:GetNW2Var("radio_alt")
+                    ply:SetNW2Var("radio_active", alts)
+                end
+                
+            end
             return ""
         end
     end)
