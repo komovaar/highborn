@@ -46,8 +46,8 @@ if CLIENT then
         DrawTextShadow("Передача: "..active, "HB_HUD_Main", 20, sh-100, Color(255,255,255), Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
         DrawTextShadow("Рація: "..radio_status.." (F4)", "HB_HUD_Main", 20, sh-80, Color(255,255,255), Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
         DrawTextShadow("Мікрофон: "..micro_status.." (F5)", "HB_HUD_Main", 20, sh-60, Color(255,255,255), Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-        DrawTextShadow("Основной канал: "..main, "HB_HUD_Main", 20, sh-40, mainColor, Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-        DrawTextShadow("Вспомогательный: "..alt, "HB_HUD_Main", 250, sh-40, altColor, Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+        DrawTextShadow("Основний канал: "..main, "HB_HUD_Main", 20, sh-40, mainColor, Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+        DrawTextShadow("Додатковий: "..alt, "HB_HUD_Main", 250, sh-40, altColor, Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
     end)
 
 end
