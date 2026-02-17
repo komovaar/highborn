@@ -1,76 +1,64 @@
-----// eChat //----
---Author: Exho, Tomelyr, LuaTenshi
---Fixed and edited by OverlordAkise
---Version: 4/12/15
---New Version Init: 28.09.2020
---New Features: DarkRP Chatmodes with tab (OOC and ADVERT), Chat History with Arrow keys
-
-
-local LUCTUS_CHAT_BOXTITLE = "My Cool Server" --GetHostName()
-
 local LUCTUS_CHAT_USE_TIMESTAMPS = true
-
 local LUCTUS_CHAT_MSG_FADETIME = 10
 
-
-local color_accent_line = Color(0, 195, 165)
-local color_background = Color(26, 26, 26, 150)
-local color_header = Color(80, 80, 80, 100)
+local color_background = Color(26, 26, 26, 200)
 local color_textentry = Color(30, 30, 30, 100)
 
---Config end
-
-
 surface.CreateFont( "eChat_18", {
-    font = "Overpass",
-    size = 21,
-    weight = 600,
-    antialias = false,
-    shadow = false,
+    font = "Roboto",
+    size = 18,
+    weight = 500,
+    antialias = true,
+    shadow = true,
     outline = false,
 })
+
+local blur = Material("pp/blurscreen")
+
+local function DrawBlur(panel)
+    local x,y = panel:LocalToScreen(0,0)
+    surface.SetMaterial(blur)
+    surface.SetDrawColor(255,255,255)
+    for i=1,6 do
+        blur:SetFloat("$blur",i)
+        blur:Recompute()
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRect(-x,-y,ScrW(),ScrH())
+    end
+end
 
 eChat = eChat or {}
 eChat.history = {}
 eChat.curHistory = 1
 
---DarkRP doesn't send PLAYER objects, only nicknames
-
 --// Builds the chatbox but don't display it
 function eChat.buildBox()
     if IsValid(eChat.frame) then return end
     eChat.frame = vgui.Create("DFrame")
-    eChat.frame:SetSize( 900, 300 )
+    eChat.frame:SetSize( 800, 300 )
     eChat.frame:SetTitle("")
     eChat.frame:ShowCloseButton(false)
     eChat.frame:SetDraggable(true)
     eChat.frame:SetSizable(true)
-    eChat.frame:SetPos(20, (ScrH() - eChat.frame:GetTall()) - ScrH()*0.2)
+    eChat.frame:SetPos(20, (ScrH() - eChat.frame:GetTall()) - ScrH() * 0.1)
     eChat.frame:SetMinWidth( 300 )
     eChat.frame:SetMinHeight( 100 )
     function eChat.frame:Paint(w, h)
+        DrawBlur(self)
         draw.RoundedBox( 0, 0, 0, w, h, color_background )
-        draw.RoundedBox( 0, 0, 0, w, 25, color_header )
-        draw.RoundedBox( 0, 0, 25, w, 1, color_accent_line )
     end
 
     eChat.oldPaint = eChat.frame.Paint
     
-    eChat.title = vgui.Create("DLabel", eChat.frame)
-    eChat.title:SetText(LUCTUS_CHAT_BOXTITLE)
-    eChat.title:SetFont("eChat_18")
-    eChat.title:SizeToContents()
-    eChat.title:SetPos(5, 4)
-
     eChat.entry = vgui.Create("DTextEntry", eChat.frame) 
-    eChat.entry:SetSize( eChat.frame:GetWide() - 50, 20 )
+    eChat.entry:SetSize( eChat.frame:GetWide() - 10, 20 )
     eChat.entry:SetTextColor( color_white )
     eChat.entry:SetFont("eChat_18")
     eChat.entry:SetDrawBorder( false )
     eChat.entry:SetDrawBackground( false )
     eChat.entry:SetCursorColor( color_white )
     eChat.entry:SetHighlightColor(Color(52, 152, 219))
-    eChat.entry:SetPos( 45, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
+    eChat.entry:SetPos( 5, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
     eChat.entry.Paint = function( self, w, h )
         draw.RoundedBox(0, 0, 0, w, h, color_textentry)
         derma.SkinHook("Paint", "TextEntry", self, w, h)
@@ -139,12 +127,10 @@ function eChat.buildBox()
     end
 
     eChat.chatLog = vgui.Create("RichText", eChat.frame) 
-    eChat.chatLog:SetPos(5, 30)
+    eChat.chatLog:SetPos(0, 5)
     eChat.chatLog.Paint = function() end
-
-    eChat.chatLog.OnFocusChanged = function(self,gained)
-        self.iHasFocus = gained
-    end
+    echat.SetVerticalScrollbarEnabled(false)
+    
     
     function eChat.chatLog:OnKeyCodeReleased(code)
         if code == KEY_ESCAPE then
@@ -161,7 +147,7 @@ function eChat.buildBox()
                 self:SetVisible(true)
             end
         end
-        self:SetSize( eChat.frame:GetWide() - 10, eChat.frame:GetTall() - eChat.entry:GetTall() - eChat.title:GetTall() )
+        self:SetSize( eChat.frame:GetWide() - 10, eChat.frame:GetTall() - eChat.entry:GetTall())
     end
     
     function eChat.chatLog:PerformLayout()
@@ -171,43 +157,43 @@ function eChat.buildBox()
     
     eChat.oldPaint2 = eChat.chatLog.Paint
     
-    local text = "Say :"
-    eChat.sayText = vgui.Create("DLabel", eChat.frame)
-    eChat.sayText:SetText("")
-    function eChat.sayText:Paint(w, h)
-        draw.RoundedBox( 0, 0, 0, w, h, color_textentry )
-        draw.DrawText( text, "eChat_18", 2, 1, color_white )
-    end
+    -- local text = "Say :"
+    -- eChat.sayText = vgui.Create("DLabel", eChat.frame)
+    -- eChat.sayText:SetText("")
+    -- function eChat.sayText:Paint(w, h)
+    --     draw.RoundedBox( 0, 0, 0, w, h, color_textentry )
+    --     draw.DrawText( text, "eChat_18", 2, 1, color_white )
+    -- end
 
-    function eChat.sayText:Think()
-        local types = {"", "ooc", "advert", "teamchat", "console"}
-        local s = {}
-        if eChat.ChatType == types[2] then 
-            text = "Say (OOC) :"    
-        elseif eChat.ChatType == types[3] then
-            text = "Say (ADVERT) :"
-        elseif eChat.ChatType == types[4] then
-            text = "Say (TEAM) :"
-        elseif eChat.ChatType == types[5] then
-            text = "Console :"
-        else
-            text = "Say :"
-            s.pw = 45
-            s.sw = eChat.frame:GetWide() - 50
-        end
+    -- function eChat.sayText:Think()
+    --     local types = {"", "ooc", "advert", "teamchat", "console"}
+    --     local s = {}
+    --     if eChat.ChatType == types[2] then 
+    --         text = "Say (OOC) :"    
+    --     elseif eChat.ChatType == types[3] then
+    --         text = "Say (ADVERT) :"
+    --     elseif eChat.ChatType == types[4] then
+    --         text = "Say (TEAM) :"
+    --     elseif eChat.ChatType == types[5] then
+    --         text = "Console :"
+    --     else
+    --         text = "Say :"
+    --         s.pw = 45
+    --         s.sw = eChat.frame:GetWide() - 50
+    --     end
 
-        if s then
-            if not s.pw then s.pw = self:GetWide() + 10 end
-            if not s.sw then s.sw = eChat.frame:GetWide() - self:GetWide() - 15 end
-        end
+    --     if s then
+    --         if not s.pw then s.pw = self:GetWide() + 10 end
+    --         if not s.sw then s.sw = eChat.frame:GetWide() - self:GetWide() - 15 end
+    --     end
 
-        local w, h = surface.GetTextSize( text )
-        self:SetSize( w + 5, 20 )
-        self:SetPos( 5, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
+    --     local w, h = surface.GetTextSize( text )
+    --     self:SetSize( w + 5, 20 )
+    --     self:SetPos( 5, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
 
-        eChat.entry:SetSize( s.sw, 20 )
-        eChat.entry:SetPos( s.pw, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
-    end
+    --     eChat.entry:SetSize( s.sw, 20 )
+    --     eChat.entry:SetPos( s.pw, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
+    -- end
     eChat.hideBox()
 end
 
@@ -226,9 +212,7 @@ function eChat.hideBox()
     
     eChat.lastMessage = eChat.lastMessage or CurTime() - LUCTUS_CHAT_MSG_FADETIME
     
-    eChat.title:SetVisible(false)
     eChat.entry:SetVisible(false)
-    eChat.sayText:SetVisible(false)
     
     -- Give the player control again
     eChat.frame:SetMouseInputEnabled( false )
@@ -252,10 +236,8 @@ function eChat.showBox()
     eChat.chatLog:SetVerticalScrollbarEnabled( true )
     eChat.lastMessage = nil
     
-    eChat.title:SetVisible(true)
     eChat.entry:SetVisible(true)
     eChat.chatLog:SetVisible(true)
-    eChat.sayText:SetVisible(true)
     
     -- MakePopup calls the input functions so we don't need to call those
     eChat.frame:MakePopup()
@@ -273,7 +255,7 @@ function chat.AddText(...)
     local msg = {}
     if LUCTUS_CHAT_USE_TIMESTAMPS then
         eChat.chatLog:InsertColorChange( 130, 130, 130, 255 )
-        eChat.chatLog:AppendText( "["..os.date("%H:%M").."] ")
+        eChat.chatLog:AppendText( ""..os.date("%H:%M").." ")
     end
     -- Iterate through the strings and colors
     for k, obj in pairs( {...} ) do
