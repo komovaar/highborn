@@ -27,13 +27,13 @@ TEAM_212 = DarkRP.createJob("212th", {
         The Battering Ram can also unfreeze frozen props (if enabled).
         Type /wanted <name> to alert the public to the presence of a criminal.]],
     weapons = {"rw_sw_dc15a"},
-    command = "212",
     max = 4,
     salary = GAMEMODE.Config.normalsalary * 1.45,
     admin = 0,
     vote = true,
     hasLicense = true,
-    category = "Civil Protection",
+    category = "212nd",
+    command=""
 })
 
 
