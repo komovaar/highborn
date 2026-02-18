@@ -20,7 +20,7 @@ if SERVER then
     }
 
     local LightGround = {
-        [""] = true,
+        ["lvs_fakehover_barc"] = true,
         ["lvs_fakehover_barc_medical"] = true,
     }
 
