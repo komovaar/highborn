@@ -13,6 +13,7 @@ surface.CreateFont( "eChat_18", {
     antialias = true,
     shadow = true,
     outline = false,
+    extended=true,
 })
 end
 local blur = Material("pp/blurscreen")
