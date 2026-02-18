@@ -15,6 +15,7 @@ if CLIENT then
             font = "Overpass",
             size = 32,
             weight = 300,
+            extended=true,
         })
 
         surface.CreateFont("HB_Scoreboard_Large", {
@@ -222,7 +223,11 @@ function PANEL:Populate()
 
     for _, ply in ipairs(player.GetAll()) do
         local jobTable = ply:getJobTable()
-        local catName = jobTable and jobTable.category or "Other"
+        local catName = jobTable and jobTable.category or "Інше"
+        local cat = jobTable and jobTable.category or "Інше"
+        if cat == "212nd" then
+            catName = "212 штурмовий батальйон"
+        end
 
         categories[catName] = categories[catName] or {
             color = Color(100,100,100),
