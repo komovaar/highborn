@@ -201,6 +201,10 @@ net.Receive("BGTrader.Open", function()
         end
 
         card.DoClick=function()
+            for _, bg in ipairs(ent:GetBodyGroups()) do
+                ent:SetBodygroup(bg.id, ply:GetBodygroup(bg.id))
+            end
+
             selectedKey = key
             selectedData = data
             selectedValue = data.default or 1
