@@ -35,18 +35,13 @@ if SERVER then
     end)
 
     hook.Add("PlayerCanHearPlayersVoice", "WalkieTalkie_VoiceChat", function(listener, talker)
-        print("Works")
         -- if not IsValid(listener) or not IsValid(talker) then return end
         -- if not listener.walkie_talkie or not talker.walkie_talkie then return end
         -- if not talker.walkie_talkie.micro or not talker.walkie_talkie.speaker then return end
 
         local talker_chan = talker:GetNW2Var("radio_active")
-        print(talker_chan)
         local listener_main = listener:GetNW2Var("radio_main")
-        print(listener_main)
         local listener_alt = listener:GetNW2Var("radio_alt")
-        print(listener_main)
-        print(listener.walkie_talkie.speaker)
 
         if talker_chan and (talker_chan == listener_main or talker_chan == listener_alt) and listener.walkie_talkie.speaker then
             print("Test")
