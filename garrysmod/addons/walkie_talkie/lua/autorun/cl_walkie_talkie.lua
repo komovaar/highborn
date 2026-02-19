@@ -2,33 +2,45 @@ if CLIENT then
     local radio_s = false
     local micro_s = false
 
+   local keyPressed = {}
+
     hook.Add("PlayerButtonDown", "WalkieTalkie_ClientButtons", function(ply, button)
         if ply ~= LocalPlayer() then return end
+        if keyPressed[button] then return end
+        keyPressed[button] = true
+
         if button == KEY_N then
             net.Start("WalkieTalkie.SpeakerToggle")
             net.SendToServer()
             radio_s = not radio_s
+
         elseif button == KEY_M then
             net.Start("WalkieTalkie.MicroToggle")
             net.SendToServer()
             micro_s = not micro_s
-        end
 
-        local main = LocalPlayer():GetNW2Var("radio_main")
-        local alt  = LocalPlayer():GetNW2Var("radio_alt")
-        local active = LocalPlayer():GetNW2Var("radio_active")
+        elseif button == KEY_L then
+            local main = LocalPlayer():GetNW2Var("radio_main")
+            local alt  = LocalPlayer():GetNW2Var("radio_alt")
+            local active = LocalPlayer():GetNW2Var("radio_active")
 
-        if button == KEY_L and alt then
-            if active == main then 
-                active = alt 
-            else 
-                active = main
+            if alt then
+                if active == main then 
+                    active = alt 
+                else 
+                    active = main
+                end
+
+                net.Start("WalkieTalkie.SetActiveChannel")
+                net.WriteInt(active, 8)
+                net.SendToServer()
             end
-            net.Start("WalkieTalkie.SetActiveChannel")
-            net.WriteInt(active, 8)
-            net.SendToServer()
         end
+    end)
 
+    hook.Add("PlayerButtonUp", "WalkieTalkie_ClientButtons_Release", function(ply, button)
+        if ply ~= LocalPlayer() then return end
+        keyPressed[button] = nil
     end)
 
     hook.Add("HUDPaint", "WalkieTalkie_HUDPaint", function()
