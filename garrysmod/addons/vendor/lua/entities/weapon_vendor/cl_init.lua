@@ -254,9 +254,41 @@ net.Receive("WeaponTrader.Open", function()
                 buy:SetVisible(true)
                 for _, row in ipairs(player_weapons) do
                     if row.weapon == selectedWeapon.class then
-                        buy:SetText("ПРИДБАНО")
+                        if tonumber(row.stored) == 1 then
+                            buy:SetText("ВЗЯТИ З АРСЕНАЛУ")
+                        else
+                            buy:SetText("ПОКЛАСТИ В АРСЕНАЛ")
+                        end
+                        buy.DoClick = function()
+                        net.Start("WeaponTrader.ToggleStorage")
+                            net.WriteString(selectedWeapon.class)
+                        net.SendToServer()
+
+                        for _, row in ipairs(player_weapons) do
+                            if row.weapon == selectedWeapon.class then
+                                row.stored = tonumber(row.stored) == 1 and 0 or 1
+
+                                if tonumber(row.stored) == 1 then
+                                    buy:SetText("ВЗЯТИ З АРСЕНАЛУ")
+                                else
+                                    buy:SetText("ПОКЛАСТИ В АРСЕНАЛ")
+                                end
+
+                                break
+                            end
+                        end
                     end
-                end 
+
+                        return
+                    end
+                end
+
+                buy:SetText("ПРИДБАТИ")
+                buy.DoClick = function()
+                    net.Start("WeaponTrader.Buy")
+                        net.WriteString(selectedWeapon.class)
+                    net.SendToServer()
+                end
             end
         end
     end
@@ -267,14 +299,12 @@ end)
 function ENT:Draw()
     self:DrawModel()
 
-    -- Позиция немного впереди шкафа
     local pos = self:GetPos() 
-        + self:GetUp() * 50    -- выше
-        + self:GetForward() * 10-- чуть вперед
+        + self:GetUp() * 50   
+        + self:GetForward() * 10
 
     local ang = self:GetAngles()
 
-    -- Поворачиваем текст по плоскости шкафа
     ang:RotateAroundAxis(ang:Up(), 90)
     ang:RotateAroundAxis(ang:Forward(), 90)
 
