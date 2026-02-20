@@ -6,7 +6,7 @@ end
 
 DEFINE_BASECLASS( "jetpack_base" )
 
-ENT.Spawnable = false
+ENT.Spawnable = true
 ENT.PrintName = "Infinite Flight"
 
 if CLIENT then

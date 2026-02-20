@@ -38,10 +38,9 @@ local function GetTextSize(...)
 end
 
 local MSW, MSH = ScrW(), ScrH()
-local fuelbarwidth, fuelbarheigth = 256, 48
-local col_bg = Color(0,0,0,192)
-local col_fuel = Color(255,128,0,255)
-local col_txt = Color(255,255,255)
+local fuelbarwidth, fuelbarheigth = 440, 10
+local col_bg = Color(35,35,35,220)
+local col_fuel = Color(255,183,45)
 local jet, cf, mf = NULL, 100, 100
 
 hook.Add('Tick','Jetted',function()
@@ -54,9 +53,8 @@ end)
 hook.Add('HUDPaint','jetted',function()
 	if !IsValid(jet) then return end
 	local percent = math.floor(cf/mf*100)
-	DrawRect(col_bg,MSW/2-fuelbarwidth/2,MSH-fuelbarheigth*1.4,fuelbarwidth,fuelbarheigth)
-	DrawRect(col_fuel,MSW/2-fuelbarwidth/2+4,MSH-fuelbarheigth*1.4+4,(fuelbarwidth-8)*percent/100,fuelbarheigth-8)
-	DrawText('Jetted',MSW/2-fuelbarwidth/2+12,MSH-fuelbarheigth*1.4,col_txt,'Fuel: '..percent..'%')
+	DrawRect(col_bg, MSW/2 - fuelbarwidth/2, MSH-fuelbarheigth*8, fuelbarwidth, fuelbarheigth)
+	DrawRect(col_fuel, MSW/2 - fuelbarwidth/2, MSH-fuelbarheigth*8, (fuelbarwidth)*percent/100, fuelbarheigth)
 end)
 
 
