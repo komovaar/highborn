@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/players/kull/col"
+	"$envmap" "env_cubemap"
+	"$bumpmap" "Models/players/kull/Kull_normal"
+	"$normalmapalphaenvmapmask" "1"
+	"$selfillum" 1
+	"$envmapsaturation" 1.2
+//	"$envmaptint" "{ 201 208 219}"
+//	"$envmaptint" "{ 50 50 50}"
+	"$envmaptint" "{ 5 5 5}"
+//	"$envmaptint" "{ 1 1 1}"
+//	"$model" 1
+
+	"$phong" "1"
+	"$phongexponent" "10"
+	"$phongboost" "8"	
+	"$phongfresnelranges"	"[.8 1 3]"
+
+}
+
+
