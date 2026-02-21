@@ -5,6 +5,7 @@ hook.Add("HUDPaint", "AdminNoclipESP", function()
 
     -- Проверка ноуклипа
     if ply:GetMoveType() ~= MOVETYPE_NOCLIP then return end
+    if ply:InVehicle() then return end
 
     if not ply:HasPermission() or not ply:HasPermission("admin_esp") then return end
 
