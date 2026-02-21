@@ -3,3 +3,18 @@ hook.Add('DoPlayerDeath','Jetted',function(ply)
 	if !IsValid(jet) then return end
 	jet:Remove()
 end)
+
+hook.Add("PlayerButtonDown", "JetpackToggle", function(ply, button)
+
+	if button ~= KEY_R then return end
+
+	local jp = ply:GetNWEntity("Jetted")
+	if not IsValid(jp) then return end
+
+	jp:SetEnabled( not jp:GetEnabled() )
+
+	if not jp:GetEnabled() then
+		jp:SetActive(false)
+	end
+
+end)

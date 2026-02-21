@@ -98,6 +98,7 @@ function ENT:Initialize()
 	if SERVER then
 		self:SetModel( "models/jetpack/jetpack.mdl" )
 		self:InitPhysics()
+		self:SetNoDraw(true)
 
 		self:SetMaxHealth( 100 )
 		self:SetHealth( self:GetMaxHealth() )
@@ -105,17 +106,17 @@ function ENT:Initialize()
 		self:SetInfiniteFuel( false )
 		self:SetMaxFuel(100)
 		self:SetFuel( self:GetMaxFuel() )
-		self:SetFuelDrain(12)	--drain in seconds
-		self:SetFuelRecharge( 17 )	--recharge in seconds
+		self:SetFuelDrain(3)	--drain in seconds
+		self:SetFuelRecharge( 7 )	--recharge in seconds
 		self:SetActive( false )
 		self:SetCanStomp( false )
 		self:SetDoGroundSlam( false )
 		self:SetAirResistance( 3.5 )
 		self:SetRemoveGravity( true )
-		self:SetJetpackSpeed( 2500 )
-		self:SetJetpackStrafeSpeed( 600 )
+		self:SetJetpackSpeed( 1500 )
+		self:SetJetpackStrafeSpeed( 400 )
 		self:SetJetpackVelocity( 900 )
-		self:SetJetpackStrafeVelocity( 5000 )
+		self:SetJetpackStrafeVelocity( 2000 )
 	else
 		self:SetLastActive( false )
 		self:SetNextParticle( 0 )
@@ -127,6 +128,7 @@ end
 function ENT:SetupDataTables()
 	BaseClass.SetupDataTables( self )
 
+	self:DefineNWVar( "Bool",  "Enabled")
 	self:DefineNWVar( "Bool" , "Active" )
 	self:DefineNWVar( "Bool" , "GoneApeshit" , true )	--set either when the owner dies with us active, or when we're being shot at
 	self:DefineNWVar( "Bool" , "RemoveGravity" )
@@ -150,8 +152,7 @@ function ENT:SetupDataTables()
 end
 
 function ENT:HandleFly( predicted , owner , movedata , usercmd )
-	self:SetActive( self:CanFly( owner , movedata ) )
-
+	self:SetActive( self:CanFly(owner, movedata) )
 	--we have infinite fuel and the apeshit timeout hasn't been set, do it now
 	--this is most useful because I CBA to do that everytime ok?
 	--also it's serverside only because we only set the apeshit on the server anyway
@@ -272,26 +273,18 @@ function ENT:GetFuelFraction()
 	return self:GetFuel() / self:GetMaxFuel()
 end
 
-function ENT:CanFly( owner , mv )
+function ENT:CanFly(owner, mv)
 
+	if not self:GetEnabled() then return false end
+	if not self:HasFuel() then return false end
+	if not owner:Alive() then return false end
+	if owner:WaterLevel() ~= 0 then return false end
+	if owner:GetMoveType() ~= MOVETYPE_WALK then return false end
 
-	if IsValid( owner ) then
-
-		--don't care about player inputs in this case, the player's jetpack is going craaazy
-
-		if self:GetGoneApeshit() then
-			return owner:WaterLevel() == 0 and owner:GetMoveType() == MOVETYPE_WALK and self:HasFuel()
-		end
-
-		return ( mv:KeyDown( IN_JUMP ) or mv:KeyDown( IN_DUCK ) or mv:KeyDown( IN_SPEED ) ) and not owner:OnGround() and owner:WaterLevel() == 0 and owner:GetMoveType() == MOVETYPE_WALK and owner:Alive() and self:HasFuel()
-	end
-
-	--making it so the jetpack can also fly on its own without an owner ( in the case we want it go go nuts if the player dies or some shit )
-	if self:GetGoneApeshit() then
-		return self:WaterLevel() == 0 and self:HasFuel()
-	end
-
-	return false
+	-- вот теперь проверяем кнопки
+	return mv:KeyDown(IN_JUMP)
+		or mv:KeyDown(IN_DUCK)
+		or mv:KeyDown(IN_SPEED)
 end
 
 function ENT:Think()
@@ -540,8 +533,13 @@ if SERVER then
 	end
 
 	function ENT:OnAttach( ply )
+
 		self:SetDoGroundSlam( false )
-		--self:SetSolid( SOLID_BBOX )	--we can still be hit when on the player's back
+
+		if IsValid(ply) then
+			ply:SetNWEntity("Jetted", self)
+		end
+
 	end
 
 	function ENT:CanAttach( ply )
@@ -551,15 +549,12 @@ if SERVER then
 	end
 
 	function ENT:OnDrop( ply , forced )
-		if IsValid( ply ) and not ply:Alive() then
-			--when the player dies while still using us, keep us active and let us fly with physics until
-			--our fuel runs out
-			if self:GetActive() then
-				self:SetGoneApeshit( true )
-			end
-		else
-			self:SetActive( false )
+
+		if IsValid(ply) then
+			ply:SetNWEntity("Jetted", NULL)
 		end
+
+		self:SetActive(false)
 
 	end
 
@@ -652,33 +647,8 @@ if SERVER then
 
 else
 
-	function ENT:Draw( flags )
-		if GetViewEntity() == self:GetOwner() and !self:GetOwner():ShouldDrawLocalPlayer() then return end
-		local pos , ang = self:GetCustomParentOrigin()
-
-		--even though the calcabsoluteposition hook should already prevent this, it doesn't on other players
-		--might as well not give it the benefit of the doubt in the first place
-		if pos and ang then
-			self:SetPos( pos )
-			self:SetAngles( ang )
-			self:SetupBones()
-		end
-
-		self:DrawModel( flags )
-
-		local atchpos , atchang = self:GetEffectsOffset()
-
-		local effectsscale = self:GetEffectsScale()
-
-		--technically we shouldn't draw the fire from here, it should be done in drawtranslucent
-		--but since we draw from the player and he's not translucent this won't get called despite us being translucent
-		--might as well just set us to opaque
-
-		if self:GetActive() then	-- and bit.band( flags , STUDIO_TRANSPARENCY ) ~= 0 then
-			self:DrawJetpackFire( atchpos , atchang , effectsscale )
-		end
-
-		self:DrawJetpackSmoke( atchpos  , atchang , effectsscale )
+	function ENT:Draw(flags)
+		return
 	end
 
 	--the less fuel we have, the smaller our particles will be
@@ -861,22 +831,13 @@ end
 
 function ENT:OnRemove()
 
-	if CLIENT then
-
-		--if stopping the soundpatch doesn't work, stop the sound manually
-		if self.JetpackSound then
-			self.JetpackSound:Stop()
-			self.JetpackSound = nil
-		else
-			self:StopSound( "jetpack.thruster_loop" )
-		end
-
-
-		if self.JetpackParticleEmitter then
-			self.JetpackParticleEmitter:Finish()
-			self.JetpackParticleEmitter = nil
+	if SERVER then
+		local ply = self:GetControllingPlayer()
+		if IsValid(ply) then
+			ply:SetNWEntity("Jetted", NULL)
 		end
 	end
 
-	BaseClass.OnRemove( self )
+	BaseClass.OnRemove(self)
+
 end
