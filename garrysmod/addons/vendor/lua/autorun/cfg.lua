@@ -70,30 +70,28 @@ Vendor.Models = {
             name = "Наплечник",
             price = 1200,
             vip = false,
-            options = {
-                [0] = "Без броні",
-                [1] = "Наплечник",
-            }
+            default = 1,
         },
         kama = {
             id = 3,
             name = "Кама",
             price = 300,
             vip = false,
-            options = {
-                [0] = "Немає",
-                [1] = "Кама",
-            }
+            default = 1,
         },
         backpack = {
             id = 5,
             name = "Кама",
             price = 300,
             vip = false,
-            options = {
-                [0] = "Немає",
-                [1] = "Рюкзак",
-            }
+            default = 1,
+        },
+        jetpack = {
+            id = 4,
+            name = "Джетпак",
+            price = 300,
+            vip = false,
+            default = 3,
         }
     }
 }
