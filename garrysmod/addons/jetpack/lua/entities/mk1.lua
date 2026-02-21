@@ -1,13 +1,11 @@
 AddCSLuaFile()
 
-if SERVER then
-	resource.AddFile( "materials/entities/jetpack2.png" )
-end
 
 DEFINE_BASECLASS( "jetpack_base" )
 
 ENT.Spawnable = true
-ENT.PrintName = "Jetpack"
+ENT.PrintName = "Джетпак"
+ENT.Category = "Highborn | Джетпак"
 
 if CLIENT then
 	ENT.MatHeatWave		= Material( "sprites/heatwave" )
@@ -96,7 +94,7 @@ end
 function ENT:Initialize()
 	BaseClass.Initialize( self )
 	if SERVER then
-		self:SetModel( "models/jetpack/jetpack.mdl" )
+		self:SetModel( "" )
 		self:InitPhysics()
 		self:SetNoDraw(true)
 

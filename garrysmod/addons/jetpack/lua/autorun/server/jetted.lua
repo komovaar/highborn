@@ -6,7 +6,7 @@ end)
 
 hook.Add("PlayerButtonDown", "JetpackToggle", function(ply, button)
 
-	if button ~= KEY_R then return end
+	if button ~= KEY_F4 then return end
 
 	local jp = ply:GetNWEntity("Jetted")
 	if not IsValid(jp) then return end
