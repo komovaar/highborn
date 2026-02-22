@@ -2,11 +2,8 @@ hook.Add("HUDPaint", "AdminNoclipESP", function()
 
     local ply = LocalPlayer()
     if not IsValid(ply) then return end
-
-    -- Проверка ноуклипа
     if ply:GetMoveType() ~= MOVETYPE_NOCLIP then return end
     if ply:InVehicle() then return end
-
     if not ply:HasPermission() or not ply:HasPermission("admin_esp") then return end
 
     for _, target in ipairs(player.GetAll()) do
@@ -38,5 +35,18 @@ hook.Add("HUDPaint", "AdminNoclipESP", function()
             1,
             Color(0,0,0)
         )
+
+        -- ===== ТРЕЙСЕР =====
+        local traceLength = 100 -- длина линии
+        local eyePos = target:EyePos()
+        local aimDir = target:EyeAngles():Forward()
+        local endPos = eyePos + aimDir * traceLength
+
+        local screenStart = eyePos:ToScreen()
+        local screenEnd = endPos:ToScreen()
+
+        -- Рисуем линию от глаз до точки направления
+        surface.SetDrawColor(255, 0, 0, 255)
+        surface.DrawLine(screenStart.x, screenStart.y, screenEnd.x, screenEnd.y)
     end
 end)
