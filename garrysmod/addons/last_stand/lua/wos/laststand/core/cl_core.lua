@@ -87,36 +87,67 @@ hook.Add( "CalcView", "wOS.LastStand.FirstPerson", function( ply, pos, ang )
 
 end )
 
-hook.Add( "HUDPaint", "wOS.LastStand.ProgressBar", function()
-	local ply = LocalPlayer()
-	if not IsValid( ply.WOS_LastStandChild ) or not ply.WOS_LastStandHeld or not ply.WOS_LastStandIsReviving then return end
+hook.Add("HUDPaint", "wOS.LastStand.ProgressBar", function()
+    local ply = LocalPlayer()
+    if not IsValid(ply.WOS_LastStandChild)
+        or not ply.WOS_LastStandHeld
+        or not ply.WOS_LastStandIsReviving then return end
 
-	local tim = wOS.LastStand.ReviveTime:GetFloat()
-	local rat = math.Clamp( CurTime() - ply.WOS_LastStandHeld, 0, tim ) / tim
-	
-	local ww, hh = w*0.3, h*0.03
-	
-	draw.RoundedBox( 9, w*0.5 - ww/2, h*0.6, ww, hh, Color( 0, 0, 0, 55 ) )
-	draw.RoundedBox( 12, w*0.5 - ww/2, h*0.6, ww*rat, hh, Color( 0, 125, 255, 155 ) )
-	local text = ( rat >= 1 and "Release your USE key!" ) or "Reviving " .. ply.WOS_LastStandChild:Nick() .. " ( " .. math.Round( rat * 100 ) .. "% )"
-	draw.SimpleText( text, "CloseCaption_BoldItalic", w/2, h*0.6 + hh/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-	
-end )
+    local w, h = ScrW(), ScrH()
+
+    local tim = wOS.LastStand.ReviveTime:GetFloat()
+    local rat = math.Clamp(CurTime() - ply.WOS_LastStandHeld, 0, tim) / tim
+
+    local ww, hh = w * 0.25, 18
+    local x, y = w * 0.5 - ww / 2, h * 0.7
+
+    draw.RoundedBox(0, x, y, ww, hh, Color(30, 30, 30, 200))
+
+    draw.RoundedBox(0, x, y, ww * rat, hh, Color(0, 150, 255, 255))
+
+    local text = math.Round(rat * 100) .. "%"
+    draw.SimpleText(
+        text,
+        "HB_HUD_Main",
+        w / 2,
+        y - 16,
+        color_white,
+        TEXT_ALIGN_CENTER,
+        TEXT_ALIGN_BOTTOM
+    )
+end)
 
 local lastuse = 0
-hook.Add( "HUDPaint", "wOS.LastStand.KillYourselfHUD", function()
-	local ply = LocalPlayer()
-	if not wOS.LastStand.InLastStand[ LocalPlayer() ] then return end
-	
-	local tim = 3
-	local rat = math.Clamp( lastuse, 0, tim ) / tim
-	
-	local ww, hh = w*0.3, h*0.03
-	draw.RoundedBox( 9, w*0.5 - ww/2, h*0.6, ww, hh, Color( 0, 0, 0, 55 ) )
-	draw.RoundedBox( 12, w*0.5 - ww/2, h*0.6, ww*rat, hh, Color( 255, 255, 255, 155 ) )
-	draw.SimpleText( "Hold down your USE key to end it all ( " .. math.Round( rat * 100 ) .. "% )", "CloseCaption_BoldItalic", w/2, h*0.6 + hh/2, Color( 255, 0, 0 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-	
-end )
+hook.Add("HUDPaint", "wOS.LastStand.KillYourselfHUD", function()
+
+    local ply = LocalPlayer()
+    if not wOS.LastStand.InLastStand[ply] then return end
+
+    local w, h = ScrW(), ScrH()
+
+    local tim = 3
+    local rat = math.Clamp(lastuse, 0, tim) / tim
+
+    local ww, hh = w * 0.25, 16
+    local x, y = w * 0.5 - ww / 2, h * 0.75
+
+    surface.SetDrawColor(20, 20, 20, 220)
+    surface.DrawRect(x, y, ww, hh)
+
+    surface.SetDrawColor(200, 50, 50, 255)
+    surface.DrawRect(x, y, ww * rat, hh)
+
+    draw.SimpleText(
+        "Затисніть E щоб припинити просити допомогу — " .. math.Round(rat * 100) .. "%",
+        "HB_HUD_Main",
+        w / 2,
+        y - 6,
+        Color(255, 255, 255),
+        TEXT_ALIGN_CENTER,
+        TEXT_ALIGN_BOTTOM
+    )
+
+end)
 
 hook.Add( "Think", "wOS.LastStand.KillYourself", function()
 	if not wOS.LastStand.InLastStand[ LocalPlayer() ] then return end
