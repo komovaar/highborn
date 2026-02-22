@@ -54,7 +54,6 @@ function ENT:Use(ply)
     net.Send(ply)
 end
 
-
 -- ======================================================
 -- BUY
 -- ======================================================
@@ -89,7 +88,6 @@ net.Receive("BGTrader.Buy", function(_, ply)
     ))
 
     if not row then
-        -- Первая покупка
         local money = ply:getDarkRPVar("money") or 0
         if money < bgData.price then return end
         ply:addMoney(-bgData.price)
@@ -107,13 +105,28 @@ net.Receive("BGTrader.Buy", function(_, ply)
     else
         sql.Query(string.format([[
             UPDATE bodygroup_purchases
-            SET equipped=1
+            SET equipped=1, owned_value=%d
             WHERE steamid=%s AND model=%s AND bg_key=%s
         ]],
+            value,
             sql.SQLStr(ply:SteamID()),
             sql.SQLStr(model),
             sql.SQLStr(bgKey)
         ))
+    end
+
+    if bgKey == "jetpack" then
+        if IsValid(ply:GetNWEntity("Jetted")) then return end
+
+        local jp = ents.Create("mk1")
+        if not IsValid(jp) then return end
+
+        jp:SetSlotName("mk1")
+        jp:Spawn()
+        jp:Attach(ply)
+
+        ply:SetNWEntity("Jetted", jp)
+
     end
 
     ply:SetBodygroup(bgID, value)
@@ -139,6 +152,12 @@ net.Receive("BGTrader.Remove", function(_, ply)
 
     if not bgKey then return end
 
+    local jp = ply:GetNWEntity("Jetted")
+    if IsValid(jp) then
+        jp:Remove()
+        ply:SetNWEntity("Jetted", NULL)
+    end
+
     sql.Query(string.format([[
         UPDATE bodygroup_purchases
         SET equipped=0
@@ -153,33 +172,38 @@ net.Receive("BGTrader.Remove", function(_, ply)
 end)
 
 
-hook.Add("PlayerSpawn", "BGTrader.ApplySaved", function(ply)
+hook.Add("PlayerSpawn", "BGTrader.ApplySavedBodygroups", function(ply)
 
-    timer.Simple(0.2, function()
-
+    timer.Simple(0.3, function()
         if not IsValid(ply) then return end
 
         local model = ply:GetModel()
 
         local rows = sql.Query(string.format(
-            "SELECT * FROM bodygroup_purchases WHERE steamid=%s AND model=%s",
+            "SELECT * FROM bodygroup_purchases WHERE steamid=%s AND model=%s AND equipped=1",
             sql.SQLStr(ply:SteamID()),
             sql.SQLStr(model)
-        ))
-
-        if not rows then return end
+        )) or {}
 
         local cfg = Vendor.Models[model]
         if not cfg then return end
 
-        for _, row in ipairs(rows) do
-            if tonumber(row.equipped) == 1 then
-                local key = row.bg_key
-                if cfg[key] then
-                    ply:SetBodygroup(cfg[key].id, tonumber(row.owned_value))
-                end
+        for _, row in pairs(rows) do
+            local bgKey = row.bg_key
+            local value = tonumber(row.owned_value) or 0
+
+            local data = cfg[bgKey]
+            if data then
+                ply:SetBodygroup(data.id, value)
             end
         end
-
     end)
+end)
+
+hook.Add("PlayerSetModel", "RemoveJetpackOnModelChange", function(ply)
+    local jp = ply:GetNWEntity("Jetted")
+    if IsValid(jp) then
+        jp:Remove()
+        ply:SetNWEntity("Jetted", NULL)
+    end
 end)
