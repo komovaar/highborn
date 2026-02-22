@@ -32,7 +32,7 @@ function WeaponSelector.Font(scales)
     if tblFont[name] then return name end
 
     surface.CreateFont(name, {
-        font = "Roboto",
+        font = "Overpass",
         size = scales * scale,
         weight = 500 * scale,
         antialias = true,
