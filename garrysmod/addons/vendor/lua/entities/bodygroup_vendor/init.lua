@@ -173,12 +173,10 @@ end)
 
 
 hook.Add("PlayerSpawn", "BGTrader.ApplySavedBodygroups", function(ply)
-
-    timer.Simple(0.3, function()
-        if not IsValid(ply) then return end
+    timer.Simple(0.5, function()
+        if not IsValid(ply) or not ply:Alive() then return end
 
         local model = ply:GetModel()
-
         local rows = sql.Query(string.format(
             "SELECT * FROM bodygroup_purchases WHERE steamid=%s AND model=%s AND equipped=1",
             sql.SQLStr(ply:SteamID()),
@@ -191,10 +189,28 @@ hook.Add("PlayerSpawn", "BGTrader.ApplySavedBodygroups", function(ply)
         for _, row in pairs(rows) do
             local bgKey = row.bg_key
             local value = tonumber(row.owned_value) or 0
-
             local data = cfg[bgKey]
             if data then
                 ply:SetBodygroup(data.id, value)
+
+                if bgKey == "jetpack" then
+                    local jp = ents.Create("mk1")
+                    if not IsValid(jp) then return end
+                    jp:SetSlotName("mk1")
+                    jp:Spawn()
+
+                    if IsValid(ply:GetActiveWeapon()) then
+                        jp:Attach(ply)
+                        ply:SetNWEntity("Jetted", jp)
+                    else
+                        timer.Simple(0.1, function()
+                            if IsValid(ply) and IsValid(jp) then
+                                jp:Attach(ply)
+                                ply:SetNWEntity("Jetted", jp)
+                            end
+                        end)
+                    end
+                end
             end
         end
     end)
