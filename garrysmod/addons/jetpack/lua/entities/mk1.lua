@@ -279,10 +279,7 @@ function ENT:CanFly(owner, mv)
 	if owner:WaterLevel() ~= 0 then return false end
 	if owner:GetMoveType() ~= MOVETYPE_WALK then return false end
 
-	-- вот теперь проверяем кнопки
 	return mv:KeyDown(IN_JUMP)
-		or mv:KeyDown(IN_DUCK)
-		or mv:KeyDown(IN_SPEED)
 end
 
 function ENT:Think()
