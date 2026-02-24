@@ -12,8 +12,6 @@ if SERVER then
     end)
 
     net.Receive("WalkieTalkie.MicroToggle", function (len, ply)
-                print("true")
-
         ply.walkie_talkie.micro = true 
     end)
 
