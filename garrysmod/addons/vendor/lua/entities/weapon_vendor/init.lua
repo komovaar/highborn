@@ -35,7 +35,7 @@ local function GivePermaWeapons(ply)
         local data = sql.Query(
             "SELECT weapon FROM perma_weapons WHERE steamid = " ..
             sql.SQLStr(ply:SteamID()) ..
-            " AND auto_spawn = 1"
+            " AND stored = 0"
         )
 
         if not data then return end
