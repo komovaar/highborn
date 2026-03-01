@@ -71,7 +71,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
     local bgData
 
     for key, data in pairs(cfg) do
-        if data.id == bgID then
+        if data.id == bgID and value == data.default then
             bgKey = key
             bgData = data
             break
@@ -136,6 +136,7 @@ end)
 net.Receive("BGTrader.Remove", function(_, ply)
 
     local bgID = net.ReadUInt(8)
+    local value = net.ReadUInt(9)
     local model = ply:GetModel()
 
     local cfg = Vendor.Models[model]
@@ -144,7 +145,7 @@ net.Receive("BGTrader.Remove", function(_, ply)
     local bgKey
 
     for key, data in pairs(cfg) do
-        if data.id == bgID then
+        if data.id == bgID and value == data.default then
             bgKey = key
             break
         end

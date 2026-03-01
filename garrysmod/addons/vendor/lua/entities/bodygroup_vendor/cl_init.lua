@@ -277,11 +277,12 @@ net.Receive("BGTrader.Open", function()
 
             net.Start("BGTrader.Remove")
                 net.WriteUInt(selectedData.id,8)
+                net.WriteUInt(selectedData.default,9)
             net.SendToServer()
 
             owned[selectedKey].equipped=0
 
-            ply:SetBodygroup(selectedData.id,0)
+            ply:SetBodygroup(selectedData.id, selectedData.default)
             ent:SetBodygroup(selectedData.id,0)
 
             action:SetText("ОДЯГНУТИ")
