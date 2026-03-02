@@ -301,3 +301,22 @@ end
 
 yeh = util.Compress( yeh )
 
+local CORPSE_REMOVE_TIME = 15    
+
+hook.Add("OnNPCKilled", "RemoveNPCCorpse", function(npc, attacker, inflictor)
+
+    timer.Simple(CORPSE_REMOVE_TIME, function()
+        if IsValid(npc) then
+            npc:Remove()
+        end
+    end)
+
+    for _, ent in ipairs(ents.FindByClass("weapon_*")) do
+        if IsValid(ent) and not ent:IsPlayerHolding() then
+            if ent:GetOwner() == NULL then
+                ent:Remove()
+            end
+        end
+    end
+
+end)
