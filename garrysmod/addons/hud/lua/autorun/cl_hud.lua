@@ -39,7 +39,6 @@ end
 local hide = {
 	CHudHealth = true,
 	CHudBattery = true,
-	CHudCrosshair = true,
 	CHudDamageIndicator = true,
 	CHudHintDisplay = true,
 	CHudZoom = true,
