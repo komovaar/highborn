@@ -75,7 +75,21 @@ local function CreatePlayerRow(parent, ply)
             { name = "Скопіювати професію", func = function() SetClipboardText(ply:getDarkRPVar("job") or "Unknown") end },
             { name = "Відкрити профіль Steam", func = function() gui.OpenURL("https://steamcommunity.com/profiles/" .. ply:SteamID64()) end }
         }
+        if LocalPlayer():IsAdmin() then
+            table.insert(options, {
+                name = "Телепортуватися до гравця",
+                func = function()
+                    RunConsoleCommand("sam", "goto", ply:Nick())
+                end
+            })
 
+            table.insert(options, {
+                name = "Телепортувати гравця",
+                func = function()
+                    RunConsoleCommand("sam", "bring", ply:Nick())
+                end
+            })
+        end
         CreateModernMenu(options)
     end
 
