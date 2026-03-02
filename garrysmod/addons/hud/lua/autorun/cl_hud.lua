@@ -36,11 +36,19 @@ if CLIENT then
 end
 
 
-hook.Add("HUDShouldDraw", "Highborn_DisableDefaultHUD", function(name)
-    if name == "CHudHealth" or name == "CHudBattery" then
-        return false
-    end
-end)
+local hide = {
+	CHudHealth = true,
+	CHudBattery = true,
+	CHudCrosshair = true,
+	CHudDamageIndicator = true,
+	CHudHintDisplay = true,
+	CHudZoom = true,
+}
+
+hook.Add( "HUDShouldDraw", "HideHUD", function( name )
+	if ( hide[ name ] ) then return false end
+
+end )
 
 hook.Add("HUDPaint", "Highborn_HUD", function()
     local ply = LocalPlayer()
