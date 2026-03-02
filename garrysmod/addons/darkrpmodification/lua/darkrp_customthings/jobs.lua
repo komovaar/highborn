@@ -17,14 +17,16 @@ Add your custom jobs under the following line:
 ---------------------------------------------------------------------------]]
 
 TEAM_212 = DarkRP.createJob("212th", {
+    description = "",
     color = Color(25, 25, 170, 255),
     model = {"models/212th_trp/pm_212th_trp.mdl"},
     weapons = {"rw_sw_dc15a"},
     salary = 0,
     admin = 0,
     category = "212nd",
-    command="212"
-    armor=
+    command="212",
+    armor=10,
+    max=0,
 })
 
 TEAM_91 = DarkRP.createJob("91st", {
