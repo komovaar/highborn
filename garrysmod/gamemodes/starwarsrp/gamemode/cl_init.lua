@@ -29,3 +29,7 @@ end)
 hook.Add("OnContextMenuOpen", "BlockContextMenu", function()
     return false
 end)
+
+hook.Add( "ChatText", "hide_joinleave", function( index, name, text, typ )
+	if ( typ == "joinleave" ) then return true end
+end )
