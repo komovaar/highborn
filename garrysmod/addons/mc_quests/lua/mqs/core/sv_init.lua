@@ -160,13 +160,15 @@ function MQS.TaskReward(ply, quest)
 		for k, v in pairs(MQS.Quests[quest].reward) do
 			if MQS.Rewards[k].check and MQS.Rewards[k].check() then continue end
 
-			local rewardAmount = v
+			local rewardData = table.Copy(v)
 
 			if ply:IsUserGroup("vip") then
-				rewardAmount = math.floor(v * 1.25)
+				if rewardData[1] then
+					rewardData[1] = math.floor(rewardData[1] * 1.25)
+				end
 			end
 
-			MQS.Rewards[k].reward(ply, rewardAmount)
+			MQS.Rewards[k].reward(ply, rewardData)
 		end
 	end
 end
