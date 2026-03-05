@@ -32,6 +32,14 @@ if CLIENT then
             antialias = true,
             extended = true
         })
+
+        surface.CreateFont("HB_NPC", {
+            font = "Overpass",
+            size = 48,
+            weight = 600,
+            antialias = true,
+            extended = true
+        })
     end)
 end
 
