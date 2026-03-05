@@ -239,8 +239,12 @@ function PANEL:Populate()
         local jobTable = ply:getJobTable()
         local catName = jobTable and jobTable.category or "Інше"
         local cat = jobTable and jobTable.category or "Інше"
-        if cat == "212nd" then
+        if cat == "212th" then
             catName = "212 штурмовий батальйон"
+        elseif cat == "91st" then
+            catName = "91 розвідувальний корпус"
+        elseif cat == "Fleet"  then
+            catName = "Республіканський флот"
         end
 
         categories[catName] = categories[catName] or {
