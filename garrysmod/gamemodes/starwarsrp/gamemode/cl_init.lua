@@ -27,7 +27,12 @@ hook.Add("SpawnMenuOpen", "RestrictQMenu", function()
 end)
 
 hook.Add("OnContextMenuOpen", "BlockContextMenu", function()
-    return false
+    local ply = LocalPlayer()
+
+    if not IsValid(ply) then return false end
+    if not ply:IsAdmin() then
+        return false
+    end
 end)
 
 hook.Add( "ChatText", "hide_joinleave", function( index, name, text, typ )
