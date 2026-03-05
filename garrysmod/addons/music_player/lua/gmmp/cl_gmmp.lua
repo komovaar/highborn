@@ -22,6 +22,18 @@
 --                                  \/____/                  \/____/                                  --
 --------------------------------------------------------------------------------------------------------
 
+hook.Add("OnPlayerChat", "ChatOpenAdminMenu", function(ply, text, teamChat, isDead)
+    if ply ~= LocalPlayer() then return end  -- Только для своего клиента
+    if not ply:IsAdmin() then return end     -- Только админы могут открыть
+
+    text = string.lower(text)
+
+    if text == "/music" then
+        ToggleMenu()  -- Функция, которая уже у тебя есть
+        return ""     -- Убирает текст из чата
+    end
+end)
+
 fltSongTime = 0
 ShouldBeStopped = true
 TogKeyReceived = false

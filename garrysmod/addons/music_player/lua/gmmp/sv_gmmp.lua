@@ -37,23 +37,6 @@
 		--end
 	--end)
 
-	function SendToggleMenu( ply, strKey )
-		if TogKey:GetString() == strKey then
-			ply:SendLua("ToggleMenu()")
-		end
-	end
-
-	hook.Add("OnPlayerChat", "AdminChatMenuCommands", function(ply, text, teamChat, isDead)
-		if ply ~= LocalPlayer() then return end
-		if not ply:IsAdmin() then return end
-
-		text = string.lower(text)
-
-		if text == "/music" then
-			SendToggleMenu(ply, "F4")
-			return ""
-		end
-	end)
 
 		
 	--FCVAR_ARCHIVE stores the value in the config.cfg file
