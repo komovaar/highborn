@@ -11,7 +11,7 @@ function ENT:Draw()
 	if self:GetPos():DistToSqr(LocalPlayer():GetPos()) > MQS.Config.QuestEntDrawDist ^ 2 then return end
 
 	local Pos = self:EyePos() or self:GetPos()
-	Pos = Pos + Vector(0, 0, 5)
+	Pos = Pos + Vector(0, 0, 3)
 	local Ang = self:GetAngles()
 	local eyepos = EyePos()
 	local planeNormal = Ang:Up()

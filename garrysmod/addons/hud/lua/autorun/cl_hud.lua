@@ -36,7 +36,7 @@ if CLIENT then
         surface.CreateFont("HB_NPC", {
             font = "Overpass",
             size = 48,
-            weight = 600,
+            weight = 400,
             antialias = true,
             extended = true
         })
