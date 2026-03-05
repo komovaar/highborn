@@ -20,7 +20,8 @@ Vendor.Weapons = {
             accuracy = "High",
             mode = "Auto"
         },
-        category = "weapon"
+        category = "weapon",
+        vip = false,
     },
     {
         name = "M4A1",
@@ -33,7 +34,8 @@ Vendor.Weapons = {
             accuracy = "High",
             mode = "Auto"
         },
-        category = "weapon"
+        category = "weapon",
+        vip = false,
     },
     {
         name = "M5",
@@ -46,7 +48,8 @@ Vendor.Weapons = {
             accuracy = "High",
             mode = "Auto"
         },
-        category = "weapon"
+        category = "weapon",
+        vip = false,
     },
     {
         name = "DC17-s",
@@ -59,7 +62,8 @@ Vendor.Weapons = {
             accuracy = "High",
             mode = "Auto"
         },
-        category = "weapon"
+        category = "weapon",
+        vip = true
     }
 }
 
@@ -83,7 +87,7 @@ Vendor.Models = {
             id = 5,
             name = "Кама",
             price = 300,
-            vip = false,
+            vip = true,
             default = 1,
         },
         jetpack = {

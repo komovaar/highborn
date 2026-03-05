@@ -242,7 +242,14 @@ net.Receive("WeaponTrader.Open", function()
             b:DockMargin(0,0,0,10)
             b:SetText("")
             b.Paint = function(self, w, h)
-                draw.RoundedBox(14, 0, 0, w, h, C.card)
+                local bg = C.card
+
+                if wep.vip then
+                    bg = Color(200,170,60,230)
+                end
+
+                draw.RoundedBox(14, 0, 0, w, h, bg)
+
                 draw.SimpleText(wep.name, "WT.List", 16, h/2, C.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
                 draw.SimpleText("RC "..wep.price, "WT.List", w-16, h/2, C.accent, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
             end

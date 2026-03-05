@@ -95,6 +95,10 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
     for _, wep in ipairs(Vendor.Weapons) do
         if wep.class == weaponClass then
 
+            if wep.vip and not ply:IsUserGroup("vip") then
+                return
+            end
+
             local money = ply:getDarkRPVar("money") or 0
             if money < wep.price then
                 return

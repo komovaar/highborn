@@ -79,6 +79,9 @@ net.Receive("BGTrader.Buy", function(_, ply)
     end
 
     if not bgKey then return end
+    if bgData.vip and not ply:IsUserGroup("vip") then
+        return
+    end
 
     local row = sql.QueryRow(string.format(
         "SELECT * FROM bodygroup_purchases WHERE steamid=%s AND model=%s AND bg_key=%s",

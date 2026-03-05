@@ -181,9 +181,17 @@ net.Receive("BGTrader.Open", function()
         card:SetTall(60)
 
         card.Paint=function(self,w,h)
-            draw.RoundedBox(12,0,0,w,h,
-                selectedKey==key and C.blue or C.card
-            )
+            local bg = C.card
+
+            if data.vip then
+                bg = Color(200,170,60,230)
+            end
+
+            if selectedKey == key then
+                bg = C.blue
+            end
+
+            draw.RoundedBox(12,0,0,w,h,bg)
 
             draw.SimpleText(
                 data.name,
