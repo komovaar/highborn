@@ -43,20 +43,16 @@
 		end
 	end
 
-	hook.Add("ShowHelp", "F1Open", function( ply )
-		SendToggleMenu(ply, "F1")
-	end)
+	hook.Add("OnPlayerChat", "AdminChatMenuCommands", function(ply, text, teamChat, isDead)
+		if ply ~= LocalPlayer() then return end
+		if not ply:IsAdmin() then return end
 
-	hook.Add("ShowTeam", "F2Open", function( ply )
-		SendToggleMenu(ply, "F2")
-	end)
+		text = string.lower(text)
 
-	hook.Add("ShowSpare1", "F3Open", function( ply )
-		SendToggleMenu(ply, "F3")
-	end)
-
-	hook.Add("ShowSpare2", "F4Open", function( ply )
-		SendToggleMenu(ply, "F4")
+		if text == "!music" then
+			SendToggleMenu(ply, "F4")
+			return ""
+		end
 	end)
 
 		
