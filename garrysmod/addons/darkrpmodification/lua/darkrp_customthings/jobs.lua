@@ -15,39 +15,259 @@ https://darkrp.miraheze.org/wiki/DarkRP:CustomJobFields
 
 Add your custom jobs under the following line:
 ---------------------------------------------------------------------------]]
-
-TEAM_212 = DarkRP.createJob("212th", {
+TEAM_CADET = DarkRP.createJob("Клон Кадет", {
+    color = Color(250, 250, 250),
+    model = {"models/cadet_green/pm_training_cadet_domino.mdl"},
     description = "",
-    color = Color(25, 25, 170, 255),
-    model = {"models/212th_trp/pm_212th_trp.mdl"},
-    weapons = {"rw_sw_dc15a"},
+    weapons = {},
+    max = 100,
     salary = 0,
     admin = 0,
-    category = "212nd",
-    command="212",
-    armor=10,
-    max=0,
+    vote = false,
+    hasLicense = false,
+    category = "CT",
+    command="cdt"
 })
 
-TEAM_91 = DarkRP.createJob("91st", {
-    color = Color(25, 25, 170, 255),
-    model = {"models/player/91st/91p1trp.mdl"},
-    description = [[The protector of every citizen that lives in the city.
-        You have the power to arrest criminals and protect innocents.
-        Hit a player with your arrest baton to put them in jail.
-        Bash a player with a stunstick and they may learn to obey the law.
-        The Battering Ram can break down the door of a criminal, with a warrant for their arrest.
-        The Battering Ram can also unfreeze frozen props (if enabled).
-        Type /wanted <name> to alert the public to the presence of a criminal.]],
-    weapons = {"rw_sw_dc15a"},
-    max = 4,
-    salary = GAMEMODE.Config.normalsalary * 1.45,
+TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
+    color = Color(250, 250, 250),
+    model = {"models/ct_trp/pm_ct_trp.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
     admin = 0,
-    vote = true,
-    hasLicense = true,
-    category = "212nd",
-    command="91"
+    vote = false,
+    hasLicense = false,
+    category = "CT",
+    command="trp"
 })
+
+TEAM_212PVT = DarkRP.createJob("212 | Клон Рядовий", {
+    color = Color(255, 128, 0),
+    model = {"models/212th_trp/pm_212th_trp.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212pvt"
+})
+
+TEAM_212SGT = DarkRP.createJob("212 | Клон Сержант", {
+    color = Color(255, 128, 0),
+    model = {"models/212th_nco/pm_212th_nco.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212sgt"
+})
+
+TEAM_212LT = DarkRP.createJob("212 | Клон Лейтенант", {
+    color = Color(255, 128, 0),
+    model = {"models/212th_xo/pm_212th_xo.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212lt"
+})
+
+TEAM_212CMD = DarkRP.createJob("212 | Клон Командир", {
+    color = Color(255, 128, 0),
+    model = {"models/212th_co/pm_212th_co.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212cmd"
+})
+
+TEAM_212MED = DarkRP.createJob("212 | Клон Медик", {
+    color = Color(255, 128, 0),
+    model = {"models/212th_medic/pm_212th_medic.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212med"
+})
+
+TEAM_212PIL = DarkRP.createJob("212 | Клон Пілот", {
+    color = Color(255, 128, 0),
+    model = {"models/212th_pilot/pm_212th_pilot.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212pil"
+})
+
+TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | Адмірал", {
+    color = Color(0, 76, 153),
+    model = {"models/naval_admiral/pm_naval_admiral.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Fleet",
+    command="fleet_adm"
+})
+
+TEAM_FLEET_CMD = DarkRP.createJob("Республіканський Флот | Клон Командир", {
+    color = Color(0, 76, 153),
+    model = {"models/ct_arc/pm_ct_arc.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Fleet",
+    command="fleet_cmd"
+})
+
+TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | Клон Офіцер Навігації", {
+    color = Color(0, 76, 153),
+    model = {"models/naval_officer/pm_naval_officer.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Fleet",
+    command="fleet_navi"
+})
+
+TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
+    color = Color(153, 0, 0),
+    model = {"models/swiftsquadron/91strecon_swift/pm_91strecon_swift.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91pvt"
+})
+
+TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
+    color = Color(153, 0, 0),
+    model = {"models/player/91st/91p1nco.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91sgt"
+})
+
+TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
+    color = Color(153, 0, 0),
+    model = {"models/player/91st/91p1ofc.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91lt"
+})
+
+TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
+    color = Color(153, 0, 0),
+    model = {"models/player/91st/91p1neyo.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91cmd"
+})
+
+TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
+    color = Color(153, 0, 0),
+    model = {"models/91st/91strecon_medic/pm_91strecon_medic.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91med"
+})
+
+TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
+    color = Color(153, 0, 0),
+    model = {"models/player/91st/91p1plt.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91pil"
+})
+
+TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
+    color = Color(153, 0, 0),
+    model = {"models/lightning/91strecon_arf/pm_91strecon_arf.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "91st",
+    command="91arf"
+})
+
+
 
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted

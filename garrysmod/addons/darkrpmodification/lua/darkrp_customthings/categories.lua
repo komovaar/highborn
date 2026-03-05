@@ -21,10 +21,37 @@ DarkRP.createCategory{
 Add new categories under the next line!
 ---------------------------------------------------------------------------]]
 DarkRP.createCategory{
-    name = "212nd", -- The name of the category.
+    name = "CT", -- The name of the category.
     categorises = "jobs", -- What it categorises. MUST be one of "jobs", "entities", "shipments", "weapons", "vehicles", "ammo".
     startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
-    color = Color(25, 25, 170, 255), -- The color of the category header.
+    color = Color(250, 250, 250), -- The color of the category header.
     canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
     sortOrder = 1, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+}
+
+DarkRP.createCategory{
+    name = "Fleet", -- The name of the category.
+    categorises = "jobs", -- What it categorises. MUST be one of "jobs", "entities", "shipments", "weapons", "vehicles", "ammo".
+    startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
+    color = Color(0, 76, 153), -- The color of the category header.
+    canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
+    sortOrder = 2, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+}
+
+DarkRP.createCategory{
+    name = "212th", -- The name of the category.
+    categorises = "jobs", -- What it categorises. MUST be one of "jobs", "entities", "shipments", "weapons", "vehicles", "ammo".
+    startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
+    color = Color(255, 128, 0), -- The color of the category header.
+    canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
+    sortOrder = 3, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+}
+
+DarkRP.createCategory{
+    name = "91st", -- The name of the category.
+    categorises = "jobs", -- What it categorises. MUST be one of "jobs", "entities", "shipments", "weapons", "vehicles", "ammo".
+    startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
+    color = Color(153, 0, 0), -- The color of the category header.
+    canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
+    sortOrder = 4, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
 }
