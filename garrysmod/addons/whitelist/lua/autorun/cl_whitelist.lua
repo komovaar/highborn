@@ -3,6 +3,7 @@ hook.Add("OnPlayerChat", "highborn_whitelist", function(ply, text, team, dead)
     if ply == LocalPlayer() then
         if string.lower(text) == HIGHBORN_WHITELIST_CHATCMD then
             openWhitelist()
+            return ""
         end
     end
 end)

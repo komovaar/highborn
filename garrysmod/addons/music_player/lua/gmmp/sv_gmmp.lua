@@ -49,7 +49,7 @@
 
 		text = string.lower(text)
 
-		if text == "!music" then
+		if text == "/music" then
 			SendToggleMenu(ply, "F4")
 			return ""
 		end
