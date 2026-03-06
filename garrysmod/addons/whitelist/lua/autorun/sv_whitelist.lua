@@ -142,21 +142,24 @@ if SERVER then
         local canAL = net.ReadBool() and 1 or 0
         local canAH = net.ReadBool() and 1 or 0
         local spawn = net.ReadBool()
+        local temporary = net.ReadBool()
 
-        -- Удаляем старую запись
-        sql.Query("DELETE FROM highborn_whitelist WHERE steamid = "..sql.SQLStr(steamid))
+        if not temporary then
+            -- Удаляем старую запись
+            sql.Query("DELETE FROM highborn_whitelist WHERE steamid = "..sql.SQLStr(steamid))
 
-        -- Вставляем новую
-        sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy) VALUES("
-            .. sql.SQLStr(steamid) .. ", "
-            .. sql.SQLStr(job) .. ", "
-            .. sql.SQLStr(rank) .. ", "
-            .. sql.SQLStr(can_stunstick) .. ", "
-            .. sql.SQLStr(canGL) .. ", "
-            .. sql.SQLStr(canGH) .. ", "
-            .. sql.SQLStr(canAL) .. ", "
-            .. sql.SQLStr(canAH) .. ")"
-        )
+            -- Вставляем новую
+            sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy) VALUES("
+                .. sql.SQLStr(steamid) .. ", "
+                .. sql.SQLStr(job) .. ", "
+                .. sql.SQLStr(rank) .. ", "
+                .. sql.SQLStr(can_stunstick) .. ", "
+                .. sql.SQLStr(canGL) .. ", "
+                .. sql.SQLStr(canGH) .. ", "
+                .. sql.SQLStr(canAL) .. ", "
+                .. sql.SQLStr(canAH) .. ")"
+            )
+        end
 
         -- Применяем игроку, если онлайн
         for _, v in pairs(player.GetAll()) do

@@ -135,8 +135,14 @@ net.Receive("highborn_whitelist_get", function()
     DCheckBoxLabel:SetValue(false)
     DCheckBoxLabel:SizeToContents()		
     DCheckBoxLabel:SetFont("Trebuchet18")
-    
 
+    local DCheckBoxLabelTemp = vgui.Create("DCheckBoxLabel", TicksRow)
+    DCheckBoxLabelTemp:Dock(TOP)
+    DCheckBoxLabelTemp:SetText("Тимчасово")
+    DCheckBoxLabelTemp:SetFont("Trebuchet18")
+    DCheckBoxLabelTemp:SetValue(false)
+    DCheckBoxLabelTemp:SizeToContents()
+    
     
     local SaveButton = vgui.Create("DButton", frame)
     SaveButton:Dock(BOTTOM)
@@ -151,6 +157,7 @@ net.Receive("highborn_whitelist_get", function()
         local canGH_return = DCheckBoxLabelGH:GetChecked()
         local canAL_return = DCheckBoxLabelAL:GetChecked()
         local canAH_return = DCheckBoxLabelAH:GetChecked()
+        local temporary = DCheckBoxLabelTemp:GetChecked()
 
         net.Start("highborn_whitelist_set")
             net.WriteString(steamid)
@@ -162,6 +169,7 @@ net.Receive("highborn_whitelist_get", function()
             net.WriteBool(canAL_return)
             net.WriteBool(canAH_return)
             net.WriteBool(spawn)
+            net.WriteBool(temporary)
         net.SendToServer()
 
         frame:Close()
