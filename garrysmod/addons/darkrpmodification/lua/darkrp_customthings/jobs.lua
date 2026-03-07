@@ -272,7 +272,7 @@ TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
 ---------------------------------------------------------------------------]]
-GAMEMODE.DefaultTeam = TEAM_CITIZEN
+GAMEMODE.DefaultTeam = TEAM_CADET
 --[[---------------------------------------------------------------------------
 Define which teams belong to civil protection
 Civil protection can set warrants, make people wanted and do some other police related things
