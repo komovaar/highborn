@@ -4,14 +4,14 @@ SWEP.Base = "weapon_cuff_base"
 
 SWEP.Category = "Handcuffs"
 SWEP.Author = "my_hat_stinks"
-SWEP.Instructions = "Sturdy police-issue handcuffs."
+SWEP.Instructions = "."
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = true
 SWEP.AdminSpawnable = true
 
 SWEP.Slot = 3
-SWEP.PrintName = "Police Handcuffs"
+SWEP.PrintName = "Handcuffs"
 
 //
 // Handcuff Vars

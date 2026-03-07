@@ -1,7 +1,7 @@
 if SERVER then
 
     -- Список оружия для стэнстика
-    local stunstick_weapons = {"stunstick", "unarrest_stick", "arrest_stick"}
+    local stunstick_weapons = {"stunstick", "unarrest_stick", "arrest_stick", "weapon_cuff_police"}
 
     -- Списки техники
     local HeavyAir = {
