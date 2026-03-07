@@ -71,7 +71,7 @@ if SERVER then
             sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" 
                 .. sql.SQLStr(ply:SteamID()) .. ", " 
                 .. sql.SQLStr("1") .. ", " 
-                .. sql.SQLStr("TRP") .. ", " 
+                .. sql.SQLStr("CDT") .. ", " 
                 .. sql.SQLStr("0") .. ")"
             )
             row = sql.QueryRow(
@@ -145,6 +145,7 @@ if SERVER then
         local temporary = net.ReadBool()
 
         if not temporary then
+            print("Not temp")
             -- Удаляем старую запись
             sql.Query("DELETE FROM highborn_whitelist WHERE steamid = "..sql.SQLStr(steamid))
 
