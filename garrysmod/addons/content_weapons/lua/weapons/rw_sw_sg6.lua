@@ -37,7 +37,7 @@ SWEP.MuzzleFlashEffect 				= ""
 
 SWEP.Primary.ClipSize				= 6
 SWEP.Primary.DefaultClip			= 80
-SWEP.Primary.RPM					= 120
+SWEP.Primary.RPM					= 75
 SWEP.Primary.RPM_Burst				= nil
 SWEP.Primary.Ammo					= "ar2"
 SWEP.Primary.AmmoConsumption 		= 1
@@ -50,7 +50,7 @@ SWEP.Primary.BurstDelay				= 0.2
 SWEP.Primary.Sound 					= Sound ("w/sg6.wav");
 SWEP.Primary.ReloadSound 			= Sound ("w/heavy.wav");
 SWEP.Primary.PenetrationMultiplier 	= 0
-SWEP.Primary.Damage					= 25
+SWEP.Primary.Damage					= 15
 SWEP.Primary.HullSize 				= 0
 SWEP.DamageType 					= nil
 

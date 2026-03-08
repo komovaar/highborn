@@ -36,7 +36,7 @@ SWEP.DisableChambering 				= true
 
 SWEP.Primary.ClipSize				= 45
 SWEP.Primary.DefaultClip			= 45*4
-SWEP.Primary.RPM					= 650
+SWEP.Primary.RPM					= 250
 SWEP.Primary.RPM_Burst				= 650
 SWEP.Primary.Ammo					= "ar2"
 SWEP.Primary.AmmoConsumption 		= 1
@@ -49,7 +49,7 @@ SWEP.Primary.BurstDelay				= 0.2
 SWEP.Primary.Sound 					= Sound ("w/dc15a.wav");
 SWEP.Primary.ReloadSound 			= Sound ("w/heavy.wav");
 SWEP.Primary.PenetrationMultiplier 	= 0
-SWEP.Primary.Damage					= 5.5
+SWEP.Primary.Damage					= 0
 SWEP.Primary.HullSize 				= 0
 SWEP.DamageType 					= nil
 

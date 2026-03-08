@@ -49,7 +49,7 @@ SWEP.Primary.BurstDelay				= 0.2
 SWEP.Primary.Sound 					= Sound ("w/dc19.wav");
 SWEP.Primary.ReloadSound 			= Sound ("w/rifles.wav");
 SWEP.Primary.PenetrationMultiplier 	= 0
-SWEP.Primary.Damage					= 55*3
+SWEP.Primary.Damage					= 40
 SWEP.Primary.HullSize 				= 0
 SWEP.DamageType 					= nil
 

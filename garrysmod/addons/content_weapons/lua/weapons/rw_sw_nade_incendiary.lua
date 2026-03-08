@@ -23,7 +23,7 @@ SWEP.Spawnable				    = true
 SWEP.UseHands                   = true
 SWEP.AdminSpawnable			    = true
 
-SWEP.Primary.Damage             = 8
+SWEP.Primary.Damage             = 7
 SWEP.Primary.RPM				= 10
 SWEP.Primary.ClipSize			= 1
 SWEP.Primary.DefaultClip		= 1
