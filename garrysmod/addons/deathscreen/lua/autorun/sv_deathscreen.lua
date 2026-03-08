@@ -1,3 +1,4 @@
+if SERVER then
 LUCTUS_DEATH_TIME = 30
 
 hook.Add("PlayerSpawn","hb_remove_svragdoll",function(ply)
@@ -20,16 +21,18 @@ end)
 
 
 util.AddNetworkString("hb_deathscreen")
-hook.Add("PostPlayerDeath","hb_deathscreen",function(ply)
-  net.Start("hb_deathscreen")
-    net.WriteInt(LUCTUS_DEATH_TIME,15)
-  net.Send(ply)
-  timer.Create(ply:SteamID().."_death_timer",LUCTUS_DEATH_TIME,1,function()
-    if not ply:Alive() then
-      ply:Spawn()
-    end
-    --print("RAN DEATH TIMER!")
-  end)
+hook.Add("PlayerDeath","hb_deathscreen",function(ply)
+    net.Start("hb_deathscreen")
+        net.WriteInt(LUCTUS_DEATH_TIME,15)
+    net.Send(ply)
+
+    timer.Create(ply:SteamID().."_death_timer",LUCTUS_DEATH_TIME,1,function()
+        if not IsValid(ply) then return end
+        if not ply:Alive() then
+            ply:Spawn()
+        end
+    end)
+
 end)
 
 hook.Add("PlayerDeathThink","hb_deathscreen",function(ply)
@@ -54,4 +57,5 @@ hook.Add("PlayerSay","hb_deathscreen",function(ply,text,team)
     net.Send(ply)
   end
 end)
+end
 

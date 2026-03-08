@@ -45,3 +45,4 @@ net.Receive("hb_deathscreen",function()
 
 end
 end)
+

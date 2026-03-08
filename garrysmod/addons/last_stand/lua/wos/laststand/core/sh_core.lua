@@ -1,27 +1,3 @@
-
---[[-------------------------------------------------------------------
-	The Last Stand Shared Core:
-		Core files in shared form
-			Powered by
-						  _ _ _    ___  ____  
-				__      _(_) | |_ / _ \/ ___| 
-				\ \ /\ / / | | __| | | \___ \ 
-				 \ V  V /| | | |_| |_| |___) |
-				  \_/\_/ |_|_|\__|\___/|____/ 
-											  
- _____         _                 _             _           
-|_   _|__  ___| |__  _ __   ___ | | ___   __ _(_) ___  ___ 
-  | |/ _ \/ __| '_ \| '_ \ / _ \| |/ _ \ / _` | |/ _ \/ __|
-  | |  __/ (__| | | | | | | (_) | | (_) | (_| | |  __/\__ \
-  |_|\___|\___|_| |_|_| |_|\___/|_|\___/ \__, |_|\___||___/
-                                         |___/             
------------------------------ Copyright 2018 ]]--[[
-							  
-	Lua Developer: King David
-	Contact: www.wiltostech.com
-]]--
-
-
 wOS.LastStand.ReviveTime = CreateConVar( "wos_ls_revivetime", "5", { FCVAR_ARCHIVE, FCVAR_REPLICATED  }, "How long ( in seconds ) does it take for you to revive someone? Default: 5" )
 wOS.LastStand.Percent = CreateConVar( "wos_ls_percent", "0.25", { FCVAR_ARCHIVE, FCVAR_REPLICATED }, "At what percent of a person's health do they go down? Default: 0.25 (25 Percent)" )
 wOS.LastStand.CanShoot = CreateConVar( "wos_ls_canshoot", "1", { FCVAR_ARCHIVE, FCVAR_REPLICATED }, "Should downed players be able to shoot their gun? Default: 1" )
