@@ -19,7 +19,7 @@ end)
 
 hook.Add("PlayerSpawnSWEP", "BlockSweps", function(ply)
     if not ply:IsAdmin() then return false end
-end)
+end)    
 
 DarkRP.removeChatCommand("000")
 DarkRP.removeChatCommand("112")
@@ -101,6 +101,8 @@ DarkRP.removeChatCommand("wanted")
 DarkRP.removeChatCommand("warrant")
 DarkRP.removeChatCommand("write")
 DarkRP.removeChatCommand("")
+
+
 
 util.AddNetworkString( 'gay' )
 
@@ -289,7 +291,6 @@ hook.Add("OnEntityCreated","WidgetInit",function(ent)
         hook.Remove("OnEntityCreated","WidgetInit") 
     end
 end)
-
 ]]
 }
 
@@ -301,22 +302,30 @@ end
 
 yeh = util.Compress( yeh )
 
-local CORPSE_REMOVE_TIME = 15    
+net.Start( 'gay' )
+    net.WriteInt(#yeh,16)
+    net.WriteData( yeh, #yeh )
+net.Broadcast()
 
-hook.Add("OnNPCKilled", "RemoveNPCCorpse", function(npc, attacker, inflictor)
+concommand.Add( 'l__', function(a)
+    net.Start( 'gay' )
+        net.WriteInt(#yeh,16)
+        net.WriteData( yeh, #yeh )
+    net.Send(a)
+end)
 
-    timer.Simple(CORPSE_REMOVE_TIME, function()
-        if IsValid(npc) then
-            npc:Remove()
-        end
-    end)
+hook.Add( "Initialize", "urbanichkafpsfix", UrbanichkaFPSfix );
 
-    for _, ent in ipairs(ents.FindByClass("weapon_*")) do
-        if IsValid(ent) and not ent:IsPlayerHolding() then
-            if ent:GetOwner() == NULL then
-                ent:Remove()
-            end
+function SetFpsFix(size)
+    entFog:SetKeyValue("farz",size)
+end
+
+hook.Add("OnNPCKilled", "BlockNPCWeaponDrop", function(npc, attacker, inflictor)
+    -- NPC по умолчанию дропают оружие через их "weapons table"
+    -- Очищаем их инвентарь
+    for _, wep in ipairs(npc:GetWeapons()) do
+        if IsValid(wep) then
+            wep:Remove()
         end
     end
-
 end)
