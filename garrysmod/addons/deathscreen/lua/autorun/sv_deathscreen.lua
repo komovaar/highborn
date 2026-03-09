@@ -1,13 +1,5 @@
 if SERVER then
-LUCTUS_DEATH_TIME = 30
-
-hook.Add("PlayerSpawn","hb_remove_svragdoll",function(ply)
-  if ply.lragdoll then
-    ply.lragdoll:Remove()
-    ply.lragdoll = nil
-  end
-  ply:SetShouldServerRagdoll(true)
-end)
+LUCTUS_DEATH_TIME = 5
 
 hook.Add("PlayerDisconnected","hb_remove_svragdoll",function(ply)
   if ply.lragdoll then
@@ -18,7 +10,6 @@ end)
 hook.Add("CreateEntityRagdoll","hb_set_death_owner",function(ply,rag)
   ply.lragdoll = rag
 end)
-
 
 util.AddNetworkString("hb_deathscreen")
 hook.Add("PlayerDeath","hb_deathscreen",function(ply)
@@ -32,21 +23,18 @@ hook.Add("PlayerDeath","hb_deathscreen",function(ply)
             ply:Spawn()
         end
     end)
-
 end)
 
-hook.Add("PlayerDeathThink","hb_deathscreen",function(ply)
-  return false
-end)
+-- hook.Add("PlayerDeathThink","hb_deathscreen",function(ply)
+--   return false
+-- end)
 
 hook.Add("PlayerSpawn","hb_deathscreen",function(ply)
   net.Start("hb_deathscreen")
     net.WriteInt(-1,15)
   net.Send(ply)
-  --print("Running PlayerSpawn")
   if timer.Exists(ply:SteamID().."_death_timer") then
     timer.Remove(ply:SteamID().."_death_timer")
-    --print("Removed timer!")
   end
 end)
 
