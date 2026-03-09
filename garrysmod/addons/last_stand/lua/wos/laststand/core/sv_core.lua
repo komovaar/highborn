@@ -12,8 +12,21 @@ hook.Add( "EntityTakeDamage", "wOS.LastStand.Incap", function( ply, dmginfo )
 	if not ply:IsPlayer() then return end
 	if ply:WOSGetIncapped() then return end
 	if not ply:Alive() then return end
-	local diff =  ply:Health() - dmginfo:GetDamage()
-	if diff <= 0 then return end
+	if ply:HasGodMode() then return end
+	local diff = ply:Health() - dmginfo:GetDamage()
+
+	if diff <= 0 then
+		ply.WOS_IncapMe = true
+
+		if not ply:IsBot() then
+			ply:ConCommand("wos_ls_force_incap")
+		else
+			ply:WOSIncap()
+		end
+
+		dmginfo:SetDamage(0)
+		return true
+	end
 	local bypass_down = hook.Call( "wOS.LastStand.ShouldIncap", nil, ply, dmg, dmginfo )
 	if ( isbool( bypass_down ) ) then
 		if not bypass_down then return end
@@ -128,3 +141,9 @@ concommand.Add( "wos_ls_force_revive", function( ply, cmd, args )
 	ply:WOSRevive()
 	ply.WOS_ReviveMe = nil
 end )
+
+hook.Add("PlayerUse", "wOS.LastStand.BlockReviveWhileDown", function(ply, ent)
+    if ply:WOSGetIncapped() then
+        return false
+    end
+end)
