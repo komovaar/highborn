@@ -15,7 +15,7 @@ surface.CreateFont( "eChat_18", {
     outline = false,
     extended=true,
 })
-end
+
 local blur = Material("pp/blurscreen")
 
 local function DrawBlur(panel)
@@ -350,4 +350,4 @@ hook.Add("InitPostEntity", "luctus_chat", function()
     if not IsValid(eChat.frame) then eChat.buildBox() end
 end)
 
-print("[luctus_chat] cl loaded")
+end
