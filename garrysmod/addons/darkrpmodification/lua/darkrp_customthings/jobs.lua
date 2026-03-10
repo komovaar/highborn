@@ -26,7 +26,7 @@ TEAM_CADET = DarkRP.createJob("Клон Кадет", {
     vote = false,
     hasLicense = false,
     category = "CT",
-    command="cdt"
+    command="cdt",
 })
 
 TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
@@ -41,6 +41,27 @@ TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
     hasLicense = false,
     category = "CT",
     command="trp"
+})
+
+TEAM_CO = DarkRP.createJob("Клон Командир", {
+    color = Color(250, 250, 250),
+    model = {"models/ct_cmd/pm_ct_cmd.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CT",
+    command="co",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(2, 2) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 1) -- pauldron
+        ply:SetBodygroup(5, 1) -- holster left
+        ply:SetBodygroup(6, 1) -- holster right
+    end
 })
 
 TEAM_212PVT = DarkRP.createJob("212 | Клон Рядовий", {
@@ -82,7 +103,14 @@ TEAM_212LT = DarkRP.createJob("212 | Клон Лейтенант", {
     vote = false,
     hasLicense = false,
     category = "212th",
-    command="212lt"
+    command="212lt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(2, 1) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 1) -- pauldron
+        ply:SetBodygroup(5, 1) -- holster left
+        ply:SetBodygroup(6, 1) -- holster right
+    end
 })
 
 TEAM_212CMD = DarkRP.createJob("212 | Клон Командир", {
@@ -96,7 +124,15 @@ TEAM_212CMD = DarkRP.createJob("212 | Клон Командир", {
     vote = false,
     hasLicense = false,
     category = "212th",
-    command="212cmd"
+    command="212cmd",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(2, 0) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 0) -- pauldron
+        ply:SetBodygroup(5, 1) -- holster left
+        ply:SetBodygroup(6, 1) -- holster right
+        ply:SetBodygroup(7, 2) -- binos
+    end
 })
 
 TEAM_212MED = DarkRP.createJob("212 | Клон Медик", {
@@ -110,7 +146,10 @@ TEAM_212MED = DarkRP.createJob("212 | Клон Медик", {
     vote = false,
     hasLicense = false,
     category = "212th",
-    command="212med"
+    command="212med",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(4, 3) -- backpack
+    end
 })
 
 TEAM_212PIL = DarkRP.createJob("212 | Клон Пілот", {
@@ -152,7 +191,15 @@ TEAM_FLEET_CMD = DarkRP.createJob("Республіканський Флот | �
     vote = false,
     hasLicense = false,
     category = "Fleet",
-    command="fleet_cmd"
+    command="fleet_cmd",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(2, 1) -- belt
+        ply:SetBodygroup(3, 4) -- backpack
+        ply:SetBodygroup(4, 1) -- kama
+        ply:SetBodygroup(5, 1) -- forearms
+        ply:SetBodygroup(6, 1) -- pauldron
+        ply:SetBodygroup(7, 2) -- antena
+    end
 })
 
 TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | Клон Офіцер Навігації", {
