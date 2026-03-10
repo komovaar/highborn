@@ -1,14 +1,3 @@
-/*                                                                                                             
- ,---. ,--.              ,--.          ,--------,--.    ,--.        ,--,------.                                 
-'   .-'`--,--,--,--.,---.|  |,---.     '--.  .--|  ,---.`--,--.--.,-|  |  .--. ',---.,--.--.,---. ,---.,--,--,  
-`.  `-.,--|        | .-. |  | .-. :       |  |  |  .-.  ,--|  .--' .-. |  '--' | .-. |  .--(  .-'| .-. |      \ 
-.-'    |  |  |  |  | '-' |  \   --.       |  |  |  | |  |  |  |  \ `-' |  | --'\   --|  |  .-'  `' '-' |  ||  | 
-`-----'`--`--`--`--|  |-'`--'`----'       `--'  `--' `--`--`--'   `---'`--'     `----`--'  `----' `---'`--''--'
-By FailCake :D (edunad)
-A simple Thirdperson Addon. Press C (context menu) then Thirdperson 
-*/
-
-// SHARED
 CreateConVar("simple_thirdperson_maxdistance", "0", { FCVAR_REPLICATED, FCVAR_ARCHIVE } , "Sets the max distance the player can go (0 = disabled)")
 CreateConVar("simple_thirdperson_maxpitch", "0", { FCVAR_REPLICATED, FCVAR_ARCHIVE } , "Sets the max pitch the player can go (0 = disabled)")
 CreateConVar("simple_thirdperson_maxright", "0", { FCVAR_REPLICATED, FCVAR_ARCHIVE } , "Sets the max right the player can go (0 = disabled)")
@@ -1053,7 +1042,7 @@ if CLIENT then
 		end
 	end)
 
-	concommand.Add( "simple_thirdperson	_menu",function() BuildMenu(nil) end)
+	concommand.Add( "simple_thirdperson_menu",function() BuildMenu(nil) end)
 	concommand.Add( "simple_thirdperson_dumpHook",function()
 	print("====== Simple ThirdPerson Dump ======")
 		for k,v in pairs(hook.GetTable()) do
