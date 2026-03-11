@@ -97,5 +97,36 @@ Vendor.Models = {
             vip = false,
             default = 3,
         }
+    },
+        ["models/212th_co/pm_212th_co.mdl"] = {
+        armor = {
+            id = 4,
+            name = "Наплечник",
+            price = 1200,
+            vip = false,
+            default = 1,
+        },
+        kama = {
+            id = 3,
+            name = "Кама",
+            price = 300,
+            vip = false,
+            default = 1,
+        },
+        backpack = {
+            id = 5,
+            name = "Кама",
+            price = 300,
+            vip = true,
+            default = 1,
+        },
+        jetpack = {
+            id = 4,
+            name = "Джетпак",
+            price = 300,
+            vip = false,
+            default = 3,
+        }
     }
 }
+
