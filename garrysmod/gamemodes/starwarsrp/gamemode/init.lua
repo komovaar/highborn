@@ -329,3 +329,10 @@ hook.Add("OnNPCKilled", "BlockNPCWeaponDrop", function(npc, attacker, inflictor)
         end
     end
 end)
+
+resource.AddWorkshop("3675351271")
+resource.AddWorkshop("3675353729")
+resource.AddWorkshop("3675355497")
+resource.AddWorkshop("3675356291")
+resource.AddWorkshop("3677164280")
+resource.AddWorkshop("3675356933")
