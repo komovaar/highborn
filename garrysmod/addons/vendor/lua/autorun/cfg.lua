@@ -1,8 +1,7 @@
 Vendor = Vendor or {}
 Vendor.CurrencySymbol = "RC "
 Vendor.BlockedJobs = {
-    TEAM_CITIZEN,
-    TEAM_MEDIC,
+    TEAM_B1,
 }
 Vendor.IsVIP = function(ply)
     return ply:IsUserGroup("vip")

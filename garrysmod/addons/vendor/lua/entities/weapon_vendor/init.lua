@@ -32,16 +32,19 @@ local function IsJobAllowed(ply, wep)
 end
 
 local function IsBlockedJob(ply)
-    local job = ply:getDarkRPVar("job")
-    if not job then return false end
-    return Vendor.BlockedJobs[job] == true
+    local teamID = ply:Team()
+    for _, blocked in ipairs(Vendor.BlockedJobs) do
+        if teamID == blocked then
+            return true
+        end
+    end
+    return false
 end
 
 local function GivePermaWeapons(ply)
     if not IsValid(ply) then return end
 
     if IsBlockedJob(ply) then
-        ply:StripWeapons()
         return
     end
 
@@ -67,7 +70,8 @@ local function GivePermaWeapons(ply)
                 end
             end
 
-            if wepData and IsJobAllowed(ply, wepData) then
+            -- Проверяем и блокировку работы, и разрешение оружия для работы
+            if wepData and not IsBlockedJob(ply) and IsJobAllowed(ply, wepData) then
                 if weapons.Get(class) and not ply:HasWeapon(class) then
                     ply:Give(class)
                 end
