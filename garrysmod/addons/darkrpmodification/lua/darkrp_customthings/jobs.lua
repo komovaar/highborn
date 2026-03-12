@@ -27,6 +27,10 @@ TEAM_CADET = DarkRP.createJob("Клон Кадет", {
     hasLicense = false,
     category = "CT",
     command="cdt",
+    PlayerSpawn = function(ply)
+        ply:SetArmor(5)
+        ply:SetMaxArmor(5)
+    end
 })
 
 TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
@@ -41,7 +45,7 @@ TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
     hasLicense = false,
     category = "CT",
     command="trp",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- antena
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -49,6 +53,8 @@ TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
         ply:SetBodygroup(4, 0) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- fhair
+        ply:SetArmor(10)
+        ply:SetMaxArmor(10)
     end
 })
 
@@ -64,12 +70,14 @@ TEAM_CO = DarkRP.createJob("Клон Командир", {
     hasLicense = false,
     category = "CT",
     command="co",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(2, 2) -- antena
         ply:SetBodygroup(3, 1) -- kama
         ply:SetBodygroup(4, 1) -- pauldron
         ply:SetBodygroup(5, 1) -- holster left
         ply:SetBodygroup(6, 1) -- holster right
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -85,7 +93,7 @@ TEAM_212PVT = DarkRP.createJob("212 | Клон Рядовий", {
     hasLicense = false,
     category = "212th",
     command="212pvt",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -93,6 +101,8 @@ TEAM_212PVT = DarkRP.createJob("212 | Клон Рядовий", {
         ply:SetBodygroup(4, 0) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- facial hair
+        ply:SetArmor(20)
+        ply:SetMaxArmor(20)
     end
 })
 
@@ -108,7 +118,7 @@ TEAM_212SGT = DarkRP.createJob("212 | Клон Сержант", {
     hasLicense = false,
     category = "212th",
     command="212sgt",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -116,6 +126,8 @@ TEAM_212SGT = DarkRP.createJob("212 | Клон Сержант", {
         ply:SetBodygroup(4, 0) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- facial hair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
     
 })
@@ -132,7 +144,7 @@ TEAM_212LT = DarkRP.createJob("212 | Клон Лейтенант", {
     hasLicense = false,
     category = "212th",
     command="212lt",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 1) -- anetna
@@ -145,6 +157,8 @@ TEAM_212LT = DarkRP.createJob("212 | Клон Лейтенант", {
         ply:SetBodygroup(9, 0) -- backpack
         ply:SetBodygroup(10, 0) -- hair
         ply:SetBodygroup(11, 0) -- fhair
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
     end
 })
 
@@ -160,7 +174,7 @@ TEAM_212CMD = DarkRP.createJob("212 | Клон Командир", {
     hasLicense = false,
     category = "212th",
     command="212cmd",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- anetna
@@ -173,6 +187,8 @@ TEAM_212CMD = DarkRP.createJob("212 | Клон Командир", {
         ply:SetBodygroup(9, 0) -- backpack
         ply:SetBodygroup(10, 0) -- hair
         ply:SetBodygroup(11, 0) -- fhair
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
     end
 })
 
@@ -188,7 +204,7 @@ TEAM_212MED = DarkRP.createJob("212 | Клон Медик", {
     hasLicense = false,
     category = "212th",
     command="212med",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -196,6 +212,8 @@ TEAM_212MED = DarkRP.createJob("212 | Клон Медик", {
         ply:SetBodygroup(4, 3) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- facial hair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
 })
 
@@ -211,13 +229,15 @@ TEAM_212PIL = DarkRP.createJob("212 | Клон Пілот", {
     hasLicense = false,
     category = "212th",
     command="212pil",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- flashlight
         ply:SetBodygroup(3, 0) -- backpack
         ply:SetBodygroup(4, 0) -- hair
         ply:SetBodygroup(5, 0) -- fhair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
 })
 
@@ -233,7 +253,7 @@ TEAM_212PARA = DarkRP.createJob("212 | Клон Параджай", {
     hasLicense = false,
     category = "212th",
     command="212para",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- sunvisor
@@ -244,6 +264,8 @@ TEAM_212PARA = DarkRP.createJob("212 | Клон Параджай", {
         ply:SetBodygroup(7, 0) -- pauldron
         ply:SetBodygroup(8, 1) -- kama
         ply:SetBodygroup(9, 0) -- shoulder antena
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
     end
 })
 
@@ -259,7 +281,7 @@ TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | �
     hasLicense = false,
     category = "Fleet",
     command="fleet_adm",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- head
         ply:SetBodygroup(2, 6) -- hair
@@ -270,6 +292,8 @@ TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | �
         ply:SetBodygroup(7, 0) -- pistol left
         ply:SetBodygroup(8, 0) -- pistol right
         ply:SetSkin(1)
+        ply:SetArmor(0)
+        ply:SetMaxArmor(0)
     end
 })
 
@@ -285,13 +309,15 @@ TEAM_FLEET_CMD = DarkRP.createJob("Республіканський Флот | �
     hasLicense = false,
     category = "Fleet",
     command="fleet_cmd",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(2, 1) -- belt
         ply:SetBodygroup(3, 4) -- backpack
         ply:SetBodygroup(4, 1) -- kama
         ply:SetBodygroup(5, 1) -- forearms
         ply:SetBodygroup(6, 1) -- pauldron
         ply:SetBodygroup(7, 2) -- antena
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -307,7 +333,7 @@ TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | 
     hasLicense = false,
     category = "Fleet",
     command="fleet_navi",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- head
         ply:SetBodygroup(2, 0) -- hair
@@ -317,11 +343,13 @@ TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | 
         ply:SetBodygroup(6, 0) -- re-breather
         ply:SetBodygroup(7, 0) -- pistol left
         ply:SetBodygroup(8, 0) -- pistol right
+        ply:SetArmor(0)
+        ply:SetMaxArmor(0)
     end
 })
 
 TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/player/91st/91p1trp.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -332,7 +360,7 @@ TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
     hasLicense = false,
     category = "91st",
     command="91pvt",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -340,11 +368,13 @@ TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
         ply:SetBodygroup(4, 0) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- fhair
+        ply:SetArmor(20)
+        ply:SetMaxArmor(20)
     end
 })
 
 TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/91st/91strecon_trp/pm_91strecon_trp.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -355,7 +385,7 @@ TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
     hasLicense = false,
     category = "91st",
     command="91sgt",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -363,11 +393,13 @@ TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
         ply:SetBodygroup(4, 0) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- fhair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
 })
 
 TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/91st/91strecon_co/pm_91strecon_co.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -378,7 +410,7 @@ TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
     hasLicense = false,
     category = "91st",
     command="91lt",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 1) -- antena
@@ -390,11 +422,13 @@ TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
         ply:SetBodygroup(8, 0) -- backpack
         ply:SetBodygroup(9, 0) -- hair
         ply:SetBodygroup(10, 0) -- fhair
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
     end
 })
 
 TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/player/91st/91p1neyo.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -405,7 +439,7 @@ TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
     hasLicense = false,
     category = "91st",
     command="91cmd",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- antenna
@@ -418,11 +452,13 @@ TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
         ply:SetBodygroup(9, 4) -- backpack
         ply:SetBodygroup(10, 0) -- hair
         ply:SetBodygroup(11, 0) -- fhair
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
     end
 })
 
 TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/91st/91strecon_medic/pm_91strecon_medic.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -433,7 +469,7 @@ TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
     hasLicense = false,
     category = "91st",
     command="91med",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
@@ -441,11 +477,13 @@ TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
         ply:SetBodygroup(4, 3) -- backpack
         ply:SetBodygroup(5, 0) -- hair
         ply:SetBodygroup(6, 0) -- fhair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
 })
 
 TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/player/91st/91p1plt.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -456,7 +494,7 @@ TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
     hasLicense = false,
     category = "91st",
     command="91pil",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- antenna
@@ -468,11 +506,13 @@ TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
         ply:SetBodygroup(8, 0) -- backpack
         ply:SetBodygroup(9, 0) -- hair
         ply:SetBodygroup(10, 0) -- fhair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
 })
 
 TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
-    color = Color(153, 0, 0),
+    color = Color(102, 255, 102),
     model = {"models/lightning/91strecon_arf/pm_91strecon_arf.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -483,16 +523,548 @@ TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
     hasLicense = false,
     category = "91st",
     command="91arf",
-    PlayerLoadout = function(ply)
+    PlayerSpawn = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- backpack
         ply:SetBodygroup(3, 0) -- hair
         ply:SetBodygroup(4, 0) -- fhair
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
     end
 })
 
+TEAM_B1 = DarkRP.createJob("САД | B1", {
+    color = Color(96, 96, 96),
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="b1",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- backpack
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
 
+TEAM_B1CO = DarkRP.createJob("САД | B1 Командир", {
+    color = Color(96, 96, 96),
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="b1co",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- backpack
+        ply:SetArmor(70)
+        ply:SetMaxArmor(70)
+    end
+})
+
+TEAM_B1SNP = DarkRP.createJob("САД | B1 Снайпер", {
+    color = Color(96, 96, 96),
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5s"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="b1snp",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- backpack
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_B1Z4 = DarkRP.createJob("САД | B1 з Z-4", {
+    color = Color(96, 96, 96),
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    description = "",
+    weapons = {"rw_sw_z4"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="b1z4",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_B2 = DarkRP.createJob("САД | B2", {
+    color = Color(96, 96, 96),
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_commander_pm.mdl"},
+    description = "",
+    weapons = {"rw_sw_b2rp_blaster"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="b2",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- base
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_B2CAN = DarkRP.createJob("САД | B2 з рокетницею", {
+    color = Color(96, 96, 96),
+    model = {"models/aussiwozzi/cgi/b1droids/b2_battledroid_cannon_pm.mdl"},
+    description = "",
+    weapons = {"rw_sw_b2rp_blaster", "rw_sw_b2rp_rocket"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="b2can",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- base
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+
+    end
+})
+
+TEAM_BX = DarkRP.createJob("САД | BX", {
+    color = Color(96, 96, 96),
+    model = {"models/bx/pm_droid_cis_bx.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5bx"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="bx",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
+
+    end
+})
+
+TEAM_GUNRAY = DarkRP.createJob("КНС | Ганрей", {
+    color = Color(96, 96, 96),
+    model = {"models/player/nsn/gunray.mdl"},
+    description = "",
+    weapons = {"rw_sw_rg4d"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="bx",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetArmor(0)
+        ply:SetMaxArmor(0)
+    end
+})
+
+TEAM_TACTICAL = DarkRP.createJob("САД | Тактичний дроїд", {
+    color = Color(96, 96, 96),
+    model = {"models/player/swcw/std_auto.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CIS",
+    command="tactical",
+    PlayerSpawn = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_GANGMALE = DarkRP.createJob("Цивільні | Бандит", {
+    color = Color(102, 255, 102),
+    model = {"models/assassin/pm_civ_assassin_human_male.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="gangmale",
+})
+
+TEAM_GANGFEMALE = DarkRP.createJob("Цивільні | Бандитка", {
+    color = Color(102, 255, 102),
+    model = {"models/bandit/pm_civ_bandit_human_female.mdl"},
+    description = "",
+    weapons = {"rw_sw_e5"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="gangfemale",
+})
+
+TEAM_CIVMALE = DarkRP.createJob("Цивільні | Цивільний", {
+    color = Color(102, 255, 102),
+    model = {"models/dweller/pm_civ_dweller_human_male.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="civmale",
+})
+
+TEAM_CIVFEMALE = DarkRP.createJob("Цивільні | Цивільна", {
+    color = Color(102, 255, 102),
+    model = {"models/dweller/pm_civ_dweller_human_female.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="civfemale",
+})
+
+TEAM_ENGMALE = DarkRP.createJob("Цивільні | Інженер", {
+    color = Color(102, 255, 102),
+    model = {"models/engineer/pm_civ_engineer_human_male.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="engmale",
+})
+
+TEAM_ENGFEMALE = DarkRP.createJob("Цивільні | Інженерка", {
+    color = Color(102, 255, 102),
+    model = {"models/engineer/pm_civ_engineer_human_female.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="engfemale",
+})
+
+TEAM_FORMALMALE = DarkRP.createJob("Цивільні | Чоловік в офіційному одязі", {
+    color = Color(102, 255, 102),
+    model = {"models/formal/pm_civ_formal_human_male.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="formalmale",
+})
+
+TEAM_FORMALFEMALE = DarkRP.createJob("Цивільні | Жінка в офіційному одязі", {
+    color = Color(102, 255, 102),
+    model = {"models/formal/pm_civ_formal_human_female.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="formalfemale",
+})
+
+TEAM_GUARDMALE = DarkRP.createJob("Цивільні | Охоронець", {
+    color = Color(102, 255, 102),
+    model = {"models/guard/pm_civ_guard_human_male.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="guardmale",
+})
+
+TEAM_GUARDFEMALE = DarkRP.createJob("Цивільні | Охоронниця", {
+    color = Color(102, 255, 102),
+    model = {"models/guard/pm_civ_guard_human_female.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="guardfemale",
+})
+
+TEAM_JAN1 = DarkRP.createJob("Цивільні | Прибиральник 1", {
+    color = Color(102, 255, 102),
+    model = {"models/janitor/pm_civilian_janitor.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="jan1",
+})
+
+TEAM_JAN2 = DarkRP.createJob("Цивільні | Прибиральник 2", {
+    color = Color(102, 255, 102),
+    model = {"models/janitor/pm_civilian_maintenance.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="jan2",
+})
+
+TEAM_NOBLEMALE = DarkRP.createJob("Цивільні | Шляхетний чоловік", {
+    color = Color(102, 255, 102),
+    model = {"models/noble/pm_civ_noble_human_male.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="noblemale",
+})
+
+TEAM_NOBLEFEMALE = DarkRP.createJob("Цивільні | Шляхетна жінка", {
+    color = Color(102, 255, 102),
+    model = {"models/noble/pm_civ_noble_human_female.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="noblefemale",
+})
+
+TEAM_SNOWMALE = DarkRP.createJob("Цивільні | Чоловік в зимовому одязі", {
+    color = Color(102, 255, 102),
+    model = {"models/snowsuit/pm_civ_snowsuit_human_male.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="snowmale",
+})
+
+TEAM_SNOWFEMALE = DarkRP.createJob("Цивільні | Жінка в зимовому одязі", {
+    color = Color(102, 255, 102),
+    model = {"models/snowsuit/pm_civ_snowsuit_human_female.mdl"},
+    description = "",
+    weapons = {},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="snowfemale",
+})
+
+TEAM_SMUGMALE = DarkRP.createJob("Цивільні | Розбійник", {
+    color = Color(102, 255, 102),
+    model = {"models/smuggler/pm_civ_smuggler_human_male.mdl"},
+    description = "",
+    weapons = {"rw_sw_rg4d"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="smugmale",
+})
+
+TEAM_SMUGFEMALE = DarkRP.createJob("Цивільні | Розбійниця", {
+    color = Color(102, 255, 102),
+    model = {"models/smuggler/pm_civ_smuggler_human_female.mdl"},
+    description = "",
+    weapons = {"rw_sw_rg4d"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="smugfemale",
+})
+
+TEAM_SCIMALE = DarkRP.createJob("Цивільні | Науковець", {
+    color = Color(102, 255, 102),
+    model = {"models/scientist/pm_civ_scientist_human_male.mdl"},
+    description = "",
+    weapons = {""},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="scimale",
+})
+
+TEAM_SCIFEMALE = DarkRP.createJob("Цивільні | Науковиця", {
+    color = Color(102, 255, 102),
+    model = {"models/scientist/pm_civ_scientist_human_female.mdl"},
+    description = "",
+    weapons = {""},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="scifemale",
+})
+
+TEAM_SCIMALE = DarkRP.createJob("Цивільні | Науковець", {
+    color = Color(102, 255, 102),
+    model = {"models/scientist/pm_civ_scientist_human_male.mdl"},
+    description = "",
+    weapons = {""},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="scimale",
+})
+
+TEAM_CITIZENMALE = DarkRP.createJob("Цивільні | Громадянин", {
+    color = Color(102, 255, 102),
+    model = {"models/resident/pm_civ_resident_human_male.mdl"},
+    description = "",
+    weapons = {""},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="citizenmale",
+})
+
+TEAM_CITIZENFEMALE = DarkRP.createJob("Цивільні | Громадянинка", {
+    color = Color(102, 255, 102),
+    model = {"models/resident/pm_civ_resident_human_female.mdl"},
+    description = "",
+    weapons = {""},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="citizenfemale",
+})
+
+TEAM_RENMALE = DarkRP.createJob("Цивільні | Повстанець", {
+    color = Color(102, 255, 102),
+    model = {"models/renegade/pm_civ_renegade_human_male.mdl"},
+    description = "",
+    weapons = {"rw_sw_se14c"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="renmale",
+})
+
+TEAM_RENFEMALE = DarkRP.createJob("Цивільні | Повстанка", {
+    color = Color(102, 255, 102),
+    model = {"models/renegade/pm_civ_renegade_human_female.mdl"},
+    description = "",
+    weapons = {"rw_sw_se14c"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Civilians",
+    command="renfemale",
+})
 
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
