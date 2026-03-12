@@ -81,19 +81,8 @@ function eChat.buildBox()
 
     eChat.entry.OnKeyCodeTyped = function( self, code )
         gui.HideGameUI() --faster than waiting for escape press check
-        local types = {"", "ooc", "advert", "teamchat", "console"}
         if code == KEY_ESCAPE then
             eChat.hideBox()
-        elseif code == KEY_TAB then
-            
-            eChat.TypeSelector = (eChat.TypeSelector and eChat.TypeSelector + 1) or 1
-            
-            if eChat.TypeSelector > 5 then eChat.TypeSelector = 1 end
-            if eChat.TypeSelector < 1 then eChat.TypeSelector = 5 end
-            
-            eChat.ChatType = types[eChat.TypeSelector]
-
-            timer.Simple(0.001, function() eChat.entry:RequestFocus() end)
         elseif code == KEY_UP then
             if #eChat.history == 0 then return end
             eChat.curHistory = eChat.curHistory -1
@@ -109,21 +98,11 @@ function eChat.buildBox()
             self:SetText(h)
             self:SetCaretPos(#h)
         elseif code == KEY_ENTER then
-            --Replicate the client pressing enter
-            --We use ConCommand because RunConsoleCommand requires split " " args
-            if string.Trim( self:GetText() ) != "" then
-                if eChat.ChatType == types[4] then
-                    LocalPlayer():ConCommand("say_team "..self:GetText() or "")
-                elseif eChat.ChatType == types[5] then
-                    LocalPlayer():ConCommand(self:GetText() or "")
-                elseif eChat.ChatType == types[2] then
-                    LocalPlayer():ConCommand("say /ooc "..self:GetText() or "")
-                elseif eChat.ChatType == types[3] then
-                    LocalPlayer():ConCommand("say /advert ".. self:GetText() or "")
-                else
-                    LocalPlayer():ConCommand("say "..self:GetText() or "")
-                end
-                table.insert(eChat.history,self:GetText())
+            local txt = string.Trim(self:GetText() or "")
+
+            if txt ~= "" then
+                LocalPlayer():ConCommand("say " .. txt)
+                table.insert(eChat.history, txt)
             end
             eChat.hideBox()
         end
