@@ -31,17 +31,17 @@ util.AddNetworkString("luctus_log")
 
 hook.Add("PostGamemodeLoaded","luctus_log",function()
     sql.Query("CREATE TABLE IF NOT EXISTS luctus_log( date DATETIME, cat TEXT, msg TEXT )")
-    print("[luctus_logs] Database initialized!")
+    print("[logs] Database initialized!")
 end)
 
 LUCTUS_MONITOR_SERVER_ID = LUCTUS_MONITOR_SERVER_ID or ""
 if LUCTUS_MONITOR_SERVER_ID == "" and file.Exists("data/luctus_monitor.txt","GAME") then
-    print("[luctus_logs] Found server ID, loading...")
+    print("[logs] Found server ID, loading...")
     LUCTUS_MONITOR_SERVER_ID = file.Read("data/luctus_monitor.txt","GAME")
 end
 luctus_weblogcache = {}
 local function log_push(cat,text)
-    print("[luctus_logs] "..sql.SQLStr(text))
+    print("[logs] "..sql.SQLStr(text))
     local res = sql.Query("INSERT INTO luctus_log( date, cat, msg ) VALUES( datetime('now','localtime') , "..sql.SQLStr(cat).." , "..sql.SQLStr(text)..") ")
     if res == false then
         ErrorNoHaltWithStack(sql.LastError())
@@ -71,12 +71,12 @@ local function log_push(cat,text)
         end
         local didsend = HTTP({
             failed = function(failMessage)
-                print("[luctus_logs] ERRROR ; FAILED TO POST STATS!")
-                print("[luctus_logs]",os.date("%H:%M:%S - %d/%m/%Y",os.time()))
+                print("[logs] ERRROR ; FAILED TO POST STATS!")
+                print("[logs]",os.date("%H:%M:%S - %d/%m/%Y",os.time()))
                 ErrorNoHaltWithStack(failMessage)
             end,
             success = function(httpcode,body,headers)
-                print("[luctus_logs] Websync successfull!")
+                print("[logs] Websync successfull!")
                 --print(httpcode)
                 --print(body)
                 --print(headers)
@@ -118,7 +118,7 @@ local function log_get(_filter,_page,_date_a,_date_z,_cat)
         ret = sql.Query("SELECT * FROM luctus_log WHERE msg LIKE "..sql.SQLStr("%"..filter.."%")..cat.." AND datetime(date) > datetime("..sql.SQLStr(_date_a)..") AND datetime(date) < datetime("..sql.SQLStr(_date_z)..") ORDER BY rowid DESC limit 32 offset "..page)
     
         if(ret==false)then
-            print("[luctus_logs] SQL ERROR DURING DATE FILTER!")
+            print("[logs] SQL ERROR DURING DATE FILTER!")
             ErrorNoHaltWithStack(sql.LastError())
             return nil
         end
