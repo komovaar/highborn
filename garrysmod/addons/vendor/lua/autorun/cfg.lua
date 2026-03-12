@@ -10,61 +10,247 @@ end
 
 Vendor.Weapons = {
     {
-        name = "AK-47",
-        class = "rw_sw_dc15s",
-        price = 10,
-        model = "models/sw_battlefront/weapons/2019/dc15s_base1.mdl",
+        name = "DC-17",
+        class = "rw_sw_dc17",
+        price = 2000,
+        model = "models/sw_battlefront/weapons/dc17_blaster.mdl",
         stats = {
-            damage = 35,
-            rpm = 600,
+            damage = 20,
+            rpm = 325,
             accuracy = "High",
             mode = "Auto"
         },
         category = "weapon",
         vip = false,
+        jobs=nil
     },
     {
-        name = "M4A1",
-        class = "rw_sw_dc15a",
-        price = 15,
+        name = "DC-17c",
+        class = "rw_sw_dc17",
+        price = 2000,
+        model = "models/cs574/weapons/dc17c.mdl",
+        stats = {
+            damage = 20,
+            rpm = 350,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "Dual DC-17",
+        class = "rw_sw_dual_dc17",
+        price = 0,
+        model = "models/sw_battlefront/weapons/dc17_blaster.mdl",
+        stats = {
+            damage = 15,
+            rpm = 250,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "DC-15a",
+        class = "rw_sw_dc17c",
+        price = 0,
         model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
         stats = {
-            damage = 35,
-            rpm = 600,
+            damage = 15,
+            rpm = 250,
             accuracy = "High",
             mode = "Auto"
         },
         category = "weapon",
         vip = false,
+        jobs=nil
     },
     {
-        name = "M5",
-        class = "rw_sw_westarm5",
-        price = 5,
-        model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
-        stats = {
-            damage = 35,
-            rpm = 600,
-            accuracy = "High",
-            mode = "Auto"
-        },
-        category = "weapon",
-        vip = false,
-    },
-    {
-        name = "DC17-s",
+        name = "DC-17s",
         class = "rw_sw_dc17s",
         price = 2000,
         model = "models/fisher/dc17s/dc17s.mdl",
         stats = {
             damage = 35,
-            rpm = 600,
+            rpm = 385,
             accuracy = "High",
             mode = "Auto"
         },
         category = "weapon",
-        vip = true
-    }
+        vip = true,
+        jobs=nil
+    },
+    {
+        name = "DC-15s",
+        class = "rw_sw_dc15s",
+        price = 15,
+        model = "models/sw_battlefront/weapons/dc15s_carbine.mdl",
+        stats = {
+            damage = 20,
+            rpm = 375,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "DC-15LE",
+        class = "rw_sw_dc15le_o",
+        price = 5,
+        model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
+        stats = {
+            damage = 20,
+            rpm = 220,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "DC15-SE",
+        class = "rw_sw_dc15se",
+        price = 2000,
+        model = "models/cs574/weapons/dc15se.mdl",
+        stats = {
+            damage = 20,
+            rpm = 275,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "DP-23",
+        class = "rw_sw_dp23",
+        price = 2000,
+        model = "models/cs574/weapons/dp23.mdl",
+        stats = {
+            damage = 10,
+            rpm = 75,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "DP-24",
+        class = "rw_sw_dp24",
+        price = 2000,
+        model = "models/cs574/weapons/dp24.mdl",
+        stats = {
+            damage = 20,
+            rpm = 425,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "Z-6",
+        class = "rw_sw_z6",
+        price = 2000,
+        model = "models/sw_battlefront/weapons/z6_rotary_cannon.mdl",
+        stats = {
+            damage = 10,
+            rpm = 300,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={TEAM_212PARA}
+    },
+        {
+        name = "DC-15x",
+        class = "rw_sw_dc15x",
+        price = 2000,
+        model = "models/cs574/weapons/dc15x.mdl",
+        stats = {
+            damage = 85,
+            rpm = 75,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
+        name = "DC-19",
+        class = "rw_sw_dc19",
+        price = 2000,
+        model = "models/player/applesauce/228th/dc15s_carbine.mdl",
+        stats = {
+            damage = 30,
+            rpm = 275,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = true,
+        jobs=nil
+    },
+    {
+        name = "DC-19LE",
+        class = "rw_sw_dc19le",
+        price = 2000,
+        model = "models/player/applesauce/228th/dc15s_carbine.mdl",
+        stats = {
+            damage = 40,
+            rpm = 155,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = true,
+        jobs=nil
+    },
+    {
+        name = "Valken 38a",
+        class = "rw_sw_valkenx38a",
+        price = 2000,
+        model = "models/sw_battlefront/weapons/valken_noscope.mdl",
+        stats = {
+            damage = 55,
+            rpm = 165,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = true,
+        jobs=nil
+    },
+    {
+        name = "Valken 38x",
+        class = "rw_sw_valkenx38a",
+        price = 2000,
+        model = "models/sw_battlefront/weapons/valken_38x.mdl",
+        stats = {
+            damage = 55,
+            rpm = 165,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = true,
+        jobs=nil
+    },
+
+
 }
 
 Vendor.Models = {
