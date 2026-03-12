@@ -44,7 +44,7 @@ Vendor.Weapons = {
     {
         name = "DC-17",
         class = "rw_sw_dc17",
-        price = 2000,
+        price = 5000,
         model = "models/sw_battlefront/weapons/dc17_blaster.mdl",
         stats = {
             damage = 20,
@@ -59,7 +59,7 @@ Vendor.Weapons = {
     {
         name = "DC-17c",
         class = "rw_sw_dc17",
-        price = 2000,
+        price = 7500,
         model = "models/cs574/weapons/dc17c.mdl",
         stats = {
             damage = 20,
@@ -74,7 +74,7 @@ Vendor.Weapons = {
     {
         name = "Dual DC-17",
         class = "rw_sw_dual_dc17",
-        price = 0,
+        price = 40000,
         model = "models/sw_battlefront/weapons/dc17_blaster.mdl",
         stats = {
             damage = 15,
@@ -102,24 +102,9 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
-        name = "DC-17s",
-        class = "rw_sw_dc17s",
-        price = 2000,
-        model = "models/fisher/dc17s/dc17s.mdl",
-        stats = {
-            damage = 35,
-            rpm = 385,
-            accuracy = "High",
-            mode = "Auto"
-        },
-        category = "weapon",
-        vip = true,
-        jobs=nil
-    },
-    {
         name = "DC-15s",
         class = "rw_sw_dc15s",
-        price = 15,
+        price = 7500,
         model = "models/sw_battlefront/weapons/dc15s_carbine.mdl",
         stats = {
             damage = 20,
@@ -134,7 +119,7 @@ Vendor.Weapons = {
     {
         name = "DC-15LE",
         class = "rw_sw_dc15le_o",
-        price = 5,
+        price = 10000,
         model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
         stats = {
             damage = 20,
@@ -149,7 +134,7 @@ Vendor.Weapons = {
     {
         name = "DC15-SE",
         class = "rw_sw_dc15se",
-        price = 2000,
+        price = 12500,
         model = "models/cs574/weapons/dc15se.mdl",
         stats = {
             damage = 20,
@@ -164,7 +149,7 @@ Vendor.Weapons = {
     {
         name = "DP-23",
         class = "rw_sw_dp23",
-        price = 2000,
+        price = 15000,
         model = "models/cs574/weapons/dp23.mdl",
         stats = {
             damage = 10,
@@ -179,7 +164,7 @@ Vendor.Weapons = {
     {
         name = "DP-24",
         class = "rw_sw_dp24",
-        price = 2000,
+        price = 20000,
         model = "models/cs574/weapons/dp24.mdl",
         stats = {
             damage = 20,
@@ -194,7 +179,7 @@ Vendor.Weapons = {
     {
         name = "Z-6",
         class = "rw_sw_z6",
-        price = 2000,
+        price = 20000,
         model = "models/sw_battlefront/weapons/z6_rotary_cannon.mdl",
         stats = {
             damage = 10,
@@ -209,7 +194,7 @@ Vendor.Weapons = {
         {
         name = "DC-15x",
         class = "rw_sw_dc15x",
-        price = 2000,
+        price = 20000,
         model = "models/cs574/weapons/dc15x.mdl",
         stats = {
             damage = 85,
@@ -222,9 +207,24 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
+        name = "DC-17s",
+        class = "rw_sw_dc17s",
+        price = 10000,
+        model = "models/fisher/dc17s/dc17s.mdl",
+        stats = {
+            damage = 35,
+            rpm = 385,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = true,
+        jobs=nil
+    },
+    {
         name = "DC-19",
         class = "rw_sw_dc19",
-        price = 2000,
+        price = 15000,
         model = "models/player/applesauce/228th/dc15s_carbine.mdl",
         stats = {
             damage = 30,
@@ -239,7 +239,7 @@ Vendor.Weapons = {
     {
         name = "DC-19LE",
         class = "rw_sw_dc19le",
-        price = 2000,
+        price = 15000,
         model = "models/player/applesauce/228th/dc15s_carbine.mdl",
         stats = {
             damage = 40,
@@ -254,7 +254,7 @@ Vendor.Weapons = {
     {
         name = "Valken 38a",
         class = "rw_sw_valkenx38a",
-        price = 2000,
+        price = 17500,
         model = "models/sw_battlefront/weapons/valken_noscope.mdl",
         stats = {
             damage = 55,
@@ -269,7 +269,7 @@ Vendor.Weapons = {
     {
         name = "Valken 38x",
         class = "rw_sw_valkenx38a",
-        price = 2000,
+        price = 20000,
         model = "models/sw_battlefront/weapons/valken_38x.mdl",
         stats = {
             damage = 55,
@@ -389,21 +389,6 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
-        name = "DC-17s",
-        class = "rw_sw_dc17s",
-        price = 2000,
-        model = "models/fisher/dc17s/dc17s.mdl",
-        stats = {
-            damage = 35,
-            rpm = 385,
-            accuracy = "High",
-            mode = "Auto"
-        },
-        category = "weapon",
-        vip = true,
-        jobs=nil
-    },
-    {
         name = "DC-15s",
         class = "rw_sw_dc15s",
         price = 15,
@@ -506,6 +491,21 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
+        jobs=nil
+    },
+    {
+        name = "DC-17s",
+        class = "rw_sw_dc17s",
+        price = 2000,
+        model = "models/fisher/dc17s/dc17s.mdl",
+        stats = {
+            damage = 35,
+            rpm = 385,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = true,
         jobs=nil
     },
     {
