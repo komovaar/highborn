@@ -17,7 +17,6 @@ surface.CreateFont( "eChat_18", {
 })
 
 local blur = Material("pp/blurscreen")
-
 local function DrawBlur(panel)
     local x,y = panel:LocalToScreen(0,0)
     surface.SetMaterial(blur)
@@ -101,9 +100,11 @@ function eChat.buildBox()
             local txt = string.Trim(self:GetText() or "")
 
             if txt ~= "" then
-                LocalPlayer():ConCommand("say " .. txt)
+                print(txt)
+                RunConsoleCommand("say", txt)
                 table.insert(eChat.history, txt)
             end
+
             eChat.hideBox()
         end
     end
@@ -137,44 +138,6 @@ function eChat.buildBox()
     end
     
     eChat.oldPaint2 = eChat.chatLog.Paint
-    
-    -- local text = "Say :"
-    -- eChat.sayText = vgui.Create("DLabel", eChat.frame)
-    -- eChat.sayText:SetText("")
-    -- function eChat.sayText:Paint(w, h)
-    --     draw.RoundedBox( 0, 0, 0, w, h, color_textentry )
-    --     draw.DrawText( text, "eChat_18", 2, 1, color_white )
-    -- end
-
-    -- function eChat.sayText:Think()
-    --     local types = {"", "ooc", "advert", "teamchat", "console"}
-    --     local s = {}
-    --     if eChat.ChatType == types[2] then 
-    --         text = "Say (OOC) :"    
-    --     elseif eChat.ChatType == types[3] then
-    --         text = "Say (ADVERT) :"
-    --     elseif eChat.ChatType == types[4] then
-    --         text = "Say (TEAM) :"
-    --     elseif eChat.ChatType == types[5] then
-    --         text = "Console :"
-    --     else
-    --         text = "Say :"
-    --         s.pw = 45
-    --         s.sw = eChat.frame:GetWide() - 50
-    --     end
-
-    --     if s then
-    --         if not s.pw then s.pw = self:GetWide() + 10 end
-    --         if not s.sw then s.sw = eChat.frame:GetWide() - self:GetWide() - 15 end
-    --     end
-
-    --     local w, h = surface.GetTextSize( text )
-    --     self:SetSize( w + 5, 20 )
-    --     self:SetPos( 5, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
-
-    --     eChat.entry:SetSize( s.sw, 20 )
-    --     eChat.entry:SetPos( s.pw, eChat.frame:GetTall() - eChat.entry:GetTall() - 5 )
-    -- end
     eChat.hideBox()
 end
 
