@@ -605,9 +605,9 @@ Vendor.Models = {
     pauldron = { id = 4, name = "Наплічник", price = 900, vip = false, default = 0 },
     holster_left = { id = 5, name = "Кобура ліва", price = 400, vip = false, default = 0 },
     holster_right = { id = 6, name = "Кобура права", price = 400, vip = false, default = 0 },
-    binos = { id = 6, name = "Візор", price = 400, vip = false, default = 1 },
-    flashlight = { id = 7, name = "Ліхтар", price = 400, vip = false, default = 1 },
-    backpack = { id = 8, name = "Рюкзак", price = 400, vip = false, default = 1 },
+    binos = { id = 7, name = "Візор", price = 400, vip = false, default = 1 },
+    flashlight = { id = 8, name = "Ліхтар", price = 400, vip = false, default = 1 },
+    backpack = { id = 9, name = "Рюкзак", price = 400, vip = false, default = 1 },
 },
 
 ["models/212th_co/pm_212th_co.mdl"] = {
@@ -636,8 +636,8 @@ Vendor.Models = {
     jetpack = { id = 3, name = "Джетпак", price = 1200, vip = false, default = 0 },
     holster_right = { id = 5, name = "Кобура права", price = 400, vip = false, default = 0 },
     holster_left = { id = 6, name = "Кобура ліва", price = 400, vip = false, default = 0 },
-    pauldron = { id = 7, name = "Наплічник", price = 400, vip = false, default = 1 },
-    kama = { id = 8, name = "Кама", price = 900, vip = false, default = 0 },
+    pauldron = { id = 7, name = "Наплічник", price = 400, vip = true, default = 1 },
+    kama = { id = 8, name = "Кама", price = 900, vip = true, default = 0 },
     antena = { id = 9, name = "Антена", price = 900, vip = false, default = 1 },
 },
 ["models/player/91st/91p1trp.mdl"] = {
@@ -659,7 +659,7 @@ Vendor.Models = {
     holster_right = { id = 5, name = "Кобура права", price = 400, vip = false, default = 0 },
     binos = { id = 6, name = "Візер", price = 400, vip = false, default = 1 },
     flashlight = { id = 7, name = "Ліхтар", price = 400, vip = false, default = 1 },
-    backpack = { id = 7, name = "Рюкзак", price = 400, vip = false, default = 1 },
+    backpack = { id = 8, name = "Рюкзак", price = 400, vip = false, default = 1 },
 },
 
 ["models/player/91st/91p1neyo.mdl"] = {
@@ -680,8 +680,8 @@ Vendor.Models = {
 ["models/player/91st/91p1plt.mdl"] = {
     antena = { id = 2, name = "Антена", price = 700, vip = false, default = 1 },
     flashlight = { id = 3, name = "Ліхтар", price = 900, vip = false, default = 1 },
-    pauldron = { id = 4, name = "Наплічник", price = 1200, vip = false, default = 1 },
-    kama = { id = 5, name = "Кама", price = 1200, vip = false, default = 1 },
+    pauldron = { id = 4, name = "Наплічник", price = 1200, vip = true, default = 1 },
+    kama = { id = 5, name = "Кама", price = 1200, vip = true, default = 1 },
     holster_left = { id = 6, name = "Кобура ліва", price = 1200, vip = false, default = 1 },
     holster_right = { id = 7, name = "Кобура права", price = 1200, vip = false, default = 0 },
     backpack = { id = 8, name = "Рюкзак", price = 1200, vip = false, default = 3 },
