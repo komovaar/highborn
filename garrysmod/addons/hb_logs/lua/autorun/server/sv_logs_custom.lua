@@ -609,4 +609,3 @@ end
 
 end,2)
 
-print("[luctus_logs] sv customs loaded")
