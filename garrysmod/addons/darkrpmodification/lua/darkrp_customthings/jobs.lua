@@ -46,7 +46,7 @@ TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
     category = "CT",
     command="trp",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0) -- antena
+        ply:SetBodygroup(0, 0) 
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0) -- binos
         ply:SetBodygroup(3, 0) -- flashlight
@@ -349,7 +349,7 @@ TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | 
 })
 
 TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/player/91st/91p1trp.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -374,7 +374,7 @@ TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
 })
 
 TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/91st/91strecon_trp/pm_91strecon_trp.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -399,7 +399,7 @@ TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
 })
 
 TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/91st/91strecon_co/pm_91strecon_co.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -428,7 +428,7 @@ TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
 })
 
 TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/player/91st/91p1neyo.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -449,7 +449,7 @@ TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
         ply:SetBodygroup(6, 0) -- kama
         ply:SetBodygroup(7, 0) -- holster left
         ply:SetBodygroup(8, 0) -- hoslter right
-        ply:SetBodygroup(9, 4) -- backpack
+        ply:SetBodygroup(9, 5) -- backpack
         ply:SetBodygroup(10, 0) -- hair
         ply:SetBodygroup(11, 0) -- fhair
         ply:SetArmor(50)
@@ -458,7 +458,7 @@ TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
 })
 
 TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/91st/91strecon_medic/pm_91strecon_medic.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -483,7 +483,7 @@ TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
 })
 
 TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/player/91st/91p1plt.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -512,7 +512,7 @@ TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
 })
 
 TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
-    color = Color(102, 255, 102),
+    color = Color(153, 0, 0),
     model = {"models/lightning/91strecon_arf/pm_91strecon_arf.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
