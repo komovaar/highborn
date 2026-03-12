@@ -40,7 +40,16 @@ TEAM_TRP = DarkRP.createJob("Клон Рекрут", {
     vote = false,
     hasLicense = false,
     category = "CT",
-    command="trp"
+    command="trp",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- antena
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 0) -- hair
+        ply:SetBodygroup(6, 0) -- fhair
+    end
 })
 
 TEAM_CO = DarkRP.createJob("Клон Командир", {
@@ -75,7 +84,16 @@ TEAM_212PVT = DarkRP.createJob("212 | Клон Рядовий", {
     vote = false,
     hasLicense = false,
     category = "212th",
-    command="212pvt"
+    command="212pvt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 1) -- hair
+        ply:SetBodygroup(6, 0) -- facial hair
+    end
 })
 
 TEAM_212SGT = DarkRP.createJob("212 | Клон Сержант", {
@@ -89,7 +107,17 @@ TEAM_212SGT = DarkRP.createJob("212 | Клон Сержант", {
     vote = false,
     hasLicense = false,
     category = "212th",
-    command="212sgt"
+    command="212sgt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 1) -- hair
+        ply:SetBodygroup(6, 0) -- facial hair
+    end
+    
 })
 
 TEAM_212LT = DarkRP.createJob("212 | Клон Лейтенант", {
@@ -105,11 +133,18 @@ TEAM_212LT = DarkRP.createJob("212 | Клон Лейтенант", {
     category = "212th",
     command="212lt",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(2, 1) -- antena
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 1) -- anetna
         ply:SetBodygroup(3, 1) -- kama
         ply:SetBodygroup(4, 1) -- pauldron
         ply:SetBodygroup(5, 1) -- holster left
         ply:SetBodygroup(6, 1) -- holster right
+        ply:SetBodygroup(7, 0) -- binos
+        ply:SetBodygroup(8, 0) -- flashlight
+        ply:SetBodygroup(9, 0) -- backpack
+        ply:SetBodygroup(10, 0) -- hair
+        ply:SetBodygroup(11, 0) -- fhair
     end
 })
 
@@ -126,12 +161,18 @@ TEAM_212CMD = DarkRP.createJob("212 | Клон Командир", {
     category = "212th",
     command="212cmd",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(2, 0) -- antena
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- anetna
         ply:SetBodygroup(3, 1) -- kama
         ply:SetBodygroup(4, 0) -- pauldron
         ply:SetBodygroup(5, 1) -- holster left
         ply:SetBodygroup(6, 1) -- holster right
         ply:SetBodygroup(7, 2) -- binos
+        ply:SetBodygroup(8, 0) -- flashlight
+        ply:SetBodygroup(9, 0) -- backpack
+        ply:SetBodygroup(10, 0) -- hair
+        ply:SetBodygroup(11, 0) -- fhair
     end
 })
 
@@ -148,7 +189,13 @@ TEAM_212MED = DarkRP.createJob("212 | Клон Медик", {
     category = "212th",
     command="212med",
     PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
         ply:SetBodygroup(4, 3) -- backpack
+        ply:SetBodygroup(5, 1) -- hair
+        ply:SetBodygroup(6, 0) -- facial hair
     end
 })
 
@@ -163,7 +210,41 @@ TEAM_212PIL = DarkRP.createJob("212 | Клон Пілот", {
     vote = false,
     hasLicense = false,
     category = "212th",
-    command="212pil"
+    command="212pil",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- flashlight
+        ply:SetBodygroup(3, 0) -- backpack
+        ply:SetBodygroup(4, 0) -- hair
+        ply:SetBodygroup(5, 0) -- fhair
+    end
+})
+
+TEAM_212PARA = DarkRP.createJob("212 | Клон Параджай", {
+    color = Color(255, 128, 0),
+    model = {"models/md/212th/2nd/barlex.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "212th",
+    command="212para",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- sunvisor
+        ply:SetBodygroup(3, 1) -- backpack
+        ply:SetBodygroup(4, 0) -- barc
+        ply:SetBodygroup(5, 1) -- holster right
+        ply:SetBodygroup(6, 1) -- holster left
+        ply:SetBodygroup(7, 0) -- pauldron
+        ply:SetBodygroup(8, 1) -- kama
+        ply:SetBodygroup(9, 0) -- shoulder antena
+    end
 })
 
 TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | Адмірал", {
@@ -177,7 +258,18 @@ TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | �
     vote = false,
     hasLicense = false,
     category = "Fleet",
-    command="fleet_adm"
+    command="fleet_adm",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- head
+        ply:SetBodygroup(2, 6) -- hair
+        ply:SetBodygroup(3, 2) -- fhair
+        ply:SetBodygroup(4, 0) -- gasmask
+        ply:SetBodygroup(5, 0) -- medals
+        ply:SetBodygroup(6, 0) -- rank
+        ply:SetBodygroup(7, 0) -- pistol left
+        ply:SetBodygroup(8, 0) -- pistol right
+    end
 })
 
 TEAM_FLEET_CMD = DarkRP.createJob("Республіканський Флот | Клон Командир", {
@@ -213,12 +305,23 @@ TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | 
     vote = false,
     hasLicense = false,
     category = "Fleet",
-    command="fleet_navi"
+    command="fleet_navi",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- head
+        ply:SetBodygroup(2, 0) -- hair
+        ply:SetBodygroup(3, 0) -- fhair
+        ply:SetBodygroup(4, 1) -- medals
+        ply:SetBodygroup(5, 1) -- rank
+        ply:SetBodygroup(6, 0) -- re-breather
+        ply:SetBodygroup(7, 0) -- pistol left
+        ply:SetBodygroup(8, 0) -- pistol right
+    end
 })
 
 TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
     color = Color(153, 0, 0),
-    model = {"models/swiftsquadron/91strecon_swift/pm_91strecon_swift.mdl"},
+    model = {"models/player/91st/91p1trp.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
     max = 100,
@@ -227,12 +330,21 @@ TEAM_91PVT = DarkRP.createJob("91 | Клон Рядовий", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91pvt"
+    command="91pvt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 0) -- hair
+        ply:SetBodygroup(6, 0) -- fhair
+    end
 })
 
 TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
     color = Color(153, 0, 0),
-    model = {"models/player/91st/91p1nco.mdl"},
+    model = {"models/91st/91strecon_trp/pm_91strecon_trp.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
     max = 100,
@@ -241,12 +353,21 @@ TEAM_91SGT = DarkRP.createJob("91 | Клон Сержант", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91sgt"
+    command="91sgt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 0) -- hair
+        ply:SetBodygroup(6, 0) -- fhair
+    end
 })
 
 TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
     color = Color(153, 0, 0),
-    model = {"models/player/91st/91p1ofc.mdl"},
+    model = {"models/91st/91strecon_co/pm_91strecon_co.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
     max = 100,
@@ -255,7 +376,20 @@ TEAM_91LT = DarkRP.createJob("91 | Клон Лейтенант", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91lt"
+    command="91lt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 1) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 1) -- holster left
+        ply:SetBodygroup(5, 1) -- holstering right
+        ply:SetBodygroup(6, 0) -- binos
+        ply:SetBodygroup(7, 0) -- flashlight
+        ply:SetBodygroup(8, 0) -- backpack
+        ply:SetBodygroup(9, 0) -- hair
+        ply:SetBodygroup(10, 0) -- fhair
+    end
 })
 
 TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
@@ -269,7 +403,21 @@ TEAM_91CMD = DarkRP.createJob("91 | Клон Командир", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91cmd"
+    command="91cmd",
+        PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- antenna
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- visor
+        ply:SetBodygroup(5, 0) -- pauldron
+        ply:SetBodygroup(6, 0) -- kama
+        ply:SetBodygroup(7, 0) -- holster left
+        ply:SetBodygroup(8, 0) -- hoslter right
+        ply:SetBodygroup(9, 6) -- backpack
+        ply:SetBodygroup(10, 0) -- hair
+        ply:SetBodygroup(11, 0) -- fhair
+    end
 })
 
 TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
@@ -283,7 +431,16 @@ TEAM_91MED = DarkRP.createJob("91 | Клон Медик", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91med"
+    command="91med",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 4) -- backpack
+        ply:SetBodygroup(5, 0) -- hair
+        ply:SetBodygroup(6, 0) -- fhair
+    end
 })
 
 TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
@@ -297,7 +454,20 @@ TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91pil"
+    command="91pil",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- antenna
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- pauldron
+        ply:SetBodygroup(5, 0) -- kama
+        ply:SetBodygroup(6, 0) -- holster left
+        ply:SetBodygroup(7, 3) -- hoslter right
+        ply:SetBodygroup(8, 0) -- backpack
+        ply:SetBodygroup(9, 0) -- hair
+        ply:SetBodygroup(10, 0) -- fhair
+    end
 })
 
 TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
@@ -311,7 +481,14 @@ TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
     vote = false,
     hasLicense = false,
     category = "91st",
-    command="91arf"
+    command="91arf",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) -- body
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0) -- backpack
+        ply:SetBodygroup(3, 0) -- hair
+        ply:SetBodygroup(4, 0) -- fhair
+    end
 })
 
 
