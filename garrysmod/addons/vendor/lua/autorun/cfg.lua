@@ -189,7 +189,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={TEAM_212PARA}
+        jobs={TEAM_212PVT, TEAM_212SGT, TEAM_212LT, TEAM_212CMD, TEAM_212MED, TEAM_212PIL, TEAM_212PARA}
     },
         {
         name = "DC-15x",
@@ -204,7 +204,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs=nil
+        jobs={TEAM_91PVT, TEAM_91SGT, TEAM_91LT, TEAM_91CMD, TEAM_91PIL, TEAM_91ARF, TEAM_91MED}
     },
     {
         name = "DC-17s",
