@@ -42,6 +42,21 @@ end
 
 Vendor.Weapons = {
     {
+        name = "DC-15a",
+        class = "rw_sw_dc17c",
+        price = 0,
+        model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
+        stats = {
+            damage = 15,
+            rpm = 250,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs=nil
+    },
+    {
         name = "DC-17",
         class = "rw_sw_dc17",
         price = 5000,
@@ -76,21 +91,6 @@ Vendor.Weapons = {
         class = "rw_sw_dual_dc17",
         price = 40000,
         model = "models/sw_battlefront/weapons/dc17_blaster.mdl",
-        stats = {
-            damage = 15,
-            rpm = 250,
-            accuracy = "High",
-            mode = "Auto"
-        },
-        category = "weapon",
-        vip = false,
-        jobs=nil
-    },
-    {
-        name = "DC-15a",
-        class = "rw_sw_dc17c",
-        price = 0,
-        model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
         stats = {
             damage = 15,
             rpm = 250,
@@ -279,6 +279,126 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = true,
+        jobs=nil
+    },
+    {
+        name = "Bacta Grenade",
+        class = "rw_sw_nade_bacta",
+        price = 2500,
+        model = "models/cs574/explosif/grenade_bacta.mdl",
+        stats = {
+            damage = 0,
+            rpm = 0,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={TEAM_91MED, TEAM_212MED}
+    },
+    {
+        name = "Bacta Injector",
+        class = "weapon_bactainjector",
+        price = 1500,
+        model = "models/starwars/items/bacta_small.mdl",
+        stats = {
+            damage = 0,
+            rpm = 0,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={TEAM_91MED, TEAM_212MED}
+    },
+    {
+        name = "Ammo Crate",
+        class = "rw_ammo_distributor",
+        price = 10000,
+        model = "models/cs574/objects/ammo_box.mdl",
+        stats = {
+            damage = 0,
+            rpm = 0,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs=nil
+    },
+    {
+        name = "Thermal Grenade",
+        class = "rw_sw_nade_thermal",
+        price = 10000,
+        model = "models/weapons/tfa_starwars/w_thermal.mdl",
+        stats = {
+            damage = 75,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs=nil
+    },
+    {
+        name = "Flash Grenade",
+        class = "rw_sw_nade_flash",
+        price = 10000,
+        model = "models/cs574/explosif/grenade_flash.mdl",
+        stats = {
+            damage = 0,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs=nil
+    },
+    {
+        name = "Smoke Grenade",
+        class = "rw_sw_nade_smoke",
+        price = 10000,
+        model = "models/cs574/explosif/grenade_smoke.mdl",
+        stats = {
+            damage = 0,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs=nil
+    },
+    {
+        name = "Dioxis Grenade",
+        class = "rw_sw_nade_dioxis",
+        price = 10000,
+        model = "models/cs574/explosif/grenade_dioxis.mdl",
+        stats = {
+            damage = 7,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=true,
+        jobs=nil
+    },
+    {
+        name = "Shock Grenade",
+        class = "rw_sw_nade_stun",
+        price = 10000,
+        model = "models/cs574/explosif/grenade_shock.mdl",
+        stats = {
+            damage = 10,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=true,
         jobs=nil
     },
 
