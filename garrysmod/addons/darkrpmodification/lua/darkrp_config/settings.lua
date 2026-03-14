@@ -30,7 +30,7 @@ GM.Config.allowrpnames                  = true
 -- allowsprays - Enable/disable the use of sprays on the server.
 GM.Config.allowsprays                   = false
 -- allowvehicleowning - Enable/disable whether people can own vehicles.
-GM.Config.allowvehicleowning            = true
+GM.Config.allowvehicleowning            = false
 -- allowvnocollide - Enable/disable the ability to no-collide a vehicle (for security).
 GM.Config.allowvnocollide               = false
 -- alltalk - Enable for global chat, disable for local chat.
@@ -40,7 +40,7 @@ GM.Config.antimultirun                  = true
 -- autovehiclelock - Enable/Disable automatic locking of a vehicle when a player exits it.
 GM.Config.autovehiclelock               = false
 -- babygod - people spawn godded (prevent spawn killing).
-GM.Config.babygod                       = true
+GM.Config.babygod                       = false
 -- canforcedooropen - whether players can force an unownable door open with lockpick or battering ram or w/e.
 GM.Config.canforcedooropen              = false
 -- chatsounds - sounds are played when some things are said in chat.
@@ -128,7 +128,7 @@ GM.Config.keepPickedUp                  = false
 -- instantjob - Enable/Disable instantly respawning when norespawn is false
 GM.Config.instantjob                    = false
 -- npcarrest - Enable/disable arresting npc's.
-GM.Config.npcarrest                     = true
+GM.Config.npcarrest                     = false
 -- ooc - Whether or not OOC tags are enabled.
 GM.Config.ooc                           = true
 -- propertytax - Enable/disable property tax.
@@ -251,7 +251,7 @@ GM.Config.normalsalary                  = 45
 -- npckillpay - Sets the money given for each NPC kill.
 GM.Config.npckillpay                    = 2
 -- paydelay - Sets how long it takes before people get salary.
-GM.Config.paydelay                      = 600
+GM.Config.paydelay                      = 90000000000000000
 -- pocketitems - Sets the amount of objects the pocket can carry.
 GM.Config.pocketitems                   = 0
 -- pricecap - The maximum price of items (using /price).
