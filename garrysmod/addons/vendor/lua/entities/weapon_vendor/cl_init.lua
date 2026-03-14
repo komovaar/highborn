@@ -235,16 +235,19 @@
 
             for _, wep in ipairs(Vendor.Weapons) do
                 if wep.category ~= selectedCategory then continue end
-                if wep.jobs and #wep.jobs > 0 then
-                    local allowed = false
-                    for _, job in ipairs(wep.jobs) do
-                        if job == LocalPlayer():Team() then
-                            allowed = true
-                            break
+                    if wep.jobs ~= nil then
+                        local plyJob = LocalPlayer():Team()
+                        local allowed = false
+
+                        for _, job in ipairs(wep.jobs) do
+                            if job == plyJob then
+                                allowed = true
+                                break
+                            end
                         end
+
+                        if not allowed then continue end
                     end
-                    if not allowed then continue end
-                end
                 
                 local b = list:Add("DButton")
                 b:SetTall(60)
