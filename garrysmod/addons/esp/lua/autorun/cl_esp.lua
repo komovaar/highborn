@@ -4,7 +4,7 @@ hook.Add("HUDPaint", "AdminNoclipESP", function()
     if not IsValid(ply) then return end
     if ply:GetMoveType() ~= MOVETYPE_NOCLIP then return end
     if ply:InVehicle() then return end
-    if not ply:HasPermission() or not ply:HasPermission("admin_esp") then return end
+    if not ply:IsAdmin() then return end
 
     for _, target in ipairs(player.GetAll()) do
         if not IsValid(target) or target == ply then continue end
