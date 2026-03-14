@@ -79,20 +79,17 @@ if SERVER then
             )
         end
 
-        -- Устанавливаем сетевые значения
         ply:SetNWString("HighbornRank", row.rank or "")
         ply:SetNWBool("HighbornCanGL", tonumber(row.can_ground_light) == 1)
         ply:SetNWBool("HighbornCanGH", tonumber(row.can_ground_heavy) == 1)
         ply:SetNWBool("HighbornCanAL", tonumber(row.can_air_light) == 1)
         ply:SetNWBool("HighbornCanAH", tonumber(row.can_air_heavy) == 1)
 
-        -- Устанавливаем команду
         local jobID = tonumber(row.job)
         if jobID and ply:Team() ~= jobID then
             ply:changeTeam(jobID, true, true)
         end
 
-        -- Выдаём стэнстик, если разрешено
         if tonumber(row.can_stunstick) == 1 then
             GiveStunstick(ply)
         end
