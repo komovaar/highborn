@@ -51,8 +51,8 @@ if CLIENT then
         local alt  = ply:GetNW2Var("radio_alt") or "—"
         local active = ply:GetNW2Var("radio_active") or "—"
 
-        local radio_status = radio_s and "Увімкнутий" or "Вимкнутий"
-        local micro_status = micro_s and "Увімкнута" or "Вимкнута"
+        local radio_status = radio_s and "Увімкнута" or "Вимкнута"
+        local micro_status = micro_s and "Увімкнутий" or "Вимкнутий"
 
         local sh = ScrH()
         DrawTextShadow("Передача (L): "..active, "HB_HUD_Main", 20, sh-100, Color(255,255,255), Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
