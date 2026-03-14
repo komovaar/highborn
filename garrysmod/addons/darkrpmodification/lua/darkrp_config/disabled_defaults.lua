@@ -23,7 +23,7 @@ In some cases some external addons may overwrite one of the modules below and wi
 In these few cases it will be pretty obvious when you expect something to happen and nothing does.
 ---------------------------------------------------------------------------]]
 DarkRP.disabledDefaults["modules"] = {
-    ["afk"]              = false,
+    ["afk"]              = true,
     ["chatsounds"]       = true,
     ["events"]           = true,
     ["fpp"]              = true,
