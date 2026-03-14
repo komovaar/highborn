@@ -294,4 +294,3 @@ hook.Add("PlayerDisconnected", "DayZCuffs DieHandcuffs", function(ply)
 	end
 end)
 
--- vk.com/urbanichka
