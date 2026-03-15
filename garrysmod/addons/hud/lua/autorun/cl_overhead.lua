@@ -30,7 +30,6 @@ hook.Add("PostDrawTranslucentRenderables", "HB_DrawOverheadNames_3D2D", function
         local jobTable = ply:getJobTable()
         local jobColor = (jobTable and jobTable.color) or Color(160,160,160)
 
-        -- === Категория + звание (как в табе) ===
         local category = jobTable and jobTable.category or ""
         local rank = ply:GetNWString("HighbornRank", "")
 
