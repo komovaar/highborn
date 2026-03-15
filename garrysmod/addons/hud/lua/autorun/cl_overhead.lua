@@ -9,13 +9,11 @@ local JOB_FONT  = "HB_Overhead"
 hook.Add("PostDrawTranslucentRenderables", "HB_DrawOverheadNames_3D2D", function()
     local lp = LocalPlayer()
     if not IsValid(lp) then return end
-    
-
 
     for _, ply in ipairs(player.GetAll()) do
         if ply == lp then continue end
         if not ply:Alive() then continue end
-        if ply:sam_get_nwvar("cloaked") then return end
+        if ply:sam_get_nwvar("cloaked") then continue end
         local dist = lp:GetPos():DistToSqr(ply:GetPos())
         if dist > MAX_DIST then continue end
 
