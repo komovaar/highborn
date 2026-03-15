@@ -60,6 +60,8 @@
 		
 	util.AddNetworkString( "PlayGlobal" )
 	util.AddNetworkString( "BroadcastSong" ) 
+	util.AddNetworkString("GMMP_StopAll")
+
 		
 		
 	net.Receive( "PlayGlobal", function( length, sender )
@@ -89,6 +91,11 @@
 		end
 	end )
 
+	net.Receive("GMMP_StopAll", function(len, ply)
+		if not ply:IsAdmin() then return end -- только админы могут останавливать у всех
+		net.Start("GMMP_StopAll")
+		net.Broadcast() -- отправляем всем
+	end)
 	net.Receive( "RequestTogKey", function( length, sender )
 		if sender:IsValid() and sender:IsSuperAdmin() then
 			net.Start( "SendTogKey" )

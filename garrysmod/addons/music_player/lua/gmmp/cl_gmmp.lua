@@ -81,15 +81,23 @@ function InitMenu() --Building the menu
 	end
 		
 	btnStop.OnMouseReleased = function()
-		if PlayingSong and PlayingSong:IsValid() then --Ensure a song is playing
+		if PlayingSong and PlayingSong:IsValid() then
 			PlayingSong:Stop()
-			--timer.Destroy( "GMMPAutoPlay" ) --Destroy this timer so that the next song doesn't start up later
 		end
-			
 		ShouldBeStopped = true
-		btnStop:SetImage( "vgui/gmmp/stop.png" )
+		btnStop:SetImage("vgui/gmmp/stop.png")
+
+		net.Start("GMMP_StopAll")
+		net.SendToServer()
 	end
-		
+
+	net.Receive("GMMP_StopAll", function()
+		if PlayingSong and PlayingSong:IsValid() then
+			PlayingSong:Stop()
+		end
+		ShouldBeStopped = true
+	end)
+			
 		
 	FunctionCalled = true
 		
