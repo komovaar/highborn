@@ -7,12 +7,19 @@ if SERVER then
     util.AddNetworkString("WalkieTalkie.ChangeChannel")
 
     net.Receive("WalkieTalkie.SpeakerToggle", function (len, ply)
-        print("true")
-        ply.walkie_talkie.speaker = true 
+        if ply.walkie_talkie.speaker then 
+            ply.walkie_talkie.speaker = false
+        else 
+            ply.walkie_talkie.speaker = true
+        end
     end)
 
     net.Receive("WalkieTalkie.MicroToggle", function (len, ply)
-        ply.walkie_talkie.micro = true 
+        if  ply.walkie_talkie.micro then 
+            ply.walkie_talkie.micro = false
+        else 
+            ply.walkie_talkie.micro = true
+        end
     end)
 
     hook.Add("PlayerInitialSpawn", "WalkieTalkie_Init", function(ply)
@@ -33,16 +40,17 @@ if SERVER then
     end)
 
     hook.Add("PlayerCanHearPlayersVoice", "WalkieTalkie_VoiceChat", function(listener, talker)
-        -- if not IsValid(listener) or not IsValid(talker) then return end
-        -- if not listener.walkie_talkie or not talker.walkie_talkie then return end
-        -- if not talker.walkie_talkie.micro or not talker.walkie_talkie.speaker then return end
+        if not IsValid(listener) or not IsValid(talker) then return end
+        if not listener.walkie_talkie or not talker.walkie_talkie then return end
+        if not talker.walkie_talkie.micro or not talker.walkie_talkie.speaker then return end
 
         local talker_chan = talker:GetNW2Var("radio_active")
         local listener_main = listener:GetNW2Var("radio_main")
         local listener_alt = listener:GetNW2Var("radio_alt")
+        print(talker_chan)
+        print(listener_main)
 
         if talker_chan and (talker_chan == listener_main or talker_chan == listener_alt) and listener.walkie_talkie.speaker then
-            print("Test")
             return true
         end
     end)
