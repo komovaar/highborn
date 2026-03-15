@@ -93,8 +93,6 @@ if SERVER then
         if tonumber(row.can_stunstick) == 1 then
             GiveStunstick(ply)
         end
-
-        ply:SetCollisionGroup(COLLISION_GROUP_PLAYER);
     end)
 
     -- Получение whitelist данных
