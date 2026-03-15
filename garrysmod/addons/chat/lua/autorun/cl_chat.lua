@@ -41,7 +41,7 @@ function eChat.buildBox()
     eChat.frame:SetTitle("")
     eChat.frame:ShowCloseButton(false)
     eChat.frame:SetDraggable(true)
-    eChat.frame:SetSizable(true)
+    eChat.frame:SetSizable(false)
     eChat.frame:SetPos(20, (ScrH() - eChat.frame:GetTall()) - ScrH() * 0.1)
     eChat.frame:SetMinWidth( 300 )
     eChat.frame:SetMinHeight( 100 )
@@ -73,7 +73,6 @@ function eChat.buildBox()
             end
         end)
     end
-
     eChat.entry.OnTextChanged = function(self)
         gamemode.Call( "ChatTextChanged", self:GetText() or "" )
     end
@@ -112,6 +111,14 @@ function eChat.buildBox()
     eChat.chatLog = vgui.Create("RichText", eChat.frame) 
     eChat.chatLog:SetPos(0, 0)
     eChat.chatLog.Paint = function() end
+    eChat.chatLog:SetSelectable(true)
+    eChat.chatLog:SetMouseInputEnabled(true)
+    eChat.chatLog:SetKeyboardInputEnabled(true)
+    eChat.chatLog:SetWrap(true)
+
+    function eChat.chatLog:OnFocusChanged(gained)
+        self.iHasFocus = gained
+    end
     
     
     function eChat.chatLog:OnKeyCodeReleased(code)
