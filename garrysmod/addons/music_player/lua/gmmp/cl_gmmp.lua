@@ -40,6 +40,13 @@ TogKeyReceived = false
 GlobalPassReceived = false
 DoResReceived = false
 
+local function StopSongLocal()
+if PlayingSong and PlayingSong:IsValid() then
+	PlayingSong:Stop()
+	end
+	ShouldBeStopped = true
+end
+
 function InitMenu() --Building the menu
 
 	MainPanel = vgui.Create( "DFrame" )
@@ -79,12 +86,11 @@ function InitMenu() --Building the menu
 	btnStop.OnMousePressed = function()
 		btnStop:SetImage( "vgui/gmmp/stop_clicked.png" )
 	end
+
+
 		
 	btnStop.OnMouseReleased = function()
-		if PlayingSong and PlayingSong:IsValid() then
-			PlayingSong:Stop()
-		end
-		ShouldBeStopped = true
+		StopSongLocal()
 		btnStop:SetImage("vgui/gmmp/stop.png")
 
 		net.Start("GMMP_StopAll")
@@ -92,12 +98,9 @@ function InitMenu() --Building the menu
 	end
 
 	net.Receive("GMMP_StopAll", function()
-		if PlayingSong and PlayingSong:IsValid() then
-			PlayingSong:Stop()
-		end
-		ShouldBeStopped = true
+		StopSongLocal()
 	end)
-			
+				
 		
 	FunctionCalled = true
 		
@@ -122,7 +125,7 @@ function InitMenu() --Building the menu
 			ShouldBeStopped = true
 				
 		else
-			btnStop.OnMouseReleased()
+			StopSongLocal()
 			ShouldBeStopped = true
 				
 			local intIndex = SelectedList():GetSelectedLine() --Gets the index value of the currently selected line
@@ -677,7 +680,6 @@ end
 function PlayFromAdmin( song, player )
 	if file.Exists( song, "GAME" ) and AllowOther:GetInt() >= 1 then
 		PlaySong( song, false )
-		chat.AddText( player:Name() .. " Played: ", FilePathToSongName( song ) )
 			
 	elseif !file.Exists( song, "GAME" ) and AllowOther:GetInt() >= 1 then
 		chat.AddText( "Blocked globally played song: File is not on client computer" )
@@ -686,7 +688,7 @@ end
 	
 function PlaySong( song, blnAllowAutoPlay )
 	FunctionCalled = false
-	btnStop.OnMouseReleased()
+	StopSongLocal()
 	
 	sound.PlayFile( song, "noblock", function( CurrentSong, ErrorID, ErrorName ) --If the game is paused this won't call
 			

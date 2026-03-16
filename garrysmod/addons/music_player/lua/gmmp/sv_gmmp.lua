@@ -92,10 +92,11 @@
 	end )
 
 	net.Receive("GMMP_StopAll", function(len, ply)
-		if not ply:IsAdmin() then return end -- только админы могут останавливать у всех
+		if not ply:IsAdmin() then return end
 		net.Start("GMMP_StopAll")
-		net.Broadcast() -- отправляем всем
+		net.Broadcast() 
 	end)
+	
 	net.Receive( "RequestTogKey", function( length, sender )
 		if sender:IsValid() and sender:IsSuperAdmin() then
 			net.Start( "SendTogKey" )
