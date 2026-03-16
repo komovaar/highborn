@@ -43,7 +43,7 @@ end
 Vendor.Weapons = {
     {
         name = "DC-15a",
-        class = "rw_sw_dc17c",
+        class = "rw_sw_dc15a_o",
         price = 0,
         model = "models/sw_battlefront/weapons/dc15a_rifle.mdl",
         stats = {
@@ -280,6 +280,21 @@ Vendor.Weapons = {
         category = "weapon",
         vip = true,
         jobs=nil
+    },
+    {
+        name = "Гак-кішка",
+        class = "realistic_hook",
+        price = 3500,
+        model = "models/weapons/w_alyx_gun.mdl",
+        stats = {
+            damage = 0,
+            rpm = 0,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={TEAM_91ARF}
     },
     {
         name = "Bacta Grenade",
