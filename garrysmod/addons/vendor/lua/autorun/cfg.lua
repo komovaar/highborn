@@ -73,7 +73,7 @@ Vendor.Weapons = {
     },
     {
         name = "DC-17c",
-        class = "rw_sw_dc17",
+        class = "rw_sw_dc17c",
         price = 7500,
         model = "models/cs574/weapons/dc17c.mdl",
         stats = {
