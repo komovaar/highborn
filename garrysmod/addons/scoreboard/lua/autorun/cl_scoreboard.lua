@@ -111,6 +111,7 @@ local function CreatePlayerRow(parent, ply)
     catRank:SetPos(58, 22)
 
     local function UpdateRank()
+        if not IsValid(ply) then return end
         local jobTable = ply:getJobTable()
         local category = jobTable and jobTable.category or "Other"
         local rank = ply:GetNWString("HighbornRank", "")
@@ -136,6 +137,7 @@ local function CreatePlayerRow(parent, ply)
     kd:SetTextColor(Color(200,200,200))
 
     kd.Think = function(s)
+        if not IsValid(ply) then return end
         s:SetText("K " .. ply:Frags() .. " / D " .. ply:Deaths())
         s:SizeToContents()
         s:SetPos(row:GetWide() - 200, 14)
@@ -146,6 +148,7 @@ local function CreatePlayerRow(parent, ply)
     ping:SetTextColor(jobColor)
 
     ping.Think = function(s)
+        if not IsValid(ply) then return end
         s:SetText(ply:Ping() .. " ms")
         s:SizeToContents()
         s:SetPos(row:GetWide() - 90, 14)
