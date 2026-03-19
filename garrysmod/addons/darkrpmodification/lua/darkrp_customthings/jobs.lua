@@ -26,7 +26,7 @@ TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "CT",
+    category = "Other",
     command="admin",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0) 
