@@ -561,6 +561,46 @@ Vendor.Models = {
     pauldron = { id = 6, name = "Наплічник", price = 10000, vip = false, default = 0 },
     antena = { id = 7, name = "Антена", price = 2500, vip = false, default = 0 },
 },
+["models/5th_trp/pm_5th_trp.mdl"] = {
+    binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 3, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 4, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_nco/pm_5th_nco.mdl"] = {
+    kama = { id = 2, name = "Кама", price = 10000, vip = true, default = 0 },
+    binos = { id = 3, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 4, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_officer/pm_5th_officer.mdl"] = {
+    antena = { id = 2, name = "Антена", price = 2500, vip = false, default = 0 },
+    kama = { id = 3, name = "Кама", price = 10000, vip = false, default = 0 },
+    pauldron = { id = 4, name = "Наплічник", price = 10000, vip = false, default = 0 },
+    holster_left = { id = 5, name = "Кобура ліва", price = 1500, vip = false, default = 0 },
+    holster_right = { id = 6, name = "Кобура права", price = 1500, vip = false, default = 0 },
+    binos = { id = 7, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 8, name = "Ліхтар", price = 1500, vip = false, default =  1},
+    backpack = { id = 9, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_cmd/pm_5th_cmd.mdl"] = {
+    antena = { id = 2, name = "Антена", price = 2500, vip = false, default = 0 },
+    kama = { id = 3, name = "Кама", price = 10000, vip = false, default = 0 },
+    pauldron = { id = 4, name = "Наплічник", price = 10000, vip = false, default = 0 },
+    holster_left = { id = 5, name = "Кобура ліва", price = 1500, vip = false, default = 0 },
+    holster_right = { id = 6, name = "Кобура права", price = 1500, vip = false, default = 0 },
+    binos = { id = 7, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 8, name = "Ліхтар", price = 1500, vip = false, default =  1},
+    backpack = { id = 9, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_med/pm_5th_med.mdl"] = {
+    binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 3, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 4, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_plt/pm_5th_plt.mdl"] = {
+    flashlight = { id = 2, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 3, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+}
 }
 
 

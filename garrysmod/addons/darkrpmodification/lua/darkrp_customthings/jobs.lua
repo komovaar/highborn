@@ -549,11 +549,11 @@ TEAM_5PVT = DarkRP.createJob("5 | Клон Рядовий", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 0)
-        ply:SetBodygroup(4, 0)
-        ply:SetBodygroup(5, 0)
-        ply:SetBodygroup(6, 0)
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 0) -- hait
+        ply:SetBodygroup(6, 0) -- fhair
         ply:SetArmor(20)
         ply:SetMaxArmor(20)
     end
@@ -574,11 +574,12 @@ TEAM_5SGT = DarkRP.createJob("5 | Клон Сержант", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 0)
-        ply:SetBodygroup(4, 0)
-        ply:SetBodygroup(5, 0)
-        ply:SetBodygroup(6, 0)
+        ply:SetBodygroup(2, 1) -- kama
+        ply:SetBodygroup(3, 0) -- binos
+        ply:SetBodygroup(4, 0) -- flashlight
+        ply:SetBodygroup(5, 0) -- backpack
+        ply:SetBodygroup(6, 0) -- hair
+        ply:SetBodygroup(7, 0) -- fhair
         ply:SetArmor(30)
         ply:SetMaxArmor(30)
     end
@@ -599,16 +600,16 @@ TEAM_5LT = DarkRP.createJob("5 | Клон Лейтенант", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 1)
-        ply:SetBodygroup(3, 1)
-        ply:SetBodygroup(4, 1)
-        ply:SetBodygroup(5, 1)
-        ply:SetBodygroup(6, 1)
-        ply:SetBodygroup(7, 0)
-        ply:SetBodygroup(8, 0)
-        ply:SetBodygroup(9, 0)
-        ply:SetBodygroup(10, 0)
-        ply:SetBodygroup(11, 0)
+        ply:SetBodygroup(2, 1) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 1) -- pauldron
+        ply:SetBodygroup(5, 1) -- holster left
+        ply:SetBodygroup(6, 1) -- holster right
+        ply:SetBodygroup(7, 0) -- binos
+        ply:SetBodygroup(8, 0) -- flashlight
+        ply:SetBodygroup(9, 0) -- backpack
+        ply:SetBodygroup(10, 0) -- hair
+        ply:SetBodygroup(11, 0) -- fhair
         ply:SetArmor(40)
         ply:SetMaxArmor(40)
     end
@@ -629,16 +630,16 @@ TEAM_5CMD = DarkRP.createJob("5 | Клон Командир", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 1)
-        ply:SetBodygroup(4, 0)
-        ply:SetBodygroup(5, 1)
-        ply:SetBodygroup(6, 1)
-        ply:SetBodygroup(7, 2)
-        ply:SetBodygroup(8, 0)
-        ply:SetBodygroup(9, 0)
-        ply:SetBodygroup(10, 0)
-        ply:SetBodygroup(11, 0)
+        ply:SetBodygroup(2, 1) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 1) -- pauldron
+        ply:SetBodygroup(5, 1) -- holster left
+        ply:SetBodygroup(6, 1) -- holster right
+        ply:SetBodygroup(7, 0) -- binos
+        ply:SetBodygroup(8, 0) -- flashlight
+        ply:SetBodygroup(9, 0) -- backpack
+        ply:SetBodygroup(10, 0) -- hair
+        ply:SetBodygroup(11, 0) -- fhair
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
     end
@@ -659,11 +660,11 @@ TEAM_5MED = DarkRP.createJob("5 | Клон Медик", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 0)
-        ply:SetBodygroup(4, 3)
-        ply:SetBodygroup(5, 0)
-        ply:SetBodygroup(6, 0)
+        ply:SetBodygroup(2, 0) -- binos
+        ply:SetBodygroup(3, 0) -- flashlight
+        ply:SetBodygroup(4, 0) -- backpack
+        ply:SetBodygroup(5, 0) -- hair
+        ply:SetBodygroup(6, 0) -- fhair
         ply:SetArmor(30)
         ply:SetMaxArmor(30)
     end
@@ -683,11 +684,11 @@ TEAM_5PIL = DarkRP.createJob("5 | Клон Пілот", {
     command="5pil",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 0)
-        ply:SetBodygroup(4, 0)
-        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(1, 0) 
+        ply:SetBodygroup(2, 0) -- flashlight
+        ply:SetBodygroup(3, 0) -- backpack
+        ply:SetBodygroup(4, 0) -- hair
+        ply:SetBodygroup(5, 0) -- fhair
         ply:SetArmor(30)
         ply:SetMaxArmor(30)
     end
