@@ -1,6 +1,7 @@
 Vendor = Vendor or {}
 Vendor.CurrencySymbol = "RC "
 Vendor.BlockedJobs = {
+    TEAM_ADMIN,
     TEAM_B1,
     TEAM_FLEET_NAVI,
     TEAM_FLEET_ADM,
