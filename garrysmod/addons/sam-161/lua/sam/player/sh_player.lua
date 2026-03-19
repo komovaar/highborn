@@ -50,15 +50,20 @@ do
 		end)
 	end
 
-	function sam.player.send_message(ply, msg, tbl)
+	function sam.player.send_message(ply, msg, tbl, target)
 		if SERVER then
 			if sam.isconsole(ply) then
 				local result = sam.format_message(msg, tbl)
 				sam.print(unpack(result, 1, result.__cnt))
 			else
-				return sam.netstream.Start(ply, "send_message", msg, tbl)
+				-- Проверка: только админы или тот, на кого направлено
+				if not ply:IsAdmin() and target ~= ply then return end
+				return sam.netstream.Start(ply, "send_message", msg, tbl, target)
 			end
 		else
+			-- Клиентская проверка: админ или тот, на кого сообщение
+			if not LocalPlayer():IsAdmin() and target ~= LocalPlayer() then return end
+
 			local prefix_result = sam.format_message(config.get("ChatPrefix", ""))
 			local prefix_n = #prefix_result
 

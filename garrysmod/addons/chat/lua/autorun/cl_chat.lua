@@ -200,6 +200,40 @@ end
 
 local oldAddText = chat.AddText
 
+local function AppendWrappedText(rtext, str)
+    local maxLen = 100 -- примерная длина строки для переноса
+    local i = 1
+    while i <= #str do
+        local substr = str:sub(i, i + maxLen - 1)
+        rtext:AppendText(substr .. "\n")
+        i = i + maxLen
+    end
+end
+
+function chat.AddText(...)
+    if not IsValid(eChat.frame) then eChat.buildBox() end
+    local msg = {}
+    if LUCTUS_CHAT_USE_TIMESTAMPS then
+        eChat.chatLog:InsertColorChange( 130, 130, 130, 255 )
+        eChat.chatLog:AppendText( ""..os.date("%H:%M").." " )
+    end
+    for k, obj in pairs({...}) do
+        if type(obj) == "table" then
+            eChat.chatLog:InsertColorChange(obj.r,obj.g,obj.b,obj.a)
+        elseif type(obj) == "string" then
+            -- переносим текст даже для команд
+            AppendWrappedText(eChat.chatLog, obj)
+        elseif obj:IsPlayer() then
+            local col = GAMEMODE:GetTeamColor(obj)
+            eChat.chatLog:InsertColorChange(col.r,col.g,col.b,255)
+            AppendWrappedText(eChat.chatLog, obj:Nick())
+        end
+    end
+    eChat.chatLog:SetVisible(true)
+    eChat.lastMessage = CurTime()
+    eChat.chatLog:InsertColorChange(255,255,255,255)
+end
+
 --// Overwrite chat.AddText to detour it into my chatbox
 function chat.AddText(...)
     if not IsValid(eChat.frame) then eChat.buildBox() end

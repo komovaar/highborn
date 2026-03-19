@@ -73,7 +73,7 @@ Vendor.Weapons = {
     },
     {
         name = "DC-17c",
-        class = "rw_sw_dc17",
+        class = "rw_sw_dc17c",
         price = 7500,
         model = "models/cs574/weapons/dc17c.mdl",
         stats = {
@@ -115,6 +115,21 @@ Vendor.Weapons = {
         category = "weapon",
         vip = false,
         jobs=nil
+    },
+     {
+        name = "DC-15s Stun",
+        class = "rw_sw_stun_dc15s",
+        price = 2500,
+        model = "models/sw_battlefront/weapons/dc15s_carbine.mdl",
+        stats = {
+            damage = 30,
+            rpm = 375,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_5PVT", "TEAM_5SGT", "TEAM_5LT", "TEAM_5CMD", "TEAM_5PIL", "TEAM_5MED"}
     },
     {
         name = "DC-15LE",
@@ -189,7 +204,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={TEAM_212PVT, TEAM_212SGT, TEAM_212LT, TEAM_212CMD, TEAM_212MED, TEAM_212PIL, TEAM_212PARA}
+        jobs={"TEAM_212PVT", "TEAM_212SGT", "TEAM_212LT", "TEAM_212CMD", "TEAM_212MED", "TEAM_212PIL", "TEAM_212PARA"}
     },
         {
         name = "DC-15x",
@@ -204,7 +219,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={TEAM_91PVT, TEAM_91SGT, TEAM_91LT, TEAM_91CMD, TEAM_91PIL, TEAM_91ARF, TEAM_91MED}
+        jobs={"TEAM_91PVT", "TEAM_91SGT", "TEAM_91LT", "TEAM_91CMD", "TEAM_91PIL", "TEAM_91ARF", "TEAM_91MED"}
     },
     {
         name = "DC-17s",
@@ -294,12 +309,27 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={TEAM_91ARF}
+        jobs={"TEAM_91ARF"}
+    },
+    {
+        name = "F-187 Fusion Cutter",
+        class = "weapon_lvsrepair",
+        price = 1500,
+        model = "models/f137/w_repairtorch.mdl",
+        stats = {
+            damage = 10,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL"}
     },
     {
         name = "Bacta Grenade",
         class = "rw_sw_nade_bacta",
-        price = 2500,
+        price = 1500,
         model = "models/cs574/explosif/grenade_bacta.mdl",
         stats = {
             damage = 0,
@@ -309,7 +339,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={TEAM_91MED, TEAM_212MED}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED"}
     },
     {
         name = "Bacta Injector",
@@ -324,7 +354,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={TEAM_91MED, TEAM_212MED}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED"}
     },
     {
         name = "Ammo Crate",
@@ -539,13 +569,53 @@ Vendor.Models = {
     backpack = { id = 2, name = "Рюкзак", price = 3500, vip = false, default = 1 },
 },
 ["models/ct_arc/pm_ct_arc.mdl"] = {
-    belt = { id = 2, name = "Пояс", price = 1500, vip = false, default = 1 },
+    belt = { id = 2, name = "Пояс", price = 1500, vip = false, default = 0 },
     backpack = { id = 3, name = "Рюкзак", price = 3500, vip = false, default = 1 },
-    kama = { id = 4, name = "Кама", price = 10000, vip = false, default = 1 },
-    forearms = { id = 5, name = "Бронепластина", price = 5000, vip = false, default = 1 },
-    pauldron = { id = 6, name = "Наплічник", price = 10000, vip = false, default = 1 },
-    antena = { id = 7, name = "Антена", price = 2500, vip = false, default = 2 },
+    kama = { id = 4, name = "Кама", price = 10000, vip = false, default = 0 },
+    forearms = { id = 5, name = "Бронепластина", price = 5000, vip = false, default = 0 },
+    pauldron = { id = 6, name = "Наплічник", price = 10000, vip = false, default = 0 },
+    antena = { id = 7, name = "Антена", price = 2500, vip = false, default = 0 },
 },
+["models/5th_trp/pm_5th_trp.mdl"] = {
+    binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 3, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 4, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_nco/pm_5th_nco.mdl"] = {
+    kama = { id = 2, name = "Кама", price = 10000, vip = true, default = 0 },
+    binos = { id = 3, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 4, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_officer/pm_5th_officer.mdl"] = {
+    antena = { id = 2, name = "Антена", price = 2500, vip = false, default = 0 },
+    kama = { id = 3, name = "Кама", price = 10000, vip = false, default = 0 },
+    pauldron = { id = 4, name = "Наплічник", price = 10000, vip = false, default = 0 },
+    holster_left = { id = 5, name = "Кобура ліва", price = 1500, vip = false, default = 0 },
+    holster_right = { id = 6, name = "Кобура права", price = 1500, vip = false, default = 0 },
+    binos = { id = 7, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 8, name = "Ліхтар", price = 1500, vip = false, default =  1},
+    backpack = { id = 9, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_cmd/pm_5th_cmd.mdl"] = {
+    antena = { id = 2, name = "Антена", price = 2500, vip = false, default = 0 },
+    kama = { id = 3, name = "Кама", price = 10000, vip = false, default = 0 },
+    pauldron = { id = 4, name = "Наплічник", price = 10000, vip = false, default = 0 },
+    holster_left = { id = 5, name = "Кобура ліва", price = 1500, vip = false, default = 0 },
+    holster_right = { id = 6, name = "Кобура права", price = 1500, vip = false, default = 0 },
+    binos = { id = 7, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 8, name = "Ліхтар", price = 1500, vip = false, default =  1},
+    backpack = { id = 9, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_med/pm_5th_med.mdl"] = {
+    binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 3, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 4, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/5th_plt/pm_5th_plt.mdl"] = {
+    flashlight = { id = 2, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 3, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+}
 }
 
 

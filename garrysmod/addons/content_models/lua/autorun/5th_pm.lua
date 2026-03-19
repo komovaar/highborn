@@ -1,0 +1,7 @@
+player_manager.AddValidModel( "pm_5th_trp", "models/5th_trp/pm_5th_trp.mdl" )
+player_manager.AddValidModel( "pm_5th_med", "models/5th_med/pm_5th_med.mdl" )
+player_manager.AddValidModel( "pm_5th_arf", "models/5th_arf/pm_5th_arf.mdl" )
+player_manager.AddValidModel( "pm_5th_plt", "models/5th_plt/pm_5th_plt.mdl" )
+player_manager.AddValidModel( "pm_5th_nco", "models/5th_nco/pm_5th_nco.mdl" )
+player_manager.AddValidModel( "pm_5th_officer", "models/5th_officer/pm_5th_officer.mdl" )
+player_manager.AddValidModel( "pm_5th_cmd", "models/5th_cmd/pm_5th_cmd.mdl" )

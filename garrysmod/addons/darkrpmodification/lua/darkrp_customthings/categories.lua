@@ -33,9 +33,19 @@ DarkRP.createCategory{
     name = "Fleet", -- The name of the category.
     categorises = "jobs", -- What it categorises. MUST be one of "jobs", "entities", "shipments", "weapons", "vehicles", "ammo".
     startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
-    color = Color(0, 76, 153), -- The color of the category header.
+    color = Color(26, 125, 127), -- The color of the category header.
     canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
     sortOrder = 2, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+}
+
+
+DarkRP.createCategory{
+    name = "5th", -- The name of the category.
+    categorises = "jobs", -- What it categorises. MUST be one of "jobs", "entities", "shipments", "weapons", "vehicles", "ammo".
+    startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
+    color = Color(26, 74, 127), -- The color of the category header.
+    canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
+    sortOrder = 3, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
 }
 
 DarkRP.createCategory{
@@ -44,7 +54,7 @@ DarkRP.createCategory{
     startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
     color = Color(255, 128, 0), -- The color of the category header.
     canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
-    sortOrder = 3, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+    sortOrder = 4, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
 }
 
 DarkRP.createCategory{
@@ -53,7 +63,7 @@ DarkRP.createCategory{
     startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
     color = Color(153, 0, 0), -- The color of the category header.
     canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
-    sortOrder = 4, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+    sortOrder = 5, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
 }
 
 DarkRP.createCategory{
@@ -62,7 +72,7 @@ DarkRP.createCategory{
     startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
     color = Color(96, 96, 96), -- The color of the category header.
     canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
-    sortOrder = 5, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+    sortOrder = 6 -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
 }
 
 DarkRP.createCategory{
@@ -71,5 +81,5 @@ DarkRP.createCategory{
     startExpanded = true, -- Whether the category is expanded when you open the F4 menu.
     color = Color(102, 255, 102), -- The color of the category header.
     canSee = function(ply) return true end, -- OPTIONAL: whether the player can see this category AND EVERYTHING IN IT.
-    sortOrder = 6, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
+    sortOrder = 7, -- OPTIONAL: With this you can decide where your category is. Low numbers to put it on top, high numbers to put it on the bottom. It's 100 by default.
 }
