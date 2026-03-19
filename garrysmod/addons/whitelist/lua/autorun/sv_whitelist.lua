@@ -28,7 +28,7 @@ if SERVER then
     -- Создание таблицы whitelist при старте сервера
     local function CreateWhitelistTable()
         local query = sql.Query([[
-            CREATE TABLE IF NOT EXISTS highborn_whitelist(
+            CREATE TABLE IF NOT EXISTS hb_whitelist(
                 steamid TEXT UNIQUE,
                 job INT,
                 rank TEXT CHECK(LENGTH(rank) <= 12),
@@ -64,17 +64,17 @@ if SERVER then
         ply._WhitelistApplied = true
 
         local row = sql.QueryRow(
-            "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
+            "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM hb_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
         )
         if not row then 
-            sql.Query("INSERT OR REPLACE INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" 
+            sql.Query("INSERT OR REPLACE INTO hb_whitelist(steamid, job, rank, can_stunstick) VALUES(" 
             .. sql.SQLStr(ply:SteamID()) .. ", " 
             .. sql.SQLStr("1") .. ", " 
             .. sql.SQLStr("CDT") .. ", " 
             .. sql.SQLStr("0") .. ")"
         )
             row = sql.QueryRow(
-                "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
+                "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM hb_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
             )
         end
 
@@ -105,7 +105,7 @@ if SERVER then
         end
 
         local row = sql.QueryRow(
-            "SELECT job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(steamid)
+            "SELECT job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM hb_whitelist WHERE steamid = " .. sql.SQLStr(steamid)
         )
 
         net.Start("highborn_whitelist_get")
@@ -148,7 +148,7 @@ if SERVER then
         end
 
         if not temporary then
-            local query = "INSERT OR REPLACE INTO highborn_whitelist(" ..
+            local query = "INSERT OR REPLACE INTO hb_whitelist(" ..
                 "steamid, job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy" ..
                 ") VALUES (" ..
                 sql.SQLStr(steamid) .. ", " ..
