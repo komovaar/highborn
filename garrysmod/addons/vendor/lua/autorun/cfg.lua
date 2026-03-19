@@ -189,7 +189,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={TEAM_212PVT, TEAM_212SGT, TEAM_212LT, TEAM_212CMD, TEAM_212MED, TEAM_212PIL, TEAM_212PARA}
+        jobs={"TEAM_212PVT", "TEAM_212SGT", "TEAM_212LT", "TEAM_212CMD", "TEAM_212MED", "TEAM_212PIL", "TEAM_212PARA"}
     },
         {
         name = "DC-15x",
@@ -204,7 +204,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={TEAM_91PVT, TEAM_91SGT, TEAM_91LT, TEAM_91CMD, TEAM_91PIL, TEAM_91ARF, TEAM_91MED}
+        jobs={"TEAM_91PVT", "TEAM_91SGT", "TEAM_91LT", "TEAM_91CMD", "TEAM_91PIL", "TEAM_91ARF", "TEAM_91MED"}
     },
     {
         name = "DC-17s",
@@ -294,7 +294,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={TEAM_91ARF}
+        jobs={"TEAM_91ARF"}
     },
     {
         name = "Bacta Grenade",
@@ -309,7 +309,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={TEAM_91MED, TEAM_212MED}
+        jobs={"TEAM_91MED", "TEAM_212MED"}
     },
     {
         name = "Bacta Injector",
@@ -324,7 +324,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={TEAM_91MED, TEAM_212MED}
+        jobs={"TEAM_91MED", "TEAM_212MED"}
     },
     {
         name = "Ammo Crate",

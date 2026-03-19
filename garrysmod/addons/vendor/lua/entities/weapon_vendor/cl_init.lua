@@ -235,79 +235,76 @@
 
             for _, wep in ipairs(Vendor.Weapons) do
                 if wep.category ~= selectedCategory then continue end
-                    if wep.jobs ~= nil then
-                        local plyJob = LocalPlayer():Team()
-                        local allowed = false
-
-                        for _, job in ipairs(wep.jobs) do
-                            if job == plyJob then
-                                allowed = true
-                                break
-                            end
+                if wep.jobs ~= nil then
+                    local plyJob = LocalPlayer():Team()
+                    local allowed = false
+                    for _, job in ipairs(wep.jobs) do
+                        if _G[job] == plyJob then  -- resolve string -> global constant at runtime
+                            allowed = true
+                            break
                         end
-
-                        if not allowed then continue end
                     end
-                
+                    if not allowed then continue end
+                end
                 local b = list:Add("DButton")
                 b:SetTall(60)
                 b:Dock(TOP)
-                b:DockMargin(0,0,0,10)
+                b:DockMargin(0, 0, 0, 10)
                 b:SetText("")
+
                 b.Paint = function(self, w, h)
                     local bg = C.card
-
                     if wep.vip then
-                        bg = Color(200,170,60,230)
+                        bg = Color(200, 170, 60, 230)
                     end
-
                     draw.RoundedBox(14, 0, 0, w, h, bg)
-
                     draw.SimpleText(wep.name, "WT.List", 16, h/2, C.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-                    draw.SimpleText("RC "..wep.price, "WT.List", w-16, h/2, C.accent, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+                    draw.SimpleText("RC " .. wep.price, "WT.List", w - 16, h/2, C.accent, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
                 end
+
                 b.DoClick = function()
                     selectedWeapon = wep
                     model:SetModel(wep.model)
                     model:SetVisible(true)
                     stats:SetVisible(true)
                     buy:SetVisible(true)
+
+                    -- Check if player already owns this weapon (in arsenal)
+                    local owned = false
                     for _, row in ipairs(player_weapons) do
                         if row.weapon == selectedWeapon.class then
+                            owned = true
                             if tonumber(row.stored) == 1 then
                                 buy:SetText("ВЗЯТИ З АРСЕНАЛУ")
                             else
                                 buy:SetText("ПОКЛАСТИ В АРСЕНАЛ")
                             end
+
                             buy.DoClick = function()
-                            net.Start("WeaponTrader.ToggleStorage")
-                                net.WriteString(selectedWeapon.class)
-                            net.SendToServer()
+                                net.Start("WeaponTrader.ToggleStorage")
+                                    net.WriteString(selectedWeapon.class)
+                                net.SendToServer()
 
-                            for _, row in ipairs(player_weapons) do
-                                if row.weapon == selectedWeapon.class then
-                                    row.stored = tonumber(row.stored) == 1 and 0 or 1
-
-                                    if tonumber(row.stored) == 1 then
-                                        buy:SetText("ВЗЯТИ З АРСЕНАЛУ")
-                                    else
-                                        buy:SetText("ПОКЛАСТИ В АРСЕНАЛ")
+                                for _, r in ipairs(player_weapons) do
+                                    if r.weapon == selectedWeapon.class then
+                                        r.stored = tonumber(r.stored) == 1 and 0 or 1
+                                        buy:SetText(tonumber(r.stored) == 1 and "ВЗЯТИ З АРСЕНАЛУ" or "ПОКЛАСТИ В АРСЕНАЛ")
+                                        break
                                     end
-
-                                    break
                                 end
                             end
-                        end
-
-                            return
+                            break
                         end
                     end
 
-                    buy:SetText("ПРИДБАТИ")
-                    buy.DoClick = function()
-                        net.Start("WeaponTrader.Buy")
-                            net.WriteString(selectedWeapon.class)
-                        net.SendToServer()
+                    -- Not owned yet — show buy button
+                    if not owned then
+                        buy:SetText("ПРИДБАТИ")
+                        buy.DoClick = function()
+                            net.Start("WeaponTrader.Buy")
+                                net.WriteString(selectedWeapon.class)
+                            net.SendToServer()
+                        end
                     end
                 end
             end
