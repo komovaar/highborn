@@ -29,7 +29,7 @@ if SERVER then
     local function CreateWhitelistTable()
         local query = sql.Query([[
             CREATE TABLE IF NOT EXISTS highborn_whitelist(
-                steamid TEXT,
+                steamid TEXT UNIQUE,
                 job INT,
                 rank TEXT CHECK(LENGTH(rank) <= 12),
                 can_stunstick INT DEFAULT 0,
@@ -67,12 +67,12 @@ if SERVER then
             "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
         )
         if not row then 
-            sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" 
-                .. sql.SQLStr(ply:SteamID()) .. ", " 
-                .. sql.SQLStr("1") .. ", " 
-                .. sql.SQLStr("CDT") .. ", " 
-                .. sql.SQLStr("0") .. ")"
-            )
+            sql.Query("INSERT OR REPLACE INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" 
+            .. sql.SQLStr(ply:SteamID()) .. ", " 
+            .. sql.SQLStr("1") .. ", " 
+            .. sql.SQLStr("CDT") .. ", " 
+            .. sql.SQLStr("0") .. ")"
+        )
             row = sql.QueryRow(
                 "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
             )
