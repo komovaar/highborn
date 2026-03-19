@@ -270,7 +270,7 @@ TEAM_212PARA = DarkRP.createJob("212 | Клон Параджай", {
 })
 
 TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | Адмірал", {
-    color = Color(0, 76, 153),
+    color = Color(26, 125, 127),
     model = {"models/naval_admiral/pm_naval_admiral.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -298,7 +298,7 @@ TEAM_FLEET_ADM = DarkRP.createJob("Республіканський Флот | �
 })
 
 TEAM_FLEET_CMD = DarkRP.createJob("Республіканський Флот | Клон Командир", {
-    color = Color(0, 76, 153),
+    color = Color(26, 125, 127),
     model = {"models/ct_arc/pm_ct_arc.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -322,7 +322,7 @@ TEAM_FLEET_CMD = DarkRP.createJob("Республіканський Флот | �
 })
 
 TEAM_FLEET_NAVI = DarkRP.createJob("Республіканський Флот | Клон Офіцер Навігації", {
-    color = Color(0, 76, 153),
+    color = Color(26, 125, 127),
     model = {"models/naval_officer/pm_naval_officer.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
@@ -531,6 +531,165 @@ TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
         ply:SetBodygroup(4, 0) -- fhair
         ply:SetArmor(40)
         ply:SetMaxArmor(40)
+    end
+})
+
+TEAM_5PVT = DarkRP.createJob("5 | Клон Рядовий", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_trp/pm_5th_trp.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5pvt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(6, 0)
+        ply:SetArmor(20)
+        ply:SetMaxArmor(20)
+    end
+})
+
+TEAM_5SGT = DarkRP.createJob("5 | Клон Сержант", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_nco/pm_5th_nco.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5sgt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(6, 0)
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_5LT = DarkRP.createJob("5 | Клон Лейтенант", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_officer/pm_5th_officer.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5lt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 1)
+        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(4, 1)
+        ply:SetBodygroup(5, 1)
+        ply:SetBodygroup(6, 1)
+        ply:SetBodygroup(7, 0)
+        ply:SetBodygroup(8, 0)
+        ply:SetBodygroup(9, 0)
+        ply:SetBodygroup(10, 0)
+        ply:SetBodygroup(11, 0)
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
+    end
+})
+
+TEAM_5CMD = DarkRP.createJob("5 | Клон Командир", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_cmd/pm_5th_cmd.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5cmd",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 1)
+        ply:SetBodygroup(6, 1)
+        ply:SetBodygroup(7, 2)
+        ply:SetBodygroup(8, 0)
+        ply:SetBodygroup(9, 0)
+        ply:SetBodygroup(10, 0)
+        ply:SetBodygroup(11, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_5MED = DarkRP.createJob("5 | Клон Медик", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_med/pm_5th_med.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5med",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 3)
+        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(6, 0)
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_5PIL = DarkRP.createJob("5 | Клон Пілот", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_plt/pm_5th_plt.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5pil",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 0)
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
     end
 })
 
