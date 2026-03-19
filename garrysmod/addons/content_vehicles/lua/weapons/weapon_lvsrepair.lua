@@ -3,8 +3,8 @@ AddCSLuaFile()
 SWEP.Category				= "[LVS]"
 SWEP.Spawnable			= true
 SWEP.AdminSpawnable		= false
-SWEP.ViewModel			= "models/weapons/c_repairlvs.mdl"
-SWEP.WorldModel			= "models/weapons/w_repairlvs.mdl"
+SWEP.ViewModel			= "models/f137/f187_cutter.mdl"
+SWEP.WorldModel			= "models/f137/w_repairtorch.mdl"
 SWEP.UseHands				= true
 
 SWEP.HoldType				= "slam"
@@ -112,7 +112,7 @@ local function IsEngineMode( AimPos, Engine )
 end
 
 if CLIENT then
-	SWEP.PrintName		= "Repair Torch"
+	SWEP.PrintName		= "F-187"
 	SWEP.Author			= "Blu-x92"
 
 	SWEP.Slot				= 5
