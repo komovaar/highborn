@@ -269,20 +269,29 @@ end
 --// Write any server notifications
 hook.Add("ChatText", "luctus_chat", function(index, name, text, type)
     if not IsValid(eChat.frame) then eChat.buildBox() end
+
     if type == "chat" and name == "Console" then
-        eChat.chatLog:InsertColorChange( 0, 0, 0, 255 )
-        eChat.chatLog:AppendText( "Console: "..text.."\n" )
-        eChat.chatLog:SetVisible( true )
+        AppendWrappedText(eChat.chatLog, "Console: "..text)
+        eChat.chatLog:AppendText("\n")
+        eChat.chatLog:SetVisible(true)
         eChat.lastMessage = CurTime()
         return true
     end
-    if type != "chat" then
-        eChat.chatLog:InsertColorChange( 0, 128, 255, 255 )
-        eChat.chatLog:AppendText( text.."\n" )
-        eChat.chatLog:SetVisible( true )
+
+    if type ~= "chat" then
+        AppendWrappedText(eChat.chatLog, text)
+        eChat.chatLog:AppendText("\n")
+        eChat.chatLog:SetVisible(true)
         eChat.lastMessage = CurTime()
         return true
     end
+
+    -- Для сообщений от других игроков
+    AppendWrappedText(eChat.chatLog, name .. ": " .. text)
+    eChat.chatLog:AppendText("\n")
+    eChat.chatLog:SetVisible(true)
+    eChat.lastMessage = CurTime()
+    return true
 end)
 
 --[[
