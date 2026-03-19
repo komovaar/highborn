@@ -116,6 +116,21 @@ Vendor.Weapons = {
         vip = false,
         jobs=nil
     },
+     {
+        name = "DC-15s Stun",
+        class = "rw_sw_stun_dc15s",
+        price = 2500,
+        model = "models/sw_battlefront/weapons/dc15s_carbine.mdl",
+        stats = {
+            damage = 30,
+            rpm = 375,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_5PVT", "TEAM_5SGT", "TEAM_5LT", "TEAM_5CMD", "TEAM_5PIL", "TEAM_5MED"}
+    },
     {
         name = "DC-15LE",
         class = "rw_sw_dc15le_o",
