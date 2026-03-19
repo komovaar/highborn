@@ -231,39 +231,52 @@ function PANEL:Populate()
 
     local categories = {}
 
-    for _, cat in ipairs(DarkRP.getCategories().jobs or {}) do
-        categories[cat.name] = {
-            color = cat.color or Color(100,100,100),
-            players = {}
-        }
-    end
-
     for _, ply in ipairs(player.GetAll()) do
         local jobTable = ply:getJobTable()
-        local catName = jobTable and jobTable.category or "Інше"
-        local cat = jobTable and jobTable.category or "Інше"
-        if cat == "212th" then
-            catName = "212 штурмовий батальйон"
-        elseif cat == "91st" then
-            catName = "91 розвідувальний корпус"
-        elseif cat == "Fleet"  then
-            catName = "Республіканський флот"
-        end
-
-        categories[catName] = categories[catName] or {
+        local catKey = jobTable and jobTable.category or "Інше"
+        categories[catKey] = categories[catKey] or {
+            name = catKey,
             color = Color(100,100,100),
-            players = {}
+            players = {},
+            sortOrder = 100 
         }
-
-        table.insert(categories[catName].players, ply)
+        table.insert(categories[catKey].players, ply)
     end
 
-    for catName, data in SortedPairs(categories) do
-        if #data.players > 0 then
-            self:AddCategory(catName, data.color)
-            for _, ply in ipairs(data.players) do
-                CreatePlayerRow(self.Scroll, ply)
-            end
+    for _, cat in ipairs(DarkRP.getCategories().jobs or {}) do
+        if categories[cat.name] then
+            categories[cat.name].sortOrder = cat.sortOrder or 100
+            categories[cat.name].color = cat.color or categories[cat.name].color
+        end
+    end
+
+    local sortedCats = {}
+    for _, catData in pairs(categories) do
+        if #catData.players > 0 then
+            table.insert(sortedCats, catData)
+        end
+    end
+
+    table.sort(sortedCats, function(a, b)
+        return a.sortOrder < b.sortOrder
+    end)
+
+    for _, catData in ipairs(sortedCats) do
+        local catName = catData.name
+        if catName == "212th" then
+            catName = "212 штурмовий батальйон"
+        elseif catName == "91st" then
+            catName = "91 розвідувальний корпус"
+        elseif catName == "Fleet" then
+            catName = "Республіканський флот"
+        elseif catName == "5th" then
+            catName = "5 охоронний флот"
+        end
+
+        self:AddCategory(catName, catData.color)
+
+        for _, ply in ipairs(catData.players) do
+            CreatePlayerRow(self.Scroll, ply)
         end
     end
 end
