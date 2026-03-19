@@ -50,19 +50,19 @@ do
 		end)
 	end
 
-	function sam.player.send_message(ply, msg, tbl, target)
+	function sam.player.send_message(ply, msg, tbl)
 		if SERVER then
 			if sam.isconsole(ply) then
 				local result = sam.format_message(msg, tbl)
 				sam.print(unpack(result, 1, result.__cnt))
 			else
-				-- Проверка: только админы или тот, на кого направлено
-				if not ply:IsAdmin() and target ~= ply then return end
-				return sam.netstream.Start(ply, "send_message", msg, tbl, target)
+				for _, v in ipairs(player.GetAll()) do
+					if v:IsPriveleged() then
+						sam.netstream.Start(v, "send_message", msg, tbl)
+					end
+				end
 			end
 		else
-			-- Клиентская проверка: админ или тот, на кого сообщение
-			if not LocalPlayer():IsAdmin() and target ~= LocalPlayer() then return end
 
 			local prefix_result = sam.format_message(config.get("ChatPrefix", ""))
 			local prefix_n = #prefix_result
@@ -108,6 +108,13 @@ do
 
 	function PLAYER:IsSuperAdmin()
 		return self:CheckGroup("superadmin")
+	end
+
+	function PLAYER:IsPriveleged()
+		return self:CheckGroup("superadmin") 
+			or self:CheckGroup("root") 
+			or self:CheckGroup("admin") 
+			or self:CheckGroup("head")
 	end
 
 	local inherits_from = sam.ranks.inherits_from
