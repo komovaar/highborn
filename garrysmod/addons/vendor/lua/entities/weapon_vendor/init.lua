@@ -15,21 +15,6 @@ sql.Query([[
     )
 ]])
 
-local function IsJobAllowed(ply, wep)
-    if not wep.jobs or #wep.jobs == 0 then
-        return true
-    end
-
-    local teamID = ply:Team()
-
-    for _, job in ipairs(wep.jobs) do
-        if job == teamID then
-            return true
-        end
-    end
-
-    return false
-end
 
 local function IsBlockedJob(ply)
     local teamID = ply:Team()
@@ -70,8 +55,7 @@ local function GivePermaWeapons(ply)
                 end
             end
 
-            -- Проверяем и блокировку работы, и разрешение оружия для работы
-            if wepData and not IsBlockedJob(ply) and IsJobAllowed(ply, wepData) then
+            if wepData and not IsBlockedJob(ply) then
                 if weapons.Get(class) and not ply:HasWeapon(class) then
                     ply:Give(class)
                 end
@@ -127,10 +111,6 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
 
     for _, wep in ipairs(Vendor.Weapons) do
         if wep.class == weaponClass then
-
-            if not IsJobAllowed(ply, wep) then
-                return
-            end
 
             if wep.vip and not ply:IsUserGroup("vip") then
                 return
