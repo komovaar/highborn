@@ -47,8 +47,6 @@ if SERVER then
         local talker_chan = talker:GetNW2Var("radio_active")
         local listener_main = listener:GetNW2Var("radio_main")
         local listener_alt = listener:GetNW2Var("radio_alt")
-        print(talker_chan)
-        print(listener_main)
 
         if talker_chan and (talker_chan == listener_main or talker_chan == listener_alt) and listener.walkie_talkie.speaker then
             return true
