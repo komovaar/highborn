@@ -554,12 +554,12 @@ Vendor.Models = {
     backpack = { id = 2, name = "Рюкзак", price = 3500, vip = false, default = 1 },
 },
 ["models/ct_arc/pm_ct_arc.mdl"] = {
-    belt = { id = 2, name = "Пояс", price = 1500, vip = false, default = 1 },
+    belt = { id = 2, name = "Пояс", price = 1500, vip = false, default = 0 },
     backpack = { id = 3, name = "Рюкзак", price = 3500, vip = false, default = 1 },
-    kama = { id = 4, name = "Кама", price = 10000, vip = false, default = 1 },
-    forearms = { id = 5, name = "Бронепластина", price = 5000, vip = false, default = 1 },
-    pauldron = { id = 6, name = "Наплічник", price = 10000, vip = false, default = 1 },
-    antena = { id = 7, name = "Антена", price = 2500, vip = false, default = 2 },
+    kama = { id = 4, name = "Кама", price = 10000, vip = false, default = 0 },
+    forearms = { id = 5, name = "Бронепластина", price = 5000, vip = false, default = 0 },
+    pauldron = { id = 6, name = "Наплічник", price = 10000, vip = false, default = 0 },
+    antena = { id = 7, name = "Антена", price = 2500, vip = false, default = 0 },
 },
 }
 
