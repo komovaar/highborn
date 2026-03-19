@@ -66,8 +66,6 @@ if SERVER then
         local row = sql.QueryRow(
             "SELECT job, can_stunstick, rank, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(ply:SteamID())
         )
-
-        -- Если записи нет — создаём стандартную
         if not row then 
             sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick) VALUES(" 
                 .. sql.SQLStr(ply:SteamID()) .. ", " 
@@ -109,7 +107,6 @@ if SERVER then
         local row = sql.QueryRow(
             "SELECT job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM highborn_whitelist WHERE steamid = " .. sql.SQLStr(steamid)
         )
-        if not row then return end
 
         net.Start("highborn_whitelist_get")
             net.WriteString(steamid)
@@ -123,18 +120,21 @@ if SERVER then
         net.Send(ply)
     end)
 
-    -- Установка whitelist данных
     net.Receive("highborn_whitelist_set", function(len, ply)
         if not HIGHBORN_WHITELIST_ALLOWED_RANKS[ply:GetUserGroup()] then return end
+
         local steamid = net.ReadString()
-        if not (steamid:find("^STEAM_%d:%d:%d+$")) then
-            DarkRP.notify(ply, 1, 5, "You didn't send a valid SteamID!")
+
+        if not isstring(steamid) or not steamid:match("^STEAM_%d:%d:%d+$") then
+            DarkRP.notify(ply, 1, 5, "Invalid SteamID!")
+            print("[WHITELIST] Invalid SteamID:", steamid)
             return
         end
 
-        local job = net.ReadInt(17)
-        local rank = net.ReadString()
-        local can_stunstick = net.ReadInt(11)
+        local job = tonumber(net.ReadInt(17)) or 0
+        local rank = net.ReadString() or ""
+
+        local can_stunstick = tonumber(net.ReadInt(11)) or 0
         local canGL = net.ReadBool() and 1 or 0
         local canGH = net.ReadBool() and 1 or 0
         local canAL = net.ReadBool() and 1 or 0
@@ -142,40 +142,63 @@ if SERVER then
         local spawn = net.ReadBool()
         local temporary = net.ReadBool()
 
-        if not temporary then
-            print("Not temp")
-            -- Удаляем старую запись
-            sql.Query("DELETE FROM highborn_whitelist WHERE steamid = "..sql.SQLStr(steamid))
-
-            -- Вставляем новую
-            sql.Query("INSERT INTO highborn_whitelist(steamid, job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy) VALUES("
-                .. sql.SQLStr(steamid) .. ", "
-                .. sql.SQLStr(job) .. ", "
-                .. sql.SQLStr(rank) .. ", "
-                .. sql.SQLStr(can_stunstick) .. ", "
-                .. sql.SQLStr(canGL) .. ", "
-                .. sql.SQLStr(canGH) .. ", "
-                .. sql.SQLStr(canAL) .. ", "
-                .. sql.SQLStr(canAH) .. ")"
-            )
+        if not sql.TableExists("highborn_whitelist") then
+            print("[WHITELIST ERROR] Table does not exist!")
+            return
         end
 
-        -- Применяем игроку, если онлайн
-        for _, v in pairs(player.GetAll()) do
+        if not temporary then
+            local query = "INSERT OR REPLACE INTO highborn_whitelist(" ..
+                "steamid, job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy" ..
+                ") VALUES (" ..
+                sql.SQLStr(steamid) .. ", " ..
+                job .. ", " ..
+                sql.SQLStr(rank) .. ", " ..
+                can_stunstick .. ", " ..
+                canGL .. ", " ..
+                canGH .. ", " ..
+                canAL .. ", " ..
+                canAH ..
+                ")"
+
+            local result = sql.Query(query)
+
+            if result == false then
+                print("[WHITELIST SQL ERROR]", sql.LastError())
+                print("[WHITELIST QUERY]", query)
+            else
+                print("[WHITELIST] Saved:", steamid)
+            end
+        end
+
+        for _, v in ipairs(player.GetAll()) do
             if v:SteamID() == steamid then
                 v:SetNWString("HighbornRank", rank)
                 v:SetNWBool("HighbornCanGL", canGL == 1)
                 v:SetNWBool("HighbornCanGH", canGH == 1)
                 v:SetNWBool("HighbornCanAL", canAL == 1)
                 v:SetNWBool("HighbornCanAH", canAH == 1)
-                
-                v:changeTeam(job, true, true)
 
-                if can_stunstick == 1 then
-                    GiveStunstick(v)
+                if RPExtraTeams and RPExtraTeams[job] then
+                    v:changeTeam(job, true, true)
+                else
+                    print("[WHITELIST WARNING] Invalid job:", job)
                 end
 
-                if spawn then v:Spawn() end
+                if can_stunstick == 1 then
+                    if GiveStunstick then
+                        GiveStunstick(v)
+                    else
+                        print("[WHITELIST WARNING] GiveStunstick function missing")
+                    end
+                end
+
+                -- Респавн
+                if spawn then
+                    v:Spawn()
+                end
+
+                print("[WHITELIST] Applied to online player:", v:Nick())
                 break
             end
         end
