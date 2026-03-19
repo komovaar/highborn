@@ -297,9 +297,24 @@ Vendor.Weapons = {
         jobs={"TEAM_91ARF"}
     },
     {
+        name = "F-187 Fusion Cutter",
+        class = "weapon_lvsrepair",
+        price = 1500,
+        model = "models/f137/w_repairtorch.mdl",
+        stats = {
+            damage = 10,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={"TEAM_212PIL", "TEAM_91PIL"}
+    },
+    {
         name = "Bacta Grenade",
         class = "rw_sw_nade_bacta",
-        price = 2500,
+        price = 1500,
         model = "models/cs574/explosif/grenade_bacta.mdl",
         stats = {
             damage = 0,
