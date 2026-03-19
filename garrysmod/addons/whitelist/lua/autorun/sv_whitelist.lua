@@ -12,6 +12,7 @@ if SERVER then
     local LightAir = {
         ["lvs_starfighter_vwing"] = true,
         ["lvs_starfighter_arc170"] = true,
+        ["lvs_starfighter_v19"] = true,
     }
 
     local HeavyGround = {
