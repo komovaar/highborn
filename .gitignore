@@ -3,7 +3,7 @@
 # source files
 appcache/
 bin/
-config/
+/config/
 depotcache/
 logs/
 platform/
