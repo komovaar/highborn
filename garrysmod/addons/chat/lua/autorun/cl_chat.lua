@@ -201,12 +201,22 @@ end
 local oldAddText = chat.AddText
 
 local function AppendWrappedText(rtext, str)
-    local maxLen = 100 -- примерная длина строки для переноса
-    local i = 1
-    while i <= #str do
-        local substr = str:sub(i, i + maxLen - 1)
-        rtext:AppendText(substr .. "\n")
-        i = i + maxLen
+    local maxLen = 80
+    while #str > maxLen do
+        local breakAt = maxLen
+        -- Try to find a space to break at
+        for i = maxLen, 1, -1 do
+            if str:sub(i, i) == " " then
+                breakAt = i
+                break
+            end
+        end
+        rtext:AppendText(str:sub(1, breakAt))
+        rtext:AppendText("\n")
+        str = str:sub(breakAt + 1)
+    end
+    if #str > 0 then
+        rtext:AppendText(str)
     end
 end
 
@@ -230,78 +240,11 @@ function chat.AddText(...)
         end
     end
     eChat.chatLog:SetVisible(true)
+    eChat.chatLog:AppendText("\n") 
     eChat.lastMessage = CurTime()
     eChat.chatLog:InsertColorChange(255,255,255,255)
 end
 
---// Overwrite chat.AddText to detour it into my chatbox
-function chat.AddText(...)
-    if not IsValid(eChat.frame) then eChat.buildBox() end
-    local msg = {}
-    if LUCTUS_CHAT_USE_TIMESTAMPS then
-        eChat.chatLog:InsertColorChange( 130, 130, 130, 255 )
-        eChat.chatLog:AppendText( ""..os.date("%H:%M").." ")
-    end
-    -- Iterate through the strings and colors
-    for k, obj in pairs( {...} ) do
-        if type(obj) == "table" then
-            eChat.chatLog:InsertColorChange( obj.r, obj.g, obj.b, obj.a )
-            table.insert( msg, Color(obj.r, obj.g, obj.b, obj.a) )
-        elseif type(obj) == "string"  then
-            eChat.chatLog:AppendText( obj )
-            table.insert( msg, obj )
-        elseif obj:IsPlayer() then
-            local ply = obj
-            local col = GAMEMODE:GetTeamColor( obj )
-            eChat.chatLog:InsertColorChange( col.r, col.g, col.b, 255 )
-            eChat.chatLog:AppendText( obj:Nick() )
-            table.insert( msg, obj:Nick() )
-        end
-    end
-    eChat.chatLog:AppendText("\n")
-    
-    eChat.chatLog:SetVisible(true)
-    eChat.lastMessage = CurTime()
-    eChat.chatLog:InsertColorChange( 255, 255, 255, 255 )
-    --oldAddText(unpack(msg))
-end
-
---// Write any server notifications
-hook.Add("ChatText", "luctus_chat", function(index, name, text, type)
-    if not IsValid(eChat.frame) then eChat.buildBox() end
-
-    if type == "chat" and name == "Console" then
-        AppendWrappedText(eChat.chatLog, "Console: "..text)
-        eChat.chatLog:AppendText("\n")
-        eChat.chatLog:SetVisible(true)
-        eChat.lastMessage = CurTime()
-        return true
-    end
-
-    if type ~= "chat" then
-        AppendWrappedText(eChat.chatLog, text)
-        eChat.chatLog:AppendText("\n")
-        eChat.chatLog:SetVisible(true)
-        eChat.lastMessage = CurTime()
-        return true
-    end
-
-    -- Для сообщений от других игроков
-    AppendWrappedText(eChat.chatLog, name .. ": " .. text)
-    eChat.chatLog:AppendText("\n")
-    eChat.chatLog:SetVisible(true)
-    eChat.lastMessage = CurTime()
-    return true
-end)
-
---[[
---Testing
-hook.Add("OnPlayerChat","luctus_chat",function(ply,text)
-    if text == "d" then if IsValid(eChat.frame) then eChat.frame:Close() end end
-end)
---]]
-
---// Stops the default chat box from being opened
 hook.Add("PlayerBindPress", "luctus_chat", function(ply, bind, pressed)
     if not IsValid(eChat.frame) then eChat.buildBox() end
     if string.sub(bind, 1, 11) == "messagemode" and pressed then
