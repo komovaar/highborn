@@ -12,20 +12,6 @@ local C = {
     accent = Color(80,140,220),
 }
 
-local blur = Material("pp/blurscreen")
-
-local function DrawBlur(panel)
-    local x,y = panel:LocalToScreen(0,0)
-    surface.SetMaterial(blur)
-    surface.SetDrawColor(255,255,255)
-    for i=1,6 do
-        blur:SetFloat("$blur",i*1.2)
-        blur:Recompute()
-        render.UpdateScreenEffectTexture()
-        surface.DrawTexturedRect(-x,-y,ScrW(),ScrH())
-    end
-end
-
 net.Receive("BGTrader.Open", function()
 
     local serverData = net.ReadTable() or {}

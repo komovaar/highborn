@@ -13,22 +13,6 @@
     }
 
     -- ======================================================
-    -- BLUR
-    -- ======================================================
-    local blur = Material("pp/blurscreen")
-    local function DrawBlur(panel)
-        local x, y = panel:LocalToScreen(0, 0)
-        surface.SetMaterial(blur)
-        surface.SetDrawColor(255,255,255)
-        for i = 1, 6 do
-            blur:SetFloat("$blur", i * 1.2)
-            blur:Recompute()
-            render.UpdateScreenEffectTexture()
-            surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
-        end
-    end
-
-    -- ======================================================
     -- FONTS (Overpass)
     -- ======================================================
     local function F(name, size, weight)
