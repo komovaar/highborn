@@ -17,7 +17,7 @@ function DrGBase.AddWeapon(SWEP)
 		Class = class,
 		Category = SWEP.Category
 	})
-	DrGBase.Print("Weapon '"..class.."': loaded.")
+	-- DrGBase.Print("Weapon '"..class.."': loaded.")
 end
 
 hook.Add("PopulateDrGBaseSpawnmenu", "AddDrGBaseWeapons", function(pnlContent, tree, node)

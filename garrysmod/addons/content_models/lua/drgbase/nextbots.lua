@@ -98,7 +98,7 @@ function DrGBase.AddNextbot(ENT)
 		list.Set("NPC", class, nextbot)
 		list.Set("DrGBaseNextbots", class, nextbot)
 	end
-	DrGBase.Print("Nextbot '"..class.."': loaded.")
+	-- DrGBase.Print("Nextbot '"..class.."': loaded.")
 	return true
 end
 

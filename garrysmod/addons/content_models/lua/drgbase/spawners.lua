@@ -15,7 +15,7 @@ function DrGBase.AddSpawner(ENT)
 		list.Set("NPC", class, spawner)
 		list.Set("DrGBaseSpawners", class, spawner)
 	end
-	DrGBase.Print("Spawner '"..class.."': loaded.")
+	-- DrGBase.Print("Spawner '"..class.."': loaded.")
 	return true
 end
 

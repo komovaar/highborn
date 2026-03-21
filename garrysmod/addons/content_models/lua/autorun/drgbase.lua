@@ -27,7 +27,7 @@ function DrGBase.Print(msg, options)
 		elseif CLIENT then title = DrGBase.CLR_ORANGE end
 		local color = options.color or DrGBase.CLR_WHITE
 		if options.chat and CLIENT then
-			chat.AddText(title, "[DrGBase] ", color, msg)
+			-- chat.AddText(title, "[DrGBase] ", color, msg)
 		else MsgC(title, "[DrGBase] ", color, msg, "\n") end
 	end
 end
@@ -64,7 +64,7 @@ end
 -- Manage files --
 
 local function IncludeFile(fileName)
-	DrGBase.Print("Include file '"..fileName.."'.")
+	-- DrGBase.Print("Include file '"..fileName.."'.")
 	return include(fileName)
 end
 function DrGBase.IncludeFile(fileName)
@@ -87,7 +87,7 @@ function DrGBase.IncludeFiles(fileNames)
 	return tbl
 end
 function DrGBase.IncludeFolder(folder)
-	DrGBase.Print("Include folder '"..folder.."'.")
+	-- DrGBase.Print("Include folder '"..folder.."'.")
 	local tbl = {}
 	for i, fileName in ipairs(file.Find(folder.."/*.lua", "LUA")) do
 		tbl[folder.."/"..fileName] = DrGBase.IncludeFile(folder.."/"..fileName)
