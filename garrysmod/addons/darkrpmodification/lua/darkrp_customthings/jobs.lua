@@ -666,8 +666,8 @@ TEAM_5CMD = DarkRP.createJob("5 | Клон Командир", {
         ply:SetBodygroup(9, 0) -- backpack
         ply:SetBodygroup(10, 0) -- hair
         ply:SetBodygroup(11, 0) -- fhair
-        ply:SetArmor(50)
-        ply:SetMaxArmor(50)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
