@@ -284,7 +284,7 @@ Vendor.Weapons = {
     },
     {
         name = "Valken 38x",
-        class = "rw_sw_valkenx38a",
+        class = "rw_sw_valken38x",
         price = 20000,
         model = "models/sw_battlefront/weapons/valken_38x.mdl",
         stats = {

