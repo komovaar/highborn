@@ -36,8 +36,7 @@ hook.Add("HUDPaint", "AdminNoclipESP", function()
             Color(0,0,0)
         )
 
-        -- ===== ТРЕЙСЕР =====
-        local traceLength = 100 -- длина линии
+        local traceLength = 100
         local eyePos = target:EyePos()
         local aimDir = target:EyeAngles():Forward()
         local endPos = eyePos + aimDir * traceLength
@@ -45,7 +44,6 @@ hook.Add("HUDPaint", "AdminNoclipESP", function()
         local screenStart = eyePos:ToScreen()
         local screenEnd = endPos:ToScreen()
 
-        -- Рисуем линию от глаз до точки направления
         surface.SetDrawColor(255, 0, 0, 255)
         surface.DrawLine(screenStart.x, screenStart.y, screenEnd.x, screenEnd.y)
     end

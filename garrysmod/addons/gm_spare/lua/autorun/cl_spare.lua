@@ -12,7 +12,7 @@ local linkMenu
         sound.PlayFile(url, "noplay", function(station)
             if IsValid(station) then
                 station:Play()
-                station:SetVolume(Volume:GetFloat() / 100) -- Конвертируем в 0–1
+                station:SetVolume(Volume:GetFloat() / 100)
                 musicSound = station
             end
         end)
@@ -52,8 +52,8 @@ local linkMenu
         end
 
         local links = {
-            {name = "Discord", url = "https://discord.gg/yourserver"},
-            {name = "Статут", url = "https://yourserver.com"},
+            {name = "Discord", url = "https://discord.gg/2GJVAuBJbz"},
+            {name = "Статут", url = "https://sites.google.com/view/highborn"},
         }
 
         local y = 40
