@@ -7,7 +7,7 @@ local NextUse = setmetatable({}, {__mode = 'k', __index = function() return 0 en
 
 local SittingOnPlayer = CreateConVar("sitting_can_sit_on_players","0",{FCVAR_ARCHIVE}, "Allows players to sit on SitAnywhere sitting players", 0, 1)
 local SittingOnPlayer2 = CreateConVar("sitting_can_sit_on_player_ent","0",{FCVAR_ARCHIVE}, "Allows players to sit on actual player entities", 0, 1)
-local PlayerDamageOnSeats = CreateConVar("sitting_can_damage_players_sitting","0",{FCVAR_ARCHIVE}, "Allows damaging sitting players (hacky, not a true solution)", 0, 1)
+local PlayerDamageOnSeats = CreateConVar("sitting_can_damage_players_sitting","1",{FCVAR_ARCHIVE}, "Allows damaging sitting players (hacky, not a true solution)", 0, 1)
 local AllowWeaponsInSeat = CreateConVar("sitting_allow_weapons_in_seat","0",{FCVAR_ARCHIVE}, "Allows the use of weapons in SitAnywhere sitting", 0, 1)
 local AdminOnly = CreateConVar("sitting_admin_only","0",{FCVAR_ARCHIVE}, "Locks sitting to admins only (uses PLAYER:IsAdmin)", 0, 1)
 local AntiPropSurf = CreateConVar("sitting_anti_prop_surf","1",{FCVAR_ARCHIVE}, "Disables the use of the physgun on contraptions with someone sitting on them", 0, 1)
