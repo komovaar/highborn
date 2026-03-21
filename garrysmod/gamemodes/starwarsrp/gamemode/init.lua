@@ -185,3 +185,38 @@ hook.Add("PlayerCanDropWeapon", "BlockWeaponDrop", function(ply, weapon)
         return false -- запрещаем дроп
     end
 end)
+
+local NoTargetJobs = {
+    [TEAM_B1] = true,
+    [TEAM_B1CO] = true,
+    [TEAM_B1SNP] = true,
+    [TEAM_B1Z4] = true,
+    [TEAM_B2] = true,
+    [TEAM_B2CAN] = true,
+    [TEAM_BX] = true,
+    [TEAM_TACTICAL] = true,
+}
+
+local function UpdateNoTarget(ply)
+    if not IsValid(ply) then return end
+
+    if NoTargetJobs[ply:Team()] then
+        ply:SetNoTarget(true)
+    else
+        ply:SetNoTarget(false)
+    end
+end
+
+hook.Add("PlayerSpawn", "SetNoTargetOnSpawn", function(ply)
+    timer.Simple(0.1, function()
+        if not IsValid(ply) then return end
+        UpdateNoTarget(ply)
+    end)
+end)
+
+hook.Add("OnPlayerChangedTeam", "SetNoTargetOnJobChange", function(ply)
+    timer.Simple(0.1, function()
+        if not IsValid(ply) then return end
+        UpdateNoTarget(ply)
+    end)
+end)

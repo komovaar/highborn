@@ -42,3 +42,11 @@ command.new("notarget"):SetPermission("NoTarget", "user"):AddArg("player", {}):A
     end
 end):End()
 
+hook.Add("PlayerSpawn", "RookiRestoreNoTarget", function(ply)
+    timer.Simple(0.1, function()
+        if not IsValid(ply) then return end
+
+        local val = ply:GetNWBool("rooki_notarget", false)
+        ply:SetNoTarget(val)
+    end)
+end)
