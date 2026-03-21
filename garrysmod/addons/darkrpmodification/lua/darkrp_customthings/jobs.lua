@@ -1238,6 +1238,113 @@ TEAM_RENFEMALE = DarkRP.createJob("Цивільні | Повстанка", {
     command="renfemale",
 })
 
+TEAM_RCSkoll = DarkRP.createJob("RC Wolfs | Skoll", {
+    color = Color(26, 74, 127),
+    model = {"models/player/finch/rc/104ce/skoll.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc17m"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="rcskoll",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_RCShadow = DarkRP.createJob("RC Wolfs | Shadow", {
+    color = Color(70, 70, 70),
+    model = {"models/player/finch/rc/104ce/shadow.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc17m"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "RC",
+    command="rcshadow",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_RCRedhood = DarkRP.createJob("RC Wolfs | Redhood", {
+    color = Color(70, 70, 70),
+    model = {"models/player/finch/rc/104ce/redhood.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc17m"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "RC",
+    command="rcredhood",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_RCHowl = DarkRP.createJob("RC Wolfs | Howl", {
+    color = Color(70, 70, 70),
+    model = {"models/player/finch/rc/104ce/howl.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc17m"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "RC",
+    command="rchowl",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_5PROT = DarkRP.createJob("5 | Клон Преторіанець", {
+    color = Color(26, 74, 127),
+    model = {"models/5th_senate/pm_5th_senate.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "5th",
+    command="5prot",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 1) -- kama
+        ply:SetBodygroup(3, 0) -- binos
+        ply:SetBodygroup(4, 0) -- flashlight
+        ply:SetBodygroup(5, 0) -- backpack
+        ply:SetBodygroup(6, 0) -- hair
+        ply:SetBodygroup(7, 0) -- fhair
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
 ---------------------------------------------------------------------------]]
