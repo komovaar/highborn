@@ -223,6 +223,51 @@ Vendor.Weapons = {
         jobs={"TEAM_91PVT", "TEAM_91SGT", "TEAM_91LT", "TEAM_91CMD", "TEAM_91PIL", "TEAM_91ARF", "TEAM_91MED"}
     },
     {
+        name = "DC-17m Sniper",
+        class = "rw_sw_dc17m_sniper",
+        price = 20000,
+        model = "models/cs574/dc17m/dc17m_base.mdl",
+        stats = {
+            damage = 85,
+            rpm = 75,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+    },
+    {
+        name = "DC-17m Shotgun",
+        class = "rw_sw_dc17m_shotgun",
+        price = 20000,
+        model = "models/cs574/dc17m/dc17m_base.mdl",
+        stats = {
+            damage = 85,
+            rpm = 75,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+    },
+        {
+        name = "DC-17m Launcher",
+        class = "rw_sw_dc17m_launcher",
+        price = 40000,
+        model = "models/cs574/dc17m/dc17m_base.mdl",
+        stats = {
+            damage = 85,
+            rpm = 75,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+    },
+    {
         name = "DC-17s",
         class = "rw_sw_dc17s",
         price = 10000,
@@ -298,6 +343,21 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
+        name = "Щит",
+        class = "rw_sw_shield_rep",
+        price = 3500,
+        model = "rw_sw_shield_rep",
+        stats = {
+            damage = 0,
+            rpm = 0,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={"TEAM_5PROT"}
+    },
+    {
         name = "Гак-кішка",
         class = "realistic_hook",
         price = 3500,
@@ -310,7 +370,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91ARF"}
+        jobs={"TEAM_91ARF", "TEAM_RCShadow", "TEAM_RCSkoll"}
     },
     {
         name = "F-187 Fusion Cutter",
@@ -325,7 +385,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL"}
+        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL", "TEAM_RCHowl", "TEAM_RCSkoll"}
     },
     {
         name = "Bacta Grenade",
@@ -340,7 +400,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCSkoll", "TEAM_RCRedhood"}
     },
     {
         name = "Bacta Injector",
@@ -355,7 +415,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCSkoll", "TEAM_RCRedhood"}
     },
     {
         name = "Ammo Crate",
