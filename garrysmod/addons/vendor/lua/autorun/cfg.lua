@@ -691,7 +691,13 @@ Vendor.Models = {
 ["models/5th_plt/pm_5th_plt.mdl"] = {
     flashlight = { id = 2, name = "Ліхтар", price = 1500, vip = false, default = 1 },
     backpack = { id = 3, name = "Рюкзак", price = 3500, vip = false, default = 1 },
-}
+},
+["models/5th_senate/pm_5th_senate.mdl"] = {
+    kama = { id = 2, name = "Кама", price = 10000, vip = true, default = 0 },
+    binos = { id = 3, name = "Візор", price = 5000, vip = false, default = 1 },
+    flashlight = { id = 4, name = "Ліхтар", price = 1500, vip = false, default = 1 },
+    backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
 }
 
 
