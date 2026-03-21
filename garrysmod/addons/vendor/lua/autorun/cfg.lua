@@ -224,12 +224,27 @@ Vendor.Weapons = {
     },
     {
         name = "DC-17m Sniper",
+        class = "rw_sw_dc17m",
+        price = 0,
+        model = "models/cs574/dc17m/dc17m_base.mdl",
+        stats = {
+            damage = 15,
+            rpm = 400,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+    },
+    {
+        name = "DC-17m Sniper",
         class = "rw_sw_dc17m_sniper",
         price = 20000,
         model = "models/cs574/dc17m/dc17m_base.mdl",
         stats = {
-            damage = 85,
-            rpm = 75,
+            damage = 40,
+            rpm = 145,
             accuracy = "High",
             mode = "Auto"
         },
@@ -243,8 +258,8 @@ Vendor.Weapons = {
         price = 20000,
         model = "models/cs574/dc17m/dc17m_base.mdl",
         stats = {
-            damage = 85,
-            rpm = 75,
+            damage = 15,
+            rpm = 100,
             accuracy = "High",
             mode = "Auto"
         },
@@ -258,8 +273,8 @@ Vendor.Weapons = {
         price = 40000,
         model = "models/cs574/dc17m/dc17m_base.mdl",
         stats = {
-            damage = 85,
-            rpm = 75,
+            damage = 150,
+            rpm = 50,
             accuracy = "High",
             mode = "Auto"
         },
