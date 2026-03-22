@@ -1,5 +1,5 @@
 if SERVER then
-LUCTUS_DEATH_TIME = 5
+LUCTUS_DEATH_TIME = 15
 
 hook.Add("PlayerDisconnected","hb_remove_svragdoll",function(ply)
   if ply.lragdoll then
