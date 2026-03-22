@@ -130,7 +130,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_5PVT", "TEAM_5SGT", "TEAM_5LT", "TEAM_5CMD", "TEAM_5PIL", "TEAM_5MED"}
+        jobs={"TEAM_5PVT", "TEAM_5SGT", "TEAM_5LT", "TEAM_5CMD", "TEAM_5PIL", "TEAM_5MED", "TEAM_5PROT"}
     },
     {
         name = "DC-15LE",
