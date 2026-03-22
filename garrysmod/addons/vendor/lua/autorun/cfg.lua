@@ -385,7 +385,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91ARF", "TEAM_RCShadow", "TEAM_RCSkoll"}
+        jobs={"TEAM_91ARF", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_RCHowl"}
     },
     {
         name = "F-187 Fusion Cutter",
@@ -430,7 +430,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCSkoll", "TEAM_RCRedhood"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_RCHowl"}
     },
     {
         name = "Ammo Crate",
