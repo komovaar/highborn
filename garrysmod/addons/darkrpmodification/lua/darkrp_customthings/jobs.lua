@@ -16,31 +16,6 @@ https://darkrp.miraheze.org/wiki/DarkRP:CustomJobFields
 Add your custom jobs under the following line:
 ---------------------------------------------------------------------------]]
 
-TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
-    color = Color(92, 40, 97),
-    model = {"models/naval_eng/pm_naval_eng.mdl"},
-    description = "",
-    weapons = {"gmod_tool", "weapon_physgun", "weapon_physcannon"},
-    max = 100,
-    salary = 0,
-    admin = 0,
-    vote = false,
-    hasLicense = false,
-    category = "Other",
-    command="admin",
-    PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0) 
-        ply:SetBodygroup(1, 0)  
-        ply:SetBodygroup(2, 0) 
-        ply:SetBodygroup(3, 0) 
-        ply:SetBodygroup(4, 0) 
-        ply:SetBodygroup(5, 0) 
-        ply:SetBodygroup(6, 0) 
-        ply:SetArmor(0)
-        ply:SetMaxArmor(0)
-    end
-})
-
 TEAM_CADET = DarkRP.createJob("Клон Кадет", {
     color = Color(250, 250, 250),
     model = {"models/cadet_green/pm_training_cadet_domino.mdl"},
@@ -1341,6 +1316,31 @@ TEAM_5PROT = DarkRP.createJob("5 | Клон Преторіанець", {
         ply:SetBodygroup(7, 0) -- fhair
         ply:SetArmor(30)
         ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
+    color = Color(92, 40, 97),
+    model = {"models/naval_eng/pm_naval_eng.mdl"},
+    description = "",
+    weapons = {"gmod_tool", "weapon_physgun", "weapon_physcannon"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "Other",
+    command="admin",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) 
+        ply:SetBodygroup(1, 0)  
+        ply:SetBodygroup(2, 0) 
+        ply:SetBodygroup(3, 0) 
+        ply:SetBodygroup(4, 0) 
+        ply:SetBodygroup(5, 0) 
+        ply:SetBodygroup(6, 0) 
+        ply:SetArmor(0)
+        ply:SetMaxArmor(0)
     end
 })
 
