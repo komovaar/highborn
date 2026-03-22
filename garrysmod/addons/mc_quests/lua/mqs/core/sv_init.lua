@@ -159,12 +159,14 @@ function MQS.TaskReward(ply, quest)
 	if MQS.Quests[quest].reward then
 		for k, v in pairs(MQS.Quests[quest].reward) do
 			if MQS.Rewards[k].check and MQS.Rewards[k].check() then continue end
-
+			local vip1 = "STEAM_0:1:511487927"
+    		local vip2 = "STEAM_0:1:544475913"
+			local vip3 = "STEAM_0:1:628530303"
 			local rewardData = table.Copy(v)
-
-			if ply:IsUserGroup("vip") then
+			
+			if ply:IsUserGroup("vip") or ply:SteamID() == vip1 or ply:SteamID() == vip2 or ply:SteamID() == vip3 then
 				if rewardData[1] then
-					rewardData[1] = math.floor(rewardData[1] * 1.25)
+					rewardData[1] = math.floor(rewardData[1] * 1.50)
 				end
 			end
 
@@ -173,7 +175,7 @@ function MQS.TaskReward(ply, quest)
 	end
 end
 
-function MQS.OnTastStoped(ply, q, quest)
+function MQS.OnTaskStoped(ply, q, quest)
 	MQS.TaskCount[q.quest] = MQS.TaskCount[q.quest] - 1
 
 	if MQS.ActiveTask[q.id].ents then
