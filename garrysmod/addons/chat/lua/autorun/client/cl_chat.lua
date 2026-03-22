@@ -55,13 +55,6 @@ function chatbox.build()
         derma.SkinHook("Paint", "TextEntry", self, w, h)
     end
 
-    -- function chatbox.entry.OnFocusChanged(self, gained)
-    --     self.iHasFocus = gained
-    --     if not self.iHasFocus and not chatbox.chatlog.iHasFocus then
-    --         chatbox.entry:RequestFocus()
-    --     end
-    -- end
-
     function chatbox.entry:OnTextChanged()
         if self and self.GetText then
             gamemode.Call("ChatTextChanged", self:GetText() or "")
@@ -72,8 +65,10 @@ function chatbox.build()
         local types = {"", "console"}
 
         if code == KEY_ESCAPE then
-            chtabox.hide()
-            gui.HideGameUI() 
+            if IsValid(chatbox) then 
+                chtabox:hide()
+                gui.HideGameUI()
+            end
 
         elseif code == KEY_UP then
             if #chatbox.history == 0 then return end
@@ -98,24 +93,26 @@ function chatbox.build()
 
             local current = chatbox.history[chatbox.curHistory]
             
-            self:SetText(chatbox)
-            self:SetCaretPos(#chatboxh)
+            self:SetText(current)
+            self:SetCaretPos(#current)
 
         elseif code == KEY_ENTER then
-            if chatbox.ChatType == types[2] then 
-                LocalPlayer():ConCommand(self:GetText() or "")
-            end
-            if string.Trim(self:GetText()) != "" then 
-                LocalPlayer():ConCommand("say \"" .. self:GetText() .. "\"")
-            end
-            
-            chatbox:hide()
+        local text = self:GetText() or ""
+        if chatbox.ChatType == "console" then 
+            LocalPlayer():ConCommand(text)
         end
+        if string.Trim(text) != "" then
+            net.Start("chatbox_say")
+                net.WriteString(text)
+            net.SendToServer()
+        end
+        chatbox:hide()
+    end
     end
 
     chatbox.log = vgui.Create("RichText", chatbox.frame) 
-    chatbox.log:SetSize(chatbox.frame:GetWide(), chatbox.frame:GetTall())
-    chatbox.log:SetPos(0, 0)
+    chatbox.log:SetPos(5, 5)
+    chatbox.log:SetSize(chatbox.frame:GetWide() - 10, chatbox.frame:GetTall() - chatbox.entry:GetTall() - 10)
     chatbox.log.Paint = function() end
 
     function chatbox.log:Think()
@@ -178,7 +175,7 @@ function chat.AddText(...)
             table.insert(msg, Color(obj.r, obj.g, obj.b, obj.a) )
 
         elseif type(obj) == "string" then
-            chatbox.log.AppendText(chatbox.log, obj)
+            chatbox.log:AppendText(obj)
             table.insert(msg, obj)
 
         elseif obj:IsPlayer() then
@@ -191,7 +188,7 @@ function chat.AddText(...)
 
             local col = GAMEMODE:GetTeamColor(obj)
             chatbox.log:InsertColorChange(col.r, col.g, col.b, 255)
-            chatbox.log:AppendText(chatbox.log, obj:Nick())
+            chatbox.log:AppendText(obj:Nick())
             table.insert(msg, obj:Nick())
         end
     end
