@@ -722,7 +722,7 @@ TEAM_5PIL = DarkRP.createJob("5 | Клон Пілот", {
 
 TEAM_B1 = DarkRP.createJob("САД | B1", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_geonosis.mdl"},
     description = "",
     weapons = {"rw_sw_e5"},
     max = 100,
@@ -743,7 +743,7 @@ TEAM_B1 = DarkRP.createJob("САД | B1", {
 
 TEAM_B1CO = DarkRP.createJob("САД | B1 Командир", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pointrain.mdl"},
     description = "",
     weapons = {"rw_sw_e5"},
     max = 100,
@@ -764,7 +764,7 @@ TEAM_B1CO = DarkRP.createJob("САД | B1 Командир", {
 
 TEAM_B1SNP = DarkRP.createJob("САД | B1 Снайпер", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_geonosis.mdl"},
     description = "",
     weapons = {"rw_sw_e5s"},
     max = 100,
@@ -785,7 +785,7 @@ TEAM_B1SNP = DarkRP.createJob("САД | B1 Снайпер", {
 
 TEAM_B1Z4 = DarkRP.createJob("САД | B1 з Z-4", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_geonosis.mdl"},
     description = "",
     weapons = {"rw_sw_z4"},
     max = 100,
