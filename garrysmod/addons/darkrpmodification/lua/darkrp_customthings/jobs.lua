@@ -743,7 +743,7 @@ TEAM_B1 = DarkRP.createJob("САД | B1", {
 
 TEAM_B1CO = DarkRP.createJob("САД | B1 Командир", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pointrain_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_commander_pm.mdl"},
     description = "",
     weapons = {"rw_sw_e5"},
     max = 100,
@@ -805,7 +805,7 @@ TEAM_B1Z4 = DarkRP.createJob("САД | B1 з Z-4", {
 
 TEAM_B2 = DarkRP.createJob("САД | B2", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_commander_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b2_battledroid_pm.mdl"},
     description = "",
     weapons = {"rw_sw_b2rp_blaster"},
     max = 100,
@@ -1248,7 +1248,7 @@ TEAM_RCSkoll = DarkRP.createJob("RC Wolfs | Skoll", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "5th",
+    category = "RC",
     command="rcskoll",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
