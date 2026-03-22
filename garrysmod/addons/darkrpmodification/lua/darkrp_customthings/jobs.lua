@@ -697,7 +697,7 @@ TEAM_5PIL = DarkRP.createJob("5 | Клон Пілот", {
 
 TEAM_B1 = DarkRP.createJob("САД | B1", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_geonosis_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
     description = "",
     weapons = {"rw_sw_e5"},
     max = 100,
@@ -739,7 +739,7 @@ TEAM_B1CO = DarkRP.createJob("САД | B1 Командир", {
 
 TEAM_B1SNP = DarkRP.createJob("САД | B1 Снайпер", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_geonosis_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
     description = "",
     weapons = {"rw_sw_e5s"},
     max = 100,
@@ -760,7 +760,7 @@ TEAM_B1SNP = DarkRP.createJob("САД | B1 Снайпер", {
 
 TEAM_B1Z4 = DarkRP.createJob("САД | B1 з Z-4", {
     color = Color(96, 96, 96),
-    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_geonosis_pm.mdl"},
+    model = {"models/aussiwozzi/cgi/b1droids/b1_battledroid_pm.mdl"},
     description = "",
     weapons = {"rw_sw_z4"},
     max = 100,
@@ -1214,7 +1214,7 @@ TEAM_RENFEMALE = DarkRP.createJob("Цивільні | Повстанка", {
 })
 
 TEAM_RCSkoll = DarkRP.createJob("RC Wolfs | Skoll", {
-    color = Color(26, 74, 127),
+    color =  Color(70, 70, 70),
     model = {"models/player/finch/rc/104ce/skoll.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
