@@ -114,7 +114,7 @@ local function CreatePlayerRow(parent, ply)
         if not IsValid(ply) then return end
         local jobTable = ply:getJobTable()
         local category = jobTable and jobTable.category or "Other"
-        local rank = ply:GetNWString("HighbornRank", "")
+        local rank = ply:GetNWString("whitelist.rank", "")
 
         if category ~= "" and rank ~= "" then
             catRank:SetText(category .. " " .. rank)

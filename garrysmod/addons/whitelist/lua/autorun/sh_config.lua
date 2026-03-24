@@ -1,10 +1,11 @@
-HIGHBORN_WHITELIST_CHATCMD = "/whitelist"
-HIGHBORN_WHITELIST_ALLOWED_RANKS = {
+whitelist = whitelist or {}
+
+whitelist.ranks = {
+    ["commander"] = true,
     ["admin"] = true,
+    ["root"] = true,
+    ["head"] = true,
     ["superadmin"] = true,
-    ["Root"] = true,
-    ["Head Admin"] = true,
-    ["Commander"] = true,
 }
-HIGHBORN_WHITELIST_ERRMESSAGE = "This job is whitelist only!"
-print("[Highborn] Whitelist config loaded")
+
+whitelist.command = "/whitelist"
