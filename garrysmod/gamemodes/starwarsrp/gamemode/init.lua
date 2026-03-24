@@ -148,41 +148,9 @@ resource.AddWorkshop("3675356291")
 resource.AddWorkshop("3677164280")
 resource.AddWorkshop("3675356933")
 
-hook.Add("OnEntityCreated", "FixNPCSpawnHeightSafe", function(ent)
-    if not ent:IsNPC() then return end
-
-    timer.Simple(0.05, function()
-        if not IsValid(ent) then return end
-
-        local hullMin, hullMax = ent:GetHull()
-        local height = hullMax.z - hullMin.z
-
-        local pos = ent:GetPos()
-
-        -- проверяем пространство сверху и снизу
-        local tr = util.TraceHull({
-            start = pos + Vector(0,0,height),      -- сверху NPC
-            endpos = pos - Vector(0,0,1000),       -- вниз
-            mins = hullMin,
-            maxs = hullMax,
-            mask = MASK_NPCSOLID
-        })
-
-        if tr.Hit then
-            ent:SetPos(tr.HitPos + Vector(0,0,1)) -- немного выше пола
-            ent:DropToFloor()                     -- безопасно опускаем
-        end
-
-        if tr.Hit and tr.HitNormal.z > 0.7 then
-            -- только когда есть нормальная поверхность под NPC
-            ent:SetPos(tr.HitPos + Vector(0,0,1))
-        end
-    end)
-end)
-
 hook.Add("PlayerCanDropWeapon", "BlockWeaponDrop", function(ply, weapon)
     if IsValid(weapon) and weapon:IsWeapon() then
-        return false -- запрещаем дроп
+        return false 
     end
 end)
 
