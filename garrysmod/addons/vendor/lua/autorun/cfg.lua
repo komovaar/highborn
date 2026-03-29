@@ -88,6 +88,36 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
+        name = "Westar-34",
+        class = "rw_sw_westar34",
+        price = 5000,
+        model = "models/cs574/weapons/westar34.mdl",
+        stats = {
+            damage = 35,
+            rpm = 210,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_SUNWAVE"}
+    },
+    {
+        name = "Dual Westar-34",
+        class = "rw_sw_dual_westar34",
+        price = 30000,
+        model = "models/cs574/weapons/westar34.mdl",
+        stats = {
+            damage = 35,
+            rpm = 336,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_SUNWAVE"}
+    },
+    {
         name = "Dual DC-17",
         class = "rw_sw_dual_dc17",
         price = 40000,
@@ -223,7 +253,7 @@ Vendor.Weapons = {
         jobs={"TEAM_91PVT", "TEAM_91SGT", "TEAM_91LT", "TEAM_91CMD", "TEAM_91PIL", "TEAM_91ARF", "TEAM_91MED"}
     },
     {
-        name = "DC-17m Sniper",
+        name = "DC-17m",
         class = "rw_sw_dc17m",
         price = 0,
         model = "models/cs574/dc17m/dc17m_base.mdl",
@@ -252,6 +282,37 @@ Vendor.Weapons = {
         vip = false,
         jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
     },
+    {
+        name = "Westar-M5",
+        class = "rw_sw_westarm5",
+        price = 20000,
+        model = "models/swbf3/weapons/w_alphablaster.mdl",
+        stats = {
+            damage = 50,
+            rpm = 435,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_SUNWAVE"}
+    },
+    {
+        name = "Наручна Ракетниця",
+        class = "rw_sw_wristrocket",
+        price = 20000,
+        model = "models/cs574/weapons/arc_leftwrist.mdl",
+        stats = {
+            damage = 150,
+            rpm = 95,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_SUNWAVE"}
+    },
+
     {
         name = "DC-17m Shotgun",
         class = "rw_sw_dc17m_shotgun",
@@ -697,6 +758,10 @@ Vendor.Models = {
     binos = { id = 3, name = "Візор", price = 5000, vip = false, default = 1 },
     flashlight = { id = 4, name = "Ліхтар", price = 1500, vip = false, default = 1 },
     backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+},
+["models/jajoff/sps/jlmbase/merrankrieg2021.mdl"] = {
+    kama = { id = 2, name = "Кама", price = 10000, vip = false, default = 0 },
+    binos = { id = 3, name = "Шарф", price = 3500, vip = false, default = 0 },
 },
 }
 
