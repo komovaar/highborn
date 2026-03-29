@@ -1344,6 +1344,27 @@ TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
     end
 })
 
+TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
+    color = Color(92, 40, 97),
+    model = {"models/jajoff/sps/jlmbase/merrankrieg2021.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "RC",
+    command="sunwave",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0) 
+        ply:SetBodygroup(1, 1)  
+        ply:SetBodygroup(2, 1) 
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
 
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
