@@ -11,6 +11,7 @@ jobs:
           username: ${{ secrets.FTPUSERNAME }}
           server: node-pl-4.uahost.eu
           port: 2022
+          sftp_only: true
           password: ${{ secrets.FTPPASSWORD }}
           local_path: './'
           remote_path: './'
