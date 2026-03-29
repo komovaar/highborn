@@ -162,9 +162,11 @@ function MQS.TaskReward(ply, quest)
 			local vip1 = "STEAM_0:1:511487927"
     		local vip2 = "STEAM_0:1:544475913"
 			local vip3 = "STEAM_0:1:628530303"
+			local vip4 = "STEAM_0:1:522577115"
+			local vip5 = "STEAM_0:0:549149559"
 			local rewardData = table.Copy(v)
 			
-			if ply:IsUserGroup("vip") or ply:SteamID() == vip1 or ply:SteamID() == vip2 or ply:SteamID() == vip3 then
+			if ply:IsUserGroup("vip") or ply:SteamID() == vip1 or ply:SteamID() == vip2 or ply:SteamID() == vip3 or ply:SteamID() == vip4 or ply:SteamID() == vip5 then
 				if rewardData[1] then
 					rewardData[1] = math.floor(rewardData[1] * 1.50)
 				end
@@ -254,7 +256,7 @@ function MQS.FailTask(ply, reason, q)
 		end
 	end
 
-	MQS.OnTastStoped(ply, q, quest)
+	MQS.OnTaskStoped(ply, q, quest)
 
 	if IsValid(ply) then
 		MQS.Notify(ply, MSD.GetPhrase("m_failed"), reason, 2)
@@ -303,7 +305,7 @@ function MQS.TaskSuccess(ply)
 	MQS.SetNWdata(ply, "active_questid", nil)
 	MQS.Notify(ply, MSD.GetPhrase("m_success"), quest.success, 3)
 	MQS.TaskReward(ply, q.quest)
-	MQS.OnTastStoped(ply, q, quest)
+	MQS.OnTaskStoped(ply, q, quest)
 	MQS.DataShare()
 
 	hook.Call("MQS.OnTaskSuccess", nil, ply, q.quest, quest, false)

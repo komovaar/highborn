@@ -141,30 +141,38 @@ end
 
 MQS.Events["Spawn npc"] = function(id, ply, data, obj, task)
 	local ent = ents.Create(data[1])
+	if not IsValid(ent) then return end
 
-	if not ent:IsValid() then
-		MsgC(Color(255, 0, 0), "[MQS] Quest id: " .. task .. " failed to create " .. data[1] .. "!\n")
-		return
-	end
-
-	data[2].z = data[2].z + 30
-	ent:SetPos(data[2])
-	ent:SetAngles(data[3])
-
-	if data[4] then
-		ent.is_quest_npc = task
-		ent:SetNWBool( "MQSTarget", true )
-		MQS.ActiveTask[id].npcs = MQS.ActiveTask[id].npcs and MQS.ActiveTask[id].npcs + 1 or 1
-	end
-	ent.IsMQS = true
-	ent.quest_id = id
-	ent:Spawn()
-	ent:Activate()
-
+	-- 👉 СНАЧАЛА модель (если есть)
 	if data[5] then
 		ent:SetModel(data[5])
 	end
 
+	ent:SetAngles(data[3])
+
+	-- 👉 СПАВН
+	ent:Spawn()
+	ent:Activate()
+
+	-- 👉 ПОТОМ ставим позицию (это ключ!)
+	timer.Simple(0, function()
+		if not IsValid(ent) then return end
+
+		local pos = data[2]
+
+		-- нормальный trace вниз
+		local tr = util.TraceLine({
+			start = pos + Vector(0,0,100),
+			endpos = pos - Vector(0,0,500),
+			mask = MASK_SOLID
+		})
+
+		local finalPos = tr.Hit and tr.HitPos + Vector(0,0,10) or pos + Vector(0,0,10)
+
+		ent:SetPos(finalPos)
+	end)
+
+	-- остальное без изменений
 	if data[6] then
 		ent:Give(data[6])
 	end
@@ -172,6 +180,15 @@ MQS.Events["Spawn npc"] = function(id, ply, data, obj, task)
 	if data[9] then
 		ent:SetHealth(data[9])
 	end
+
+	if data[4] then
+		ent.is_quest_npc = task
+		ent:SetNWBool("MQSTarget", true)
+		MQS.ActiveTask[id].npcs = MQS.ActiveTask[id].npcs and MQS.ActiveTask[id].npcs + 1 or 1
+	end
+
+	ent.IsMQS = true
+	ent.quest_id = id
 
 	if not data[8] then
 		local gr = "D_HT"
@@ -182,14 +199,17 @@ MQS.Events["Spawn npc"] = function(id, ply, data, obj, task)
 			ent:AddEntityRelationship(ply, 4, 99)
 			gr = "D_LI"
 		end
+
 		if obj.open_target then
 			ent:AddRelationship("player " .. gr .. " 99")
 			ent.open_target = true
 		else
 			ent:AddRelationship("player D_NU 99")
 		end
+
 		ent:SetKeyValue("spawnflags", bit.bor(SF_NPC_NO_WEAPON_DROP))
 	end
+
 	table.insert(MQS.ActiveTask[id].misc_ents, ent:EntIndex())
 end
 
