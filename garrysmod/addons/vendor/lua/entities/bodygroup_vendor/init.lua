@@ -83,7 +83,9 @@ net.Receive("BGTrader.Buy", function(_, ply)
     local vip1 = "STEAM_0:1:511487927"
     local vip2 = "STEAM_0:1:544475913"
 	local vip3 = "STEAM_0:1:628530303"
-    if bgData.vip and not ply:IsUserGroup("vip") and ply:SteamID() != vip1 and ply:SteamID() != vip2 and ply:SteamID() != vip3  then
+    local vip4 = "STEAM_0:1:522577115"
+    local vip5 = "STEAM_0:0:549149559"
+    if bgData.vip and not ply:IsUserGroup("vip") and ply:SteamID() != vip1 and ply:SteamID() != vip2 and ply:SteamID() != vip3  and ply:SteamID() != vip4 and ply:SteamID() != vip5 then
         return
     end
 
