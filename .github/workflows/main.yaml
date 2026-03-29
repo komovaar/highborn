@@ -13,4 +13,4 @@ jobs:
           port: 2022
           ssh_private_key: ${{ secrets.FTPPASSWORD }}
           local_path: './'
-          remote_pat: './'
+          remote_path: './'
