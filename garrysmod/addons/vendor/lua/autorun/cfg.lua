@@ -93,8 +93,8 @@ Vendor.Weapons = {
         price = 5000,
         model = "models/cs574/weapons/westar34.mdl",
         stats = {
-            damage = 40,
-            rpm = 145,
+            damage = 35,
+            rpm = 210,
             accuracy = "High",
             mode = "Auto"
         },
@@ -108,8 +108,8 @@ Vendor.Weapons = {
         price = 30000,
         model = "models/cs574/weapons/westar34.mdl",
         stats = {
-            damage = 40,
-            rpm = 145,
+            damage = 35,
+            rpm = 336,
             accuracy = "High",
             mode = "Auto"
         },
@@ -285,11 +285,11 @@ Vendor.Weapons = {
     {
         name = "Westar-M5",
         class = "rw_sw_westarm5",
-        price = 10000,
+        price = 20000,
         model = "models/swbf3/weapons/w_alphablaster.mdl",
         stats = {
-            damage = 40,
-            rpm = 145,
+            damage = 50,
+            rpm = 435,
             accuracy = "High",
             mode = "Auto"
         },
@@ -303,8 +303,8 @@ Vendor.Weapons = {
         price = 20000,
         model = "models/cs574/weapons/arc_leftwrist.mdl",
         stats = {
-            damage = 40,
-            rpm = 145,
+            damage = 150,
+            rpm = 95,
             accuracy = "High",
             mode = "Auto"
         },
