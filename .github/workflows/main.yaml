@@ -12,3 +12,5 @@ jobs:
           server: node-pl-4.uahost.eu
           port: 2022
           ssh_private_key: ${{ secrets.FTPPASSWORD }}
+          local_path: './'
+          remote_pat: './'
