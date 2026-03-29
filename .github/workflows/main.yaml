@@ -1,18 +1,14 @@
-on: push
-name: Deploy server on push
+on: [push]
+
 jobs:
-  web-deploy:
-    name: Deploy
+  deploy_job:
     runs-on: ubuntu-latest
+    name: Deploy Files
     steps:
-    - name: Get latest code
-      uses: actions/checkout@v3
-    
-    - name: Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: node-pl-4.uahost.eu
-        username: ${{ secrets.FTPUSERNAME }}
-        password: ${{ secrets.FTPPASSWORD }}
-        protocol: ftps
-        port: 2022
+      - name: Deploy to Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        with:
+          username: ${{ secrets.FTPUSERNAME }}
+          server: node-pl-4.uahost.eu
+          port: 2022
+          ssh_private_key: ${{ secrets.FTPPASSWORD }}
