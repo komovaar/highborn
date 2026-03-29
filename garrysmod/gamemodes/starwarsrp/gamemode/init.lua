@@ -150,7 +150,7 @@ resource.AddWorkshop("3675356933")
 
 hook.Add("PlayerCanDropWeapon", "BlockWeaponDrop", function(ply, weapon)
     if IsValid(weapon) and weapon:IsWeapon() then
-        return false 
+        return false -- запрещаем дроп
     end
 end)
 
