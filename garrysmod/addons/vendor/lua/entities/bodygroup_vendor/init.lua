@@ -228,8 +228,33 @@ end)
 
 hook.Add("PlayerSetModel", "RemoveJetpackOnModelChange", function(ply)
     local jp = ply:GetNWEntity("Jetted")
-    if IsValid(jp) then
+    if IsValid(jp) and ply:GetModel() != "models/jajoff/sps/jlmbase/merrankrieg2021.mdl" then
         jp:Remove()
         ply:SetNWEntity("Jetted", NULL)
     end
+end)
+
+hook.Add("PlayerSpawn", "BGTrader.ApplyJetpackMando", function(ply)
+    timer.Simple(0.5, function()
+        if not IsValid(ply) or not ply:Alive() then return end
+        local model = ply:GetModel()
+        if model == "models/jajoff/sps/jlmbase/merrankrieg2021.mdl" then
+            local jp = ents.Create("mk1")
+            if not IsValid(jp) then return end
+            jp:SetSlotName("mk1")
+            jp:Spawn()
+
+            if IsValid(ply:GetActiveWeapon()) then
+                jp:Attach(ply)
+                ply:SetNWEntity("Jetted", jp)
+            else
+                timer.Simple(0.1, function()
+                    if IsValid(ply) and IsValid(jp) then
+                        jp:Attach(ply)
+                        ply:SetNWEntity("Jetted", jp)
+                    end
+                end)
+            end
+        end
+    end)
 end)
