@@ -1348,7 +1348,7 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     color = Color(70, 70, 70),
     model = {"models/jajoff/sps/jlmbase/merrankrieg2021.mdl"},
     description = "",
-    weapons = {"rw_sw_dc15a"},
+    weapons = {},
     max = 100,
     salary = 0,
     admin = 0,
@@ -1357,9 +1357,9 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     category = "RC",
     command="sunwave",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 1) 
-        ply:SetBodygroup(2, 1) 
-        ply:SetBodygroup(1, 1)  
+        ply:SetBodygroup(0, 0) 
+        ply:SetBodygroup(2, 1) -- kama
+        ply:SetBodygroup(3, 1)  -- scarf
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
 
