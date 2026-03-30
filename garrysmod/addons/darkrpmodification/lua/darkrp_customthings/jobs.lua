@@ -1362,23 +1362,6 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
         ply:SetBodygroup(3, 1)  -- scarf
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
-
-        local jp = ents.Create("mk1")
-        if not IsValid(jp) then return end
-        jp:SetSlotName("mk1")
-        jp:Spawn()
-
-        if IsValid(ply:GetActiveWeapon()) then
-            jp:Attach(ply)
-            ply:SetNWEntity("Jetted", jp)
-        else
-            timer.Simple(0.1, function()
-                if IsValid(ply) and IsValid(jp) then
-                    jp:Attach(ply)
-                    ply:SetNWEntity("Jetted", jp)
-                end
-            end)
-        end
     end
 })
 
