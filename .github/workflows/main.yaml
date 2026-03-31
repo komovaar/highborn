@@ -14,4 +14,4 @@ jobs:
           sftp_only: true
           password: ${{ secrets.FTPPASSWORD }}
           local_path: './'
-          remote_path: './'
+          remote_path: '/home/container/'
