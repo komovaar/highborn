@@ -1566,7 +1566,7 @@ TEAM_ARCKomandos = DarkRP.createJob("Клон ARC Командос", {
     command="arckomandos",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 1)
+        ply:SetBodygroup(1, 0)
         ply:SetBodygroup(2, 1)
         ply:SetBodygroup(3, 0)
         ply:SetBodygroup(4, 1)

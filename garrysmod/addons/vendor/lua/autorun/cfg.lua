@@ -484,7 +484,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL", "TEAM_RCHowl", "TEAM_RCSkoll"}
+        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL", "TEAM_501PIL", "TEAM_RCHowl", "TEAM_RCSkoll"}
     },
     {
         name = "Bacta Grenade",
@@ -499,7 +499,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCSkoll", "TEAM_RCRedhood"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_RCSkoll", "TEAM_RCRedhood"}
     },
     {
         name = "Bacta Injector",
