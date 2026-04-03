@@ -43,12 +43,13 @@ function ENT:Use(activator, caller)
 	local dispenser_timer = GetConVar("rw_sw_dispenser_timer"):GetInt()
 	local heal_amount = GetConVar("rw_sw_dispenser_heal_amount"):GetInt()
 	local max_armor = GetConVar("rw_sw_dispenser_max_armor"):GetInt()
+	if activator:GetMaxArmor() ==  activator:Armor() then return end
 
 	if self.UseTimer <= CurTime() and activator:IsPlayer() and max_armor > activator:Armor() then
 		
 		self:SetSkin(self.LoadingSkin)
 		self:EmitSound("buttons/button6.wav")
-
+		
 		activator:SetArmor( math.min( max_armor, activator:Armor() + heal_amount ) )
 
 		self.UseTimer = CurTime() + dispenser_timer
