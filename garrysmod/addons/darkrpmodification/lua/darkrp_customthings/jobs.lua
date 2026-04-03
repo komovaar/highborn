@@ -1365,7 +1365,7 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     end
 })
 
-TEAM_501PVT = DarkRP.createJob("501st | Клон Рядовий", {
+TEAM_501PVT = DarkRP.createJob("501 | Клон Рядовий", {
     color = Color(0, 102, 204),
     model = {"models/501st_trp/pm_501st_trp.mdl"},
     description = "",
@@ -1390,7 +1390,7 @@ TEAM_501PVT = DarkRP.createJob("501st | Клон Рядовий", {
     end
 })
 
-TEAM_501SGT = DarkRP.createJob("501st | Клон Сержант", {
+TEAM_501SGT = DarkRP.createJob("501 | Клон Сержант", {
     color = Color(0, 102, 204),
     model = {"models/501st_nco/pm_501st_nco.mdl"},
     description = "",
@@ -1415,7 +1415,7 @@ TEAM_501SGT = DarkRP.createJob("501st | Клон Сержант", {
     end
 })
 
-TEAM_501LT = DarkRP.createJob("501st | Клон Лейтенант", {
+TEAM_501LT = DarkRP.createJob("501 | Клон Лейтенант", {
     color = Color(0, 102, 204),
     model = {"models/501st_xo/pm_501st_xo.mdl"},
     description = "",
@@ -1430,12 +1430,12 @@ TEAM_501LT = DarkRP.createJob("501st | Клон Лейтенант", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 1)
+        ply:SetBodygroup(2, 0)
         ply:SetBodygroup(3, 1)
         ply:SetBodygroup(4, 1)
         ply:SetBodygroup(5, 1)
         ply:SetBodygroup(6, 1)
-        ply:SetBodygroup(7, 0)
+        ply:SetBodygroup(7, 2)
         ply:SetBodygroup(8, 0)
         ply:SetBodygroup(9, 0)
         ply:SetBodygroup(10, 0)
@@ -1445,7 +1445,7 @@ TEAM_501LT = DarkRP.createJob("501st | Клон Лейтенант", {
     end
 })
 
-TEAM_501CMD = DarkRP.createJob("501st | Клон Командир", {
+TEAM_501CMD = DarkRP.createJob("501 | Клон Командир", {
     color = Color(0, 102, 204),
     model = {"models/501st_co/pm_501st_co.mdl"},
     description = "",
@@ -1461,7 +1461,7 @@ TEAM_501CMD = DarkRP.createJob("501st | Клон Командир", {
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
         ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(3, 0)
         ply:SetBodygroup(4, 0)
         ply:SetBodygroup(5, 1)
         ply:SetBodygroup(6, 1)
@@ -1475,7 +1475,7 @@ TEAM_501CMD = DarkRP.createJob("501st | Клон Командир", {
     end
 })
 
-TEAM_501MED = DarkRP.createJob("501st | Клон Медик", {
+TEAM_501MED = DarkRP.createJob("501 | Клон Медик", {
     color = Color(0, 102, 204),
     model = {"models/501st_medic/pm_501st_medic.mdl"},
     description = "",
@@ -1500,7 +1500,7 @@ TEAM_501MED = DarkRP.createJob("501st | Клон Медик", {
     end
 })
 
-TEAM_501PIL = DarkRP.createJob("501st | Клон Пілот", {
+TEAM_501PIL = DarkRP.createJob("501 | Клон Пілот", {
     color = Color(0, 102, 204),
     model = {"models/501st_pilot/pm_501st_pilot.mdl"},
     description = "",
@@ -1524,7 +1524,7 @@ TEAM_501PIL = DarkRP.createJob("501st | Клон Пілот", {
     end
 })
 
-TEAM_501ARC = DarkRP.createJob("501st | ARC Trooper", {
+TEAM_501ARC = DarkRP.createJob("501 | Клон ARC", {
     color = Color(0, 102, 204),
     model = {"models/501st_arc/pm_501st_arc.mdl"},
     description = "",
@@ -1540,15 +1540,42 @@ TEAM_501ARC = DarkRP.createJob("501st | ARC Trooper", {
         ply:SetBodygroup(0, 0)
         ply:SetBodygroup(1, 0)
         ply:SetBodygroup(2, 1)
-        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(3, 4)
+        ply:SetBodygroup(4, 1)
+        ply:SetBodygroup(5, 1)
+        ply:SetBodygroup(6, 1)
+        ply:SetBodygroup(7, 1)
+        ply:SetBodygroup(8, 0)
+        ply:SetBodygroup(9, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_ARCKomandos = DarkRP.createJob("Клон ARC Командос", {
+    color = Color(250, 250, 250),
+    model = {"models/md/arc/arc_alpha_mn_10_v2.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CT",
+    command="arckomandos",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 1)
+        ply:SetBodygroup(2, 1)
+        ply:SetBodygroup(3, 0)
         ply:SetBodygroup(4, 1)
         ply:SetBodygroup(5, 1)
         ply:SetBodygroup(6, 1)
         ply:SetBodygroup(7, 1)
         ply:SetBodygroup(8, 1)
-        ply:SetBodygroup(9, 0)
-        ply:SetArmor(50)
-        ply:SetMaxArmor(50)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
