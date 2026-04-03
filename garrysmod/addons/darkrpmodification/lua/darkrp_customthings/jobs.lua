@@ -1365,6 +1365,193 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     end
 })
 
+TEAM_501PVT = DarkRP.createJob("501st | Клон Рядовий", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_trp/pm_501st_trp.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501pvt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(6, 0)
+        ply:SetArmor(20)
+        ply:SetMaxArmor(20)
+    end
+})
+
+TEAM_501SGT = DarkRP.createJob("501st | Клон Сержант", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_nco/pm_501st_nco.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501sgt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(6, 0)
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_501LT = DarkRP.createJob("501st | Клон Лейтенант", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_xo/pm_501st_xo.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501lt",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 1)
+        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(4, 1)
+        ply:SetBodygroup(5, 1)
+        ply:SetBodygroup(6, 1)
+        ply:SetBodygroup(7, 0)
+        ply:SetBodygroup(8, 0)
+        ply:SetBodygroup(9, 0)
+        ply:SetBodygroup(10, 0)
+        ply:SetBodygroup(11, 0)
+        ply:SetArmor(40)
+        ply:SetMaxArmor(40)
+    end
+})
+
+TEAM_501CMD = DarkRP.createJob("501st | Клон Командир", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_co/pm_501st_co.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501cmd",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 1)
+        ply:SetBodygroup(6, 1)
+        ply:SetBodygroup(7, 2)
+        ply:SetBodygroup(8, 0)
+        ply:SetBodygroup(9, 0)
+        ply:SetBodygroup(10, 0)
+        ply:SetBodygroup(11, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
+TEAM_501MED = DarkRP.createJob("501st | Клон Медик", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_medic/pm_501st_medic.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501med",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 3)
+        ply:SetBodygroup(5, 0)
+        ply:SetBodygroup(6, 0)
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_501PIL = DarkRP.createJob("501st | Клон Пілот", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_pilot/pm_501st_pilot.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501pil",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(3, 0)
+        ply:SetBodygroup(4, 0)
+        ply:SetBodygroup(5, 0)
+        ply:SetArmor(30)
+        ply:SetMaxArmor(30)
+    end
+})
+
+TEAM_501ARC = DarkRP.createJob("501st | ARC Trooper", {
+    color = Color(0, 102, 204),
+    model = {"models/501st_arc/pm_501st_arc.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 0,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "501st",
+    command="501arc",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(2, 1)
+        ply:SetBodygroup(3, 1)
+        ply:SetBodygroup(4, 1)
+        ply:SetBodygroup(5, 1)
+        ply:SetBodygroup(6, 1)
+        ply:SetBodygroup(7, 1)
+        ply:SetBodygroup(8, 1)
+        ply:SetBodygroup(9, 0)
+        ply:SetArmor(50)
+        ply:SetMaxArmor(50)
+    end
+})
+
 
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
