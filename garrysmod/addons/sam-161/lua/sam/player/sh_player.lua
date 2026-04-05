@@ -57,7 +57,7 @@ do
 				sam.print(unpack(result, 1, result.__cnt))
 			else
 				for _, v in ipairs(player.GetAll()) do
-					if v:IsPriveleged() then
+					if v:IsPriveleged() or ply then
 						sam.netstream.Start(v, "send_message", msg, tbl)
 					end
 				end

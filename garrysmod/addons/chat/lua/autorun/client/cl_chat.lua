@@ -97,15 +97,20 @@ function chatbox.build()
             self:SetCaretPos(#current)
 
         elseif code == KEY_ENTER then
-        local text = self:GetText() or ""
-        if chatbox.ChatType == "console" then 
-            LocalPlayer():ConCommand(text)
-        end
-        if string.Trim(text) != "" then
-            net.Start("chatbox_say")
-                net.WriteString(text)
-            net.SendToServer()
-        end
+            local text = self:GetText() or ""
+
+            if chatbox.ChatType == "console" then 
+                LocalPlayer():ConCommand(text)
+            end
+
+            if string.Trim(text) != "" then
+                table.insert(chatbox.history, text)
+                chatbox.curHistory = #chatbox.history + 1
+
+                net.Start("chatbox_say")
+                    net.WriteString(text)
+                net.SendToServer()
+            end
         chatbox:hide()
     end
     end
