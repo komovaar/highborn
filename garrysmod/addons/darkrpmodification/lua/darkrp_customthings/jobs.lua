@@ -1346,7 +1346,7 @@ TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
 
 TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     color = Color(70, 70, 70),
-    model = {"models/jajoff/sps/jlmbase/merrankrieg2021.mdl"},
+    model = {"models/taler/playermodels/ghost/ghostmando.mdl"},
     description = "",
     weapons = {},
     max = 100,
@@ -1358,8 +1358,17 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     command="sunwave",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0) 
-        ply:SetBodygroup(2, 1) -- kama
-        ply:SetBodygroup(3, 1)  -- scarf
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 0)  -- hair
+        ply:SetBodygroup(3, 0)  -- fhair
+        ply:SetBodygroup(4, 1)  -- pauldron
+        ply:SetBodygroup(4, 1)  -- pauldron
+        ply:SetBodygroup(5, 1)  -- kama
+        ply:SetBodygroup(6, 1)  -- kama gear
+        ply:SetBodygroup(7, 1)  -- hoslters
+        ply:SetBodygroup(7, 1)  -- hoslters
+        ply:SetBodygroup(8, 1)  -- chest
+        ply:SetBodygroup(9, 3)  -- backpack
         ply:SetArmor(50) -- armor
         ply:SetMaxArmor(50)
     end

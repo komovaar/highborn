@@ -782,9 +782,13 @@ Vendor.Models = {
     flashlight = { id = 4, name = "Ліхтар", price = 1500, vip = false, default = 1 },
     backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
 },
-["models/jajoff/sps/jlmbase/merrankrieg2021.mdl"] = {
-    kama = { id = 2, name = "Кама", price = 10000, vip = false, default = 0 },
-    binos = { id = 3, name = "Шарф", price = 3500, vip = false, default = 0 },
+["models/taler/playermodels/ghost/ghostmando.mdl"] = {
+    pauldron = { id = 4, name = "Наплечник", price = 1000, vip = false, default = 0 },
+    kama = { id = 5, name = "Кама", price = 1000, vip = false, default = 0 },
+    kama_gear = { id = 6, name = "Пояс", price = 1000, vip = false, default = 0 },
+    holsters = { id = 7, name = "Кобура", price = 1000, vip = false, default = 0 },
+    chest = { id = 7, name = "Бронепластина", price = 1000, vip = false, default = 0 },
+    backpack = { id = 8, name = "Рюкзак", price = 1000, vip = false, default = 1 },
 },
 ["models/501st_trp/pm_501st_trp.mdl"] = {
     binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },
