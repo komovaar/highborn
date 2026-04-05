@@ -783,12 +783,12 @@ Vendor.Models = {
     backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
 },
 ["models/taler/playermodels/ghost/ghostmando.mdl"] = {
-    pauldron = { id = 4, name = "Наплечник", price = 1000, vip = false, default = 0 },
-    kama = { id = 5, name = "Кама", price = 1000, vip = false, default = 0 },
-    kama_gear = { id = 6, name = "Пояс", price = 1000, vip = false, default = 0 },
-    holsters = { id = 7, name = "Кобура", price = 1000, vip = false, default = 0 },
-    chest = { id = 7, name = "Бронепластина", price = 1000, vip = false, default = 0 },
-    backpack = { id = 8, name = "Рюкзак", price = 1000, vip = false, default = 1 },
+    pauldron = { id = 5, name = "Наплечник", price = 500, vip = false, default = 0 },
+    kama = { id = 6, name = "Кама", price = 500, vip = false, default = 0 },
+    kama_Gear = { id = 7, name = "Пояс", price = 500, vip = false, default = 0 },
+    holsters = { id = 8, name = "Кобура", price = 500, vip = false, default = 0 },
+    jetpack = { id = 10, name = "Джетпак", price = 500, vip = false, default = 2 },
+    chest = { id = 9, name = "Бронепластина", price = 500, vip = false, default = 0 },
 },
 ["models/501st_trp/pm_501st_trp.mdl"] = {
     binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },

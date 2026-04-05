@@ -1213,9 +1213,9 @@ TEAM_RENFEMALE = DarkRP.createJob("Цивільні | Повстанка", {
     command="renfemale",
 })
 
-TEAM_RCSkoll = DarkRP.createJob("RC Wolfs | Skoll", {
+TEAM_RCSkoll = DarkRP.createJob("RC Shadow | Skoll", {
     color =  Color(70, 70, 70),
-    model = {"models/player/finch/rc/104ce/skoll.mdl"},
+    model = {"models/sample/sample/rc/rc.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1226,16 +1226,15 @@ TEAM_RCSkoll = DarkRP.createJob("RC Wolfs | Skoll", {
     category = "RC",
     command="rcskoll",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
     end
 })
 
-TEAM_RCShadow = DarkRP.createJob("RC Wolfs | Shadow", {
+TEAM_RCShadow = DarkRP.createJob("RC Shadow | Shadow", {
     color = Color(70, 70, 70),
-    model = {"models/player/finch/rc/104ce/shadow.mdl"},
+    model = {"models/sample/sample/rc/rc.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1246,16 +1245,15 @@ TEAM_RCShadow = DarkRP.createJob("RC Wolfs | Shadow", {
     category = "RC",
     command="rcshadow",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
     end
 })
 
-TEAM_RCRedhood = DarkRP.createJob("RC Wolfs | Redhood", {
+TEAM_RCRedhood = DarkRP.createJob("RC Shadow | Redhood", {
     color = Color(70, 70, 70),
-    model = {"models/player/finch/rc/104ce/redhood.mdl"},
+    model = {"models/sample/sample/rc/rc.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1266,16 +1264,15 @@ TEAM_RCRedhood = DarkRP.createJob("RC Wolfs | Redhood", {
     category = "RC",
     command="rcredhood",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
     end
 })
 
-TEAM_RCHowl = DarkRP.createJob("RC Wolfs | Howl", {
+TEAM_RCHowl = DarkRP.createJob("RC Shadow | Howl", {
     color = Color(70, 70, 70),
-    model = {"models/player/finch/rc/104ce/howl.mdl"},
+    model = {"models/sample/sample/rc/rc.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1286,8 +1283,7 @@ TEAM_RCHowl = DarkRP.createJob("RC Wolfs | Howl", {
     category = "RC",
     command="rchowl",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 0)
+        ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
     end
@@ -1361,14 +1357,13 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
         ply:SetBodygroup(1, 0) -- helmet
         ply:SetBodygroup(2, 0)  -- hair
         ply:SetBodygroup(3, 0)  -- fhair
-        ply:SetBodygroup(4, 1)  -- pauldron
-        ply:SetBodygroup(4, 1)  -- pauldron
-        ply:SetBodygroup(5, 1)  -- kama
-        ply:SetBodygroup(6, 1)  -- kama gear
-        ply:SetBodygroup(7, 1)  -- hoslters
-        ply:SetBodygroup(7, 1)  -- hoslters
-        ply:SetBodygroup(8, 1)  -- chest
-        ply:SetBodygroup(9, 3)  -- backpack
+        ply:SetBodygroup(4, 0)  -- ??
+        ply:SetBodygroup(5, 1)  -- pauldron
+        ply:SetBodygroup(6, 1)  -- kama
+        ply:SetBodygroup(7, 1)  -- kama gear
+        ply:SetBodygroup(8, 1)  -- hoslters
+        ply:SetBodygroup(9, 1)  -- chest
+        ply:SetBodygroup(10, 3)  -- backpack
         ply:SetArmor(50) -- armor
         ply:SetMaxArmor(50)
     end
