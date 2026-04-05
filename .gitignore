@@ -5,7 +5,7 @@ appcache/
 bin/
 /config/
 depotcache/
-logs/
+/logs/
 platform/
 sourceengine/
 steamapps/
