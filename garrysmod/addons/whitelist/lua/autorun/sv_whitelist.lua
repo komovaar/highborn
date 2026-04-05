@@ -142,7 +142,7 @@ if SERVER then
         local spawn = net.ReadBool()
         local temporary = net.ReadBool()
 
-        if not sql.TableExists("highborn_whitelist") then
+        if not sql.TableExists("hb_whitelist") then
             print("[WHITELIST ERROR] Table does not exist!")
             return
         end
