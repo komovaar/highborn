@@ -36,6 +36,7 @@ garrysmod/gameinfo.txt
 # addons
 garrysmod/addons/ulx
 garrysmod/addons/ulib
+garrysmod/adddons/FProfiler
 
 # gamemodes
 garrysmod/gamemodes/base/
