@@ -1364,8 +1364,8 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
         ply:SetBodygroup(8, 1)  -- hoslters
         ply:SetBodygroup(9, 1)  -- chest
         ply:SetBodygroup(10, 3)  -- backpack
-        ply:SetArmor(50) -- armor
-        ply:SetMaxArmor(50)
+        ply:SetArmor(100) -- armor
+        ply:SetMaxArmor(100)
     end
 })
 
