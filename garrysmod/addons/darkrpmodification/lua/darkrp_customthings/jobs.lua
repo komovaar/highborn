@@ -1229,6 +1229,9 @@ TEAM_RCSkoll = DarkRP.createJob("RC Shadow | Skoll", {
         ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
+        ply:SetNWString("hgexosuit", "katarn")
+        ply:SetNWFloat("exoarmor", 100)
+        ply:SetNWFloat("exoenergy", 50)
     end
 })
 
@@ -1248,6 +1251,9 @@ TEAM_RCShadow = DarkRP.createJob("RC Shadow | Shadow", {
         ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
+        ply:SetNWString("hgexosuit", "katarn")
+        ply:SetNWFloat("exoarmor", 100)
+        ply:SetNWFloat("exoenergy", 50)
     end
 })
 
@@ -1267,6 +1273,9 @@ TEAM_RCRedhood = DarkRP.createJob("RC Shadow | Redhood", {
         ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
+        ply:SetNWString("hgexosuit", "katarn")
+        ply:SetNWFloat("exoarmor", 100)
+        ply:SetNWFloat("exoenergy", 50)
     end
 })
 
@@ -1286,6 +1295,9 @@ TEAM_RCHowl = DarkRP.createJob("RC Shadow | Howl", {
         ply:SetBodygroup(0, 1)
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
+        ply:SetNWString("hgexosuit", "katarn")
+        ply:SetNWFloat("exoarmor", 100)
+        ply:SetNWFloat("exoenergy", 50)
     end
 })
 
