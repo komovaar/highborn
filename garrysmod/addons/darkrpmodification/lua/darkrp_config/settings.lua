@@ -249,7 +249,7 @@ GM.Config.mprintamount                  = 0
 -- normalsalary - Sets the starting salary for newly joined players.
 GM.Config.normalsalary                  = 45
 -- npckillpay - Sets the money given for each NPC kill.
-GM.Config.npckillpay                    = 2
+GM.Config.npckillpay                    = 5
 -- paydelay - Sets how long it takes before people get salary.
 GM.Config.paydelay                      = 90000000000000000
 -- pocketitems - Sets the amount of objects the pocket can carry.
