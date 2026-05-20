@@ -7,6 +7,12 @@ if SERVER then
     local HeavyAir = {
         ["lvs_repulsorlift_dropship"] = true,
         ["lvs_repulsorlift_gunship"]   = true,
+        ["lvs_nuclass_attack_shuttle"] = true,
+        ["lvs_nuclass_attack_shuttle_medical_2"] = true,
+        ["lvs_nuclass_attack_shuttle_medical"] = true,
+        ["lvs_nuclass_attack_shuttle_republic_2"] = true,
+        ["lvs_nuclass_attack_shuttle_republic"] = true,
+        ["lvs_nuclass_attack_shuttle_imp"] = true,
     }
 
     local LightAir = {
@@ -16,13 +22,17 @@ if SERVER then
     }
 
     local HeavyGround = {
-        ["lvs_fakehover_iftx"] = true,
         ["lvs_walker_atte"] = true,
+        ["lvs_tx130_t"] = true,
     }
 
     local LightGround = {
         ["lvs_fakehover_barc"] = true,
         ["lvs_fakehover_barc_medical"] = true,
+        ["lvs_fakehover_iftx"] = true,
+        ["lvs_atrt"] = true,
+        ["lvs_fakehover_ck6_swoop"] = true,
+        ["lvs_sw_transport"] = true,
     }
 
     -- Создание таблицы whitelist при старте сервера
