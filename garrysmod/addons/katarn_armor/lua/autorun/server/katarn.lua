@@ -32,7 +32,7 @@ hook.Add("PlayerSpawn", "KatarnAutoGive", function(ply)
         local jobName = team.GetName(ply:Team()) or ""
         jobName = string.lower(jobName)
 
-        if string.find(jobName, "rc") then
+        if string.find(jobName, "%f[%a]rc%f[%A]") then
             ply:SetExoSuit("katarn")
         else
             ply:RemoveExoSuit()
@@ -90,7 +90,7 @@ hook.Add("OnPlayerChangedTeam", "Katarn_Refresh", function(ply)
         local jobName = team.GetName(ply:Team()) or ""
         jobName = string.lower(jobName)
 
-        if string.find(jobName, "rc") then
+        if string.find(jobName, "%f[%a]rc%f[%A]") then
             ply:SetExoSuit("katarn")
         else
             ply:RemoveExoSuit()
