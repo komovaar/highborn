@@ -4,7 +4,7 @@ wOS.LastStand.InLastStand = wOS.LastStand.InLastStand or {}
 
 hook.Add( "ScalePlayerDamage", "wOS.LastStand.Reduce", function( ply, hitgroup, dmginfo )
 	if ply:WOSGetIncapped() then 
-		dmginfo:ScaleDamage( 0.1 ) 
+		dmginfo:ScaleDamage( 0.7 ) 
 	end
 end )
 
