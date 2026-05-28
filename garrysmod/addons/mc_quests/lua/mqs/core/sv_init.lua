@@ -159,14 +159,9 @@ function MQS.TaskReward(ply, quest)
 	if MQS.Quests[quest].reward then
 		for k, v in pairs(MQS.Quests[quest].reward) do
 			if MQS.Rewards[k].check and MQS.Rewards[k].check() then continue end
-			local vip1 = "STEAM_0:1:511487927"
-    		local vip2 = "STEAM_0:1:544475913"
-			local vip3 = "STEAM_0:1:628530303"
-			local vip4 = "STEAM_0:1:522577115"
-			local vip5 = "STEAM_0:0:549149559"
 			local rewardData = table.Copy(v)
 			
-			if ply:IsUserGroup("vip") or ply:SteamID() == vip1 or ply:SteamID() == vip2 or ply:SteamID() == vip3 or ply:SteamID() == vip4 or ply:SteamID() == vip5 then
+			if ply:IsUserGroup("vip") then
 				if rewardData[1] then
 					rewardData[1] = math.floor(rewardData[1] * 1.50)
 				end
