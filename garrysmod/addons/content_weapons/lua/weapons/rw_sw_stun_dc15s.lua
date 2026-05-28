@@ -27,7 +27,7 @@ SWEP.IronOutSound 					= nil
 SWEP.CanBeSilenced					= false
 SWEP.Silenced 						= false
 SWEP.DoMuzzleFlash 					= false
-SWEP.SelectiveFire					= true
+SWEP.SelectiveFire					= false
 SWEP.DisableBurstFire				= false
 SWEP.OnlyBurstFire					= false
 SWEP.DefaultFireMode 				= "auto"
@@ -46,18 +46,21 @@ SWEP.Primary.NumShots				= 1
 SWEP.Primary.Automatic				= true
 SWEP.Primary.RPM_Semi				= nil
 SWEP.Primary.BurstDelay				= 0.2
-SWEP.Primary.Sound 					= Sound ("w/dc15.wav");
+SWEP.Primary.Sound 					= Sound ("w/stun_sound.wav");
 SWEP.Primary.ReloadSound 			= Sound ("w/rifles.wav");
 SWEP.Primary.PenetrationMultiplier 	= 0
-SWEP.Primary.Damage					= 30
+SWEP.Primary.Damage					= 0
+SWEP.Primary.StatusEffect			= "stun"
+SWEP.Primary.StatusEffectDmg		= 0
+SWEP.Primary.StatusEffectDur		= 5
+SWEP.Primary.StatusEffectParticle	= true
 SWEP.Primary.HullSize 				= 0
 SWEP.DamageType 					= nil
 
 SWEP.DoMuzzleFlash 					= false
 
 SWEP.FireModes = {
-	"Auto",
-	"Single"
+	"Auto"
 }
 
 
@@ -101,7 +104,7 @@ SWEP.Blowback_Shell_Enabled 		= false
 SWEP.Blowback_Shell_Effect 			= "None"
 
 SWEP.Tracer							= 0
-SWEP.TracerName 					= "rw_sw_laser_blue"
+SWEP.TracerName 					= "rw_sw_stunwave_blue"
 SWEP.TracerCount 					= 1
 SWEP.TracerLua 						= false
 SWEP.TracerDelay					= 0.01
@@ -131,10 +134,6 @@ SWEP.RunSightsPos = Vector(5.226, -2, 0)
 SWEP.RunSightsAng = Vector(-18, 36, -13.5)
 SWEP.InspectPos = Vector(8, -4.8, -3)
 SWEP.InspectAng = Vector(11.199, 38, 0)
-
-SWEP.Attachments = {
-	[1] = { offset = { 0, 0 }, atts = {"rw_rep_mod_stun5","rw_rep_mod_stun10","rw_rep_mod_stun20","rw_rep_mod_stun30"}, order = 1 },
-}
 
 SWEP.ViewModelBoneMods = {
 	["v_e11_reference001"] = { scale = Vector(0.009, 0.009, 0.009), pos = Vector(-3, 0, 0), angle = Angle(0, 0, 0) }
@@ -171,13 +170,70 @@ end
 DEFINE_BASECLASS( SWEP.Base )
 
 local CurrentTimer			= 0
+local normalModeStats = {
+	["Primary.RPM"] = 375,
+	["Primary.Sound"] = Sound ("w/dc15.wav"),
+	["Primary.Damage"] = 20,
+	["Primary.AmmoConsumption"] = 1,
+	["Primary.StatusEffect"] = false,
+	["Primary.StatusEffectDmg"] = false,
+	["Primary.StatusEffectDur"] = false,
+	["Primary.StatusEffectParticle"] = false,
+	["TracerName"] = "rw_sw_laser_blue",
+	["ImpactEffect"] = "rw_sw_impact_blue",
+	["ImpactDecal"] = "FadingScorch",
+}
+
+hook.Add("TFA_GetStat", "rw_sw_stun_dc15s_normal_mode", function(wep, stat, value)
+	if not IsValid(wep) or wep:GetClass() ~= "rw_sw_stun_dc15s" or not wep:IsStunDC15SNormalMode() then return end
+
+	local override = normalModeStats[stat]
+	if override ~= nil then return override end
+end)
+
+function SWEP:IsStunDC15SNormalMode()
+	return self:GetNWBool("StunDC15SNormalMode", self.StunDC15SNormalMode or false)
+end
+
+function SWEP.CustomBulletCallback(attacker, tr, dmg)
+	local wep = dmg:GetInflictor()
+	if not IsValid(wep) or wep:IsStunDC15SNormalMode() then return end
+	if not wep:GetStat("Primary.StatusEffect") or not GMSNX then return end
+
+	GMSNX:AddStatus(tr.Entity, wep:GetOwner(), wep:GetStat("Primary.StatusEffect"), wep:GetStat("Primary.StatusEffectDur"), wep:GetStat("Primary.StatusEffectDmg"), wep:GetStat("Primary.StatusEffectParticle"))
+end
+
+function SWEP:ToggleStunDC15SMode()
+	self.StunDC15SNormalMode = not self:IsStunDC15SNormalMode()
+	self:SetNWBool("StunDC15SNormalMode", self.StunDC15SNormalMode)
+	self:ClearStatCache()
+	self:Unload()
+	self:EmitSound(self:GetStat("FireModeSound", "Weapon_AR2.Empty"))
+end
+
+function SWEP:GetFireModeName()
+	if self:IsStunDC15SNormalMode() then return "Normal" end
+
+	return "Shock"
+end
+
+function SWEP:ProcessFireMode()
+	if self:GetOwner():IsNPC() then return end
+
+	if self:OwnerIsValid() and self:KeyPressed(IN_RELOAD) and self:KeyDown(IN_USE) and not self:KeyDown(IN_SPEED) and self:GetStatus() == TFA.Enum.STATUS_IDLE and (SERVER or not sp) then
+		self:ToggleStunDC15SMode()
+		self:SetStatus(TFA.Enum.STATUS_FIREMODE, self:GetNextPrimaryFire())
+		return
+	end
+
+	BaseClass.ProcessFireMode(self)
+end
 
 function SWEP:Think(...)
 	BaseClass.Think(self, ...)
-	if( self:IsAttached("rw_rep_mod_stun5") or self:IsAttached("rw_rep_mod_stun10") or self:IsAttached("rw_rep_mod_stun20") or self:IsAttached("rw_rep_mod_stun30")) then 
-		self.VElements["trd"].color = Color(0, 150, 255, 255)
-	else
+	if self:IsStunDC15SNormalMode() then
 		self.VElements["trd"].color = Color(200, 200, 200, 255)
-
+	else
+		self.VElements["trd"].color = Color(0, 150, 255, 255)
 	end
 end
