@@ -5,6 +5,7 @@ include("shared.lua")
 util.AddNetworkString("BGTrader.Open")
 util.AddNetworkString("BGTrader.Buy")
 util.AddNetworkString("BGTrader.Remove")
+util.AddNetworkString("BGTrader.Update")
 
 -- ======================================================
 -- DATABASE
@@ -43,14 +44,23 @@ end
 function ENT:Use(ply)
     if not IsValid(ply) then return end
 
+    SendBGTraderState(ply, "open")
+end
+
+function SendBGTraderState(ply, status, success)
+    if not IsValid(ply) then return end
+
     local rows = sql.Query(string.format(
         "SELECT * FROM bodygroup_purchases WHERE steamid=%s AND model=%s",
         sql.SQLStr(ply:SteamID()),
         sql.SQLStr(ply:GetModel())
     )) or {}
 
-    net.Start("BGTrader.Open")
+    net.Start(status == "open" and "BGTrader.Open" or "BGTrader.Update")
         net.WriteTable(rows)
+        if status != "open" then
+            net.WriteBool(success == true)
+        end
     net.Send(ply)
 end
 
@@ -65,7 +75,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
 
     local model = ply:GetModel()
     local cfg = Vendor.Models[model]
-    if not cfg then return end
+    if not cfg then SendBGTraderState(ply) return end
 
     local bgKey
     local bgData
@@ -78,7 +88,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
         end
     end
 
-    if not bgKey then return end
+    if not bgKey then SendBGTraderState(ply) return end
     
     local vip1 = "STEAM_0:1:511487927"
     local vip2 = "STEAM_0:1:544475913"
@@ -86,6 +96,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
     local vip4 = "STEAM_0:1:522577115"
     local vip5 = "STEAM_0:0:549149559"
     if bgData.vip and not ply:IsUserGroup("vip") and ply:SteamID() != vip1 and ply:SteamID() != vip2 and ply:SteamID() != vip3  and ply:SteamID() != vip4 and ply:SteamID() != vip5 then
+        SendBGTraderState(ply)
         return
     end
 
@@ -98,7 +109,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
 
     if not row then
         local money = ply:getDarkRPVar("money") or 0
-        if money < bgData.price then return end
+        if money < bgData.price then SendBGTraderState(ply) return end
         ply:addMoney(-bgData.price)
 
         sql.Query(string.format([[
@@ -125,10 +136,10 @@ net.Receive("BGTrader.Buy", function(_, ply)
     end
 
     if bgKey == "jetpack" then
-        if IsValid(ply:GetNWEntity("Jetted")) then return end
+        if IsValid(ply:GetNWEntity("Jetted")) then SendBGTraderState(ply, nil, true) return end
 
         local jp = ents.Create("mk1")
-        if not IsValid(jp) then return end
+        if not IsValid(jp) then SendBGTraderState(ply) return end
 
         jp:SetSlotName("mk1")
         jp:Spawn()
@@ -139,6 +150,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
     end
 
     ply:SetBodygroup(bgID, value)
+    SendBGTraderState(ply, nil, true)
 end)
 
 
@@ -149,7 +161,7 @@ net.Receive("BGTrader.Remove", function(_, ply)
     local model = ply:GetModel()
 
     local cfg = Vendor.Models[model]
-    if not cfg then return end
+    if not cfg then SendBGTraderState(ply) return end
 
     local bgKey
 
@@ -160,7 +172,7 @@ net.Receive("BGTrader.Remove", function(_, ply)
         end
     end
 
-    if not bgKey then return end
+    if not bgKey then SendBGTraderState(ply) return end
 
     local jp = ply:GetNWEntity("Jetted")
     if IsValid(jp) then
@@ -179,6 +191,7 @@ net.Receive("BGTrader.Remove", function(_, ply)
     ))
 
     ply:SetBodygroup(bgID, 0)
+    SendBGTraderState(ply, nil, true)
 end)
 
 

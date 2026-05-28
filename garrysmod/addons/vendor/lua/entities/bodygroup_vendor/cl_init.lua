@@ -12,6 +12,15 @@ local C = {
     accent = Color(80,140,220),
 }
 
+net.Receive("BGTrader.Update", function()
+    local serverData = net.ReadTable() or {}
+    local success = net.ReadBool()
+
+    if IsValid(BGTraderFrame) and BGTraderFrame.BGTraderRefresh then
+        BGTraderFrame.BGTraderRefresh(serverData, success)
+    end
+end)
+
 net.Receive("BGTrader.Open", function()
 
     local serverData = net.ReadTable() or {}
@@ -24,16 +33,46 @@ net.Receive("BGTrader.Open", function()
     if not cfg then return end
 
     local owned = {}
-    for _, row in ipairs(serverData) do
-        owned[row.bg_key] = {
-            value = tonumber(row.owned_value),
-            equipped = tonumber(row.equipped)
-        }
+    local function RefreshOwned(data)
+        table.Empty(owned)
+
+        for _, row in ipairs(data or {}) do
+            owned[row.bg_key] = {
+                value = tonumber(row.owned_value),
+                equipped = tonumber(row.equipped)
+            }
+        end
     end
+    RefreshOwned(serverData)
 
     local selectedKey
     local selectedData
     local selectedValue
+    local pending = false
+    local action
+    local ent
+
+    local function UpdateAction()
+        if not IsValid(action) or not selectedKey then return end
+
+        local state = owned[selectedKey]
+
+        action:SetVisible(true)
+
+        if pending then
+            action:SetText("...")
+            action.mode = "pending"
+        elseif not state then
+            action:SetText("ПРИДБАТИ")
+            action.mode="buy"
+        elseif state.equipped==1 then
+            action:SetText("ЗНЯТИ")
+            action.mode="remove"
+        else
+            action:SetText("ОДЯГНУТИ")
+            action.mode="equip"
+        end
+    end
 
     -- FRAME
     local frame = vgui.Create("DFrame")
@@ -121,12 +160,12 @@ net.Receive("BGTrader.Open", function()
 		end
 	end
 
-    local ent = modelPanel.Entity
+    ent = modelPanel.Entity
     for _, bg in ipairs(ent:GetBodyGroups()) do
         ent:SetBodygroup(bg.id, ply:GetBodygroup(bg.id))
     end
 
-    local action = vgui.Create("DButton",frame)
+    action = vgui.Create("DButton",frame)
     action:SetSize(300,60)
     action:SetPos(ScrW()-360,ScrH()-120)
     action:SetFont("WT.Button")
@@ -140,9 +179,23 @@ net.Receive("BGTrader.Open", function()
         local col = C.green
         if self.mode=="equip" then col=C.blue end
         if self.mode=="remove" then col=C.red end
+        if self.mode=="pending" then col=C.soft end
 
         draw.RoundedBox(16,0,0,w,h,col)
         draw.SimpleText(self:GetText(),"WT.Button",w/2,h/2,Color(10,10,10),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+    end
+
+    frame.BGTraderRefresh = function(data, success)
+        RefreshOwned(data)
+        pending = false
+
+        if success and IsValid(ent) then
+            for _, bg in ipairs(ent:GetBodyGroups()) do
+                ent:SetBodygroup(bg.id, ply:GetBodygroup(bg.id))
+            end
+        end
+
+        UpdateAction()
     end
 
     -- ================= LEFT LIST =================
@@ -208,79 +261,48 @@ net.Receive("BGTrader.Open", function()
             end
 
 
-            local state = owned[key]
-
-            action:SetVisible(true)
-
-            if not state then
-                action:SetText("ПРИДБАТИ")
-                action.mode="buy"
-
-            elseif state.equipped==1 then
-                action:SetText("ЗНЯТИ")
-                action.mode="remove"
-
-            else
-                action:SetText("ОДЯГНУТИ")
-                action.mode="equip"
-            end
+            pending = false
+            UpdateAction()
         end
     end
 
     -- BUTTON LOGIC
     action.DoClick=function()
 
-        if not selectedData then return end
+        if not selectedData or pending then return end
 
         if action.mode=="buy" then
+            pending = true
+            UpdateAction()
 
             net.Start("BGTrader.Buy")
                 net.WriteUInt(selectedData.id,8)
                 net.WriteUInt(selectedValue,8)
             net.SendToServer()
 
-            owned[selectedKey]={
-                value=selectedValue,
-                equipped=1
-            }
-
-            ply:SetBodygroup(selectedData.id,selectedValue)
             ent:SetBodygroup(selectedData.id,selectedValue)
-            local money = ply:getDarkRPVar("money") or 0
-            if money > selectedData.price then 
-                action:SetText("ЗНЯТИ")
-                action.mode="remove"
-            end
 
         elseif action.mode=="equip" then
+            pending = true
+            UpdateAction()
 
             net.Start("BGTrader.Buy")
                 net.WriteUInt(selectedData.id,8)
                 net.WriteUInt(selectedValue,8)
             net.SendToServer()
 
-            owned[selectedKey].equipped=1
-
-            ply:SetBodygroup(selectedData.id,selectedValue)
             ent:SetBodygroup(selectedData.id,selectedValue)
 
-            action:SetText("ЗНЯТИ")
-            action.mode="remove"
-
         elseif action.mode=="remove" then
+            pending = true
+            UpdateAction()
 
             net.Start("BGTrader.Remove")
                 net.WriteUInt(selectedData.id,8)
                 net.WriteUInt(selectedData.default,9)
             net.SendToServer()
 
-            owned[selectedKey].equipped=0
-
-            ply:SetBodygroup(selectedData.id, selectedData.default)
             ent:SetBodygroup(selectedData.id,0)
-
-            action:SetText("ОДЯГНУТИ")
-            action.mode="equip"
         end
     end
 end)
