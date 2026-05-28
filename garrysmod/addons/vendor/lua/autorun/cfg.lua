@@ -547,6 +547,21 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
+        name = "Impact Grenade",
+        class = "rw_sw_nade_impact",
+        price = 10000,
+        model = "models/cs574/explosif/grenade_impact.mdl",
+        stats = {
+            damage = 75,
+            rpm = 10,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=true,
+        jobs=nil
+    },
+    {
         name = "Flash Grenade",
         class = "rw_sw_nade_flash",
         price = 10000,
