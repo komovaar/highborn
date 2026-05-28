@@ -272,7 +272,7 @@ function PANEL:Populate()
         elseif catName == "5th" then
             catName = "5 охоронний флот"
         elseif catName == "501st" then
-            catName = "501 легіон"
+            catName = "501 шутрмовий легіон"
         end
 
         self:AddCategory(catName, catData.color)
