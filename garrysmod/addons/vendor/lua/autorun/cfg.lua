@@ -652,6 +652,7 @@ Vendor.Models = {
 ["models/212th_co/pm_212th_co.mdl"] = {
     antena = { id = 2, name = "Антена", price = 2500, vip = false, default = 1 },
     kama = { id = 3, name = "Кама", price = 10000, vip = false, default = 0 },
+    pauldron = { id = 4, name = "Наплічик", price = 10000, vip = false, default = 1 },
     holster_left = { id = 5, name = "Кобура ліва", price = 1500, vip = false, default = 0 },
     holster_right = { id = 6, name = "Кобура права", price = 1500, vip = false, default = 0 },
     binos = { id = 7, name = "Бінокль", price = 5000, vip = false, default = 0 },
