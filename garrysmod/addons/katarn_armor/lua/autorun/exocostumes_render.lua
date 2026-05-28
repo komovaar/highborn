@@ -15,12 +15,108 @@ if CLIENT then
 	local cam_End3D = cam.End3D
 	local cam_Start3D2D = cam.Start3D2D
 	local cam_End3D2D = cam.End3D2D
-	local cv_nv_key = CreateConVar("katarn_nv_key", tostring(KEY_N), {FCVAR_ARCHIVE}, "Night Vision Key")
+	local cv_nv_key = CreateClientConVar("katarn_nv_key", tostring(KEY_N), true, false, "Night Vision Key")
+	local cv_remove_key1 = CreateClientConVar("katarn_remove_key1", tostring(KEY_LCONTROL), true, false, "Remove armor key 1")
+	local cv_remove_key2 = CreateClientConVar("katarn_remove_key2", tostring(KEY_E), true, false, "Remove armor key 2")
+	local cv_remove_key3 = CreateClientConVar("katarn_remove_key3", tostring(KEY_R), true, false, "Remove armor key 3")
 	local cv_nv_r = CreateConVar("katarn_nv_r", "102", {FCVAR_ARCHIVE}, "NV Red")
 	local cv_nv_g = CreateConVar("katarn_nv_g", "153", {FCVAR_ARCHIVE}, "NV Green")
 	local cv_nv_b = CreateConVar("katarn_nv_b", "255", {FCVAR_ARCHIVE}, "NV Blue")
 	local cv_nv_cont = CreateConVar("katarn_nv_contrast", "0.6", {FCVAR_ARCHIVE}, "NV Contrast")
 	local cv_nv_bright = CreateConVar("katarn_nv_brightness", "5", {FCVAR_ARCHIVE}, "NV Brightness")
+
+	local keyNames = {
+		["ctrl"] = KEY_LCONTROL,
+		["lctrl"] = KEY_LCONTROL,
+		["rctrl"] = KEY_RCONTROL,
+		["control"] = KEY_LCONTROL,
+		["shift"] = KEY_LSHIFT,
+		["lshift"] = KEY_LSHIFT,
+		["rshift"] = KEY_RSHIFT,
+		["alt"] = KEY_LALT,
+		["lalt"] = KEY_LALT,
+		["ralt"] = KEY_RALT,
+		["space"] = KEY_SPACE,
+		["tab"] = KEY_TAB,
+		["caps"] = KEY_CAPSLOCK,
+		["capslock"] = KEY_CAPSLOCK,
+		["backspace"] = KEY_BACKSPACE,
+		["back"] = KEY_BACKSPACE,
+		["enter"] = KEY_ENTER,
+		["return"] = KEY_ENTER,
+		["mouse1"] = MOUSE_LEFT,
+		["mouse2"] = MOUSE_RIGHT,
+		["mouse3"] = MOUSE_MIDDLE,
+	}
+
+	for i = 0, 9 do
+		keyNames[tostring(i)] = _G["KEY_" .. i]
+	end
+
+	for i = string.byte("a"), string.byte("z") do
+		local letter = string.char(i)
+		keyNames[letter] = _G["KEY_" .. string.upper(letter)]
+	end
+
+	local function KeyFromConsoleValue(value)
+		if not value then return nil end
+
+		local num = tonumber(value)
+		if num then return num end
+
+		value = string.Trim(string.lower(value))
+		value = string.Replace(value, "key_", "")
+		return keyNames[value]
+	end
+
+	local function KeyLabel(key)
+		return string.upper(input.GetKeyName(key) or tostring(key))
+	end
+
+	local mouseButtons = {
+		[MOUSE_LEFT] = true,
+		[MOUSE_RIGHT] = true,
+		[MOUSE_MIDDLE] = true,
+	}
+
+	local function IsConfiguredButtonDown(key)
+		if key <= 0 then return false end
+		if mouseButtons[key] then return input.IsMouseDown(key) end
+
+		return input.IsKeyDown(key)
+	end
+
+	local function SetKeyCVar(cv, value)
+		local key = KeyFromConsoleValue(value)
+		if not key then
+			print("[Katarn] Unknown key '" .. tostring(value) .. "'.")
+			return false
+		end
+
+		cv:SetInt(key)
+		return true
+	end
+
+	concommand.Add("katarn_set_nv_key", function(_, _, args)
+		if SetKeyCVar(cv_nv_key, args[1], KEY_N) then
+			print("[Katarn] Night vision key: " .. KeyLabel(cv_nv_key:GetInt()))
+		end
+	end)
+
+	concommand.Add("katarn_set_remove_keys", function(_, _, args)
+		if not args[1] or not args[2] or not args[3] then
+			print("[Katarn] Usage: katarn_set_remove_keys ctrl e r")
+			return
+		end
+
+		local ok1 = SetKeyCVar(cv_remove_key1, args[1])
+		local ok2 = SetKeyCVar(cv_remove_key2, args[2])
+		local ok3 = SetKeyCVar(cv_remove_key3, args[3])
+
+		if ok1 and ok2 and ok3 then
+			print("[Katarn] Remove keys: " .. KeyLabel(cv_remove_key1:GetInt()) .. "+" .. KeyLabel(cv_remove_key2:GetInt()) .. "+" .. KeyLabel(cv_remove_key3:GetInt()))
+		end
+	end)
 	
 	net.Receive("UpdateExosuitModelHG", function()
 		suitelements = net.ReadTable()
@@ -94,20 +190,34 @@ if CLIENT then
 	end)
 	
 	local lerp1, lerp2, thrustlerp, bobang, bobangr, bobangr2 = 1, 0, 0, Angle(0,0,0), 0, 0
-	local mdeltax, mdeltay, armorlerp, nvdelay, nv_on, nv_lerp, nv_lerp2, loading = 0, 0, 0, 0, false, 0, 1, 0
+	local mdeltax, mdeltay, armorlerp, nvdelay, removedelay, nv_on, nv_lerp, nv_lerp2, loading = 0, 0, 0, 0, 0, false, 0, 1, 0
 	local nv_katarn_light = nil
 	
 	hook.Add("CreateMove", "CreateMoveExosuitHudhg", function(cmd) mdeltax = cmd:GetMouseX() mdeltay = cmd:GetMouseY() end)
-	
+
+	local function ToggleNightvision(ply)
+		if ply:GetNWString("hgexosuit") == "" then return end
+
+		nv_on = not nv_on
+		if not nv_on and IsValid(nv_katarn_light) then
+			nv_katarn_light:Remove()
+		end
+	end
+
+	local function RequestRemoveSuit(ply)
+		if ply:GetNWString("hgexosuit") == "" or removedelay > CurTime() then return end
+
+		removedelay = CurTime() + 1
+		net.Start("Katarn_RemoveSuit")
+		net.SendToServer()
+	end
+
 	local function HandleNighvision(ply)
 		local key = cv_nv_key:GetInt()
 		
-		if key > 0 and input.IsKeyDown(key) and nvdelay < CurTime() and ply:GetNWString("hgexosuit") ~= "" then
-			nv_on = not nv_on
+		if IsConfiguredButtonDown(key) and nvdelay < CurTime() and ply:GetNWString("hgexosuit") ~= "" then
 			nvdelay = CurTime() + .2
-			if not nv_on and IsValid(nv_katarn_light) then
-				nv_katarn_light:Remove()
-			end
+			ToggleNightvision(ply)
 		end
 		
 		if ply:GetNWString("hgexosuit") == "" then 
@@ -150,6 +260,30 @@ if CLIENT then
 			if nv_lerp > 0.01 then draw_RoundedBox(0, 0, 0, ScrW(), ScrH(), Color(102*nv_lerp2, 153*nv_lerp2, 255*nv_lerp2, 255*nv_lerp)) end
 		end
 	end
+
+	local function HandleRemoveSuit(ply)
+		local key1 = cv_remove_key1:GetInt()
+		local key2 = cv_remove_key2:GetInt()
+		local key3 = cv_remove_key3:GetInt()
+
+		if IsConfiguredButtonDown(key1) and IsConfiguredButtonDown(key2) and IsConfiguredButtonDown(key3) then
+			RequestRemoveSuit(ply)
+		end
+	end
+
+	concommand.Add("katarn_toggle_nv", function()
+		local ply = LocalPlayer()
+		if not IsValid(ply) then return end
+
+		ToggleNightvision(ply)
+	end)
+
+	concommand.Add("katarn_remove_suit", function()
+		local ply = LocalPlayer()
+		if not IsValid(ply) then return end
+
+		RequestRemoveSuit(ply)
+	end)
 	
 	local startX, startY = 350, 50
 	
@@ -171,6 +305,7 @@ if CLIENT then
 		local ply = LocalPlayer()
 		
 		HandleNighvision(ply)
+		HandleRemoveSuit(ply)
 		
 		if GetConVarNumber("cl_drawhud") == 1 and ply:GetNWString("hgexosuit") ~= "" then
 			lerp1 = Lerp(FrameTime()*2, lerp1, 0)
@@ -211,7 +346,7 @@ if CLIENT then
 			end
 			
 			if loading >= 90 then
-				draw_SimpleText("CTRL+E+R - Remove armor system", "HGScoreBoard2", startX + 7, startY + 60, Color(255, 255, 255, 100), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+				draw_SimpleText(KeyLabel(cv_remove_key1:GetInt()).."+"..KeyLabel(cv_remove_key2:GetInt()).."+"..KeyLabel(cv_remove_key3:GetInt()).." - Remove armor system", "HGScoreBoard2", startX + 7, startY + 60, Color(255, 255, 255, 100), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 				local keyName = input.GetKeyName(cv_nv_key:GetInt())
 				if keyName then
 					draw_SimpleText(string.upper(keyName).." - Night Vision", "HGScoreBoard2", startX + 7, startY + 77, Color(255, 255, 255, 100), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)

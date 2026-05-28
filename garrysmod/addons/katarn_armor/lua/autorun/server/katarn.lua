@@ -1,5 +1,7 @@
 AddCSLuaFile()
 
+util.AddNetworkString("Katarn_RemoveSuit")
+
 -- ConVars
 local cv_max_armor = CreateConVar("katarn_max_armor", "75", FCVAR_ARCHIVE)
 local cv_max_energy = CreateConVar("katarn_max_energy", "75", FCVAR_ARCHIVE)
@@ -17,6 +19,12 @@ end
 function meta:RemoveExoSuit()
     self:SetNWString("hgexosuit", "")
 end
+
+net.Receive("Katarn_RemoveSuit", function(_, ply)
+    if not IsValid(ply) or ply:GetNWString("hgexosuit") == "" then return end
+
+    ply:RemoveExoSuit()
+end)
 
 local RC_JOBS = {
     ["TEAM_RCShadow"] = true,
