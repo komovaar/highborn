@@ -442,10 +442,10 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
-        name = "Щит",
-        class = "rw_sw_shield_rep",
+        name = "Щит з DC-17",
+        class = "rw_sw_shield_rep_dc17",
         price = 3500,
-        model = "rw_sw_shield_rep",
+        model = "models/cs574/weapons/shields/blast_shield.mdl",
         stats = {
             damage = 0,
             rpm = 0,
