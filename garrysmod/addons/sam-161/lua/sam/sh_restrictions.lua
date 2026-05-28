@@ -50,7 +50,7 @@ local load_restrictions = function()
 			hook.Add("CanTool", "SAM.Module.Restrictions", function(ply, _, tool)
 				if not ply:HasPermission(tool) then
 					if CLIENT and sam.player.check_cooldown(ply, "ToolNoPermission", 0.1) then
-						ply:sam_send_message("You don't have permission to use this tool.")
+						-- ply:sam_send_message("You don't have permission to use this tool.")
 					end
 					return false
 				end
