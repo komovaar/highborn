@@ -141,6 +141,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
         local jp = ents.Create("mk1")
         if not IsValid(jp) then SendBGTraderState(ply) return end
 
+        jp.HighbornVendorJetpack = true
         jp:SetSlotName("mk1")
         jp:Spawn()
         jp:Attach(ply)
@@ -221,6 +222,7 @@ hook.Add("PlayerSpawn", "BGTrader.ApplySavedBodygroups", function(ply)
                 if bgKey == "jetpack" then
                     local jp = ents.Create("mk1")
                     if not IsValid(jp) then return end
+                    jp.HighbornVendorJetpack = true
                     jp:SetSlotName("mk1")
                     jp:Spawn()
 
@@ -256,6 +258,7 @@ hook.Add("PlayerSpawn", "BGTrader.ApplyJetpackMando", function(ply)
         if model == "models/jajoff/sps/jlmbase/merrankrieg2021.mdl" then
             local jp = ents.Create("mk1")
             if not IsValid(jp) then return end
+            jp.HighbornVendorJetpack = true
             jp:SetSlotName("mk1")
             jp:Spawn()
 

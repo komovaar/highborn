@@ -494,6 +494,10 @@ end
 if SERVER then
 
 	function ENT:OnTakeDamage( dmginfo )
+		if self.HighbornVendorJetpack and IsValid( self:GetControllingPlayer() ) then
+			return
+		end
+
 		--we're already dead , might happen if multiple jetpacks explode at the same time
 		if self:Health() <= 0 then
 			return
