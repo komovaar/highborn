@@ -36,6 +36,7 @@ function ENT:Initialize()
     local phys = self:GetPhysicsObject()
     if IsValid(phys) then
         phys:EnableMotion(false)
+        phys:Sleep()
     end
 
     self:SetUseType(SIMPLE_USE)
