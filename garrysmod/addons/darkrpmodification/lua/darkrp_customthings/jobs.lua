@@ -514,7 +514,7 @@ TEAM_91PIL = DarkRP.createJob("91 | Клон Пілот", {
 
 TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
     color = Color(153, 0, 0),
-    model = {"models/lightning/91strecon_arf/pm_91strecon_arf.mdl"},
+    model = {"models/lightning/91strecon_arf_co/pm_91strecon_arf_co.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
     max = 100,
@@ -527,9 +527,13 @@ TEAM_91ARF = DarkRP.createJob("91 | Клон ARF", {
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0) -- body
         ply:SetBodygroup(1, 0) -- helmet
-        ply:SetBodygroup(2, 0) -- backpack
-        ply:SetBodygroup(3, 0) -- hair
-        ply:SetBodygroup(4, 0) -- fhair
+        ply:SetBodygroup(2, 1) -- kama
+        ply:SetBodygroup(3, 0) -- backpack
+        ply:SetBodygroup(4, 0) -- hair
+        ply:SetBodygroup(5, 0) -- fhair
+        ply:SetBodygroup(6, 1) -- holster right
+        ply:SetBodygroup(7, 1) -- holster left
+        ply:SetBodygroup(8, 0) -- shoulder antenna
         ply:SetArmor(40)
         ply:SetMaxArmor(40)
     end

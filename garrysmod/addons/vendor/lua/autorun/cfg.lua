@@ -726,8 +726,12 @@ Vendor.Models = {
     holster_right = { id = 7, name = "Кобура права", price = 1500, vip = false, default = 0 },
     backpack = { id = 8, name = "Рюкзак", price = 3500, vip = false, default = 3 },
 },
-["models/lightning/91strecon_arf/pm_91strecon_arf.mdl"] = {
-    backpack = { id = 2, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+["models/lightning/91strecon_arf_co/pm_91strecon_arf_co.mdl"] = {
+    kama = { id = 2, name = "Кама", price = 10000, vip = true, default = 0, off = 1 },
+    backpack = { id = 3, name = "Рюкзак", price = 3500, vip = false, default = 1 },
+    holster_right = { id = 6, name = "Кобура права", price = 1500, vip = false, default = 0, off = 1 },
+    holster_left = { id = 7, name = "Кобура ліва", price = 1500, vip = false, default = 0, off = 1 },
+    shoulder_antena = { id = 8, name = "Антена на плечі", price = 3500, vip = false, default = 1 },
 },
 ["models/ct_arc/pm_ct_arc.mdl"] = {
     belt = { id = 2, name = "Пояс", price = 1500, vip = false, default = 0 },

@@ -302,7 +302,7 @@ net.Receive("BGTrader.Open", function()
                 net.WriteUInt(selectedData.default,9)
             net.SendToServer()
 
-            ent:SetBodygroup(selectedData.id,0)
+            ent:SetBodygroup(selectedData.id, selectedData.off or 0)
         end
     end
 end)

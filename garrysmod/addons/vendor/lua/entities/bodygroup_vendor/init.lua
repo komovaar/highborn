@@ -164,10 +164,12 @@ net.Receive("BGTrader.Remove", function(_, ply)
     if not cfg then SendBGTraderState(ply) return end
 
     local bgKey
+    local bgData
 
     for key, data in pairs(cfg) do
         if data.id == bgID and value == data.default then
             bgKey = key
+            bgData = data
             break
         end
     end
@@ -190,7 +192,7 @@ net.Receive("BGTrader.Remove", function(_, ply)
         sql.SQLStr(bgKey)
     ))
 
-    ply:SetBodygroup(bgID, 0)
+    ply:SetBodygroup(bgID, bgData.off or 0)
     SendBGTraderState(ply, nil, true)
 end)
 
