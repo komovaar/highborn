@@ -39,8 +39,8 @@ ENT.MaxVelocityY = 180
 
 ENT.MaxTurnRate = 0.5
 
-ENT.BoostAddVelocityX = 120
-ENT.BoostAddVelocityY = 120
+ENT.BoostAddVelocityX = 421
+ENT.BoostAddVelocityY = 421
 
 ENT.GroundTraceHitWater = true
 ENT.GroundTraceLength = 50
