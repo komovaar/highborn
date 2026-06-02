@@ -9,6 +9,7 @@ ENT.SpawnNormalOffset = 45
 
 function ENT:OnSpawn( PObj )
 	PObj:SetMass( 2500 )
+	self:SetBodygroup( 1, 1 )
 
 	local DriverSeat = self:AddDriverSeat( Vector(-30,0,43), Angle(0,-90,0) )
 	DriverSeat.HidePlayer = true

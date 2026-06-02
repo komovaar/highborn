@@ -44,7 +44,7 @@ function ENT:FireTurret( weapon )
 end
 
 function ENT:CanUseBTL()
-	return self:GetBodygroup(1) == 0
+	return false
 end
 
 function ENT:CanUseTurret()
@@ -102,17 +102,9 @@ function ENT:InitTurret()
 
 		if base:GetIsCarried() then return true end
 
-		if not base:CanUseBTL() then
-			if not base:CanUseTurret() then return true end
+		if not base:CanUseTurret() then return true end
 
-			base:FireTurret( ent )
-
-			return
-		end
-
-		local trace = base:TraceBTL()
-
-		base:BallturretDamage( trace.Entity, ent:GetDriver(), trace.HitPos, (trace.HitPos - ent:GetPos()):GetNormalized() )
+		base:FireTurret( ent )
 	end
 	weapon.StartAttack = function( ent )
 		local base = ent:GetVehicle()
