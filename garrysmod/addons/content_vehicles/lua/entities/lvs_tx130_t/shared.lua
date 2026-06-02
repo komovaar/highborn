@@ -439,116 +439,41 @@ function ENT:InitWeapons()
 	self:AddWeapon( weapon )
 	
 	local weapon = {}
-	weapon.Icon = Material("lvs/weapons/hmg.png")
-	weapon.Delay = 0.1
-	weapon.Ammo = 300
-	weapon.HeatRateUp = 0.7
-	weapon.HeatRateDown = 0.1
-	weapon.Attack = function( ent )
-	   if not self:GetEngineActive() then return end
-		if self:GetIsCarried() then return end
-		
-		local ID_L = self:LookupAttachment( "muzzle_left" )
-		local ID_R = self:LookupAttachment( "muzzle_right" )
-		local MuzzleL = self:GetAttachment( ID_L )
-		local MuzzleR = self:GetAttachment( ID_R )
-		
-		if not MuzzleL or not MuzzleR then return end
-	
-		self.MirrorPrimary = not self.MirrorPrimary
-	
-		local Pos = MuzzleL.Pos
-		local Dir = MuzzleL.Ang:Up()
-
-		local bullet = {}
-		bullet.Src 	= Pos
-		bullet.Dir 	= Dir
-		bullet.Spread 	= Vector( 0.01,  0.01, 0.01 )
-		bullet.TracerName = "lvs_laser_red_short"
-		bullet.Force	= 10000
-		bullet.HullSize 	= 1
-		bullet.Damage	= 100
-		bullet.SplashDamage	= 100
-		bullet.SplashDamageRadius	= 200
-		bullet.Velocity = 	40000
-		bullet.Attacker = ent:GetDriver()
-		bullet.Callback = function(att, tr, dmginfo)
-			local effectdata = EffectData()
-				effectdata:SetStart( Vector(0,0,255) ) 
-				effectdata:SetOrigin( tr.HitPos )
-				effectdata:SetNormal( tr.HitNormal )
-			util.Effect( "lvs_concussion_explosion", effectdata )
-		end
-
-		local effectdata = EffectData()
-		effectdata:SetStart( Vector(50,50,255) )
-		effectdata:SetOrigin( bullet.Src )
-		effectdata:SetNormal( Dir )
-		effectdata:SetEntity( ent )
-		util.Effect( "lvs_muzzle_colorable", effectdata )
-
-		ent:LVSFireBullet( bullet )
-		
-		bullet.Src = MuzzleR.Pos
-		bullet.Dir = MuzzleR.Ang:Up()
-		
-		if not IsValid( ent.SNDLeft ) and not IsValid( ent.SNDRight )  then return end
-		ent.SNDLeft:PlayOnce( 100 + math.cos( CurTime() + ent:EntIndex() * 1337 ) * 5 + math.Rand(-1,1), 1 )
-		ent.SNDRight:PlayOnce( 100 + math.sin( CurTime() + ent:EntIndex() * 1337 ) * 5 + math.Rand(-1,1), 1 )
-		ent:TakeAmmo()
-		ent:TakeAmmo()
-		ent:LVSFireBullet( bullet )
+	weapon.Icon = Material("lvs/weapons/laserbeam.png")
+	weapon.Ammo = 25
+	weapon.Delay = 4
+	weapon.HeatRateUp = 0
+	weapon.HeatRateDown = 0.25
+	weapon.StartAttack = function(ent)
+		ent:ChargeGun()
 	end
-	weapon.OnThink = function( ent, active )
-	if not active or not self:GetEngineActive() then return end
-	
-		self.nextDFX = self.nextDFX or 0
-
-		if self.nextDFX < CurTime() then
-		self.nextDFX = CurTime() + 0.05
-		
-			if self:GetOverheated() then return
-			else
-			local chargePositions = {
-				Vector(-100, 43, 64),
-				Vector(-105, 43, 62),
-				Vector(-108, 43, 58),
-				
-				Vector(-100, -43, 64), 
-				Vector(-105, -43, 62),
-				Vector(-108, -43, 58),
-			}
-
-	for _, localPos in ipairs(chargePositions) do
-		local fx = EffectData()
-		fx:SetOrigin(ent:LocalToWorld(localPos))
-		fx:SetEntity(ent)
-		fx:SetStart(localPos)
-		util.Effect("tx_130_charge", fx)
+	weapon.FinishAttack = function(ent)
+		ent:FinishShoot(ent)
 	end
-
-			end
-		end
+	weapon.Attack = function(ent) end
+	weapon.OnThink = function(ent, active)
+	if not active then return end
+		ent:HandleShoot(ent._doAttack and active, active, ent)
 	end
-	weapon.OnSelect = function( ent )
+	weapon.OnSelect = function(ent)
 		ent:EmitSound("physics/metal/weapon_impact_soft3.wav")
 	end
-	weapon.OnOverheat = function( ent )
+	weapon.OnOverheat = function(ent)
 		ent:EmitSound("lvs/overheat.wav")
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
-		local Col = (ent:AngleBetweenNormal( ent:GetAimVector(), ent:GetForward() ) > 360) and COLOR_RED or COLOR_WHITE
-
-		local Pos2D = ent:GetEyeTrace().HitPos:ToScreen() 
+	weapon.HudPaint = function(ent, X, Y, ply)
+		local Col = (ent:AngleBetweenNormal(ent:GetAimVector(), ent:GetForward()) > 360) and COLOR_RED or COLOR_WHITE
+		local Pos2D = ent:GetEyeTrace().HitPos:ToScreen()
 
 		local base = ent:GetVehicle()
-		base:PaintCrosshairCenter( Pos2D, Col )
-		base:PaintCrosshairOuter( Pos2D, Col )
-		base:LVSPaintHitMarker( Pos2D )
+		base:PaintCrosshairCenter(Pos2D, Col)
+		base:PaintCrosshairOuter(Pos2D, Col)
+		base:LVSPaintHitMarker(Pos2D)
 	end
-	
-	self:AddWeapon( weapon )
-	
+
+	self:AddWeapon(weapon)
+
+
 	local weapon = {}
 	weapon.Icon = Material("lvs/weapons/missile.png")
 	weapon.Ammo = 20
