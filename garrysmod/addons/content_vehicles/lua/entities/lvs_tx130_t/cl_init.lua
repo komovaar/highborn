@@ -239,7 +239,7 @@ function ENT:OnRemove()
 	self:RemoveLight()
 end
 
-local spotlight = Material( "effects/lfs_base/spotlight_projectorbeam" )
+local spotlight = Material( "effects/lvs/laat_spotlight" )
 local glow_spotlight = Material( "sprites/light_glow02_add" )
 
 function ENT:Draw()
