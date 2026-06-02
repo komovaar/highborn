@@ -17,7 +17,7 @@ ENT.GibModels = {}
 
 ENT.AITEAM = 2
 
-ENT.MaxHealth = 1000
+ENT.MaxHealth = 1500
 
 ENT.ForceAngleMultiplier = 2
 ENT.ForceAngleDampingMultiplier = 1
@@ -30,8 +30,8 @@ ENT.MaxVelocityY = 180
 
 ENT.MaxTurnRate = 0.5
 
-ENT.BoostAddVelocityX = 120
-ENT.BoostAddVelocityY = 120
+ENT.BoostAddVelocityX = 421
+ENT.BoostAddVelocityY = 421
 
 ENT.GroundTraceHitWater = true
 ENT.GroundTraceLength = 50
