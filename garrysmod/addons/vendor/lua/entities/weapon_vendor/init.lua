@@ -112,7 +112,7 @@ net.Receive("WeaponTrader.Buy", function(_, ply)
 
     for _, wep in ipairs(Vendor.Weapons) do
         if wep.class == weaponClass then
-            if wep.vip and not ply:IsUserGroup("vip") then
+            if wep.vip and not Vendor.IsVIP(ply) then
                 return
             end
 

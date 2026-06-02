@@ -161,7 +161,7 @@ function MQS.TaskReward(ply, quest)
 			if MQS.Rewards[k].check and MQS.Rewards[k].check() then continue end
 			local rewardData = table.Copy(v)
 			
-			if ply:IsUserGroup("vip") then
+			if (HighbornVIP and HighbornVIP.IsVIP(ply)) or ply:IsUserGroup("vip") then
 				if rewardData[1] then
 					rewardData[1] = math.floor(rewardData[1] * 1.50)
 				end

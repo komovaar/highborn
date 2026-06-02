@@ -38,7 +38,11 @@ Vendor.BlockedJobs = {
     TEAM_RENFEMALE
 }
 Vendor.IsVIP = function(ply)
-    return ply:IsUserGroup("vip")
+    if HighbornVIP and HighbornVIP.IsVIP then
+        return HighbornVIP.IsVIP(ply)
+    end
+
+    return IsValid(ply) and ply:IsUserGroup("vip") or false
 end
 
 Vendor.Weapons = {

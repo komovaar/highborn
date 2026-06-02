@@ -91,7 +91,7 @@ net.Receive("BGTrader.Buy", function(_, ply)
 
     if not bgKey then SendBGTraderState(ply) return end
     
-    if bgData.vip and not ply:IsUserGroup("vip") then
+    if bgData.vip and not Vendor.IsVIP(ply) then
         SendBGTraderState(ply)
         return
     end
