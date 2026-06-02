@@ -550,42 +550,6 @@ function ENT:InitWeapons()
 	self:AddWeapon( weapon )
 	
 	local weapon = {}
-	weapon.Icon = Material("lvs/weapons/laserbeam.png")
-	weapon.Ammo = 25
-	weapon.Delay = 4
-	weapon.HeatRateUp = 0
-	weapon.HeatRateDown = 0.25
-	weapon.StartAttack = function(ent)
-		ent:ChargeGun()
-	end
-	weapon.FinishAttack = function(ent)
-		ent:FinishShoot(ent)
-	end
-	weapon.Attack = function(ent) end
-	weapon.OnThink = function(ent, active)
-	if not active then return end
-		ent:HandleShoot(ent._doAttack and active, active, ent)
-	end
-	weapon.OnSelect = function(ent)
-		ent:EmitSound("physics/metal/weapon_impact_soft3.wav")
-	end
-	weapon.OnOverheat = function(ent)
-		ent:EmitSound("lvs/overheat.wav")
-	end
-	weapon.HudPaint = function(ent, X, Y, ply)
-		local Col = (ent:AngleBetweenNormal(ent:GetAimVector(), ent:GetForward()) > 360) and COLOR_RED or COLOR_WHITE
-		local Pos2D = ent:GetEyeTrace().HitPos:ToScreen()
-
-		local base = ent:GetVehicle()
-		base:PaintCrosshairCenter(Pos2D, Col)
-		base:PaintCrosshairOuter(Pos2D, Col)
-		base:LVSPaintHitMarker(Pos2D)
-	end
-
-	self:AddWeapon(weapon)
-
-
-	local weapon = {}
 	weapon.Icon = Material("lvs/weapons/missile.png")
 	weapon.Ammo = 20
 	weapon.Delay = 0.3
