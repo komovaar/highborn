@@ -299,8 +299,8 @@ function ENT:CheckWheelDamage()
 		self.BoostAddVelocityX = 0
 		self.BoostAddVelocityY = 0
 	else
-		self.BoostAddVelocityX = 500
-		self.BoostAddVelocityY = 300
+		self.BoostAddVelocityX = 195
+		self.BoostAddVelocityY = 195
 	end
 	
 	if health <= 1000 then

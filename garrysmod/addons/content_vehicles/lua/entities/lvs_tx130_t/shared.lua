@@ -36,8 +36,8 @@ ENT.MaxHealth = 4000
 ENT.MaxShield = 0
 ENT.MaxVelocityX = 100
 ENT.MaxVelocityY = 100
-ENT.BoostAddVelocityX = 500
-ENT.BoostAddVelocityY = 300
+ENT.BoostAddVelocityX = 195
+ENT.BoostAddVelocityY = 195
 ENT.IgnoreWater = false
 
 ENT.MaxTurnRate = 1
