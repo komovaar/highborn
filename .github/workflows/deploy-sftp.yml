@@ -36,6 +36,11 @@ jobs:
             fi
           done
 
+          if echo "${SFTP_HOST}" | grep -Eq '^[a-zA-Z]+://|/|:'; then
+            echo "::error::SFTP_HOST must be only a hostname or IP address, without protocol, port, path, or slashes."
+            missing=1
+          fi
+
           exit "${missing}"
 
       - name: Deploy repository files
