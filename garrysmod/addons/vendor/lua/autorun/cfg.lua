@@ -37,12 +37,19 @@ Vendor.BlockedJobs = {
     TEAM_RENMALE,
     TEAM_RENFEMALE
 }
+Vendor.VIPSteamIDs = Vendor.VIPSteamIDs or {}
+Vendor.VIPSteamIDs["STEAM_0:0:594545981"] = true
+
 Vendor.IsVIP = function(ply)
-    if HighbornVIP and HighbornVIP.IsVIP then
-        return HighbornVIP.IsVIP(ply)
+    if not IsValid(ply) then
+        return false
     end
 
-    return IsValid(ply) and ply:IsUserGroup("vip") or false
+    local bHighbornVIP = HighbornVIP and HighbornVIP.IsVIP and HighbornVIP.IsVIP(ply)
+
+    return bHighbornVIP
+        or ply:IsUserGroup("vip")
+        or Vendor.VIPSteamIDs[ply:SteamID()] == true
 end
 
 Vendor.Weapons = {
