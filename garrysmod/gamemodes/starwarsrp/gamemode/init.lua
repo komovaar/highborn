@@ -147,6 +147,7 @@ resource.AddWorkshop("3675355497")
 resource.AddWorkshop("3675356291")
 resource.AddWorkshop("3677164280")
 resource.AddWorkshop("3675356933")
+resource.AddFile("materials/91st_shared/21st_trooper_shoulderant.vmt")
 
 hook.Add("PlayerCanDropWeapon", "BlockWeaponDrop", function(ply, weapon)
     if IsValid(weapon) and weapon:IsWeapon() then
