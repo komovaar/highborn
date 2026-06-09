@@ -69,6 +69,31 @@ if SERVER then
     end
 
     -- Автоматическая установка данных игроку при заходе
+    local function FindPlayerBySteamID(steamid)
+        for _, v in ipairs(player.GetAll()) do
+            if v:SteamID() == steamid then return v end
+        end
+    end
+
+    local function WhitelistJobName(job)
+        job = tonumber(job) or 0
+        return RPExtraTeams and RPExtraTeams[job] and RPExtraTeams[job].name or tostring(job)
+    end
+
+    local function WhitelistState(row)
+        if not row then return "none" end
+
+        return {
+            job = WhitelistJobName(row.job),
+            rank = tostring(row.rank or ""),
+            stunstick = tonumber(row.can_stunstick) == 1,
+            ground_light = tonumber(row.can_ground_light) == 1,
+            ground_heavy = tonumber(row.can_ground_heavy) == 1,
+            air_light = tonumber(row.can_air_light) == 1,
+            air_heavy = tonumber(row.can_air_heavy) == 1,
+        }
+    end
+
     hook.Add("PlayerLoadout", "highborn_whitelist_autojob", function(ply)
         if ply._WhitelistApplied then return end
         ply._WhitelistApplied = true
@@ -151,11 +176,18 @@ if SERVER then
         local canAH = net.ReadBool() and 1 or 0
         local spawn = net.ReadBool()
         local temporary = net.ReadBool()
+        local whitelistSaved = temporary
 
         if not sql.TableExists("hb_whitelist") then
             print("[WHITELIST ERROR] Table does not exist!")
             return
         end
+
+        local oldRow = sql.QueryRow(
+            "SELECT job, rank, can_stunstick, can_ground_light, can_ground_heavy, can_air_light, can_air_heavy FROM hb_whitelist WHERE steamid = " .. sql.SQLStr(steamid)
+        )
+        local targetPly = FindPlayerBySteamID(steamid)
+        local targetName = IsValid(targetPly) and targetPly:Nick() or "Offline"
 
         if not temporary then
             local query = "INSERT OR REPLACE INTO hb_whitelist(" ..
@@ -178,7 +210,31 @@ if SERVER then
                 print("[WHITELIST QUERY]", query)
             else
                 print("[WHITELIST] Saved:", steamid)
+                whitelistSaved = true
             end
+        end
+
+        if whitelistSaved and LuctusLog then
+            local newRow = {
+                job = job,
+                rank = rank,
+                can_stunstick = can_stunstick,
+                can_ground_light = canGL,
+                can_ground_heavy = canGH,
+                can_air_light = canAL,
+                can_air_heavy = canAH,
+            }
+            local logData = {
+                admin_name = ply:Nick(),
+                admin_steamid = ply:SteamID(),
+                target_name = targetName,
+                target_steamid = steamid,
+                temporary = temporary,
+                before = WhitelistState(oldRow),
+                after = WhitelistState(newRow),
+            }
+
+            LuctusLog("Whitelist","HBWHITELIST "..util.TableToJSON(logData))
         end
 
         for _, v in ipairs(player.GetAll()) do

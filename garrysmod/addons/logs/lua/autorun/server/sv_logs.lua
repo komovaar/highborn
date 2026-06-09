@@ -24,6 +24,37 @@ LuctusLogWebUrl = "http://example.com:8081/luctuslogs"
 LuctusLogWebSendAmount = 100
 --Send logs in format for Grafana Loki , tested with loki-2.8.0
 LuctusLogLokiFormat = false
+--Should logs be sent to Discord webhooks?
+LuctusLogDiscordEnabled = true
+--Bot name/avatar in Discord. Leave avatar empty to use the webhook default.
+LuctusLogDiscordUsername = "Server Logs"
+LuctusLogDiscordAvatarUrl = ""
+--How often queued Discord messages are sent. Keep this above 1 to be gentle with rate limits.
+LuctusLogDiscordSendDelay = 1
+--Discord channel groups. Put webhook URLs from your Discord channels here.
+LuctusLogDiscordDefaultChannel = "Все інше"
+LuctusLogDiscordWebhooks = {
+    ["Адміністрація"] = "https://discord.com/api/webhooks/1513970151316394219/zhBQo7YQBpq5oUnqSNLS36XRCPMXV9A7r-8sphpdELC6VEBnkHzts73skX26HWin7wyk",
+    ["Чат"] = "https://discord.com/api/webhooks/1464002559902617663/ADypBkEmJZgbBFsWgdCuy4UEPgKlUwgv0yxRAEd-8qOsJeP317bBcZPYhabn_4YoHESW",
+    ["Видача(вайтліст)"] = "https://discord.com/api/webhooks/1513970230802780353/5f_RpFubR9hFZ3CtZPvjTeOZlj2LUIi0KEVuY6JtDXMoUW-Vm7YNLzstE7jPV6P5e0I-",
+    ["Підключення"] = "https://discord.com/api/webhooks/1513971393941995530/bH2cMfbuHeSjz8jxaNAGADmybGq01wX08U4IfADy02dVR7DdfND88j1SmipbCy6Y-hAR",
+    ["Все інше"] = "https://discord.com/api/webhooks/1513970361212076032/2DTUFpWFEg5cFVLu4fGzLDu3cufqDq0g_AziBVXsRqoj_Xu-K3p-HuOrtG2uhsfc8eea",
+}
+--Route internal log categories into Discord channel groups.
+LuctusLogDiscordCategories = {
+    ["ulx"] = "Адміністрація",
+    ["sam"] = "Адміністрація",
+    ["sAdmin"] = "Адміністрація",
+    ["Warn"] = "Адміністрація",
+    ["awarn3"] = "Адміністрація",
+    ["Jobban"] = "Адміністрація",
+    ["adminsit"] = "Адміністрація",
+    ["Config"] = "Адміністрація",
+    ["PlayerSay"] = "Чат",
+    ["PlayerConnect"] = "Підключення",
+    ["Whitelist"] = "Видача(вайтліст)",
+    ["bwhitelist"] = "Видача(вайтліст)",
+}
 
 --CONFIG END
 
@@ -40,6 +71,175 @@ if LUCTUS_MONITOR_SERVER_ID == "" and file.Exists("data/luctus_monitor.txt","GAM
     LUCTUS_MONITOR_SERVER_ID = file.Read("data/luctus_monitor.txt","GAME")
 end
 luctus_weblogcache = {}
+local luctus_discordlogqueue = {}
+local luctus_discordrecent = {}
+local LUCTUS_DISCORD_MESSAGE_LIMIT = 1900
+local LUCTUS_DISCORD_DEDUP_TIME = 2
+
+local function discord_limit(text,limit)
+    text = tostring(text or "")
+
+    if #text > limit then
+        text = string.sub(text,1,limit - 3).."..."
+    end
+
+    return text
+end
+
+local function discord_quote(text)
+    text = tostring(text or "")
+    text = string.gsub(text,"[\r\n]+","\n")
+    text = string.gsub(text,"\n","\n> ")
+
+    return "> "..text
+end
+
+local function discord_recent_key(cat,text)
+    return tostring(cat or "").."|"..tostring(text or "")
+end
+
+local function discord_is_duplicate(cat,text)
+    local key = discord_recent_key(cat,text)
+    local now = CurTime()
+
+    if luctus_discordrecent[key] and luctus_discordrecent[key] > now then
+        return true
+    end
+
+    luctus_discordrecent[key] = now + LUCTUS_DISCORD_DEDUP_TIME
+    return false
+end
+
+local function discord_should_ignore(cat,text)
+    if cat != "PlayerSay" then return false end
+
+    local _, message = tostring(text or ""):match("^.-%((STEAM_%d:%d:%d+)%) said (.*)$")
+    message = message or tostring(text or "")
+    message = string.Trim(message)
+
+    return string.StartWith(string.lower(message),"/pm")
+end
+
+local function discord_get_channel(cat)
+    return LuctusLogDiscordCategories and LuctusLogDiscordCategories[cat] or LuctusLogDiscordDefaultChannel
+end
+
+local function discord_get_webhook(cat)
+    if not LuctusLogDiscordEnabled then return nil end
+
+    local channel = discord_get_channel(cat)
+    local webhook = LuctusLogDiscordWebhooks and (LuctusLogDiscordWebhooks[channel] or LuctusLogDiscordWebhooks[cat]) or nil
+    if webhook and webhook != "" then return webhook end
+
+    return nil
+end
+
+local function discord_build_whitelist_payload(text)
+    local json = tostring(text or ""):match("^HBWHITELIST%s+(.+)$")
+    if not json then return nil end
+
+    local data = util.JSONToTable(json)
+    if not data then return nil end
+
+    local function yesno(value)
+        return value and "Так" or "Ні"
+    end
+
+    local function state_text(state)
+        if state == "none" or not istable(state) then return "немає" end
+
+        return "Професія: "..tostring(state.job or "немає")..
+            "\nРанг: "..tostring(state.rank or "")..
+            "\nСтанстік: "..yesno(state.stunstick)..
+            "\nЛегка наземна техніка: "..yesno(state.ground_light)..
+            "\nВажка наземна техніка: "..yesno(state.ground_heavy)..
+            "\nЛегка авіація: "..yesno(state.air_light)..
+            "\nВажка авіація: "..yesno(state.air_heavy)
+    end
+
+    local target = tostring(data.target_name or "Unknown").." (`"..tostring(data.target_steamid or "Unknown").."`)"
+    local admin = tostring(data.admin_name or "Unknown").." (`"..tostring(data.admin_steamid or "Unknown").."`)"
+    local title = data.temporary and "Тимчасово змінено вайтліст" or "Змінено вайтліст"
+
+    return {
+        embeds = {{
+            title = title,
+            color = 16766720,
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+            fields = {
+                {name = "Кому", value = discord_limit(target,1024), inline = false},
+                {name = "Хто видав", value = discord_limit(admin,1024), inline = false},
+                {name = "До", value = discord_limit(state_text(data.before),1024), inline = false},
+                {name = "Після", value = discord_limit(state_text(data.after),1024), inline = false},
+            },
+            footer = {text = "Вайтліст"},
+        }}
+    }
+end
+
+local function discord_build_payload(cat,text)
+    if cat == "Whitelist" then
+        local whitelistPayload = discord_build_whitelist_payload(text)
+        if whitelistPayload then return whitelistPayload end
+    end
+
+    local channel = discord_get_channel(cat)
+    local time = os.date("%H:%M:%S")
+    local date = os.date("%Y-%m-%d")
+    local header = "`"..time.."` **"..tostring(channel or "Unknown").."** / `"..tostring(cat or "Unknown").."`"
+    local content = header.."\n"..discord_quote(tostring(text or "")).."\n-# "..date
+
+    return {content = discord_limit(content,LUCTUS_DISCORD_MESSAGE_LIMIT)}
+end
+
+local function discord_send_next()
+    if #luctus_discordlogqueue == 0 then return end
+
+    local log = table.remove(luctus_discordlogqueue,1)
+    local payload = {
+        username = LuctusLogDiscordUsername,
+    }
+
+    if log.payload.content then payload.content = log.payload.content end
+    if log.payload.embeds then payload.embeds = log.payload.embeds end
+
+    if LuctusLogDiscordAvatarUrl and LuctusLogDiscordAvatarUrl != "" then
+        payload.avatar_url = LuctusLogDiscordAvatarUrl
+    end
+
+    HTTP({
+        failed = function(failMessage)
+            print("[logs] ERROR ; FAILED TO POST DISCORD LOG!")
+            ErrorNoHaltWithStack(failMessage)
+        end,
+        success = function(httpcode,body,headers)
+            if httpcode < 200 or httpcode >= 300 then
+                print("[logs] ERROR ; DISCORD WEBHOOK RETURNED HTTP "..httpcode)
+                if body and body != "" then print("[logs] "..body) end
+            end
+        end,
+        method = "POST",
+        url = log.webhook,
+        body = util.TableToJSON(payload),
+        type = "application/json",
+        timeout = 10,
+    })
+end
+
+timer.Create("luctus_log_discord_queue",LuctusLogDiscordSendDelay,0,discord_send_next)
+
+local function discord_queue(cat,text)
+    local webhook = discord_get_webhook(cat)
+    if not webhook then return end
+    if discord_should_ignore(cat,text) then return end
+    if discord_is_duplicate(cat,text) then return end
+
+    table.insert(luctus_discordlogqueue,{
+        webhook = webhook,
+        payload = discord_build_payload(cat,text),
+    })
+end
+
 local function log_push(cat,text)
     print("[logs] "..sql.SQLStr(text))
     local res = sql.Query("INSERT INTO luctus_log( date, cat, msg ) VALUES( datetime('now','localtime') , "..sql.SQLStr(cat).." , "..sql.SQLStr(text)..") ")
@@ -47,6 +247,7 @@ local function log_push(cat,text)
         ErrorNoHaltWithStack(sql.LastError())
         return
     end
+    discord_queue(cat,text)
     
     if not LuctusLogSendLogsToWeb then return end
     
