@@ -1,6 +1,9 @@
 name: Deploy to SFTP
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -16,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Check required configuration
         env:
@@ -40,13 +45,60 @@ jobs:
 
           exit "${missing}"
 
-      - name: Deploy repository files
+      - name: Prepare changed files
+        id: changed-files
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          mkdir -p .deploy
+
+          if [ "${EVENT_NAME}" = "push" ] && git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            base_sha="${BEFORE_SHA}"
+          elif git rev-parse HEAD~1 >/dev/null 2>&1; then
+            base_sha="$(git rev-parse HEAD~1)"
+          else
+            base_sha=""
+          fi
+
+          if [ -n "${base_sha}" ]; then
+            git diff --name-only --diff-filter=ACMRT "${base_sha}" "${CURRENT_SHA}" > .deploy-files
+          else
+            git ls-files > .deploy-files
+          fi
+
+          while IFS= read -r file; do
+            case "${file}" in
+              .github/*|.git/*)
+                continue
+                ;;
+            esac
+
+            if [ -f "${file}" ]; then
+              mkdir -p ".deploy/$(dirname "${file}")"
+              cp -- "${file}" ".deploy/${file}"
+              echo "${file}" >> .deploy-manifest
+            fi
+          done < .deploy-files
+
+          if [ -s .deploy-manifest ]; then
+            echo "has_changes=true" >> "${GITHUB_OUTPUT}"
+            echo "Files prepared for deploy:"
+            cat .deploy-manifest
+          else
+            echo "has_changes=false" >> "${GITHUB_OUTPUT}"
+            echo "No changed deployable files found."
+          fi
+
+      - name: Deploy changed files
+        if: steps.changed-files.outputs.has_changes == 'true'
         uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           server: ${{ secrets.SFTP_HOST }}
           port: ${{ secrets.SFTP_PORT }}
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: './*'
+          local_path: './.deploy/*'
           remote_path: './'
           sftp_only: true
