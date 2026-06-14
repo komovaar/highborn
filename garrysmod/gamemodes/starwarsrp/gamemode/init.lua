@@ -10,3 +10,4 @@ AddCSLuaFile("sh_teams.lua")
 
 include("sh_config.lua")
 include("sh_teams.lua")
+include("sv_commands.lua")

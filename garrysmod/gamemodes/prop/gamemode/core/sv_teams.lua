@@ -16,6 +16,11 @@ function prop.team.apply(ply, teamID, noSpawn)
 
     if ply.prop then
         prop.data.setPublic(ply, "team_id", teamID)
+        if job.key then
+            prop.data.setPublic(ply, "team_key", job.key)
+        else
+            prop.data.setPublic(ply, "team_key", nil)
+        end
         prop.data.setPublic(ply, "job_name", job.name)
     end
 
@@ -74,8 +79,16 @@ function prop.team.restore(ply)
     if not IsValid(ply) then return false, "invalid_player" end
     if not ply.prop then return false, "no_data" end
 
-    local savedTeamID = prop.data.get(ply, "team_id")
+    local savedTeamKey = prop.data.get(ply, "team_key")
+    local savedJob = prop.team.getByKey(savedTeamKey)
+    if savedJob then
+        return prop.team.apply(ply, savedJob.id, true)
+    end
+    if savedTeamKey ~= nil then
+        return prop.team.assignDefault(ply, true)
+    end
 
+    local savedTeamID = prop.data.get(ply, "team_id")
     if savedTeamID and prop.team.get(savedTeamID) then
         return prop.team.apply(ply, savedTeamID, true)
     end

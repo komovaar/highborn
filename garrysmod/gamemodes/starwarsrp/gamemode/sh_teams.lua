@@ -1,18 +1,28 @@
 SWRP = SWRP or {}
-SWRP.Teams = SWRP.Teams or {}
+SWRP.Teams = {}
+SWRP.JobFiles = SWRP.JobFiles or {
+    "jobs/sh_republic.lua"
+}
 
 prop.team.list = {}
+prop.team.byKey = {}
 prop.team.defaultID = nil
 
-local cloneRecruitID, reason = prop.team.register("Clone Recruit", {
-    description = "Default Republic trooper role.",
-    category = SWRP.Config.DefaultJobCategory,
-    color = Color(220, 220, 220),
-    model = SWRP.Config.DefaultModel,
-    weapons = SWRP.Config.DefaultLoadout,
-    default = true
-})
+function SWRP.RegisterJob(key, name, data)
+    data.key = key
 
-assert(cloneRecruitID, "Failed to register Clone Recruit team: " .. tostring(reason))
+    local id, reason = prop.team.register(name, data)
+    assert(id, "Failed to register " .. tostring(name) .. " team: " .. tostring(reason))
 
-SWRP.Teams.CloneRecruit = cloneRecruitID
+    SWRP.Teams[key] = id
+    return id
+end
+
+local function includeJobFile(path)
+    if SERVER then AddCSLuaFile(path) end
+    include(path)
+end
+
+for _, path in ipairs(SWRP.JobFiles) do
+    includeJobFile(path)
+end

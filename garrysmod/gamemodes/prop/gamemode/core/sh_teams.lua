@@ -1,5 +1,6 @@
 prop.team = prop.team or {}
 prop.team.list = prop.team.list or {}
+prop.team.byKey = prop.team.byKey or {}
 prop.team.defaultID = prop.team.defaultID or nil
 prop.team.defaultCategory = prop.team.defaultCategory or prop.config.get("defaultJobCategory", "Uncategorized")
 
@@ -13,6 +14,16 @@ local function normalizeCategory(category)
 end
 
 prop.team.normalizeCategory = normalizeCategory
+
+local function normalizeKey(key)
+    if key == nil then return nil end
+    if not isstring(key) then return false end
+
+    key = string.Trim(key)
+    if key == "" then return false end
+
+    return key
+end
 
 local function isColor(value)
     return istable(value) and isnumber(value.r) and isnumber(value.g) and isnumber(value.b)
@@ -80,6 +91,10 @@ function prop.team.register(name, data)
 
     name = string.Trim(name)
 
+    local key = normalizeKey(data.key)
+    if key == false then return false, "invalid_key" end
+    if key and prop.team.byKey[key] then return false, "key_taken" end
+
     local model = normalizeModel(data.model)
     if model == false then return false, "invalid_model" end
 
@@ -97,6 +112,7 @@ function prop.team.register(name, data)
 
     prop.team.list[id] = {
         id = id,
+        key = key,
         name = name,
         description = description,
         category = category,
@@ -108,6 +124,10 @@ function prop.team.register(name, data)
         onChanged = data.onChanged,
         onSpawn = data.onSpawn or function(ply) end
     }
+
+    if key then
+        prop.team.byKey[key] = id
+    end
 
     if isDefault then
         if prop.team.defaultID and prop.team.list[prop.team.defaultID] then
@@ -123,6 +143,13 @@ end
 
 function prop.team.get(id)
     return prop.team.list[tonumber(id)]
+end
+
+function prop.team.getByKey(key)
+    key = normalizeKey(key)
+    if not key then return nil end
+
+    return prop.team.get(prop.team.byKey[key])
 end
 
 function prop.team.all()
