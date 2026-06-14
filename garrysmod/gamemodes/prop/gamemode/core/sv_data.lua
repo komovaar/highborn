@@ -84,6 +84,24 @@ function prop.data.set(ply, key, value)
     return true
 end
 
+function prop.data.publish(ply, key, force)
+    if not prop.net.isValidKey(key) then return false, "invalid_key" end
+
+    local value = prop.data.get(ply, key)
+    local canWrite, writeReason = prop.net.canWriteValue(value)
+    if not canWrite then return false, writeReason end
+
+    local wasPublic = prop.data.isPublic(ply, key)
+    local ok, reason = prop.data.markPublic(ply, key)
+    if not ok then return false, reason end
+
+    if force or not wasPublic then
+        return prop.data.sync(ply, key, value)
+    end
+
+    return true
+end
+
 function prop.data.isPublic(ply, key)
     if not IsValid(ply) or not ply.propPublic then return false end
 
@@ -101,23 +119,10 @@ function prop.data.markPublic(ply, key)
 end
 
 function prop.data.setPublic(ply, key, value)
-    if not prop.net.isValidKey(key) then return false, "invalid_key" end
-
-    local canWrite, writeReason = prop.net.canWriteValue(value)
-    if not canWrite then return false, writeReason end
-
-    local wasPublic = prop.data.isPublic(ply, key)
     local ok, reason = prop.data.set(ply, key, value)
-
     if not ok and reason ~= "unchanged" then return false, reason end
 
-    prop.data.markPublic(ply, key)
-
-    if ok or not wasPublic then
-        return prop.data.sync(ply, key, value)
-    end
-
-    return true
+    return prop.data.publish(ply, key, ok)
 end
 
 function prop.data.syncPublic(ply, key)

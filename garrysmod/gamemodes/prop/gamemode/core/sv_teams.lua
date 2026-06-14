@@ -15,13 +15,16 @@ function prop.team.apply(ply, teamID, noSpawn)
     ply:SetTeam(teamID)
 
     if ply.prop then
-        prop.data.setPublic(ply, "team_id", teamID)
-        if job.key then
-            prop.data.setPublic(ply, "team_key", job.key)
-        else
-            prop.data.setPublic(ply, "team_key", nil)
-        end
-        prop.data.setPublic(ply, "job_name", job.name)
+        local teamIDChanged, teamIDReason = prop.data.set(ply, "team_id", teamID)
+        if not teamIDChanged and teamIDReason ~= "unchanged" then return false, teamIDReason end
+        prop.data.publish(ply, "team_id", teamIDChanged)
+
+        local teamKeyChanged, teamKeyReason = prop.data.set(ply, "team_key", job.key)
+        if not teamKeyChanged and teamKeyReason ~= "unchanged" then return false, teamKeyReason end
+
+        local jobNameChanged, jobNameReason = prop.data.set(ply, "job_name", job.name)
+        if not jobNameChanged and jobNameReason ~= "unchanged" then return false, jobNameReason end
+        prop.data.publish(ply, "job_name", jobNameChanged)
     end
 
     if not noSpawn then
