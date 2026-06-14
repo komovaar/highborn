@@ -115,7 +115,7 @@ prop.command.add("mychar", {
             return false, "no_access"
         end
 
-        local character = SWRP.Character.GetActive(ply)
+        local character = SWRP.Characters.GetActive(ply)
         if not character then return false, "no_character" end
 
         ply:ChatPrint("[SWRP] character_id: " .. tostring(character.id))

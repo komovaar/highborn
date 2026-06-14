@@ -1,8 +1,8 @@
-SWRP.Character = SWRP.Character or {}
+SWRP.Characters = SWRP.Characters or {}
 
-SWRP.Character.SchemaVersion = 1
+SWRP.Characters.SchemaVersion = 1
 
-function SWRP.Character.InitDatabase()
+function SWRP.Characters.InitDatabase()
     local q = [[
         create table if not exists swrp_characters (
             id text primary key,
@@ -25,7 +25,7 @@ local function defaultCharacterData(ply)
     local teamKey = prop.data.get(ply, "team_key", "CloneRecruit")
 
     return {
-        schema_version = SWRP.Character.SchemaVersion,
+        schema_version = SWRP.Characters.SchemaVersion,
         name = SWRP.Config.DefaultCharacterName,
         team_key = teamKey,
         money = SWRP.Config.StartingMoney,
@@ -37,10 +37,10 @@ local function defaultCharacterData(ply)
     }
 end
 
-function SWRP.Character.Normalize(data, ply)
+function SWRP.Characters.Normalize(data, ply)
     if not istable(data) then data = {} end
 
-    data.schema_version = SWRP.Character.SchemaVersion
+    data.schema_version = SWRP.Characters.SchemaVersion
     data.name = isstring(data.name) and data.name ~= "" and data.name or SWRP.Config.DefaultCharacterName
     data.team_key = isstring(data.team_key) and data.team_key ~= "" and data.team_key or prop.data.get(ply, "team_key", "CloneRecruit")
     data.money = tonumber(data.money) or SWRP.Config.StartingMoney
@@ -53,7 +53,7 @@ function SWRP.Character.Normalize(data, ply)
     return data
 end
 
-function SWRP.Character.CreateDefault(ply)
+function SWRP.Characters.CreateDefault(ply)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
     local id = makeCharacterID(ply)
@@ -76,7 +76,7 @@ function SWRP.Character.CreateDefault(ply)
     }
 end
 
-function SWRP.Character.LoadByID(ply, id)
+function SWRP.Characters.LoadByID(ply, id)
     if not IsValid(ply) or not isstring(id) or id == "" then return nil end
 
     local res = prop.db.query(string.format(
@@ -90,18 +90,18 @@ function SWRP.Character.LoadByID(ply, id)
     return {
         id = id,
         sid64 = ply:SteamID64(),
-        data = SWRP.Character.Normalize(util.JSONToTable(res[1].data), ply)
+        data = SWRP.Characters.Normalize(util.JSONToTable(res[1].data), ply)
     }
 end
 
-function SWRP.Character.LoadActive(ply)
+function SWRP.Characters.LoadActive(ply)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
     local id = prop.data.get(ply, "active_character_id")
-    local character = SWRP.Character.LoadByID(ply, id)
+    local character = SWRP.Characters.LoadByID(ply, id)
 
     if not character then
-        character = SWRP.Character.CreateDefault(ply)
+        character = SWRP.Characters.CreateDefault(ply)
     end
     if not character then return false, "create_failed" end
 
@@ -118,13 +118,13 @@ function SWRP.Character.LoadActive(ply)
     return character
 end
 
-function SWRP.Character.GetActive(ply)
+function SWRP.Characters.GetActive(ply)
     if not IsValid(ply) then return nil end
     return ply.SWRPCharacter
 end
 
-function SWRP.Character.Save(ply)
-    local character = SWRP.Character.GetActive(ply)
+function SWRP.Characters.Save(ply)
+    local character = SWRP.Characters.GetActive(ply)
     if not character then return false, "no_character" end
 
     character.data.last_seen = os.time()
@@ -141,20 +141,20 @@ function SWRP.Character.Save(ply)
     return true
 end
 
-SWRP.Character.InitDatabase()
+SWRP.Characters.InitDatabase()
 
 hook.Add("prop.PlayerInitialSpawn", "SWRP.LoadActiveCharacter", function(ply)
-    SWRP.Character.LoadActive(ply)
+    SWRP.Characters.LoadActive(ply)
 end)
 
 hook.Add("prop.PlayerDisconnected", "SWRP.SaveActiveCharacter", function(ply)
-    SWRP.Character.Save(ply)
+    SWRP.Characters.Save(ply)
 end)
 
 hook.Add("prop.PlayerTeamChanged", "SWRP.SyncCharacterTeam", function(ply, oldTeamID, teamID, oldJob, job)
-    local character = SWRP.Character.GetActive(ply)
+    local character = SWRP.Characters.GetActive(ply)
     if not character or not job then return end
 
     character.data.team_key = job.key or character.data.team_key
-    SWRP.Character.Save(ply)
+    SWRP.Characters.Save(ply)
 end)
