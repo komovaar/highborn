@@ -105,3 +105,27 @@ prop.command.add("mydata", {
         return true
     end
 })
+
+prop.command.add("mychar", {
+    description = "Prints your active character data. Temporary development command.",
+    usage = "/mychar",
+    category = "Debug",
+    onRun = function(ply)
+        if not SWRP.CanUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        local character = SWRP.Character.GetActive(ply)
+        if not character then return false, "no_character" end
+
+        ply:ChatPrint("[SWRP] character_id: " .. tostring(character.id))
+        ply:ChatPrint("[SWRP] name: " .. tostring(character.data.name))
+        ply:ChatPrint("[SWRP] team_key: " .. tostring(character.data.team_key))
+        ply:ChatPrint("[SWRP] money: " .. tostring(character.data.money))
+        ply:ChatPrint("[SWRP] level: " .. tostring(character.data.level))
+        ply:ChatPrint("[SWRP] xp: " .. tostring(character.data.xp))
+        ply:ChatPrint("[SWRP] arrested: " .. tostring(character.data.arrested))
+
+        return true
+    end
+})

@@ -5,6 +5,8 @@ SWRP.Config.DefaultJobCategory = "Republic"
 SWRP.Config.DefaultModel = "models/ct_trp/pm_ct_trp.mdl"
 SWRP.Config.DefaultHands = "models/ct_trp/pm_ct_trp_arms.mdl"
 SWRP.Config.DefaultLoadout = {}
+SWRP.Config.DefaultCharacterName = "Clone Recruit"
+SWRP.Config.StartingMoney = 0
 
 SWRP.Config.Developers = {
     ["STEAM_0:0:496687453"] = true,
