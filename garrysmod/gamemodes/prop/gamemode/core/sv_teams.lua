@@ -1,3 +1,10 @@
+local BaseGamemode = baseclass.Get("gamemode_base")
+
+local function callBaseGamemode(name, ...)
+    local fn = BaseGamemode and BaseGamemode[name]
+    if isfunction(fn) then return fn(...) end
+end
+
 function prop.team.apply(ply, teamID, noSpawn)
     if not IsValid(ply) then return false, "invalid_player" end
 
@@ -78,7 +85,7 @@ end
 
 function GM:PlayerLoadout(ply)
     local job = prop.team.get(ply:Team())
-    if not job then return self.BaseClass.PlayerLoadout(self, ply) end
+    if not job then return callBaseGamemode("PlayerLoadout", self, ply) end
 
     ply:StripWeapons()
     for _, wep in ipairs(job.weapons) do
@@ -94,14 +101,14 @@ function GM:PlayerSetModel(ply)
     if job and job.model then
         ply:SetModel(istable(job.model) and table.Random(job.model) or job.model)
     else
-        self.BaseClass.PlayerSetModel(self, ply)
+        callBaseGamemode("PlayerSetModel", self, ply)
     end
 
     hook.Run("prop.PlayerSetModel", ply, job)
 end
 
 function GM:PlayerSpawn(ply, transition)
-    self.BaseClass.PlayerSpawn(self, ply, transition)
+    callBaseGamemode("PlayerSpawn", self, ply, transition)
 
     local job = prop.team.get(ply:Team())
     if job and isfunction(job.onSpawn) then

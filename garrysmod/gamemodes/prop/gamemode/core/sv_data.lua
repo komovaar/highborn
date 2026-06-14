@@ -1,5 +1,12 @@
 prop.data = prop.data or {}
 
+local BaseGamemode = baseclass.Get("gamemode_base")
+
+local function callBaseGamemode(name, ...)
+    local fn = BaseGamemode and BaseGamemode[name]
+    if isfunction(fn) then return fn(...) end
+end
+
 function prop.data.load(ply)
     if not IsValid(ply) then return false, "invalid_player" end
 
@@ -131,20 +138,21 @@ function prop.data.syncPublicAll(ply)
 end
 
 function GM:PlayerInitialSpawn(ply)
+    callBaseGamemode("PlayerInitialSpawn", self, ply)
+
     prop.data.load(ply)
 
     prop.team.restore(ply)
 
     prop.data.syncPublicAll(ply)
 
-    self.BaseClass.PlayerInitialSpawn(self, ply)
     hook.Run("prop.PlayerInitialSpawn", ply)
 end
 
 function GM:PlayerDisconnected(ply)
     prop.data.save(ply)
     hook.Run("prop.PlayerDisconnected", ply)
-    self.BaseClass.PlayerDisconnected(self, ply)
+    callBaseGamemode("PlayerDisconnected", self, ply)
 end
 
 timer.Create("prop.DataAutosave", prop.config.get("dataAutosaveInterval", 300), 0, function()

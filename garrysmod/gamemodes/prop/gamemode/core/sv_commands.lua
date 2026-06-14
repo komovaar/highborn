@@ -1,3 +1,10 @@
+local BaseGamemode = baseclass.Get("gamemode_base")
+
+local function callBaseGamemode(name, ...)
+    local fn = BaseGamemode and BaseGamemode[name]
+    if isfunction(fn) then return fn(...) end
+end
+
 local function sendCommandLine(ply, name, cmd)
     local prefix = prop.config.get("commandPrefix", "/")
     local aliases = ""
@@ -84,5 +91,5 @@ function GM:PlayerSay(ply, text, teamOnly)
         end
     end
 
-    return self.BaseClass.PlayerSay(self, text, teamOnly)
+    return callBaseGamemode("PlayerSay", self, ply, text, teamOnly)
 end
