@@ -1,14 +1,11 @@
-hook.Run("DarkRPStartedLoading")
+GM.Version = "0.1.0"
+GM.Name = "StarWarsRP"
+GM.Author = "whosgotch"
 
-GM.Version = "1.0.0"
-GM.Name = "DarkRP"
-GM.Author = "By Harry, FPtje Falco et al."
+DeriveGamemode("prop")
+DEFINE_BASECLASS("gamemode_prop")
 
-DeriveGamemode("darkrp")
-DEFINE_BASECLASS("gamemode_darkrp")
-GM.DarkRP = BaseClass
-
-hook.Add("PostDrawViewModel", "ForceArmsModel", function(vm, ply, weapon)
+hook.Add("PostDrawViewModel", "SWRP.ForceArmsModel", function(vm, ply)
     local hands = ply:GetHands()
     if not IsValid(hands) then return end
 
@@ -17,28 +14,24 @@ hook.Add("PostDrawViewModel", "ForceArmsModel", function(vm, ply, weapon)
     end
 end)
 
-hook.Add("SpawnMenuOpen", "RestrictQMenu", function()
+hook.Add("SpawnMenuOpen", "SWRP.RestrictQMenu", function()
     local ply = LocalPlayer()
 
     if not IsValid(ply) then return false end
-    if not ply:IsAdmin() then
-        return false
-    end
+    if not ply:IsAdmin() then return false end
 end)
 
-hook.Add("OnContextMenuOpen", "BlockContextMenu", function()
+hook.Add("OnContextMenuOpen", "SWRP.BlockContextMenu", function()
     local ply = LocalPlayer()
 
     if not IsValid(ply) then return false end
-    if not ply:IsAdmin() then
-        return false
-    end
+    if not ply:IsAdmin() then return false end
 end)
 
-hook.Add( "ChatText", "hide_joinleave", function( index, name, text, typ )
-	if ( typ == "joinleave" ) then return true end
-end )
+hook.Add("ChatText", "SWRP.HideJoinLeave", function(index, name, text, typ)
+    if typ == "joinleave" then return true end
+end)
 
-hook.Add("HUDDrawTargetID", "Seefox:DrawTargetID", function()
+hook.Add("HUDDrawTargetID", "SWRP.HideTargetID", function()
     return false
 end)

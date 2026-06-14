@@ -1,0 +1,9 @@
+"prop"
+{
+	"base"		    "base"
+	"title"		    "prop"
+   	"author"        "whosgotch"
+	"category"		"rp"
+	"maps"			"^rp_"
+	"menusystem"	"1"
+}

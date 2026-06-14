@@ -1,15 +1,15 @@
-"darkrp"
+"starwarsrp"
 {
-	"base"		"darkrp"
-    "title"  "StarWarsRP"
-    "version"   "0.0.1"
-    "menusystem"	"1"
+	"base"		"prop"
+	"title"		"StarWarsRP"
+	"version"	"0.1.0"
+	"menusystem"	"1"
 
-    "author_name"   "whosgotch"
-    "author_email"  ""
-    "author_url"    ""
+	"author_name"	"whosgotch"
+	"author_email"	""
+	"author_url"	""
 
-    "icon"  ""
-    "info"  ""
-    "hide"  "0"
+	"icon"	""
+	"info"	""
+	"hide"	"0"
 }
