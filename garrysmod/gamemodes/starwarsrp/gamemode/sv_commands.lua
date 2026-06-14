@@ -84,3 +84,24 @@ prop.command.add("setjob", {
         return true, string.format("[SWRP] Set %s to %s.", target:Nick(), job.name)
     end
 })
+
+prop.command.add("mydata", {
+    description = "Prints your saved player data. Temporary development command.",
+    usage = "/mydata",
+    category = "Debug",
+    onRun = function(ply)
+        if not SWRP.CanUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        local teamID = prop.data.get(ply, "team_id", "nil")
+        local teamKey = prop.data.get(ply, "team_key", "nil")
+        local jobName = prop.data.get(ply, "job_name", "nil")
+
+        ply:ChatPrint("[SWRP] team_id: " .. tostring(teamID))
+        ply:ChatPrint("[SWRP] team_key: " .. tostring(teamKey))
+        ply:ChatPrint("[SWRP] job_name: " .. tostring(jobName))
+
+        return true
+    end
+})
