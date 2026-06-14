@@ -129,3 +129,26 @@ prop.command.add("mychar", {
         return true
     end
 })
+
+prop.command.add("addmoney", {
+    description = "Adds money to a character. Temporary development command.",
+    usage = "/addmoney <player|me> <amount>",
+    category = "Debug",
+    onRun = function(ply, args)
+        if not SWRP.CanUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        local target, targetReason = findPlayer(ply, args[1])
+        if not target then return false, targetReason end
+
+        local amount = math.floor(tonumber(args[2]) or 0)
+        if amount <= 0 then return false, "invalid_amount" end
+
+        local ok, reason = SWRP.Money.Add(target, amount, "dev_addmoney")
+        if not ok and reason ~= "unchanged" then return false, reason end
+
+        target:ChatPrint("[SWRP] Balance: " .. tostring(SWRP.Money.Get(target)))
+        return true, string.format("[SWRP] Added %d to %s.", amount, target:Nick())
+    end
+})
