@@ -200,9 +200,11 @@ if CLIENT then
         if not prop.net.isValidKey(key) then return end
 
         local value = prop.net.readValue()
+        local ply = LocalPlayer()
+        if not IsValid(ply) then return end
 
-        LocalPlayer().prop = LocalPlayer().prop or {}
-        LocalPlayer().prop[key] = value
+        ply.prop = ply.prop or {}
+        ply.prop[key] = value
     end)
 
     net.Receive("prop.ChatBroadcast", function()
