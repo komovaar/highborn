@@ -1,5 +1,0 @@
-player_manager.AddValidModel( "pm_droid_cis_bx", "models/bx/pm_droid_cis_bx.mdl" )
-player_manager.AddValidModel( "pm_droid_cis_bx_captain", "models/bx_captain/pm_droid_cis_bx_captain.mdl" )
-player_manager.AddValidModel( "pm_droid_cis_bx_senate", "models/bx_senate/pm_droid_cis_bx_senate.mdl" )
-player_manager.AddValidModel( "pm_droid_cis_bx_citadel", "models/bx_citadel/pm_droid_cis_bx_citadel.mdl" )
-player_manager.AddValidModel( "pm_droid_cis_bx_training", "models/bx_training/pm_droid_cis_bx_training.mdl" )
