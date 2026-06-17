@@ -217,6 +217,9 @@ prop.command.add("switchchar", {
         if not character then return false, "character_not_found" end
 
         local ok, result = prop.characters.setActive(ply, character.id)
+        if not ok and result == "unchanged" then
+            return true, string.format("[prop] Already using %s-%s.", character.data.callsign, character.data.cid)
+        end
         if not ok then return false, result end
 
         return true, string.format("[prop] Switched to %s-%s.", result.data.callsign, result.data.cid)

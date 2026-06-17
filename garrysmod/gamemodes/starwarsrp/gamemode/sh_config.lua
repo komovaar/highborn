@@ -7,6 +7,7 @@ prop.config.defaultHands = "models/ct_trp/pm_ct_trp_arms.mdl"
 prop.config.defaultLoadout = {}
 prop.config.defaultCharacterName = "Clone Recruit"
 prop.config.defaultCallsign = "Recruit"
+prop.config.maxCharacters = 1
 prop.config.startingMoney = 0
 prop.config.salaryInterval = 300
 prop.config.jailDefaultDuration = 300

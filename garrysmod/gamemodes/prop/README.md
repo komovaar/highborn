@@ -78,6 +78,10 @@ Common character keys:
 - `character_xp`
 - `character_arrested`
 
+Character defaults:
+
+- `prop.config.maxCharacters` limits how many characters one player can create.
+
 ## Networking
 
 The framework networking layer is whitelist-based and avoids table serialization for hot paths.

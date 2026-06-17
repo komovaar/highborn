@@ -118,6 +118,14 @@ end
 
 function prop.characters.create(ply, overrides)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
+    overrides = istable(overrides) and overrides or {}
+
+    local canCreate, createReason = prop.characters.canCreate(ply)
+    if not canCreate then return false, createReason end
+
+    local callsign = normalizeCallsign(overrides.callsign) or prop.config.defaultCallsign
+    if prop.characters.hasCallsign(ply, callsign) then return false, "callsign_taken" end
+    overrides.callsign = callsign
 
     local id = makeCharacterID(ply)
     local data = defaultCharacterData(ply, overrides)
@@ -202,11 +210,41 @@ function prop.characters.findOwned(ply, query)
     return nil
 end
 
+function prop.characters.hasCallsign(ply, callsign, exceptID)
+    callsign = normalizeCallsign(callsign)
+    if not callsign then return false end
+
+    local normalizedCallsign = string.lower(callsign)
+    for _, character in ipairs(prop.characters.list(ply)) do
+        if character.id ~= exceptID and string.lower(tostring(character.data.callsign or "")) == normalizedCallsign then
+            return true
+        end
+    end
+
+    return false
+end
+
+function prop.characters.canCreate(ply)
+    if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
+
+    local active = prop.characters.getActive(ply)
+    if active and active.data.arrested then return false, "character_arrested" end
+
+    local maxCharacters = math.max(1, math.floor(tonumber(prop.config.maxCharacters) or 1))
+    if #prop.characters.list(ply) >= maxCharacters then return false, "character_limit" end
+
+    return true
+end
+
 function prop.characters.setActive(ply, characterID)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
+    local active = prop.characters.getActive(ply)
+    if active and active.data.arrested then return false, "character_arrested" end
+
     local character = prop.characters.loadByID(ply, characterID)
     if not character then return false, "character_not_found" end
+    if active and active.id == character.id then return false, "unchanged" end
 
     prop.characters.save(ply)
     prop.data.set(ply, "active_character_id", character.id)
@@ -253,6 +291,14 @@ function prop.characters.loadActive(ply)
 
     local id = prop.data.get(ply, "active_character_id")
     local character = prop.characters.loadByID(ply, id)
+
+    if not character then
+        character = prop.characters.list(ply)[1]
+        if character then
+            prop.data.set(ply, "active_character_id", character.id)
+            prop.data.save(ply)
+        end
+    end
 
     if not character then
         character = prop.characters.createDefault(ply)
@@ -305,6 +351,7 @@ function prop.characters.setCallsign(ply, callsign, actor)
 
     callsign = normalizeCallsign(callsign)
     if not callsign then return false, "invalid_callsign" end
+    if prop.characters.hasCallsign(ply, callsign, character.id) then return false, "callsign_taken" end
 
     local oldCallsign = character.data.callsign
     if oldCallsign == callsign then return false, "unchanged" end
