@@ -10,6 +10,7 @@ prop.config.startingMoney = 0
 prop.config.salaryInterval = 300
 prop.config.jailDefaultDuration = 300
 prop.config.jailPosition = nil
+prop.config.jailPositions = {}
 
 prop.config.developers = {
     ["STEAM_0:0:496687453"] = true,

@@ -21,11 +21,35 @@ local function getActorID(actor)
     return actor:SteamID64()
 end
 
+local function isVector(value)
+    return isvector and isvector(value)
+end
+
+function prop.jail.getPosition()
+    if isVector(prop.config.jailPosition) then
+        return prop.config.jailPosition
+    end
+
+    if not istable(prop.config.jailPositions) then return nil end
+
+    local positions = {}
+    for _, position in ipairs(prop.config.jailPositions) do
+        if isVector(position) then
+            table.insert(positions, position)
+        end
+    end
+
+    if #positions == 0 then return nil end
+    return table.Random(positions)
+end
+
 local function moveToJail(ply)
     if not IsValid(ply) then return false, "invalid_player" end
-    if not isvector or not isvector(prop.config.jailPosition) then return false, "no_jail_position" end
 
-    ply:SetPos(prop.config.jailPosition)
+    local position = prop.jail.getPosition()
+    if not position then return false, "no_jail_position" end
+
+    ply:SetPos(position)
     return true
 end
 
@@ -52,6 +76,9 @@ function prop.jail.arrest(actor, target, duration, reason)
 
     duration = normalizeDuration(duration)
 
+    local position = prop.jail.getPosition()
+    if not position then return false, "no_jail_position" end
+
     character.data.arrested = true
     character.data.arrested_until = duration > 0 and os.time() + duration or 0
     character.data.arrested_by = getActorID(actor)
@@ -60,7 +87,7 @@ function prop.jail.arrest(actor, target, duration, reason)
     if not ok then return false, saveReason end
 
     target:StripWeapons()
-    moveToJail(target)
+    target:SetPos(position)
 
     hook.Run("prop.PlayerArrested", actor, target, duration, reason)
     return true
