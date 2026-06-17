@@ -19,8 +19,10 @@ function SWRP.RegisterJob(key, name, data)
 end
 
 local function includeJobFile(path)
-    if SERVER then AddCSLuaFile(path) end
-    include(path)
+    local fullPath = (SWRP.GamemodePath or "starwarsrp/gamemode/") .. path
+
+    if SERVER then AddCSLuaFile(fullPath) end
+    include(fullPath)
 end
 
 for _, path in ipairs(SWRP.JobFiles) do

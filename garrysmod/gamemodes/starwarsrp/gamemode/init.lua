@@ -5,11 +5,15 @@ GM.Author = "whosgotch"
 DeriveGamemode("prop")
 DEFINE_BASECLASS("gamemode_prop")
 
-AddCSLuaFile("sh_config.lua")
-AddCSLuaFile("sh_teams.lua")
+SWRP = SWRP or {}
+SWRP.GamemodePath = "starwarsrp/gamemode/"
 
-include("sh_config.lua")
-include("sh_teams.lua")
-include("core/sv_characters.lua")
-include("core/sv_money.lua")
-include("core/sv_dev_commands.lua")
+AddCSLuaFile(SWRP.GamemodePath .. "cl_init.lua")
+AddCSLuaFile(SWRP.GamemodePath .. "sh_config.lua")
+AddCSLuaFile(SWRP.GamemodePath .. "sh_teams.lua")
+
+include(SWRP.GamemodePath .. "sh_config.lua")
+include(SWRP.GamemodePath .. "sh_teams.lua")
+include(SWRP.GamemodePath .. "core/sv_characters.lua")
+include(SWRP.GamemodePath .. "core/sv_money.lua")
+include(SWRP.GamemodePath .. "core/sv_dev_commands.lua")

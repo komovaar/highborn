@@ -5,5 +5,8 @@ GM.Author = "whosgotch"
 DeriveGamemode("prop")
 DEFINE_BASECLASS("gamemode_prop")
 
-include("sh_config.lua")
-include("sh_teams.lua")
+SWRP = SWRP or {}
+SWRP.GamemodePath = "starwarsrp/gamemode/"
+
+include(SWRP.GamemodePath .. "sh_config.lua")
+include(SWRP.GamemodePath .. "sh_teams.lua")
