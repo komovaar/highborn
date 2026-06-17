@@ -32,6 +32,8 @@ local function defaultCharacterData(ply)
         level = 1,
         xp = 0,
         arrested = false,
+        arrested_until = 0,
+        arrested_by = "",
         created_at = os.time(),
         last_seen = os.time()
     }
@@ -47,6 +49,8 @@ function prop.characters.normalize(data, ply)
     data.level = math.max(1, math.floor(tonumber(data.level) or 1))
     data.xp = math.max(0, math.floor(tonumber(data.xp) or 0))
     data.arrested = data.arrested == true
+    data.arrested_until = math.max(0, math.floor(tonumber(data.arrested_until) or 0))
+    data.arrested_by = isstring(data.arrested_by) and data.arrested_by or ""
     data.created_at = tonumber(data.created_at) or os.time()
     data.last_seen = tonumber(data.last_seen) or os.time()
 

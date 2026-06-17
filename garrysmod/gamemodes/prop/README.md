@@ -178,6 +178,8 @@ Addon-facing hooks:
 - `prop.MoneyTransferred`
 - `prop.SalaryPaid`
 - `prop.SalaryTick`
+- `prop.PlayerArrested`
+- `prop.PlayerReleased`
 - `prop.Error`
 
 ## Commands

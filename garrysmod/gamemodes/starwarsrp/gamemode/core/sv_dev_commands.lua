@@ -125,6 +125,8 @@ prop.command.add("mychar", {
         ply:ChatPrint("[prop] level: " .. tostring(character.data.level))
         ply:ChatPrint("[prop] xp: " .. tostring(character.data.xp))
         ply:ChatPrint("[prop] arrested: " .. tostring(character.data.arrested))
+        ply:ChatPrint("[prop] arrested_until: " .. tostring(character.data.arrested_until))
+        ply:ChatPrint("[prop] arrested_by: " .. tostring(character.data.arrested_by))
 
         return true
     end
