@@ -1,5 +1,19 @@
 prop.jail = prop.jail or {}
 
+function prop.jail.initDatabase()
+    local q = [[
+        create table if not exists settings (
+            key text primary key,
+            data text default '{}'
+        );
+    ]]
+
+    local res = sql.Query(q)
+    if res == false then
+        error("[prop] Settings database error: " .. sql.LastError())
+    end
+end
+
 local function normalizeDuration(duration)
     duration = math.floor(tonumber(duration) or prop.config.jailDefaultDuration or 0)
     if duration <= 0 then return 0 end
@@ -23,6 +37,101 @@ end
 
 local function isVector(value)
     return isvector and isvector(value)
+end
+
+local function serializePosition(position)
+    return {
+        x = position.x,
+        y = position.y,
+        z = position.z
+    }
+end
+
+local function deserializePosition(data)
+    if not istable(data) then return nil end
+
+    local x = tonumber(data.x)
+    local y = tonumber(data.y)
+    local z = tonumber(data.z)
+    if not x or not y or not z then return nil end
+
+    return Vector(x, y, z)
+end
+
+function prop.jail.loadPositions()
+    local res = prop.db.query("select data from settings where key = " .. sql.SQLStr("jail_positions") .. " limit 1")
+    if not res or not res[1] then return false, "not_found" end
+
+    local data = util.JSONToTable(res[1].data)
+    if not istable(data) then return false, "invalid_data" end
+
+    local positions = {}
+    for _, rawPosition in ipairs(data) do
+        local position = deserializePosition(rawPosition)
+        if position then
+            table.insert(positions, position)
+        end
+    end
+
+    prop.config.jailPositions = positions
+    prop.config.jailPosition = #positions == 1 and positions[1] or nil
+
+    return true
+end
+
+function prop.jail.savePositions()
+    local data = {}
+
+    if istable(prop.config.jailPositions) then
+        for _, position in ipairs(prop.config.jailPositions) do
+            if isVector(position) then
+                table.insert(data, serializePosition(position))
+            end
+        end
+    end
+
+    if #data == 0 and isVector(prop.config.jailPosition) then
+        table.insert(data, serializePosition(prop.config.jailPosition))
+    end
+
+    local res = prop.db.query(string.format(
+        "insert or replace into settings (key, data) values (%s, %s)",
+        sql.SQLStr("jail_positions"),
+        sql.SQLStr(util.TableToJSON(data))
+    ))
+    if res == false then return false, "save_failed" end
+
+    return true
+end
+
+function prop.jail.addPosition(position)
+    if not isVector(position) then return false, "invalid_position" end
+
+    prop.config.jailPositions = istable(prop.config.jailPositions) and prop.config.jailPositions or {}
+    table.insert(prop.config.jailPositions, position)
+
+    if #prop.config.jailPositions == 1 then
+        prop.config.jailPosition = position
+    else
+        prop.config.jailPosition = nil
+    end
+
+    return prop.jail.savePositions()
+end
+
+function prop.jail.clearPositions()
+    prop.config.jailPositions = {}
+    prop.config.jailPosition = nil
+
+    return prop.jail.savePositions()
+end
+
+function prop.jail.getPositionCount()
+    if istable(prop.config.jailPositions) and #prop.config.jailPositions > 0 then
+        return #prop.config.jailPositions
+    end
+
+    return isVector(prop.config.jailPosition) and 1 or 0
 end
 
 function prop.jail.getPosition()
@@ -135,6 +244,9 @@ timer.Create("prop.JailExpiry", 1, 0, function()
     prop.jail.checkAllExpired()
 end)
 
+prop.jail.initDatabase()
+prop.jail.loadPositions()
+
 hook.Add("prop.PlayerSpawn", "prop.EnforceJailSpawn", function(ply)
     if not prop.jail.isArrested(ply) then return end
 
@@ -205,6 +317,51 @@ prop.command.add("jail", {
         if not ok then return false, reason end
 
         return true, string.format("[prop] Arrested %s for %d seconds.", target:Nick(), duration)
+    end
+})
+
+prop.command.add("addjailpos", {
+    description = "Adds your current position as a jail position.",
+    usage = "/addjailpos",
+    category = "Debug",
+    onRun = function(ply)
+        if not prop.canUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        local ok, reason = prop.jail.addPosition(ply:GetPos())
+        if not ok then return false, reason end
+
+        return true, string.format("[prop] Added jail position #%d.", prop.jail.getPositionCount())
+    end
+})
+
+prop.command.add("clearjailpos", {
+    description = "Clears all jail positions.",
+    usage = "/clearjailpos",
+    category = "Debug",
+    onRun = function(ply)
+        if not prop.canUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        local ok, reason = prop.jail.clearPositions()
+        if not ok then return false, reason end
+
+        return true, "[prop] Cleared jail positions."
+    end
+})
+
+prop.command.add("jailpos", {
+    description = "Shows the jail position count.",
+    usage = "/jailpos",
+    category = "Debug",
+    onRun = function(ply)
+        if not prop.canUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        return true, string.format("[prop] Jail positions: %d.", prop.jail.getPositionCount())
     end
 })
 
