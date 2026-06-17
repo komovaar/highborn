@@ -124,6 +124,8 @@ function GM:PlayerSetModel(ply)
 end
 
 function GM:PlayerSpawn(ply, transition)
+    prop.player.refreshClass()
+    player_manager.SetPlayerClass(ply, prop.player.getClassName())
     callBaseGamemode("PlayerSpawn", self, ply, transition)
 
     local job = prop.team.get(ply:Team())

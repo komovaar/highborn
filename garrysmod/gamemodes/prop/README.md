@@ -82,6 +82,21 @@ Character defaults:
 
 - `prop.config.maxCharacters` limits how many characters one player can create.
 
+## Player Class
+
+prop registers one base player class, `player_prop`, through Garry's Mod
+`player_manager`. Movement and health belong to the player class layer, not to
+jobs.
+
+Shared API:
+
+- `prop.player.getClassName()` returns the registered class name.
+- `prop.player.getClass()` returns the registered class table.
+- `prop.player.refreshClass()` copies current config values into the class table.
+
+The class is refreshed and assigned in `GM:PlayerSpawn` before base spawn
+handling runs.
+
 ## Networking
 
 The framework networking layer is whitelist-based and avoids table serialization for hot paths.
@@ -118,6 +133,14 @@ prop.config.defaults = {
     netMaxKeyLength = 64,
     netMaxStringLength = 512,
     netMaxChatParts = 32,
+    playerWalkSpeed = 200,
+    playerRunSpeed = 400,
+    playerSlowWalkSpeed = 100,
+    playerDuckSpeed = 0.3,
+    playerUnDuckSpeed = 0.3,
+    playerCrouchedWalkSpeed = 0.3,
+    playerJumpPower = 200,
+    playerStartHealth = 100,
     logLevel = "warn",
     debug = false
 }
