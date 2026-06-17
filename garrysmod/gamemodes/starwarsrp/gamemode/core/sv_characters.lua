@@ -21,11 +21,67 @@ local function makeCharacterID(ply)
     return string.format("%s:%d:%d", ply:SteamID64(), os.time(), math.random(100000, 999999))
 end
 
+local function normalizeCID(cid)
+    cid = tonumber(cid)
+    if not cid then return nil end
+
+    cid = math.floor(cid)
+    if cid < 0 or cid > 9999 then return nil end
+
+    return string.format("%04d", cid)
+end
+
+local function getUsedCIDs(exceptID)
+    local used = {}
+    local res = prop.db.query("select id, data from characters")
+    if not res then return used end
+
+    for _, row in ipairs(res) do
+        if row.id ~= exceptID then
+            local data = util.JSONToTable(row.data)
+            local cid = data and normalizeCID(data.cid)
+            if cid then
+                used[cid] = true
+            end
+        end
+    end
+
+    return used
+end
+
+function prop.characters.generateCID(exceptID)
+    local used = getUsedCIDs(exceptID)
+
+    for _ = 1, 100 do
+        local cid = string.format("%04d", math.random(0, 9999))
+        if not used[cid] then return cid end
+    end
+
+    for i = 0, 9999 do
+        local cid = string.format("%04d", i)
+        if not used[cid] then return cid end
+    end
+
+    return nil, "cid_pool_exhausted"
+end
+
+local function normalizeCallsign(callsign)
+    if not isstring(callsign) then return nil end
+
+    callsign = string.Trim(callsign)
+    if callsign == "" then return nil end
+    if #callsign > 32 then callsign = string.sub(callsign, 1, 32) end
+
+    return callsign
+end
+
 local function defaultCharacterData(ply)
     local teamKey = prop.data.get(ply, "team_key", "CloneRecruit")
 
     return {
         schema_version = prop.characters.schemaVersion,
+        cid = prop.characters.generateCID(),
+        callsign = prop.config.defaultCallsign,
         name = prop.config.defaultCharacterName,
         team_key = teamKey,
         money = prop.config.startingMoney,
@@ -39,10 +95,12 @@ local function defaultCharacterData(ply)
     }
 end
 
-function prop.characters.normalize(data, ply)
+function prop.characters.normalize(data, ply, characterID)
     if not istable(data) then data = {} end
 
     data.schema_version = prop.characters.schemaVersion
+    data.cid = normalizeCID(data.cid) or prop.characters.generateCID(characterID)
+    data.callsign = normalizeCallsign(data.callsign) or prop.config.defaultCallsign
     data.name = isstring(data.name) and data.name ~= "" and data.name or prop.config.defaultCharacterName
     data.team_key = isstring(data.team_key) and data.team_key ~= "" and data.team_key or prop.data.get(ply, "team_key", "CloneRecruit")
     data.money = tonumber(data.money) or prop.config.startingMoney
@@ -62,6 +120,7 @@ function prop.characters.createDefault(ply)
 
     local id = makeCharacterID(ply)
     local data = defaultCharacterData(ply)
+    if not data.cid then return false, "cid_pool_exhausted" end
 
     local res = prop.db.query(string.format(
         "insert into characters (id, sid64, data) values (%s, %s, %s)",
@@ -94,7 +153,7 @@ function prop.characters.loadByID(ply, id)
     return {
         id = id,
         sid64 = ply:SteamID64(),
-        data = prop.characters.normalize(util.JSONToTable(res[1].data), ply)
+        data = prop.characters.normalize(util.JSONToTable(res[1].data), ply, id)
     }
 end
 
@@ -116,6 +175,8 @@ function prop.characters.loadActive(ply)
         character.data.team_key = job.key or character.data.team_key
         prop.team.apply(ply, job.id, true)
     end
+
+    prop.characters.save(ply)
 
     hook.Run("prop.CharacterLoaded", ply, character)
 
@@ -142,6 +203,25 @@ function prop.characters.save(ply)
     if res == false then return false, "update_failed" end
 
     hook.Run("prop.CharacterSaved", ply, character)
+    return true
+end
+
+function prop.characters.setCallsign(ply, callsign, actor)
+    local character = prop.characters.getActive(ply)
+    if not character then return false, "no_character" end
+
+    callsign = normalizeCallsign(callsign)
+    if not callsign then return false, "invalid_callsign" end
+
+    local oldCallsign = character.data.callsign
+    if oldCallsign == callsign then return false, "unchanged" end
+
+    character.data.callsign = callsign
+
+    local ok, saveReason = prop.characters.save(ply)
+    if not ok then return false, saveReason end
+
+    hook.Run("prop.CharacterCallsignChanged", actor, ply, character, oldCallsign, callsign)
     return true
 end
 

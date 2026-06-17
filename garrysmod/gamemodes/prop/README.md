@@ -182,6 +182,7 @@ Addon-facing hooks:
 - `prop.PlayerTeamChanged`
 - `prop.CharacterLoaded`
 - `prop.CharacterSaved`
+- `prop.CharacterCallsignChanged`
 - `prop.MoneyChanged`
 - `prop.MoneyTransferred`
 - `prop.SalaryPaid`

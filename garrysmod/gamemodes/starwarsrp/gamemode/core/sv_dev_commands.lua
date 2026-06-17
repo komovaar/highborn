@@ -119,6 +119,8 @@ prop.command.add("mychar", {
         if not character then return false, "no_character" end
 
         ply:ChatPrint("[prop] character_id: " .. tostring(character.id))
+        ply:ChatPrint("[prop] cid: " .. tostring(character.data.cid))
+        ply:ChatPrint("[prop] callsign: " .. tostring(character.data.callsign))
         ply:ChatPrint("[prop] name: " .. tostring(character.data.name))
         ply:ChatPrint("[prop] team_key: " .. tostring(character.data.team_key))
         ply:ChatPrint("[prop] money: " .. tostring(character.data.money))
@@ -129,6 +131,39 @@ prop.command.add("mychar", {
         ply:ChatPrint("[prop] arrested_by: " .. tostring(character.data.arrested_by))
 
         return true
+    end
+})
+
+prop.command.add("callsign", {
+    description = "Shows your character callsign.",
+    usage = "/callsign",
+    category = "Character",
+    onRun = function(ply)
+        local character = prop.characters.getActive(ply)
+        if not character then return false, "no_character" end
+
+        return true, string.format("[prop] %s-%s", character.data.callsign, character.data.cid)
+    end
+})
+
+prop.command.add("setcallsign", {
+    description = "Sets a character callsign. Temporary development command.",
+    usage = "/setcallsign <player|me> <callsign>",
+    category = "Debug",
+    onRun = function(ply, args)
+        if not prop.canUseDevCommand(ply) then
+            return false, "no_access"
+        end
+
+        local target, targetReason = findPlayer(ply, args[1])
+        if not target then return false, targetReason end
+
+        local callsign = table.concat(args, " ", 2)
+        local ok, reason = prop.characters.setCallsign(target, callsign, ply)
+        if not ok and reason ~= "unchanged" then return false, reason end
+
+        local character = prop.characters.getActive(target)
+        return true, string.format("[prop] Set %s callsign to %s-%s.", target:Nick(), character.data.callsign, character.data.cid)
     end
 })
 
