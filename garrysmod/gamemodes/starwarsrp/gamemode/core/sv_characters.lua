@@ -1,10 +1,10 @@
-SWRP.Characters = SWRP.Characters or {}
+prop.characters = prop.characters or {}
 
-SWRP.Characters.SchemaVersion = 1
+prop.characters.schemaVersion = 1
 
-function SWRP.Characters.InitDatabase()
+function prop.characters.initDatabase()
     local q = [[
-        create table if not exists swrp_characters (
+        create table if not exists characters (
             id text primary key,
             sid64 text not null,
             data text default '{}'
@@ -13,7 +13,7 @@ function SWRP.Characters.InitDatabase()
 
     local res = sql.Query(q)
     if res == false then
-        error("[SWRP] Character database error: " .. sql.LastError())
+        error("[prop] Character database error: " .. sql.LastError())
     end
 end
 
@@ -25,10 +25,10 @@ local function defaultCharacterData(ply)
     local teamKey = prop.data.get(ply, "team_key", "CloneRecruit")
 
     return {
-        schema_version = SWRP.Characters.SchemaVersion,
-        name = SWRP.Config.DefaultCharacterName,
+        schema_version = prop.characters.schemaVersion,
+        name = prop.config.defaultCharacterName,
         team_key = teamKey,
-        money = SWRP.Config.StartingMoney,
+        money = prop.config.startingMoney,
         level = 1,
         xp = 0,
         arrested = false,
@@ -37,13 +37,13 @@ local function defaultCharacterData(ply)
     }
 end
 
-function SWRP.Characters.Normalize(data, ply)
+function prop.characters.normalize(data, ply)
     if not istable(data) then data = {} end
 
-    data.schema_version = SWRP.Characters.SchemaVersion
-    data.name = isstring(data.name) and data.name ~= "" and data.name or SWRP.Config.DefaultCharacterName
+    data.schema_version = prop.characters.schemaVersion
+    data.name = isstring(data.name) and data.name ~= "" and data.name or prop.config.defaultCharacterName
     data.team_key = isstring(data.team_key) and data.team_key ~= "" and data.team_key or prop.data.get(ply, "team_key", "CloneRecruit")
-    data.money = tonumber(data.money) or SWRP.Config.StartingMoney
+    data.money = tonumber(data.money) or prop.config.startingMoney
     data.level = math.max(1, math.floor(tonumber(data.level) or 1))
     data.xp = math.max(0, math.floor(tonumber(data.xp) or 0))
     data.arrested = data.arrested == true
@@ -53,14 +53,14 @@ function SWRP.Characters.Normalize(data, ply)
     return data
 end
 
-function SWRP.Characters.CreateDefault(ply)
+function prop.characters.createDefault(ply)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
     local id = makeCharacterID(ply)
     local data = defaultCharacterData(ply)
 
     local res = prop.db.query(string.format(
-        "insert into swrp_characters (id, sid64, data) values (%s, %s, %s)",
+        "insert into characters (id, sid64, data) values (%s, %s, %s)",
         sql.SQLStr(id),
         sql.SQLStr(ply:SteamID64()),
         sql.SQLStr(util.TableToJSON(data))
@@ -76,11 +76,11 @@ function SWRP.Characters.CreateDefault(ply)
     }
 end
 
-function SWRP.Characters.LoadByID(ply, id)
+function prop.characters.loadByID(ply, id)
     if not IsValid(ply) or not isstring(id) or id == "" then return nil end
 
     local res = prop.db.query(string.format(
-        "select data from swrp_characters where id = %s and sid64 = %s limit 1",
+        "select data from characters where id = %s and sid64 = %s limit 1",
         sql.SQLStr(id),
         sql.SQLStr(ply:SteamID64())
     ))
@@ -90,22 +90,22 @@ function SWRP.Characters.LoadByID(ply, id)
     return {
         id = id,
         sid64 = ply:SteamID64(),
-        data = SWRP.Characters.Normalize(util.JSONToTable(res[1].data), ply)
+        data = prop.characters.normalize(util.JSONToTable(res[1].data), ply)
     }
 end
 
-function SWRP.Characters.LoadActive(ply)
+function prop.characters.loadActive(ply)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
     local id = prop.data.get(ply, "active_character_id")
-    local character = SWRP.Characters.LoadByID(ply, id)
+    local character = prop.characters.loadByID(ply, id)
 
     if not character then
-        character = SWRP.Characters.CreateDefault(ply)
+        character = prop.characters.createDefault(ply)
     end
     if not character then return false, "create_failed" end
 
-    ply.SWRPCharacter = character
+    ply.propCharacter = character
 
     local job = prop.team.getByKey(character.data.team_key) or prop.team.getDefault()
     if job then
@@ -113,48 +113,48 @@ function SWRP.Characters.LoadActive(ply)
         prop.team.apply(ply, job.id, true)
     end
 
-    hook.Run("SWRP.CharacterLoaded", ply, character)
+    hook.Run("prop.CharacterLoaded", ply, character)
 
     return character
 end
 
-function SWRP.Characters.GetActive(ply)
+function prop.characters.getActive(ply)
     if not IsValid(ply) then return nil end
-    return ply.SWRPCharacter
+    return ply.propCharacter
 end
 
-function SWRP.Characters.Save(ply)
-    local character = SWRP.Characters.GetActive(ply)
+function prop.characters.save(ply)
+    local character = prop.characters.getActive(ply)
     if not character then return false, "no_character" end
 
     character.data.last_seen = os.time()
 
     local res = prop.db.query(string.format(
-        "update swrp_characters set data = %s where id = %s and sid64 = %s",
+        "update characters set data = %s where id = %s and sid64 = %s",
         sql.SQLStr(util.TableToJSON(character.data)),
         sql.SQLStr(character.id),
         sql.SQLStr(character.sid64)
     ))
     if res == false then return false, "update_failed" end
 
-    hook.Run("SWRP.CharacterSaved", ply, character)
+    hook.Run("prop.CharacterSaved", ply, character)
     return true
 end
 
-SWRP.Characters.InitDatabase()
+prop.characters.initDatabase()
 
-hook.Add("prop.PlayerInitialSpawn", "SWRP.LoadActiveCharacter", function(ply)
-    SWRP.Characters.LoadActive(ply)
+hook.Add("prop.PlayerInitialSpawn", "prop.LoadActiveCharacter", function(ply)
+    prop.characters.loadActive(ply)
 end)
 
-hook.Add("prop.PlayerDisconnected", "SWRP.SaveActiveCharacter", function(ply)
-    SWRP.Characters.Save(ply)
+hook.Add("prop.PlayerDisconnected", "prop.SaveActiveCharacter", function(ply)
+    prop.characters.save(ply)
 end)
 
-hook.Add("prop.PlayerTeamChanged", "SWRP.SyncCharacterTeam", function(ply, oldTeamID, teamID, oldJob, job)
-    local character = SWRP.Characters.GetActive(ply)
+hook.Add("prop.PlayerTeamChanged", "prop.SyncCharacterTeam", function(ply, oldTeamID, teamID, oldJob, job)
+    local character = prop.characters.getActive(ply)
     if not character or not job then return end
 
     character.data.team_key = job.key or character.data.team_key
-    SWRP.Characters.Save(ply)
+    prop.characters.save(ply)
 end)

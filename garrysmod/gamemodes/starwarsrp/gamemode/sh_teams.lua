@@ -1,30 +1,30 @@
-SWRP = SWRP or {}
-SWRP.Teams = {}
-SWRP.JobFiles = SWRP.JobFiles or {
+prop = prop or {}
+prop.jobFiles = prop.jobFiles or {
     "jobs/sh_republic.lua"
 }
 
 prop.team.list = {}
 prop.team.byKey = {}
+prop.team.jobIDs = {}
 prop.team.defaultID = nil
 
-function SWRP.RegisterJob(key, name, data)
+function prop.registerJob(key, name, data)
     data.key = key
 
     local id, reason = prop.team.register(name, data)
     assert(id, "Failed to register " .. tostring(name) .. " team: " .. tostring(reason))
 
-    SWRP.Teams[key] = id
+    prop.team.jobIDs[key] = id
     return id
 end
 
 local function includeJobFile(path)
-    local fullPath = (SWRP.GamemodePath or "starwarsrp/gamemode/") .. path
+    local fullPath = (prop.gamemodePath or "starwarsrp/gamemode/") .. path
 
     if SERVER then AddCSLuaFile(fullPath) end
     include(fullPath)
 end
 
-for _, path in ipairs(SWRP.JobFiles) do
+for _, path in ipairs(prop.jobFiles) do
     includeJobFile(path)
 end

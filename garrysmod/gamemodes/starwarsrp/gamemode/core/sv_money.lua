@@ -1,4 +1,4 @@
-SWRP.Money = SWRP.Money or {}
+prop.money = prop.money or {}
 
 local function normalizeAmount(value)
     local amount = tonumber(value)
@@ -13,20 +13,20 @@ end
 local function getCharacter(ply)
     if not IsValid(ply) then return nil, "invalid_player" end
 
-    local character = SWRP.Characters.GetActive(ply)
+    local character = prop.characters.getActive(ply)
     if not character then return nil, "no_character" end
 
     return character
 end
 
-function SWRP.Money.Get(ply)
+function prop.money.get(ply)
     local character = getCharacter(ply)
     if not character then return 0 end
 
     return tonumber(character.data.money) or 0
 end
 
-function SWRP.Money.Set(ply, amount, reason)
+function prop.money.set(ply, amount, reason)
     local character, characterReason = getCharacter(ply)
     if not character then return false, characterReason end
 
@@ -37,45 +37,45 @@ function SWRP.Money.Set(ply, amount, reason)
 
     character.data.money = amount
 
-    local ok, saveReason = SWRP.Characters.Save(ply)
+    local ok, saveReason = prop.characters.save(ply)
     if not ok then return false, saveReason end
 
-    hook.Run("SWRP.MoneyChanged", ply, oldAmount, amount, reason)
+    hook.Run("prop.MoneyChanged", ply, oldAmount, amount, reason)
     return true
 end
 
-function SWRP.Money.Add(ply, amount, reason)
+function prop.money.add(ply, amount, reason)
     amount = math.floor(tonumber(amount) or 0)
     if amount == 0 then return false, "invalid_amount" end
 
-    return SWRP.Money.Set(ply, SWRP.Money.Get(ply) + amount, reason)
+    return prop.money.set(ply, prop.money.get(ply) + amount, reason)
 end
 
-function SWRP.Money.CanAfford(ply, amount)
+function prop.money.canAfford(ply, amount)
     amount = math.floor(tonumber(amount) or 0)
     if amount < 0 then return false end
 
-    return SWRP.Money.Get(ply) >= amount
+    return prop.money.get(ply) >= amount
 end
 
-function SWRP.Money.Transfer(fromPly, toPly, amount, reason)
+function prop.money.transfer(fromPly, toPly, amount, reason)
     if not IsValid(fromPly) or not IsValid(toPly) then return false, "invalid_player" end
     if fromPly == toPly then return false, "same_player" end
 
     amount = normalizeAmount(amount)
     if not amount then return false, "invalid_amount" end
-    if not SWRP.Money.CanAfford(fromPly, amount) then return false, "cant_afford" end
+    if not prop.money.canAfford(fromPly, amount) then return false, "cant_afford" end
 
-    local takeOK, takeReason = SWRP.Money.Add(fromPly, -amount, reason or "transfer")
+    local takeOK, takeReason = prop.money.add(fromPly, -amount, reason or "transfer")
     if not takeOK then return false, takeReason end
 
-    local giveOK, giveReason = SWRP.Money.Add(toPly, amount, reason or "transfer")
+    local giveOK, giveReason = prop.money.add(toPly, amount, reason or "transfer")
     if not giveOK then
-        SWRP.Money.Add(fromPly, amount, "transfer_refund")
+        prop.money.add(fromPly, amount, "transfer_refund")
         return false, giveReason
     end
 
-    hook.Run("SWRP.MoneyTransferred", fromPly, toPly, amount, reason)
+    hook.Run("prop.MoneyTransferred", fromPly, toPly, amount, reason)
     return true
 end
 
@@ -120,7 +120,7 @@ prop.command.add("money", {
     usage = "/money",
     category = "Character",
     onRun = function(ply)
-        ply:ChatPrint("[SWRP] Balance: " .. tostring(SWRP.Money.Get(ply)))
+        ply:ChatPrint("[prop] Balance: " .. tostring(prop.money.get(ply)))
         return true
     end
 })
@@ -136,10 +136,10 @@ prop.command.add("pay", {
         local amount = normalizeAmount(args[2])
         if not amount then return false, "invalid_amount" end
 
-        local ok, reason = SWRP.Money.Transfer(ply, target, amount, "pay")
+        local ok, reason = prop.money.transfer(ply, target, amount, "pay")
         if not ok then return false, reason end
 
-        target:ChatPrint(string.format("[SWRP] %s paid you %d.", ply:Nick(), amount))
-        return true, string.format("[SWRP] Paid %s %d.", target:Nick(), amount)
+        target:ChatPrint(string.format("[prop] %s paid you %d.", ply:Nick(), amount))
+        return true, string.format("[prop] Paid %s %d.", target:Nick(), amount)
     end
 })

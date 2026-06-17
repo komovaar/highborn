@@ -41,7 +41,7 @@ local function findJob(query)
     local teamID = tonumber(query)
     if teamID and prop.team.get(teamID) then return teamID end
 
-    for key, id in pairs(SWRP.Teams) do
+    for key, id in pairs(prop.team.byKey) do
         if normalize(key) == query and prop.team.get(id) then
             return id
         end
@@ -66,7 +66,7 @@ prop.command.add("setjob", {
     usage = "/setjob <player|me> <job id|key|name>",
     category = "Admin",
     onRun = function(ply, args)
-        if not SWRP.CanUseDevCommand(ply) then
+        if not prop.canUseDevCommand(ply) then
             return false, "no_access"
         end
 
@@ -81,7 +81,7 @@ prop.command.add("setjob", {
         if not ok and reason ~= "unchanged" then return false, reason end
 
         local job = prop.team.get(teamID)
-        return true, string.format("[SWRP] Set %s to %s.", target:Nick(), job.name)
+        return true, string.format("[prop] Set %s to %s.", target:Nick(), job.name)
     end
 })
 
@@ -90,7 +90,7 @@ prop.command.add("mydata", {
     usage = "/mydata",
     category = "Debug",
     onRun = function(ply)
-        if not SWRP.CanUseDevCommand(ply) then
+        if not prop.canUseDevCommand(ply) then
             return false, "no_access"
         end
 
@@ -98,9 +98,9 @@ prop.command.add("mydata", {
         local teamKey = prop.data.get(ply, "team_key", "nil")
         local jobName = prop.data.get(ply, "job_name", "nil")
 
-        ply:ChatPrint("[SWRP] team_id: " .. tostring(teamID))
-        ply:ChatPrint("[SWRP] team_key: " .. tostring(teamKey))
-        ply:ChatPrint("[SWRP] job_name: " .. tostring(jobName))
+        ply:ChatPrint("[prop] team_id: " .. tostring(teamID))
+        ply:ChatPrint("[prop] team_key: " .. tostring(teamKey))
+        ply:ChatPrint("[prop] job_name: " .. tostring(jobName))
 
         return true
     end
@@ -111,20 +111,20 @@ prop.command.add("mychar", {
     usage = "/mychar",
     category = "Debug",
     onRun = function(ply)
-        if not SWRP.CanUseDevCommand(ply) then
+        if not prop.canUseDevCommand(ply) then
             return false, "no_access"
         end
 
-        local character = SWRP.Characters.GetActive(ply)
+        local character = prop.characters.getActive(ply)
         if not character then return false, "no_character" end
 
-        ply:ChatPrint("[SWRP] character_id: " .. tostring(character.id))
-        ply:ChatPrint("[SWRP] name: " .. tostring(character.data.name))
-        ply:ChatPrint("[SWRP] team_key: " .. tostring(character.data.team_key))
-        ply:ChatPrint("[SWRP] money: " .. tostring(character.data.money))
-        ply:ChatPrint("[SWRP] level: " .. tostring(character.data.level))
-        ply:ChatPrint("[SWRP] xp: " .. tostring(character.data.xp))
-        ply:ChatPrint("[SWRP] arrested: " .. tostring(character.data.arrested))
+        ply:ChatPrint("[prop] character_id: " .. tostring(character.id))
+        ply:ChatPrint("[prop] name: " .. tostring(character.data.name))
+        ply:ChatPrint("[prop] team_key: " .. tostring(character.data.team_key))
+        ply:ChatPrint("[prop] money: " .. tostring(character.data.money))
+        ply:ChatPrint("[prop] level: " .. tostring(character.data.level))
+        ply:ChatPrint("[prop] xp: " .. tostring(character.data.xp))
+        ply:ChatPrint("[prop] arrested: " .. tostring(character.data.arrested))
 
         return true
     end
@@ -135,7 +135,7 @@ prop.command.add("addmoney", {
     usage = "/addmoney <player|me> <amount>",
     category = "Debug",
     onRun = function(ply, args)
-        if not SWRP.CanUseDevCommand(ply) then
+        if not prop.canUseDevCommand(ply) then
             return false, "no_access"
         end
 
@@ -145,10 +145,10 @@ prop.command.add("addmoney", {
         local amount = math.floor(tonumber(args[2]) or 0)
         if amount <= 0 then return false, "invalid_amount" end
 
-        local ok, reason = SWRP.Money.Add(target, amount, "dev_addmoney")
+        local ok, reason = prop.money.add(target, amount, "dev_addmoney")
         if not ok and reason ~= "unchanged" then return false, reason end
 
-        target:ChatPrint("[SWRP] Balance: " .. tostring(SWRP.Money.Get(target)))
-        return true, string.format("[SWRP] Added %d to %s.", amount, target:Nick())
+        target:ChatPrint("[prop] Balance: " .. tostring(prop.money.get(target)))
+        return true, string.format("[prop] Added %d to %s.", amount, target:Nick())
     end
 })

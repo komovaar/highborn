@@ -79,6 +79,15 @@ local function normalizeDescription(description)
     return description
 end
 
+local function normalizeSalary(salary)
+    if salary == nil then return 0 end
+
+    salary = tonumber(salary)
+    if not salary then return false end
+
+    return math.max(0, math.floor(salary))
+end
+
 function prop.team.register(name, data)
     if not isstring(name) or string.Trim(name) == "" then return false, "invalid_name" end
     if not istable(data) then return false, "invalid_data" end
@@ -104,6 +113,9 @@ function prop.team.register(name, data)
     local description = normalizeDescription(data.description)
     if description == false then return false, "invalid_description" end
 
+    local salary = normalizeSalary(data.salary)
+    if salary == false then return false, "invalid_salary" end
+
     local id = #prop.team.list + 1
     team.SetUp(id, name, data.color or Color(255, 255, 255))
     
@@ -116,6 +128,7 @@ function prop.team.register(name, data)
         name = name,
         description = description,
         category = category,
+        salary = salary,
         model = model,
         weapons = weapons,
         adminOnly = data.adminOnly or false,

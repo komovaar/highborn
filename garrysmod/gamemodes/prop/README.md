@@ -4,8 +4,8 @@ A roleplay framework for Garry's Mod.
 ## Jobs
 
 Jobs are registered from addons after `prop.Ready`:
-registration validates the job name, category, color, model, weapons, booleans,
-and callbacks before storing the job.
+registration validates the job name, category, color, model, weapons, salary,
+booleans, and callbacks before storing the job.
 
 ```lua
 prop.onReady("my_addon.Jobs", function()
@@ -15,6 +15,7 @@ prop.onReady("my_addon.Jobs", function()
         color = Color(100, 180, 120),
         model = "models/player/Group01/male_07.mdl",
         weapons = {},
+        salary = 50,
         default = true,
         adminOnly = false,
         onCanChange = function(ply, oldTeamID, newTeamID, oldJob, newJob)
@@ -171,6 +172,12 @@ Addon-facing hooks:
 - `prop.CommandRan`
 - `prop.CanPlayerChangeTeam`
 - `prop.PlayerTeamChanged`
+- `prop.CharacterLoaded`
+- `prop.CharacterSaved`
+- `prop.MoneyChanged`
+- `prop.MoneyTransferred`
+- `prop.SalaryPaid`
+- `prop.SalaryTick`
 - `prop.Error`
 
 ## Commands
