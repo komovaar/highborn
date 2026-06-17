@@ -3,6 +3,8 @@ prop.team.list = prop.team.list or {}
 prop.team.byKey = prop.team.byKey or {}
 prop.team.defaultID = prop.team.defaultID or nil
 prop.team.defaultCategory = prop.team.defaultCategory or prop.config.get("defaultJobCategory", "Uncategorized")
+prop.category = prop.category or {}
+prop.category.list = prop.category.list or {}
 
 local function normalizeCategory(category)
     if not isstring(category) then return nil end
@@ -14,6 +16,20 @@ local function normalizeCategory(category)
 end
 
 prop.team.normalizeCategory = normalizeCategory
+
+local function normalizeCategoryKey(key)
+    if key == nil then return nil end
+    if not isstring(key) then return false end
+
+    key = string.Trim(string.lower(key))
+    if key == "" then return false end
+
+    return key
+end
+
+local function normalizeSortOrder(sortOrder)
+    return math.floor(tonumber(sortOrder) or 0)
+end
 
 local function normalizeKey(key)
     if key == nil then return nil end
@@ -88,6 +104,54 @@ local function normalizeSalary(salary)
     return math.max(0, math.floor(salary))
 end
 
+function prop.category.register(key, data)
+    key = normalizeCategoryKey(key)
+    if not key then return false, "invalid_key" end
+    if data == nil then data = {} end
+    if not istable(data) then return false, "invalid_data" end
+    if data.color ~= nil and not isColor(data.color) then return false, "invalid_color" end
+
+    local name = normalizeCategory(data.name) or key
+    local description = normalizeDescription(data.description)
+    if description == false then return false, "invalid_description" end
+
+    prop.category.list[key] = {
+        key = key,
+        name = name,
+        description = description,
+        color = data.color or Color(255, 255, 255),
+        sortOrder = normalizeSortOrder(data.sortOrder)
+    }
+
+    return prop.category.list[key]
+end
+
+function prop.category.get(key)
+    key = normalizeCategoryKey(key)
+    if not key then return nil end
+
+    return prop.category.list[key]
+end
+
+function prop.category.all()
+    return prop.category.list
+end
+
+function prop.category.sorted()
+    local categories = {}
+
+    for _, category in pairs(prop.category.list) do
+        table.insert(categories, category)
+    end
+
+    table.sort(categories, function(a, b)
+        if a.sortOrder == b.sortOrder then return a.name < b.name end
+        return a.sortOrder < b.sortOrder
+    end)
+
+    return categories
+end
+
 function prop.team.register(name, data)
     if not isstring(name) or string.Trim(name) == "" then return false, "invalid_name" end
     if not istable(data) then return false, "invalid_data" end
@@ -120,7 +184,9 @@ function prop.team.register(name, data)
     team.SetUp(id, name, data.color or Color(255, 255, 255))
     
     local isDefault = data.default or not prop.team.defaultID
-    local category = normalizeCategory(data.category) or prop.team.defaultCategory
+    local categoryKey = normalizeCategoryKey(data.category)
+    local registeredCategory = categoryKey and prop.category.get(categoryKey) or nil
+    local category = registeredCategory and registeredCategory.name or normalizeCategory(data.category) or prop.team.defaultCategory
 
     prop.team.list[id] = {
         id = id,
@@ -128,6 +194,7 @@ function prop.team.register(name, data)
         name = name,
         description = description,
         category = category,
+        categoryKey = registeredCategory and registeredCategory.key or nil,
         salary = salary,
         model = model,
         weapons = weapons,
@@ -173,8 +240,13 @@ function prop.team.getCategories()
     local categories = {}
     local seen = {}
 
+    for _, category in ipairs(prop.category.sorted()) do
+        seen[category.name] = true
+        table.insert(categories, category.name)
+    end
+
     for _, job in pairs(prop.team.list) do
-        if not seen[job.category] then
+        if job.category and not seen[job.category] then
             seen[job.category] = true
             table.insert(categories, job.category)
         end
@@ -184,13 +256,15 @@ function prop.team.getCategories()
 end
 
 function prop.team.getByCategory(category)
-    category = normalizeCategory(category)
-    if not category then return {} end
+    local categoryKey = normalizeCategoryKey(category)
+    local registeredCategory = categoryKey and prop.category.get(categoryKey) or nil
+    category = registeredCategory and registeredCategory.name or normalizeCategory(category)
+    if not category and not registeredCategory then return {} end
 
     local jobs = {}
 
     for id, job in pairs(prop.team.list) do
-        if job.category == category then
+        if (registeredCategory and job.categoryKey == registeredCategory.key) or job.category == category then
             jobs[id] = job
         end
     end

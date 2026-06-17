@@ -1,4 +1,4 @@
-local republic = prop.config.defaultJobCategory
+local republic = "republic"
 local models = prop.config.models
 local loadouts = prop.config.loadouts
 local salaries = prop.config.salaries

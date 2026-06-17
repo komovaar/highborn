@@ -8,6 +8,13 @@ prop.team.byKey = {}
 prop.team.jobIDs = {}
 prop.team.defaultID = nil
 
+prop.category.register("republic", {
+    name = "Republic",
+    description = "Grand Army of the Republic roles.",
+    color = Color(120, 180, 255),
+    sortOrder = 10
+})
+
 function prop.registerJob(key, name, data)
     data.key = key
 

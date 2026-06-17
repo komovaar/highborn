@@ -9,9 +9,15 @@ booleans, and callbacks before storing the job.
 
 ```lua
 prop.onReady("my_addon.Jobs", function()
+    prop.category.register("civilians", {
+        name = "Civilians",
+        color = Color(100, 180, 120),
+        sortOrder = 10
+    })
+
     prop.team.register("Citizen", {
         description = "Default public role.",
-        category = "Civilians",
+        category = "civilians",
         color = Color(100, 180, 120),
         model = "models/player/Group01/male_07.mdl",
         weapons = {},
@@ -36,6 +42,8 @@ Server API:
 - `prop.team.setDefault(teamID)`, `prop.team.getDefaultID()`, and `prop.team.getDefault()` manage the default job.
 - `prop.team.getCategories()` returns a list of currently used category names.
 - `prop.team.getByCategory(category)` returns all jobs in a category.
+- `prop.category.register(key, data)` registers metadata for a job category.
+- `prop.category.get(key)`, `prop.category.all()`, and `prop.category.sorted()` read registered categories.
 
 Change checks run in this order: job exists, unchanged check, `adminOnly`, `prop.CanPlayerChangeTeam`, job `onCanChange`, apply job, job `onChanged`, then `prop.PlayerTeamChanged`.
 
