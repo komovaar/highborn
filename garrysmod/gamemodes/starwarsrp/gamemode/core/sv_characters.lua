@@ -227,6 +227,27 @@ function prop.characters.setActive(ply, characterID)
     return true, character
 end
 
+function prop.characters.syncPublic(ply)
+    local character = prop.characters.getActive(ply)
+    if not character then return false, "no_character" end
+
+    local data = character.data
+    local job = prop.team.getByKey(data.team_key) or prop.team.get(ply:Team())
+
+    prop.data.setPublic(ply, "character_id", character.id)
+    prop.data.setPublic(ply, "character_cid", data.cid or "")
+    prop.data.setPublic(ply, "character_callsign", data.callsign or "")
+    prop.data.setPublic(ply, "character_name", data.name or "")
+    prop.data.setPublic(ply, "character_team_key", data.team_key or "")
+    prop.data.setPublic(ply, "character_job_name", job and job.name or "")
+    prop.data.setPublic(ply, "character_money", tonumber(data.money) or 0)
+    prop.data.setPublic(ply, "character_level", tonumber(data.level) or 1)
+    prop.data.setPublic(ply, "character_xp", tonumber(data.xp) or 0)
+    prop.data.setPublic(ply, "character_arrested", data.arrested == true)
+
+    return true
+end
+
 function prop.characters.loadActive(ply)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
@@ -247,6 +268,7 @@ function prop.characters.loadActive(ply)
     end
 
     prop.characters.save(ply)
+    prop.characters.syncPublic(ply)
 
     hook.Run("prop.CharacterLoaded", ply, character)
 
@@ -273,6 +295,7 @@ function prop.characters.save(ply)
     if res == false then return false, "update_failed" end
 
     hook.Run("prop.CharacterSaved", ply, character)
+    prop.characters.syncPublic(ply)
     return true
 end
 
@@ -311,4 +334,16 @@ hook.Add("prop.PlayerTeamChanged", "prop.SyncCharacterTeam", function(ply, oldTe
 
     character.data.team_key = job.key or character.data.team_key
     prop.characters.save(ply)
+end)
+
+hook.Add("prop.MoneyChanged", "prop.SyncPublicCharacterMoney", function(ply)
+    prop.characters.syncPublic(ply)
+end)
+
+hook.Add("prop.PlayerArrested", "prop.SyncPublicCharacterJail", function(actor, target)
+    prop.characters.syncPublic(target)
+end)
+
+hook.Add("prop.PlayerReleased", "prop.SyncPublicCharacterRelease", function(actor, target)
+    prop.characters.syncPublic(target)
 end)

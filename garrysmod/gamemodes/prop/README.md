@@ -65,6 +65,19 @@ Client API:
 
 - `prop.data.localGet(key, default)` reads public data synced to the local player.
 
+Common character keys:
+
+- `character_id`
+- `character_cid`
+- `character_callsign`
+- `character_name`
+- `character_team_key`
+- `character_job_name`
+- `character_money`
+- `character_level`
+- `character_xp`
+- `character_arrested`
+
 ## Networking
 
 The framework networking layer is whitelist-based and avoids table serialization for hot paths.
