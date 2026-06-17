@@ -75,14 +75,15 @@ local function normalizeCallsign(callsign)
     return callsign
 end
 
-local function defaultCharacterData(ply)
+local function defaultCharacterData(ply, overrides)
     local teamKey = prop.data.get(ply, "team_key", "CloneRecruit")
+    overrides = istable(overrides) and overrides or {}
 
     return {
         schema_version = prop.characters.schemaVersion,
         cid = prop.characters.generateCID(),
-        callsign = prop.config.defaultCallsign,
-        name = prop.config.defaultCharacterName,
+        callsign = normalizeCallsign(overrides.callsign) or prop.config.defaultCallsign,
+        name = isstring(overrides.name) and string.Trim(overrides.name) ~= "" and string.Trim(overrides.name) or prop.config.defaultCharacterName,
         team_key = teamKey,
         money = prop.config.startingMoney,
         level = 1,
@@ -115,11 +116,11 @@ function prop.characters.normalize(data, ply, characterID)
     return data
 end
 
-function prop.characters.createDefault(ply)
+function prop.characters.create(ply, overrides)
     if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
 
     local id = makeCharacterID(ply)
-    local data = defaultCharacterData(ply)
+    local data = defaultCharacterData(ply, overrides)
     if not data.cid then return false, "cid_pool_exhausted" end
 
     local res = prop.db.query(string.format(
@@ -130,13 +131,20 @@ function prop.characters.createDefault(ply)
     ))
     if res == false then return false, "insert_failed" end
 
-    prop.data.set(ply, "active_character_id", id)
-
     return {
         id = id,
         sid64 = ply:SteamID64(),
         data = data
     }
+end
+
+function prop.characters.createDefault(ply)
+    local character, reason = prop.characters.create(ply)
+    if not character then return false, reason end
+
+    prop.data.set(ply, "active_character_id", character.id)
+    prop.data.save(ply)
+    return character
 end
 
 function prop.characters.loadByID(ply, id)
@@ -155,6 +163,68 @@ function prop.characters.loadByID(ply, id)
         sid64 = ply:SteamID64(),
         data = prop.characters.normalize(util.JSONToTable(res[1].data), ply, id)
     }
+end
+
+function prop.characters.list(ply)
+    if not IsValid(ply) then return {} end
+
+    local res = prop.db.query("select id, data from characters where sid64 = " .. sql.SQLStr(ply:SteamID64()))
+    if not res then return {} end
+
+    local characters = {}
+    for _, row in ipairs(res) do
+        table.insert(characters, {
+            id = row.id,
+            sid64 = ply:SteamID64(),
+            data = prop.characters.normalize(util.JSONToTable(row.data), ply, row.id)
+        })
+    end
+
+    table.sort(characters, function(a, b)
+        return tostring(a.data.cid or "") < tostring(b.data.cid or "")
+    end)
+
+    return characters
+end
+
+function prop.characters.findOwned(ply, query)
+    if not IsValid(ply) or not isstring(query) or query == "" then return nil end
+
+    local normalizedQuery = string.lower(string.Trim(query))
+    for _, character in ipairs(prop.characters.list(ply)) do
+        if string.lower(character.id) == normalizedQuery
+            or string.lower(tostring(character.data.cid or "")) == normalizedQuery
+            or string.lower(tostring(character.data.callsign or "")) == normalizedQuery then
+            return character
+        end
+    end
+
+    return nil
+end
+
+function prop.characters.setActive(ply, characterID)
+    if not IsValid(ply) or not ply.prop then return false, "invalid_player" end
+
+    local character = prop.characters.loadByID(ply, characterID)
+    if not character then return false, "character_not_found" end
+
+    prop.characters.save(ply)
+    prop.data.set(ply, "active_character_id", character.id)
+    prop.data.save(ply)
+    ply.propCharacter = character
+
+    local job = prop.team.getByKey(character.data.team_key) or prop.team.getDefault()
+    if job then
+        character.data.team_key = job.key or character.data.team_key
+        prop.team.apply(ply, job.id)
+    else
+        ply:Spawn()
+    end
+
+    prop.characters.save(ply)
+    hook.Run("prop.CharacterSwitched", ply, character)
+
+    return true, character
 end
 
 function prop.characters.loadActive(ply)

@@ -183,6 +183,7 @@ Addon-facing hooks:
 - `prop.CharacterLoaded`
 - `prop.CharacterSaved`
 - `prop.CharacterCallsignChanged`
+- `prop.CharacterSwitched`
 - `prop.MoneyChanged`
 - `prop.MoneyTransferred`
 - `prop.SalaryPaid`

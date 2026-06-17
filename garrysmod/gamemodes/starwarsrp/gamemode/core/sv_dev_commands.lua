@@ -167,6 +167,62 @@ prop.command.add("setcallsign", {
     end
 })
 
+prop.command.add("chars", {
+    description = "Lists your characters.",
+    usage = "/chars",
+    category = "Character",
+    onRun = function(ply)
+        local characters = prop.characters.list(ply)
+        if #characters == 0 then return false, "no_characters" end
+
+        local active = prop.characters.getActive(ply)
+        ply:ChatPrint("[prop] Characters:")
+
+        for _, character in ipairs(characters) do
+            local marker = active and active.id == character.id and "*" or "-"
+            ply:ChatPrint(string.format(
+                "%s %s %s-%s (%s)",
+                marker,
+                character.id,
+                character.data.callsign,
+                character.data.cid,
+                character.data.team_key
+            ))
+        end
+
+        return true
+    end
+})
+
+prop.command.add("createchar", {
+    description = "Creates a new character.",
+    usage = "/createchar <callsign>",
+    category = "Character",
+    onRun = function(ply, args)
+        local callsign = table.concat(args, " ")
+        local character, reason = prop.characters.create(ply, {callsign = callsign})
+        if not character then return false, reason end
+
+        return true, string.format("[prop] Created %s-%s. Use /switchchar %s to activate.", character.data.callsign, character.data.cid, character.data.cid)
+    end
+})
+
+prop.command.add("switchchar", {
+    description = "Switches your active character.",
+    usage = "/switchchar <id|cid|callsign>",
+    category = "Character",
+    onRun = function(ply, args)
+        local query = table.concat(args, " ")
+        local character = prop.characters.findOwned(ply, query)
+        if not character then return false, "character_not_found" end
+
+        local ok, result = prop.characters.setActive(ply, character.id)
+        if not ok then return false, result end
+
+        return true, string.format("[prop] Switched to %s-%s.", result.data.callsign, result.data.cid)
+    end
+})
+
 prop.command.add("addmoney", {
     description = "Adds money to a character. Temporary development command.",
     usage = "/addmoney <player|me> <amount>",
