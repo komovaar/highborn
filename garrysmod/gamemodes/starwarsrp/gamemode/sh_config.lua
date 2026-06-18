@@ -14,11 +14,6 @@ prop.config.jailDefaultDuration = 300
 prop.config.jailPosition = nil
 prop.config.jailPositions = {}
 
-prop.config.developers = {
-    ["STEAM_0:0:496687453"] = true,
-    ["76561198953640634"] = true
-}
-
 prop.config.models = {
     CloneTrooper = "models/ct_trp/pm_ct_trp.mdl",
     CloneMedic = "models/ct_medic/pm_ct_medic.mdl",
@@ -44,12 +39,4 @@ prop.config.salaries = {
 
 if prop and prop.config then
     prop.config.set("defaultJobCategory", prop.config.defaultJobCategory)
-end
-
-function prop.canUseDevCommand(ply)
-    if not IsValid(ply) then return false end
-    if ply:IsAdmin() or ply:IsSuperAdmin() then return true end
-
-    return prop.config.developers[ply:SteamID()] == true
-        or prop.config.developers[ply:SteamID64()] == true
 end

@@ -12,6 +12,7 @@ AddCSLuaFile(prop.gamemodePath .. "sh_config.lua")
 AddCSLuaFile(prop.gamemodePath .. "sh_teams.lua")
 
 include(prop.gamemodePath .. "sh_config.lua")
+include(prop.gamemodePath .. "core/sv_config.lua")
 include(prop.gamemodePath .. "sh_teams.lua")
 include(prop.gamemodePath .. "core/sv_characters.lua")
 include(prop.gamemodePath .. "core/sv_money.lua")
