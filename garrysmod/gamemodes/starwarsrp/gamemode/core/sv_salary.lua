@@ -68,7 +68,7 @@ prop.salary.restartTimer()
 hook.Add("prop.SalaryPaid", "prop.NotifySalaryPaid", function(ply, amount, job)
     if not IsValid(ply) then return end
 
-    ply:ChatPrint(string.format("[prop] Salary: +%d (%s).", amount, job.name))
+    prop.chat.notify(ply, string.format("Salary: +%d (%s).", amount, job.name))
 end)
 
 prop.command.add("salary", {

@@ -84,7 +84,7 @@ prop.command.add("money", {
     usage = "/money",
     category = "Character",
     onRun = function(ply)
-        ply:ChatPrint("[prop] Balance: " .. tostring(prop.money.get(ply)))
+        prop.chat.notify(ply, "Balance: " .. tostring(prop.money.get(ply)))
         return true
     end
 })
@@ -103,7 +103,7 @@ prop.command.add("pay", {
         local ok, reason = prop.money.transfer(ply, target, amount, "pay")
         if not ok then return false, reason end
 
-        target:ChatPrint(string.format("[prop] %s paid you %d.", ply:Nick(), amount))
+        prop.chat.notify(target, string.format("%s paid you %d.", ply:Nick(), amount))
         return true, string.format("[prop] Paid %s %d.", target:Nick(), amount)
     end
 })
