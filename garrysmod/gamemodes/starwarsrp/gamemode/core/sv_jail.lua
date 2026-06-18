@@ -183,6 +183,8 @@ function prop.jail.arrest(actor, target, duration, reason)
     local character, characterReason = getCharacter(target)
     if not character then return false, characterReason end
 
+    if character.data.arrested then return false, "already_arrested" end
+
     duration = normalizeDuration(duration)
 
     local position = prop.jail.getPosition()
