@@ -264,42 +264,6 @@ hook.Add("prop.PlayerLoadout", "prop.EnforceJailLoadout", function(ply)
     end
 end)
 
-local function normalize(value)
-    if not isstring(value) then return "" end
-    return string.lower(string.Trim(value))
-end
-
-local function findPlayer(caller, query)
-    query = normalize(query)
-    if query == "" then return nil, "missing_player" end
-    if query == "me" then return caller end
-
-    local userID = tonumber(query)
-    if userID then
-        local ply = Player(userID)
-        if IsValid(ply) then return ply end
-    end
-
-    for _, ply in ipairs(player.GetAll()) do
-        if normalize(ply:SteamID()) == query or normalize(ply:SteamID64()) == query then
-            return ply
-        end
-    end
-
-    local matches = {}
-
-    for _, ply in ipairs(player.GetAll()) do
-        if string.find(normalize(ply:Nick()), query, 1, true) then
-            table.insert(matches, ply)
-        end
-    end
-
-    if #matches == 1 then return matches[1] end
-    if #matches > 1 then return nil, "multiple_players" end
-
-    return nil, "player_not_found"
-end
-
 prop.command.add("jail", {
     description = "Arrests a player. Temporary development command.",
     usage = "/jail <player|me> [seconds]",
@@ -309,7 +273,7 @@ prop.command.add("jail", {
             return false, "no_access"
         end
 
-        local target, targetReason = findPlayer(ply, args[1])
+        local target, targetReason = prop.util.findPlayer(ply, args[1])
         if not target then return false, targetReason end
 
         local duration = normalizeDuration(args[2])
@@ -374,7 +338,7 @@ prop.command.add("unjail", {
             return false, "no_access"
         end
 
-        local target, targetReason = findPlayer(ply, args[1])
+        local target, targetReason = prop.util.findPlayer(ply, args[1])
         if not target then return false, targetReason end
 
         local ok, reason = prop.jail.release(ply, target, "dev_unjail")

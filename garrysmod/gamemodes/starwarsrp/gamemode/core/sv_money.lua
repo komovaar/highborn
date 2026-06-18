@@ -79,42 +79,6 @@ function prop.money.transfer(fromPly, toPly, amount, reason)
     return true
 end
 
-local function normalize(value)
-    if not isstring(value) then return "" end
-    return string.lower(string.Trim(value))
-end
-
-local function findPlayer(caller, query)
-    query = normalize(query)
-    if query == "" then return nil, "missing_player" end
-    if query == "me" then return caller end
-
-    local userID = tonumber(query)
-    if userID then
-        local ply = Player(userID)
-        if IsValid(ply) then return ply end
-    end
-
-    for _, ply in ipairs(player.GetAll()) do
-        if normalize(ply:SteamID()) == query or normalize(ply:SteamID64()) == query then
-            return ply
-        end
-    end
-
-    local matches = {}
-
-    for _, ply in ipairs(player.GetAll()) do
-        if string.find(normalize(ply:Nick()), query, 1, true) then
-            table.insert(matches, ply)
-        end
-    end
-
-    if #matches == 1 then return matches[1] end
-    if #matches > 1 then return nil, "multiple_players" end
-
-    return nil, "player_not_found"
-end
-
 prop.command.add("money", {
     description = "Shows your character balance.",
     usage = "/money",
@@ -130,7 +94,7 @@ prop.command.add("pay", {
     usage = "/pay <player> <amount>",
     category = "Character",
     onRun = function(ply, args)
-        local target, targetReason = findPlayer(ply, args[1])
+        local target, targetReason = prop.util.findPlayer(ply, args[1])
         if not target then return false, targetReason end
 
         local amount = normalizeAmount(args[2])

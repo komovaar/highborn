@@ -11,6 +11,7 @@ prop.includeShared("core/sh_playerclass.lua")
 prop.includeShared("core/sh_teams.lua")
 
 prop.includeServer("core/sv_database.lua")
+prop.includeServer("core/sv_util.lua")
 prop.includeServer("core/sv_chat.lua")
 prop.includeServer("core/sv_commands.lua")
 prop.includeServer("core/sv_data.lua")
