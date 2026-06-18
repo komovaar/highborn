@@ -146,13 +146,7 @@ end
 
 function GM:PlayerInitialSpawn(ply)
     callBaseGamemode("PlayerInitialSpawn", self, ply)
-
     prop.data.load(ply)
-
-    prop.team.restore(ply)
-
-    prop.data.syncPublicAll(ply)
-
     hook.Run("prop.PlayerInitialSpawn", ply)
 end
 
