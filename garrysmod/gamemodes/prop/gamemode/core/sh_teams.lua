@@ -238,18 +238,9 @@ end
 
 function prop.team.getCategories()
     local categories = {}
-    local seen = {}
 
     for _, category in ipairs(prop.category.sorted()) do
-        seen[category.name] = true
         table.insert(categories, category.name)
-    end
-
-    for _, job in pairs(prop.team.list) do
-        if job.category and not seen[job.category] then
-            seen[job.category] = true
-            table.insert(categories, job.category)
-        end
     end
 
     return categories
