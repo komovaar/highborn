@@ -79,14 +79,6 @@ function prop.team.restore(ply)
     if savedJob then
         return prop.team.apply(ply, savedJob.id, true)
     end
-    if savedTeamKey ~= nil then
-        return prop.team.assignDefault(ply, true)
-    end
-
-    local savedTeamID = prop.data.get(ply, "team_id")
-    if savedTeamID and prop.team.get(savedTeamID) then
-        return prop.team.apply(ply, savedTeamID, true)
-    end
 
     return prop.team.assignDefault(ply, true)
 end
