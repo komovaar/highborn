@@ -15,6 +15,7 @@ prop.includeServer("core/sv_util.lua")
 prop.includeServer("core/sv_chat.lua")
 prop.includeServer("core/sv_commands.lua")
 prop.includeServer("core/sv_data.lua")
+prop.includeClient("core/cl_data.lua")
 prop.includeServer("core/sv_teams.lua")
 
 hook.Run("prop.Initialized")

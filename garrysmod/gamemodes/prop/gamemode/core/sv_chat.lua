@@ -1,5 +1,7 @@
 prop.chat = prop.chat or {}
 
+util.AddNetworkString("prop.ChatBroadcast")
+
 local function normalizeTargets(target)
     if target == nil then return player.GetAll() end
     if IsValid(target) and target:IsPlayer() then return {target} end

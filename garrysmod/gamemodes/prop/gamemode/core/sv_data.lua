@@ -1,5 +1,7 @@
 prop.data = prop.data or {}
 
+util.AddNetworkString("prop.DataSync")
+
 local BaseGamemode = baseclass.Get("gamemode_base")
 
 local function callBaseGamemode(name, ...)
@@ -158,6 +160,21 @@ function GM:PlayerDisconnected(ply)
     prop.data.save(ply)
     hook.Run("prop.PlayerDisconnected", ply)
     callBaseGamemode("PlayerDisconnected", self, ply)
+end
+
+function prop.data.sync(ply, key, value)
+    if not IsValid(ply) then return false, "invalid_player" end
+    if not prop.net.isValidKey(key) then return false, "invalid_key" end
+
+    local ok, reason = prop.net.canWriteValue(value)
+    if not ok then return false, reason end
+
+    net.Start("prop.DataSync")
+        net.WriteString(key)
+        prop.net.writeValue(value)
+    net.Send(ply)
+
+    return true
 end
 
 timer.Create("prop.DataAutosave", prop.config.get("dataAutosaveInterval", 300), 0, function()

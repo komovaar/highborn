@@ -6,6 +6,7 @@ prop.includeShared("core/sh_commands.lua")
 prop.includeShared("core/sh_networking.lua")
 prop.includeShared("core/sh_playerclass.lua")
 prop.includeShared("core/sh_teams.lua")
+prop.includeClient("core/cl_data.lua")
 
 hook.Run("prop.Initialized")
 
