@@ -374,6 +374,16 @@ hook.Add("prop.PlayerInitialSpawn", "prop.LoadActiveCharacter", function(ply)
     prop.characters.loadActive(ply)
 end)
 
+function prop.characters.saveAll()
+    for _, ply in ipairs(player.GetAll()) do
+        prop.characters.save(ply)
+    end
+end
+
+hook.Add("prop.DataAutosave", "prop.CharacterAutosave", function()
+    prop.characters.saveAll()
+end)
+
 hook.Add("prop.PlayerDisconnected", "prop.SaveActiveCharacter", function(ply)
     prop.characters.save(ply)
 end)

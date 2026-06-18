@@ -173,4 +173,5 @@ end
 
 timer.Create("prop.DataAutosave", prop.config.get("dataAutosaveInterval", 300), 0, function()
     prop.data.saveAll()
+    hook.Run("prop.DataAutosave")
 end)
