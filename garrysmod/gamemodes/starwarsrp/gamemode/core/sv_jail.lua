@@ -36,7 +36,7 @@ local function getActorID(actor)
 end
 
 local function isVector(value)
-    return isvector and isvector(value)
+    return isvector(value)
 end
 
 local function serializePosition(position)
