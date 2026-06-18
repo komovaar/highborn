@@ -259,7 +259,6 @@ function prop.characters.setActive(ply, characterID)
         ply:Spawn()
     end
 
-    prop.characters.save(ply)
     hook.Run("prop.CharacterSwitched", ply, character)
 
     return true, character
@@ -307,14 +306,18 @@ function prop.characters.loadActive(ply)
 
     ply.propCharacter = character
 
+    local savedTeamKey = character.data.team_key
     local job = prop.team.getByKey(character.data.team_key) or prop.team.getDefault()
     if job then
         character.data.team_key = job.key or character.data.team_key
         prop.team.apply(ply, job.id, true)
     end
 
-    prop.characters.save(ply)
-    prop.characters.syncPublic(ply)
+    if character.data.team_key ~= savedTeamKey then
+        prop.characters.save(ply)
+    else
+        prop.characters.syncPublic(ply)
+    end
 
     hook.Run("prop.CharacterLoaded", ply, character)
 
