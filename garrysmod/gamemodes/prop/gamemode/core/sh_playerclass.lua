@@ -26,30 +26,6 @@ local function numberOrDefault(value, default)
     return value
 end
 
-function PLAYER_CLASS:Loadout()
-end
-
-function PLAYER_CLASS:SetModel()
-end
-
-function PLAYER_CLASS:ShouldDrawLocal()
-end
-
-function PLAYER_CLASS:CreateMove(cmd)
-end
-
-function PLAYER_CLASS:CalcView(view)
-end
-
-function PLAYER_CLASS:GetHandsModel()
-end
-
-function PLAYER_CLASS:StartMove(mv, cmd)
-end
-
-function PLAYER_CLASS:FinishMove(mv)
-end
-
 player_manager.RegisterClass(CLASS_NAME, PLAYER_CLASS, "player_sandbox")
 
 function prop.player.refreshClass()
