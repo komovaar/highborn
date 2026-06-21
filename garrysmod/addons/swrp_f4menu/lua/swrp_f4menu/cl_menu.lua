@@ -3,11 +3,10 @@ swrp_f4menu = swrp_f4menu or {}
 local matGrad  = Material("gui/gradient")
 local matGradR = Material("gui/gradient_r")
 
--- Battlefront-inspired navy palette
 swrp_f4menu.C = {
     bg      = Color(7,   18,  32),
     sidebar = Color(9,   20,  35),
-    sbAct   = Color(23,  80,  148),
+    sbAct   = Color(20,  72,  140),
     card    = Color(11,  24,  44),
     border  = Color(26,  58,  92),
     accent  = Color(61,  159, 219),
@@ -34,84 +33,115 @@ mkfont("swrp_f4_title",  "Verdana", 18, 700)
 mkfont("swrp_f4_valSm",  "Verdana", 15, 700)
 mkfont("swrp_f4_val",    "Verdana", 22, 700)
 mkfont("swrp_f4_small",  "Verdana", 11, 400)
-mkfont("swrp_f4_mono",   "Courier New", 13, 700)
+mkfont("swrp_f4_mono",   "Courier New", 14, 700)
 mkfont("swrp_f4_navLbl", "Verdana", 8,  700)
 mkfont("swrp_f4_hero",   "Verdana", 22, 700)
-mkfont("swrp_f4_cred",   "Courier New", 14, 700)
 mkfont("swrp_f4_sub",    "Verdana", 10, 400)
+
+-- ── Helpers ───────────────────────────────────────────────────────────────
+local function hexPts(cx, cy, r, angleOffset)
+    local pts = {}
+    for i = 0, 5 do
+        local a = math.rad(60 * i + (angleOffset or 0))
+        pts[i + 1] = {x = cx + r * math.cos(a), y = cy + r * math.sin(a)}
+    end
+    return pts
+end
+
+local function drawHexOutline(cx, cy, r, angleOffset)
+    local pts = hexPts(cx, cy, r, angleOffset)
+    for i = 1, 6 do
+        surface.DrawLine(pts[i].x, pts[i].y, pts[i % 6 + 1].x, pts[i % 6 + 1].y)
+    end
+end
+
+local function drawCircleOutline(cx, cy, r, segs)
+    segs = segs or 12
+    local pts = {}
+    for i = 0, segs - 1 do
+        local a = math.rad(360 * i / segs)
+        pts[i + 1] = {x = cx + r * math.cos(a), y = cy + r * math.sin(a)}
+    end
+    for i = 1, segs do
+        surface.DrawLine(pts[i].x, pts[i].y, pts[i % segs + 1].x, pts[i % segs + 1].y)
+    end
+end
+
+local function fmtMoney(n)
+    local s = tostring(math.floor(tonumber(n) or 0))
+    return s:reverse():gsub("(%d%d%d)", "%1 "):reverse():gsub("^ ", "")
+end
 
 -- ── Icon drawing ──────────────────────────────────────────────────────────
 local function drawIcon(id, cx, cy, col)
     surface.SetDrawColor(col)
-    local s = 9
+    local s = 10
 
     if id == "lobby" then
-        local pts = {}
-        for i = 0, 5 do
-            local a = math.rad(60 * i)
-            pts[i+1] = {x = cx + s * math.cos(a), y = cy + s * math.sin(a)}
-        end
-        for i = 1, 6 do
-            surface.DrawLine(pts[i].x, pts[i].y, pts[i % 6 + 1].x, pts[i % 6 + 1].y)
-        end
-        local inner = {}
-        for i = 0, 5 do
-            local a = math.rad(60 * i)
-            inner[i+1] = {x = cx + 4 * math.cos(a), y = cy + 4 * math.sin(a)}
-        end
-        surface.DrawPoly(inner)
+        -- Outer hex outline + filled inner hex
+        drawHexOutline(cx, cy, s)
+        surface.SetDrawColor(col)
+        surface.DrawPoly(hexPts(cx, cy, s * 0.42))
 
     elseif id == "loadout" then
-        -- Shield outline
         local pts = {
             {x = cx - s + 2, y = cy - s},
             {x = cx + s - 2, y = cy - s},
-            {x = cx + s - 2, y = cy},
+            {x = cx + s - 2, y = cy + 1},
             {x = cx,         y = cy + s},
-            {x = cx - s + 2, y = cy},
+            {x = cx - s + 2, y = cy + 1},
         }
         for i = 1, #pts do
-            local n = i % #pts + 1
-            surface.DrawLine(pts[i].x, pts[i].y, pts[n].x, pts[n].y)
+            surface.DrawLine(pts[i].x, pts[i].y, pts[i % #pts + 1].x, pts[i % #pts + 1].y)
         end
 
     elseif id == "squad" then
-        -- Two people silhouettes
-        draw.RoundedBox(3, cx - s,     cy - s, 6, 6, col)
+        -- Two overlapping circles (binoculars)
+        local cr = math.floor(s * 0.55)
+        drawCircleOutline(cx - cr + 1, cy, cr, 10)
         surface.SetDrawColor(col)
-        surface.DrawRect(cx - s, cy - 1, 6, s + 1)
-        draw.RoundedBox(3, cx + 2,     cy - s, 6, 6, col)
-        surface.SetDrawColor(col)
-        surface.DrawRect(cx + 2, cy - 1, 6, s + 1)
+        drawCircleOutline(cx + cr - 1, cy, cr, 10)
 
     elseif id == "progress" then
-        -- Bar chart
-        surface.DrawRect(cx - s,         cy + 1,             5, s - 2)
-        surface.DrawRect(cx - 2,         cy - math.floor(s * 0.4), 5, s + math.floor(s * 0.4) - 2)
-        surface.DrawRect(cx + s - 5,     cy - s,             5, s * 2 - 2)
+        local bw, base = 4, cy + s
+        surface.DrawRect(cx - s,           base - math.floor(s * 0.7), bw, math.floor(s * 0.7))
+        surface.DrawRect(cx - s + bw + 3,  base - math.floor(s * 1.3), bw, math.floor(s * 1.3))
+        surface.DrawRect(cx - s + (bw+3)*2, base - s * 2, bw, s * 2)
 
     elseif id == "profile" then
-        -- Head + shoulders
-        draw.RoundedBox(4, cx - 4, cy - s, 8, 8, col)
+        draw.RoundedBox(5, cx - 5, cy - s, 10, 10, col)
         surface.SetDrawColor(col)
-        surface.DrawRect(cx - s + 2, cy, (s - 2) * 2, s - 1)
+        local pts = {
+            {x = cx - s + 3, y = cy + s},
+            {x = cx - s + 3, y = cy + 2},
+            {x = cx - 2,     y = cy},
+            {x = cx + 2,     y = cy},
+            {x = cx + s - 3, y = cy + 2},
+            {x = cx + s - 3, y = cy + s},
+        }
+        for i = 1, #pts - 1 do
+            surface.DrawLine(pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y)
+        end
 
     elseif id == "exit" then
-        -- Door frame + arrow
-        surface.DrawRect(cx - s, cy - s, 3, s * 2)
-        surface.DrawLine(cx - s + 5, cy, cx + s, cy)
-        surface.DrawLine(cx + s - 5, cy - 5, cx + s, cy)
-        surface.DrawLine(cx + s - 5, cy + 5, cx + s, cy)
+        -- Door frame
+        surface.DrawRect(cx - s, cy - s + 1, 2, s * 2 - 1)
+        surface.DrawRect(cx - s, cy - s + 1, s * 2, 2)
+        surface.DrawRect(cx + s - 2, cy - s + 1, 2, s * 2 - 1)
+        -- Arrow →
+        local ay = cy + 1
+        surface.DrawLine(cx - 3, ay, cx + s - 3, ay)
+        surface.DrawLine(cx + s - 8, ay - 4, cx + s - 3, ay)
+        surface.DrawLine(cx + s - 8, ay + 4, cx + s - 3, ay)
     end
 end
 swrp_f4menu.DrawIcon = drawIcon
 
--- ── Radial glow (stacked circles) ────────────────────────────────────────
+-- ── Glow helper ───────────────────────────────────────────────────────────
 function swrp_f4menu.DrawGlow(cx, cy, maxR, col, maxAlpha)
-    local steps = 8
-    for i = steps, 1, -1 do
-        local r = math.floor(maxR * i / steps)
-        local a = math.floor(maxAlpha * (steps - i + 1) / steps)
+    for i = 10, 1, -1 do
+        local r = math.floor(maxR * i / 10)
+        local a = math.floor(maxAlpha * (10 - i + 1) / 10)
         draw.RoundedBox(r, cx - r, cy - r, r * 2, r * 2, Color(col.r, col.g, col.b, a))
     end
 end
@@ -130,10 +160,10 @@ function swrp_f4menu.DrawGradCard(x, y, w, h, r, alpha)
     surface.DrawTexturedRect(x + 1, y + 1, w - 2, h - 2)
 end
 
--- ── Layout ────────────────────────────────────────────────────────────────
-local SIDEBAR_W  = 115
-local TOPBAR_H   = 48
-local NAV_ITEM_H = 72
+-- ── Layout constants ──────────────────────────────────────────────────────
+local SIDEBAR_W  = 130
+local TOPBAR_H   = 52
+local NAV_ITEM_H = 76
 
 local NAV = {
     {id = "lobby",    label = "ЛОББИ",    icon = "lobby"},
@@ -177,42 +207,36 @@ function swrp_f4menu.Open()
         surface.SetDrawColor(C.border)
         surface.DrawRect(0, h - 1, w, 1)
 
-        -- Hex logo
-        local hcx = 28
-        local hcy = math.floor(h / 2)
-        local hr  = 12
-        local outer = {}
-        for i = 0, 5 do
-            local a = math.rad(60 * i - 30)
-            outer[i+1] = {x = hcx + hr * math.cos(a), y = hcy + hr * math.sin(a)}
-        end
+        -- Hex logo (filled outer → dark ring → filled inner)
+        local hcx, hcy, hr = 32, math.floor(h / 2), 16
         surface.SetDrawColor(C.accent)
-        for i = 1, 6 do
-            surface.DrawLine(outer[i].x, outer[i].y, outer[i % 6 + 1].x, outer[i % 6 + 1].y)
-        end
-        local inner = {}
-        for i = 0, 5 do
-            local a = math.rad(60 * i - 30)
-            inner[i+1] = {x = hcx + 5 * math.cos(a), y = hcy + 5 * math.sin(a)}
-        end
+        surface.DrawPoly(hexPts(hcx, hcy, hr, -30))
+        draw.RoundedBox(hr - 4, hcx - (hr - 4), hcy - (hr - 4), (hr - 4) * 2, (hr - 4) * 2,
+            Color(C.bg.r, C.bg.g, C.bg.b, 255))
         surface.SetDrawColor(C.accent)
-        surface.DrawPoly(inner)
+        surface.DrawPoly(hexPts(hcx, hcy, hr * 0.38, -30))
 
-        -- Server name
-        draw.SimpleText("ГВАРДИЯ РЕСПУБЛИКИ", "swrp_f4_nav",
-            50, hcy, C.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        -- Server title
+        draw.SimpleText("ГВАРДИЯ РЕСПУБЛИКИ", "swrp_f4_valSm",
+            58, math.floor(h / 2), C.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
-        -- Credits (top-right)
-        local money = prop.data.localGet("character_money", 0)
-        -- Star icon
+        -- Credits
+        local money = fmtMoney(prop.data.localGet("character_money", 0))
+        -- Triangle icon
+        local tx = w - 220
+        local ty = math.floor(h / 2)
         surface.SetDrawColor(C.gold)
-        surface.DrawRect(w - 210, hcy - 5, 10, 10)
-        draw.SimpleText(tostring(money), "swrp_f4_cred",
-            w - 194, hcy - 4, C.gold, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        surface.DrawPoly({
+            {x = tx + 6,  y = ty - 7},
+            {x = tx,      y = ty + 5},
+            {x = tx + 12, y = ty + 5},
+        })
+        draw.SimpleText(money, "swrp_f4_mono",
+            tx + 18, ty, C.gold, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
-        -- Player name below credits
+        -- Player name (below credits, right-aligned)
         draw.SimpleText(LocalPlayer():Nick(), "swrp_f4_label",
-            w - 16, hcy + 6, C.textDim, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+            w - 12, ty + 10, C.textDim, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
     end
 
     -- ── SIDEBAR ─────────────────────────────────────────────────────────────
@@ -227,9 +251,8 @@ function swrp_f4menu.Open()
         surface.DrawRect(0, 0, w, h)
         surface.SetDrawColor(C.border)
         surface.DrawRect(w - 1, 0, 1, h)
-        -- Separator above exit button
         surface.SetDrawColor(C.border)
-        surface.DrawRect(16, h - NAV_ITEM_H - 1, w - 32, 1)
+        surface.DrawRect(12, h - NAV_ITEM_H - 1, w - 24, 1)
     end
 
     for i, item in ipairs(NAV) do
@@ -246,18 +269,16 @@ function swrp_f4menu.Open()
             if active then
                 surface.SetDrawColor(C.sbAct)
                 surface.DrawRect(0, 0, w, h)
-                -- Left accent stripe
-                surface.SetDrawColor(C.bright)
-                surface.DrawRect(0, 0, 3, h)
             elseif hover then
-                surface.SetDrawColor(C.sbAct.r, C.sbAct.g, C.sbAct.b, 80)
+                surface.SetDrawColor(C.sbAct.r, C.sbAct.g, C.sbAct.b, 70)
                 surface.DrawRect(0, 0, w, h)
             end
 
             local col = active and C.bright or (hover and C.text or C.textDim)
-            drawIcon(item.icon, math.floor(w / 2), math.floor(h / 2) - 10, col)
+            drawIcon(item.icon, math.floor(w / 2), math.floor(h / 2) - 12, col)
+
             draw.SimpleText(item.label, "swrp_f4_navLbl",
-                math.floor(w / 2), math.floor(h / 2) + 14,
+                math.floor(w / 2), math.floor(h / 2) + 16,
                 col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
 
@@ -266,7 +287,7 @@ function swrp_f4menu.Open()
         end
     end
 
-    -- Exit button (bottom of sidebar)
+    -- Exit button
     local exitBtn = vgui.Create("DButton", sidebar)
     exitBtn:SetPos(0, sh - TOPBAR_H - NAV_ITEM_H)
     exitBtn:SetSize(SIDEBAR_W, NAV_ITEM_H)
@@ -279,9 +300,9 @@ function swrp_f4menu.Open()
             surface.DrawRect(0, 0, w, h)
         end
         local col = hov and C.danger or C.textDim
-        drawIcon("exit", math.floor(w / 2), math.floor(h / 2) - 10, col)
+        drawIcon("exit", math.floor(w / 2), math.floor(h / 2) - 12, col)
         draw.SimpleText("ВЫХОД", "swrp_f4_navLbl",
-            math.floor(w / 2), math.floor(h / 2) + 14,
+            math.floor(w / 2), math.floor(h / 2) + 16,
             col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     exitBtn.DoClick = swrp_f4menu.Close
