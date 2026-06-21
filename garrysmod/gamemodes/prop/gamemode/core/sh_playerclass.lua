@@ -33,7 +33,7 @@ function PLAYER_CLASS:CreateMove(cmd) end
 function PLAYER_CLASS:CalcView(pos, angles, fov) end
 function PLAYER_CLASS:ShouldDrawLocal() return true end
 
-player_manager.RegisterClass(CLASS_NAME, PLAYER_CLASS, "player_sandbox")
+player_manager.RegisterClass(CLASS_NAME, PLAYER_CLASS, "player_default")
 
 function prop.player.refreshClass()
     for field, meta in pairs(classConfig) do
