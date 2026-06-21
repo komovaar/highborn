@@ -3,20 +3,23 @@ swrp_f4menu = swrp_f4menu or {}
 local matGrad  = Material("gui/gradient")
 local matGradR = Material("gui/gradient_r")
 
--- Navy-slate palette — dark but not pitch black, Star Wars holoscreen feel
+-- Battlefront-inspired navy palette
 swrp_f4menu.C = {
-    bg      = Color(13,  19,  32),
-    sidebar = Color(9,   13,  23),
-    card    = Color(20,  29,  48),
-    border  = Color(36,  52,  80),
-    accent  = Color(58,  148, 230),
-    text    = Color(210, 232, 255),
-    textDim = Color(82,  118, 165),
-    textMut = Color(36,  56,  88),
-    topbar  = Color(9,   13,  23),
-    success = Color(52,  180, 100),
+    bg      = Color(7,   18,  32),
+    sidebar = Color(9,   20,  35),
+    sbAct   = Color(23,  80,  148),
+    card    = Color(11,  24,  44),
+    border  = Color(26,  58,  92),
+    accent  = Color(61,  159, 219),
+    bright  = Color(94,  207, 255),
+    text    = Color(184, 216, 240),
+    textDim = Color(58,  106, 144),
+    textMut = Color(26,  58,  92),
+    gold    = Color(255, 187, 44),
+    success = Color(44,  201, 144),
     danger  = Color(215, 72,  72),
     warn    = Color(215, 140, 45),
+    button  = Color(23,  96,  168),
 }
 local C = swrp_f4menu.C
 
@@ -25,16 +28,97 @@ swrp_f4menu.Mat = {grad = matGrad, gradR = matGradR}
 local function mkfont(name, family, size, weight)
     surface.CreateFont(name, {font = family, size = size, weight = weight, antialias = true})
 end
-mkfont("swrp_f4_nav",   "Verdana", 13, 400)
-mkfont("swrp_f4_label", "Verdana", 10, 700)
-mkfont("swrp_f4_title", "Verdana", 16, 700)
-mkfont("swrp_f4_valSm", "Verdana", 16, 700)
-mkfont("swrp_f4_val",   "Verdana", 22, 700)
-mkfont("swrp_f4_small", "Verdana", 11, 400)
-mkfont("swrp_f4_mono",  "Courier New", 11, 400)
+mkfont("swrp_f4_nav",    "Verdana", 13, 400)
+mkfont("swrp_f4_label",  "Verdana", 9,  700)
+mkfont("swrp_f4_title",  "Verdana", 18, 700)
+mkfont("swrp_f4_valSm",  "Verdana", 15, 700)
+mkfont("swrp_f4_val",    "Verdana", 22, 700)
+mkfont("swrp_f4_small",  "Verdana", 11, 400)
+mkfont("swrp_f4_mono",   "Courier New", 13, 700)
+mkfont("swrp_f4_navLbl", "Verdana", 8,  700)
+mkfont("swrp_f4_hero",   "Verdana", 22, 700)
+mkfont("swrp_f4_cred",   "Courier New", 14, 700)
+mkfont("swrp_f4_sub",    "Verdana", 10, 400)
 
+-- ── Icon drawing ──────────────────────────────────────────────────────────
+local function drawIcon(id, cx, cy, col)
+    surface.SetDrawColor(col)
+    local s = 9
+
+    if id == "lobby" then
+        local pts = {}
+        for i = 0, 5 do
+            local a = math.rad(60 * i)
+            pts[i+1] = {x = cx + s * math.cos(a), y = cy + s * math.sin(a)}
+        end
+        for i = 1, 6 do
+            surface.DrawLine(pts[i].x, pts[i].y, pts[i % 6 + 1].x, pts[i % 6 + 1].y)
+        end
+        local inner = {}
+        for i = 0, 5 do
+            local a = math.rad(60 * i)
+            inner[i+1] = {x = cx + 4 * math.cos(a), y = cy + 4 * math.sin(a)}
+        end
+        surface.DrawPoly(inner)
+
+    elseif id == "loadout" then
+        -- Shield outline
+        local pts = {
+            {x = cx - s + 2, y = cy - s},
+            {x = cx + s - 2, y = cy - s},
+            {x = cx + s - 2, y = cy},
+            {x = cx,         y = cy + s},
+            {x = cx - s + 2, y = cy},
+        }
+        for i = 1, #pts do
+            local n = i % #pts + 1
+            surface.DrawLine(pts[i].x, pts[i].y, pts[n].x, pts[n].y)
+        end
+
+    elseif id == "squad" then
+        -- Two people silhouettes
+        draw.RoundedBox(3, cx - s,     cy - s, 6, 6, col)
+        surface.SetDrawColor(col)
+        surface.DrawRect(cx - s, cy - 1, 6, s + 1)
+        draw.RoundedBox(3, cx + 2,     cy - s, 6, 6, col)
+        surface.SetDrawColor(col)
+        surface.DrawRect(cx + 2, cy - 1, 6, s + 1)
+
+    elseif id == "progress" then
+        -- Bar chart
+        surface.DrawRect(cx - s,         cy + 1,             5, s - 2)
+        surface.DrawRect(cx - 2,         cy - math.floor(s * 0.4), 5, s + math.floor(s * 0.4) - 2)
+        surface.DrawRect(cx + s - 5,     cy - s,             5, s * 2 - 2)
+
+    elseif id == "profile" then
+        -- Head + shoulders
+        draw.RoundedBox(4, cx - 4, cy - s, 8, 8, col)
+        surface.SetDrawColor(col)
+        surface.DrawRect(cx - s + 2, cy, (s - 2) * 2, s - 1)
+
+    elseif id == "exit" then
+        -- Door frame + arrow
+        surface.DrawRect(cx - s, cy - s, 3, s * 2)
+        surface.DrawLine(cx - s + 5, cy, cx + s, cy)
+        surface.DrawLine(cx + s - 5, cy - 5, cx + s, cy)
+        surface.DrawLine(cx + s - 5, cy + 5, cx + s, cy)
+    end
+end
+swrp_f4menu.DrawIcon = drawIcon
+
+-- ── Radial glow (stacked circles) ────────────────────────────────────────
+function swrp_f4menu.DrawGlow(cx, cy, maxR, col, maxAlpha)
+    local steps = 8
+    for i = steps, 1, -1 do
+        local r = math.floor(maxR * i / steps)
+        local a = math.floor(maxAlpha * (steps - i + 1) / steps)
+        draw.RoundedBox(r, cx - r, cy - r, r * 2, r * 2, Color(col.r, col.g, col.b, a))
+    end
+end
+
+-- ── Card helpers ──────────────────────────────────────────────────────────
 function swrp_f4menu.DrawCard(x, y, w, h, r)
-    r = r or 7
+    r = r or 0
     draw.RoundedBox(r, x,     y,     w,     h,     C.border)
     draw.RoundedBox(r, x + 1, y + 1, w - 2, h - 2, C.card)
 end
@@ -46,16 +130,17 @@ function swrp_f4menu.DrawGradCard(x, y, w, h, r, alpha)
     surface.DrawTexturedRect(x + 1, y + 1, w - 2, h - 2)
 end
 
-local INFOBAR_H = 44
-local TABBAR_H  = 46
+-- ── Layout ────────────────────────────────────────────────────────────────
+local SIDEBAR_W  = 115
+local TOPBAR_H   = 48
+local NAV_ITEM_H = 72
 
 local NAV = {
-    {id = "profile",   label = "Profile"},
-    {id = "roster",    label = "Roster"},
-    {id = "chars",     label = "Characters"},
-    {id = "calladmin", label = "Call an admin"},
-    {id = "donate",    label = "Donate"},
-    {id = "quests",    label = "Quests"},
+    {id = "lobby",    label = "ЛОББИ",    icon = "lobby"},
+    {id = "loadout",  label = "СНАРЯГА",  icon = "loadout"},
+    {id = "squad",    label = "ОТРЯД",    icon = "squad"},
+    {id = "progress", label = "ПРОГРЕСС", icon = "progress"},
+    {id = "profile",  label = "ПРОФИЛЬ",  icon = "profile"},
 }
 
 function swrp_f4menu.Open()
@@ -72,15 +157,8 @@ function swrp_f4menu.Open()
     overlay:MakePopup()
     overlay:SetKeyboardInputEnabled(true)
     overlay.Paint = function(_, w, h)
-        surface.SetDrawColor(C.bg.r, C.bg.g, C.bg.b, 248)
+        surface.SetDrawColor(C.bg)
         surface.DrawRect(0, 0, w, h)
-        -- Subtle full-width accent line at very top of screen
-        surface.SetMaterial(matGrad)
-        surface.SetDrawColor(C.accent.r, C.accent.g, C.accent.b, 180)
-        surface.DrawTexturedRect(0, 0, math.floor(w * 0.55), 2)
-        surface.SetMaterial(matGradR)
-        surface.SetDrawColor(C.accent.r, C.accent.g, C.accent.b, 180)
-        surface.DrawTexturedRect(math.floor(w * 0.45), 0, math.floor(w * 0.55), 2)
     end
     overlay.OnKeyCodePressed = function(_, key)
         if key == KEY_ESCAPE or key == KEY_F4 then
@@ -89,95 +167,75 @@ function swrp_f4menu.Open()
     end
     swrp_f4menu.Overlay = overlay
 
-    -- ── INFO BAR (row 1) — server name | avatar · nick · credits | ESC ──────
-    local infobar = vgui.Create("DPanel", overlay)
-    infobar:SetPos(0, 0)
-    infobar:SetSize(sw, INFOBAR_H)
-    infobar.Paint = function(_, w, h)
-        surface.SetDrawColor(C.topbar)
+    -- ── TOPBAR ──────────────────────────────────────────────────────────────
+    local topbar = vgui.Create("DPanel", overlay)
+    topbar:SetPos(0, 0)
+    topbar:SetSize(sw, TOPBAR_H)
+    topbar.Paint = function(_, w, h)
+        surface.SetDrawColor(C.bg)
         surface.DrawRect(0, 0, w, h)
         surface.SetDrawColor(C.border)
         surface.DrawRect(0, h - 1, w, 1)
+
+        -- Hex logo
+        local hcx = 28
+        local hcy = math.floor(h / 2)
+        local hr  = 12
+        local outer = {}
+        for i = 0, 5 do
+            local a = math.rad(60 * i - 30)
+            outer[i+1] = {x = hcx + hr * math.cos(a), y = hcy + hr * math.sin(a)}
+        end
+        surface.SetDrawColor(C.accent)
+        for i = 1, 6 do
+            surface.DrawLine(outer[i].x, outer[i].y, outer[i % 6 + 1].x, outer[i % 6 + 1].y)
+        end
+        local inner = {}
+        for i = 0, 5 do
+            local a = math.rad(60 * i - 30)
+            inner[i+1] = {x = hcx + 5 * math.cos(a), y = hcy + 5 * math.sin(a)}
+        end
+        surface.SetDrawColor(C.accent)
+        surface.DrawPoly(inner)
+
+        -- Server name
+        draw.SimpleText("ГВАРДИЯ РЕСПУБЛИКИ", "swrp_f4_nav",
+            50, hcy, C.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+        -- Credits (top-right)
+        local money = prop.data.localGet("character_money", 0)
+        -- Star icon
+        surface.SetDrawColor(C.gold)
+        surface.DrawRect(w - 210, hcy - 5, 10, 10)
+        draw.SimpleText(tostring(money), "swrp_f4_cred",
+            w - 194, hcy - 4, C.gold, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+        -- Player name below credits
+        draw.SimpleText(LocalPlayer():Nick(), "swrp_f4_label",
+            w - 16, hcy + 6, C.textDim, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
     end
 
-    local logoLbl = vgui.Create("DLabel", infobar)
-    logoLbl:SetPos(22, 0)
-    logoLbl:SetSize(260, INFOBAR_H)
-    logoLbl:SetFont("swrp_f4_label")
-    logoLbl:SetTextColor(C.textDim)
-    logoLbl:SetText("REPUBLIC SERVER  ·  v1.0")
-    logoLbl:SetContentAlignment(4)
-
-    -- Avatar + nick
-    local av = vgui.Create("AvatarImage", infobar)
-    av:SetSize(28, 28)
-    av:SetPos(sw - 312, math.floor((INFOBAR_H - 28) / 2))
-    av:SetPlayer(LocalPlayer(), 32)
-
-    local nickLbl = vgui.Create("DLabel", infobar)
-    nickLbl:SetPos(sw - 280, 0)
-    nickLbl:SetSize(148, INFOBAR_H)
-    nickLbl:SetFont("swrp_f4_small")
-    nickLbl:SetTextColor(C.textDim)
-    nickLbl:SetText(LocalPlayer():Nick())
-    nickLbl:SetContentAlignment(4)
-
-    -- Credits chip
-    local chip = vgui.Create("DPanel", infobar)
-    chip:SetPos(sw - 218, math.floor((INFOBAR_H - 26) / 2))
-    chip:SetSize(124, 26)
-    chip.Paint = function(_, w, h)
-        draw.RoundedBox(5, 0, 0, w, h, C.border)
-        draw.RoundedBox(4, 1, 1, w - 2, h - 2, Color(14, 20, 36))
-        surface.SetMaterial(matGrad)
-        surface.SetDrawColor(C.accent.r, C.accent.g, C.accent.b, 22)
-        surface.DrawTexturedRect(1, 1, w - 2, h - 2)
-    end
-
-    local credLbl = vgui.Create("DLabel", chip)
-    credLbl:SetPos(10, 0)
-    credLbl:SetSize(104, 26)
-    credLbl:SetFont("swrp_f4_small")
-    credLbl:SetTextColor(C.accent)
-    credLbl:SetText(string.format("\xE2\x82\xB9 %d", prop.data.localGet("character_money", 0)))
-    credLbl:SetContentAlignment(4)
-    swrp_f4menu._credLbl = credLbl
-
-    -- ESC button
-    local escBtn = vgui.Create("DButton", infobar)
-    escBtn:SetPos(sw - 86, math.floor((INFOBAR_H - 26) / 2))
-    escBtn:SetSize(70, 26)
-    escBtn:SetText("ESC")
-    escBtn:SetFont("swrp_f4_label")
-    escBtn:SetTextColor(C.textDim)
-    escBtn:SetCursor("hand")
-    escBtn.Paint = function(s, w, h)
-        local hov = s:IsHovered()
-        draw.RoundedBox(5, 0, 0, w, h, hov and C.accent or C.border)
-        draw.RoundedBox(4, 1, 1, w - 2, h - 2, Color(12, 18, 32))
-        s:SetTextColor(hov and C.text or C.textDim)
-    end
-    escBtn.DoClick = swrp_f4menu.Close
-
-    -- ── TAB BAR (row 2) — evenly distributed tabs ─────────────────────────
-    local tabW = math.floor(sw / #NAV)
-
-    local tabbar = vgui.Create("DPanel", overlay)
-    tabbar:SetPos(0, INFOBAR_H)
-    tabbar:SetSize(sw, TABBAR_H)
-    tabbar.Paint = function(_, w, h)
-        surface.SetDrawColor(C.topbar)
-        surface.DrawRect(0, 0, w, h)
-        surface.SetDrawColor(C.border)
-        surface.DrawRect(0, h - 1, w, 1)
-    end
+    -- ── SIDEBAR ─────────────────────────────────────────────────────────────
+    local sidebar = vgui.Create("DPanel", overlay)
+    sidebar:SetPos(0, TOPBAR_H)
+    sidebar:SetSize(SIDEBAR_W, sh - TOPBAR_H)
 
     local activePanel = nil
 
+    sidebar.Paint = function(_, w, h)
+        surface.SetDrawColor(C.sidebar)
+        surface.DrawRect(0, 0, w, h)
+        surface.SetDrawColor(C.border)
+        surface.DrawRect(w - 1, 0, 1, h)
+        -- Separator above exit button
+        surface.SetDrawColor(C.border)
+        surface.DrawRect(16, h - NAV_ITEM_H - 1, w - 32, 1)
+    end
+
     for i, item in ipairs(NAV) do
-        local btn = vgui.Create("DButton", tabbar)
-        btn:SetPos((i - 1) * tabW, 0)
-        btn:SetSize(tabW, TABBAR_H)
+        local btn = vgui.Create("DButton", sidebar)
+        btn:SetPos(0, (i - 1) * NAV_ITEM_H)
+        btn:SetSize(SIDEBAR_W, NAV_ITEM_H)
         btn:SetText("")
         btn:SetCursor("hand")
 
@@ -186,28 +244,21 @@ function swrp_f4menu.Open()
             local hover  = s:IsHovered()
 
             if active then
-                surface.SetDrawColor(C.accent.r, C.accent.g, C.accent.b, 18)
+                surface.SetDrawColor(C.sbAct)
                 surface.DrawRect(0, 0, w, h)
-                -- Active indicator: 2px bottom bar
-                surface.SetDrawColor(C.accent)
-                surface.DrawRect(0, h - 2, w, 2)
+                -- Left accent stripe
+                surface.SetDrawColor(C.bright)
+                surface.DrawRect(0, 0, 3, h)
             elseif hover then
-                surface.SetDrawColor(C.accent.r, C.accent.g, C.accent.b, 8)
+                surface.SetDrawColor(C.sbAct.r, C.sbAct.g, C.sbAct.b, 80)
                 surface.DrawRect(0, 0, w, h)
             end
 
-            -- Vertical divider between tabs
-            if i > 1 then
-                surface.SetDrawColor(C.border)
-                surface.DrawRect(0, 10, 1, h - 20)
-            end
-
-            draw.SimpleText(
-                item.label, "swrp_f4_nav",
-                w / 2, h / 2,
-                active and C.text or C.textDim,
-                TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER
-            )
+            local col = active and C.bright or (hover and C.text or C.textDim)
+            drawIcon(item.icon, math.floor(w / 2), math.floor(h / 2) - 10, col)
+            draw.SimpleText(item.label, "swrp_f4_navLbl",
+                math.floor(w / 2), math.floor(h / 2) + 14,
+                col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
 
         btn.DoClick = function()
@@ -215,26 +266,61 @@ function swrp_f4menu.Open()
         end
     end
 
-    -- ── CONTENT ──────────────────────────────────────────────────────────────
-    local ch = sh - INFOBAR_H - TABBAR_H
+    -- Exit button (bottom of sidebar)
+    local exitBtn = vgui.Create("DButton", sidebar)
+    exitBtn:SetPos(0, sh - TOPBAR_H - NAV_ITEM_H)
+    exitBtn:SetSize(SIDEBAR_W, NAV_ITEM_H)
+    exitBtn:SetText("")
+    exitBtn:SetCursor("hand")
+    exitBtn.Paint = function(s, w, h)
+        local hov = s:IsHovered()
+        if hov then
+            surface.SetDrawColor(C.danger.r, C.danger.g, C.danger.b, 35)
+            surface.DrawRect(0, 0, w, h)
+        end
+        local col = hov and C.danger or C.textDim
+        drawIcon("exit", math.floor(w / 2), math.floor(h / 2) - 10, col)
+        draw.SimpleText("ВЫХОД", "swrp_f4_navLbl",
+            math.floor(w / 2), math.floor(h / 2) + 14,
+            col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end
+    exitBtn.DoClick = swrp_f4menu.Close
+
+    -- ── CONTENT ─────────────────────────────────────────────────────────────
+    local cw = sw - SIDEBAR_W
+    local ch = sh - TOPBAR_H
 
     local content = vgui.Create("DPanel", overlay)
-    content:SetPos(0, INFOBAR_H + TABBAR_H)
-    content:SetSize(sw, ch)
+    content:SetPos(SIDEBAR_W, TOPBAR_H)
+    content:SetSize(cw, ch)
     content.Paint = function() end
 
-    local panels = {
-        profile   = swrp_f4menu.CreateProfilePanel   (content, sw, ch),
-        roster    = swrp_f4menu.CreateRosterPanel    (content, sw, ch),
-        chars     = swrp_f4menu.CreateCharactersPanel(content, sw, ch),
-        calladmin = swrp_f4menu.CreateCallAdminPanel (content, sw, ch),
-        donate    = swrp_f4menu.CreateDonatePanel    (content, sw, ch),
-        quests    = swrp_f4menu.CreateQuestsPanel    (content, sw, ch),
-    }
+    local function makeStub(label)
+        local p = vgui.Create("DPanel", content)
+        p.Paint = function(_, pw, ph)
+            surface.SetDrawColor(C.bg)
+            surface.DrawRect(0, 0, pw, ph)
+            draw.SimpleText(label, "swrp_f4_title",
+                pw / 2, ph / 2, C.textDim, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        end
+        return p
+    end
+
+    local panels = {}
+    local function tryCreate(fn, fallback)
+        if fn then return fn(content, cw, ch) end
+        return makeStub(fallback)
+    end
+
+    panels.lobby    = tryCreate(swrp_f4menu.CreateLobbyPanel,    "ЛОББИ")
+    panels.loadout  = tryCreate(swrp_f4menu.CreateLoadoutPanel,  "СНАРЯГА — скоро")
+    panels.squad    = tryCreate(swrp_f4menu.CreateSquadPanel,    "ОТРЯД — скоро")
+    panels.progress = tryCreate(swrp_f4menu.CreateProgressPanel, "ПРОГРЕСС — скоро")
+    panels.profile  = tryCreate(swrp_f4menu.CreateProfilePanel,  "ПРОФИЛЬ — скоро")
 
     for _, p in pairs(panels) do
         p:SetPos(0, 0)
-        p:SetSize(sw, ch)
+        p:SetSize(cw, ch)
         p:SetVisible(false)
     end
 
@@ -246,7 +332,7 @@ function swrp_f4menu.Open()
         if panels[id].OnShow then panels[id]:OnShow() end
     end
 
-    swrp_f4menu.SetPanel("profile")
+    swrp_f4menu.SetPanel("lobby")
 end
 
 function swrp_f4menu.Close()
