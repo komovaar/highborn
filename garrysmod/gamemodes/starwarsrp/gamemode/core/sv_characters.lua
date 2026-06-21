@@ -300,9 +300,10 @@ function prop.characters.loadActive(ply)
     end
 
     if not character then
-        character = prop.characters.createDefault(ply)
+        local createReason
+        character, createReason = prop.characters.createDefault(ply)
+        if not character then return false, createReason or "create_failed" end
     end
-    if not character then return false, "create_failed" end
 
     ply.propCharacter = character
 
