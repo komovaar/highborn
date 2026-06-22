@@ -136,9 +136,11 @@ function prop.net.normalizeChatParts(parts)
 end
 
 function prop.net.writeChatParts(parts)
-    net.WriteUInt(#parts, 8)
+    local count = math.min(#parts, prop.net.maxChatParts)
+    net.WriteUInt(count, 8)
 
-    for _, part in ipairs(parts) do
+    for i = 1, count do
+        local part = parts[i]
         if isColor(part) then
             net.WriteBool(true)
             prop.net.writeColor(part)
