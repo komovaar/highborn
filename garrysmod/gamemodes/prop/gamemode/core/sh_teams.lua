@@ -255,7 +255,8 @@ function prop.team.getByCategory(category)
     local jobs = {}
 
     for id, job in pairs(prop.team.list) do
-        if (registeredCategory and job.categoryKey == registeredCategory.key) or job.category == category then
+        if (registeredCategory and job.categoryKey == registeredCategory.key) or
+           (not registeredCategory and job.category and string.lower(job.category) == string.lower(category)) then
             jobs[id] = job
         end
     end
