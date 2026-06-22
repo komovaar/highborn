@@ -16,7 +16,12 @@ function prop.data.load(ply)
     local res = prop.db.query("select data from prop_players where sid64 = " .. sql.SQLStr(sid64))
 
     if res and res[1] then
-        ply.prop = util.JSONToTable(res[1].data) or {}
+        local parsed = util.JSONToTable(res[1].data)
+        if not parsed then
+            prop.log("warn", "Corrupted data for " .. ply:Nick() .. " — resetting to defaults")
+            parsed = {}
+        end
+        ply.prop = parsed
         prop.log("Loaded data for " .. ply:Nick())
     else
         ply.prop = {first_joined = os.time()}
