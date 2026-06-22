@@ -183,7 +183,7 @@ function prop.team.register(name, data)
     local id = #prop.team.list + 1
     team.SetUp(id, name, data.color or Color(255, 255, 255))
     
-    local isDefault = data.default or not prop.team.defaultID
+    local isDefault = data.default == true or (data.default ~= false and not prop.team.defaultID)
     local categoryKey = normalizeCategoryKey(data.category)
     local registeredCategory = categoryKey and prop.category.get(categoryKey) or nil
     local category = registeredCategory and registeredCategory.name or normalizeCategory(data.category) or prop.team.defaultCategory
