@@ -143,8 +143,7 @@ end
 function prop.data.syncPublic(ply, key)
     if not prop.data.isPublic(ply, key) then return false, "private_key" end
 
-    prop.data.sync(ply, key, prop.data.get(ply, key))
-    return true
+    return prop.data.sync(ply, key, prop.data.get(ply, key))
 end
 
 function prop.data.syncPublicAll(ply)
