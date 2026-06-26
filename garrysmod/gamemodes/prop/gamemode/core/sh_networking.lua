@@ -30,7 +30,7 @@ local function toByte(value, default)
 end
 
 local function normalizeString(value, maxLength)
-    value = tostring(value or "")
+    value = tostring(value)
     if #value > maxLength then
         value = string.sub(value, 1, maxLength)
     end
