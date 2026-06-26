@@ -8,7 +8,10 @@ end
 function prop.util.findPlayer(caller, query)
     query = normalize(query)
     if query == "" then return nil, "missing_player" end
-    if query == "me" then return caller end
+    if query == "me" then
+        if not IsValid(caller) then return nil, "invalid_caller" end
+        return caller
+    end
 
     local userID = tonumber(query)
     if userID then
