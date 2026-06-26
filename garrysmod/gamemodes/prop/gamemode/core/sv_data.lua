@@ -15,6 +15,11 @@ function prop.data.load(ply)
     local sid64 = ply:SteamID64()
     local res = prop.db.query("select data from prop_players where sid64 = " .. sql.SQLStr(sid64))
 
+    if res == false then
+        prop.log("warn", "Failed to load data for " .. ply:Nick() .. " — skipping to avoid overwrite")
+        return false, "db_error"
+    end
+
     if res and res[1] then
         local parsed = util.JSONToTable(res[1].data)
         if not parsed then
@@ -48,6 +53,10 @@ function prop.data.save(ply)
 
     local sid64 = ply:SteamID64()
     local json = util.TableToJSON(ply.prop)
+    if not json then
+        prop.log("error", "Failed to serialize data for " .. ply:Nick())
+        return false, "serialize_error"
+    end
 
     prop.db.query(string.format(
         "update prop_players set data = %s where sid64 = %s",
@@ -99,14 +108,13 @@ function prop.data.publish(ply, key, force)
     if not canWrite then return false, writeReason end
 
     local wasPublic = prop.data.isPublic(ply, key)
-    local ok, reason = prop.data.markPublic(ply, key)
-    if not ok then return false, reason end
 
     if force or not wasPublic then
-        return prop.data.sync(ply, key, value)
+        local ok, reason = prop.data.sync(ply, key, value)
+        if not ok then return false, reason end
     end
 
-    return true
+    return prop.data.markPublic(ply, key)
 end
 
 function prop.data.isPublic(ply, key)
