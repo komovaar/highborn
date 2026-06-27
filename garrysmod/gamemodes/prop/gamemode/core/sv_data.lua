@@ -33,12 +33,16 @@ function prop.data.load(ply)
 
         local json = util.TableToJSON(ply.prop)
 
-        prop.db.query(string.format(
+        local insertOk = prop.db.query(string.format(
             "insert into prop_players (sid64, data) values (%s, %s)",
             sql.SQLStr(sid64),
             sql.SQLStr(json)
         ))
-        prop.log("Create new record for " .. ply:Nick())
+        if insertOk == false then
+            prop.log("warn", "Failed to create record for " .. ply:Nick() .. " — data will not persist this session")
+        else
+            prop.log("Created new record for " .. ply:Nick())
+        end
     end
 
     ply.propPublic = {}
@@ -58,11 +62,12 @@ function prop.data.save(ply)
         return false, "serialize_error"
     end
 
-    prop.db.query(string.format(
+    local ok = prop.db.query(string.format(
         "update prop_players set data = %s where sid64 = %s",
         sql.SQLStr(json),
         sql.SQLStr(sid64)
     ))
+    if ok == false then return false, "db_error" end
 
     hook.Run("prop.PlayerDataSaved", ply, ply.prop)
     return true
