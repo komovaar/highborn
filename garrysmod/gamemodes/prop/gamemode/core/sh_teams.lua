@@ -62,6 +62,8 @@ local function normalizeModel(model)
             table.insert(models, value)
         end
 
+        if #models == 0 then return false end
+
         return models
     end
 
