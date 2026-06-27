@@ -158,7 +158,8 @@ end
 
 function GM:PlayerInitialSpawn(ply)
     callBaseGamemode("PlayerInitialSpawn", self, ply)
-    prop.data.load(ply)
+    local ok = prop.data.load(ply)
+    if not ok then return end
     hook.Run("prop.PlayerInitialSpawn", ply)
 end
 
