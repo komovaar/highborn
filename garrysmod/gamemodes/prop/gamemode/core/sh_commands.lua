@@ -51,8 +51,8 @@ function prop.command.add(name, data)
     for _, alias in ipairs(normalizeAliases(data.aliases)) do
         alias = normalizeName(alias)
 
-        if alias and alias ~= name and not prop.command.list[alias] then
-            if prop.command.aliases[alias] and prop.command.aliases[alias] ~= name then
+        if alias and alias ~= name then
+            if prop.command.list[alias] or (prop.command.aliases[alias] and prop.command.aliases[alias] ~= name) then
                 return false, "alias_taken"
             end
 
