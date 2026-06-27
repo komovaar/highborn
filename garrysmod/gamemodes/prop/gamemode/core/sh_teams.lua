@@ -240,9 +240,21 @@ end
 
 function prop.team.getCategories()
     local categories = {}
+    local seen = {}
 
     for _, category in ipairs(prop.category.sorted()) do
         table.insert(categories, category.name)
+        seen[string.lower(category.name)] = true
+    end
+
+    for _, job in pairs(prop.team.list) do
+        if not job.categoryKey and job.category then
+            local lk = string.lower(job.category)
+            if not seen[lk] then
+                table.insert(categories, job.category)
+                seen[lk] = true
+            end
+        end
     end
 
     return categories
