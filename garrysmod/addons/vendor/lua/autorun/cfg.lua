@@ -111,7 +111,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={""}
     },
     {
         name = "Dual Westar-34",
@@ -126,7 +126,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={""}
     },
     {
         name = "Dual DC-17",
@@ -283,7 +283,8 @@ Vendor.Weapons = {
         "TEAM_501CMD",
         "TEAM_501MED",
         "TEAM_501PIL",
-        "TEAM_501ARC"
+        "TEAM_501ARC",
+        "TEAM_SUNWAVE",
     }
 },
     {
@@ -299,7 +300,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
     },
     {
         name = "DC-17m Sniper",
@@ -314,7 +315,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
     },
     {
         name = "Westar-M5",
@@ -329,7 +330,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE", "TEAM_501ARC", "TEAM_ARCKomandos"}
+        jobs={"TEAM_501ARC", "TEAM_ARCKomandos"}
     },
     {
         name = "Наручна Ракетниця",
@@ -344,7 +345,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={""}
     },
 
     {
@@ -360,7 +361,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
     },
         {
         name = "DC-17m Launcher",
@@ -375,7 +376,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll"}
+        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
     },
     {
         name = "DC-17s",
@@ -510,7 +511,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_RCSkoll", "TEAM_RCRedhood"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_SUNWAVE"}
     },
     {
         name = "Bacta Injector",
@@ -525,7 +526,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_RCHowl"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_RCHowl", "TEAM_SUNWAVE"}
     },
     {
         name = "Ammo Crate",
@@ -813,13 +814,9 @@ Vendor.Models = {
     flashlight = { id = 4, name = "Ліхтар", price = 1500, vip = false, default = 1 },
     backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
 },
-["models/taler/playermodels/ghost/ghostmando.mdl"] = {
-    pauldron = { id = 5, name = "Наплечник", price = 500, vip = false, default = 0 },
-    kama = { id = 6, name = "Кама", price = 500, vip = false, default = 0 },
-    kama_Gear = { id = 7, name = "Пояс", price = 500, vip = false, default = 0 },
-    holsters = { id = 8, name = "Кобура", price = 500, vip = false, default = 0 },
-    jetpack = { id = 10, name = "Джетпак", price = 500, vip = false, default = 2 },
-    chest = { id = 9, name = "Бронепластина", price = 500, vip = false, default = 0 },
+["models/bobby/sega/sega.mdl"] = {
+    -- 3 - helmet
+    antena = { id = 5, name = "Антена", price = 500, vip = false, default = 1 },
 },
 ["models/501st_trp/pm_501st_trp.mdl"] = {
     binos = { id = 2, name = "Візор", price = 5000, vip = false, default = 1 },

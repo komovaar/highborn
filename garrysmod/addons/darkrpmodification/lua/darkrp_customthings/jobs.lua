@@ -1356,9 +1356,9 @@ TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
     end
 })
 
-TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
+TEAM_SUNWAVE = DarkRP.createJob("501 | RC Санвейв", {
     color = Color(70, 70, 70),
-    model = {"models/taler/playermodels/ghost/ghostmando.mdl"},
+    model = {"models/bobby/sega/sega.mdl"},
     description = "",
     weapons = {},
     max = 100,
@@ -1369,17 +1369,8 @@ TEAM_SUNWAVE = DarkRP.createJob("RC | Мандалорець Санвейв", {
     category = "RC",
     command="sunwave",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0) 
-        ply:SetBodygroup(1, 0) -- helmet
-        ply:SetBodygroup(2, 0)  -- hair
-        ply:SetBodygroup(3, 0)  -- fhair
-        ply:SetBodygroup(4, 0)  -- ??
-        ply:SetBodygroup(5, 1)  -- pauldron
-        ply:SetBodygroup(6, 1)  -- kama
-        ply:SetBodygroup(7, 1)  -- kama gear
-        ply:SetBodygroup(8, 1)  -- hoslters
-        ply:SetBodygroup(9, 1)  -- chest
-        ply:SetBodygroup(10, 3)  -- backpack
+        ply:SetBodygroup(0, 1) 
+        ply:SetBodygroup(1, 1) -- helmet
         ply:SetArmor(100) -- armor
         ply:SetMaxArmor(100)
     end
