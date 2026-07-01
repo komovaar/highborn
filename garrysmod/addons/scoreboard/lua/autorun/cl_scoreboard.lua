@@ -260,9 +260,8 @@ function PANEL:Populate()
     table.sort(sortedCats, function(a, b)
         return a.sortOrder < b.sortOrder
     end)
-
     for _, catData in ipairs(sortedCats) do
-        local catName = catData.name
+        local catName = string.Trim(catData.name)
         if catName == "212th" then
             catName = "212 штурмовий батальйон"
         elseif catName == "91st" then
@@ -271,8 +270,8 @@ function PANEL:Populate()
             catName = "Республіканський флот"
         elseif catName == "5th" then
             catName = "5 охоронний флот"
-        elseif catName == "501st" then
-            catName = "501 штурмовий легіон"
+        elseif catName == "501st" then 
+            catName = "501 легіон"
         end
 
         self:AddCategory(catName, catData.color)
