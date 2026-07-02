@@ -142,10 +142,6 @@ function SWEP:DoAttack(dmg)
     if not IsValid(ent) then return end
     if ent:IsPlayer() and not ent:Alive() then return end
 
-    if not ent:isDoor() then
-        ent:SetVelocity((ent:GetPos() - Owner:GetPos()) * 7)
-    end
-
     if dmg > 0 then
         ent:TakeDamage(dmg, Owner, self)
     end
