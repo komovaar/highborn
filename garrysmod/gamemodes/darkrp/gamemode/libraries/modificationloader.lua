@@ -10,26 +10,13 @@ DarkRP.disabledDefaults = {}
 DarkRP.disabledDefaults["modules"] = {
     ["afk"]              = true,
     ["chatsounds"]       = false,
-    ["events"]           = false,
-    ["fpp"]              = false,
-    ["hitmenu"]          = false,
-    ["hud"]              = false,
-    ["hungermod"]        = true,
     ["playerscale"]      = false,
-    ["sleep"]            = false,
 }
 
 DarkRP.disabledDefaults["agendas"]          = {}
-DarkRP.disabledDefaults["ammo"]             = {}
 DarkRP.disabledDefaults["demotegroups"]     = {}
-DarkRP.disabledDefaults["doorgroups"]       = {}
-DarkRP.disabledDefaults["entities"]         = {}
-DarkRP.disabledDefaults["food"]             = {}
 DarkRP.disabledDefaults["groupchat"]        = {}
-DarkRP.disabledDefaults["hitmen"]           = {}
 DarkRP.disabledDefaults["jobs"]             = {}
-DarkRP.disabledDefaults["shipments"]        = {}
-DarkRP.disabledDefaults["vehicles"]         = {}
 DarkRP.disabledDefaults["workarounds"]      = {}
 
 -- The client cannot use simplerr.runLuaFile because of restrictions in GMod.
@@ -132,7 +119,6 @@ local customFiles = {
 local function loadCustomDarkRPItems()
     for _, File in ipairs(customFiles) do
         if not file.Exists(File, "LUA") then continue end
-        if File == "darkrp_customthings/food.lua" and DarkRP.disabledDefaults["modules"]["hungermod"] then continue end
 
         if SERVER then AddCSLuaFile(File) end
         doInclude(File)

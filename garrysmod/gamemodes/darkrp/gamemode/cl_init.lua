@@ -47,9 +47,6 @@ hook.Call("DarkRPPreLoadModules", GM)
 LoadModules()
 
 DarkRP.DARKRP_LOADING = true
-include("config/jobrelated.lua")
-include("config/addentities.lua")
-include("config/ammotypes.lua")
 DarkRP.DARKRP_LOADING = nil
 
 DarkRP.finish()
