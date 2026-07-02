@@ -1366,11 +1366,11 @@ TEAM_SUNWAVE = DarkRP.createJob("501 | RC Санвейв", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "RC",
+    category = "501st",
     command="sunwave",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 1) 
-        ply:SetBodygroup(1, 1) -- helmet
+        ply:SetBodygroup(1, 1)
         ply:SetArmor(100) -- armor
         ply:SetMaxArmor(100)
     end
