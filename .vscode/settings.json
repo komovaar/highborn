@@ -1,0 +1,20 @@
+{
+    "Lua.workspace.library": [
+        "${addons}/garrysmod/module/library",
+        "${workspaceRoot}/garrysmod/gamemode/DarkRP"
+    ],
+    "Lua.runtime.version": "LuaJIT", 
+    "Lua.runtime.special": {
+        "include": "dofile",
+        "IncludeCS": "dofile"
+    },
+    "Lua.runtime.nonstandardSymbol": [
+        "continue"
+    ],
+    "Lua.workspace.checkThirdParty": "Apply", 
+    "Lua.diagnostics.disable": [
+        "lowercase-global",
+        "undefined-global",
+        "undefined-field"
+    ],
+}
