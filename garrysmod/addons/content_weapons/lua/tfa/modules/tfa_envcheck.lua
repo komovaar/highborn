@@ -43,7 +43,6 @@ local function checkEnv(plyIn)
 				or activeGamemode:find("serious")
 
 		if isRP and (SERVER or (IsValid(plyIn) and (plyIn:IsAdmin() or plyIn:IsSuperAdmin()))) then
-			print("[TFA Base] You are running the base on DarkRP or DarkRP-derived gamemode. We can't guarantee that it will work correctly with any possible addons the server might have installed (especially the paid ones), so we don't provide support for RP gamemodes/servers. If you've encountered a conflict error with another addon, it's most likely that addon's fault. DO NOT CONTACT US ABOUT THAT!")
 
 			if TFA_BASE_VERSION <= 4.034 then -- seems to be common problem with SWRP servers
 				printFunc("[TFA Base] You have installed both SV/SV2 and Reduxed versions of the base. Make sure you are using only one version at the same time.")
