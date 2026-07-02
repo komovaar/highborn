@@ -1,8 +1,6 @@
 AddCSLuaFile()
 
 if SERVER then
-    include("sv_commands.lua")
-    include("sh_commands.lua")
     SWEP.Weight = 5
     SWEP.AutoSwitchTo = false
     SWEP.AutoSwitchFrom = false
