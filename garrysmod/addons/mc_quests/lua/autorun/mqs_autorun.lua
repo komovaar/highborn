@@ -42,9 +42,9 @@ end
 function MQS.Load()
 
 	MsgC( Color(0, 255, 0), "[MQS] Initialization started\n" )
-	if !MSD then
-		MsgC( Color(255, 0, 0), "[MQS] FAILED To locate MSD module!\nPlease install MSD before using the addon\nLink: https://github.com/the-mactavish/MSD\n" )
-	end
+	-- if !MSD then
+	-- 	MsgC( Color(255, 0, 0), "[MQS] FAILED To locate MSD module!\nPlease install MSD before using the addon\nLink: https://github.com/the-mactavish/MSD\n" )
+	-- end
 
 	if !file.Exists(MQS.ServerID, "DATA") then
 		file.CreateDir(MQS.ServerID)
