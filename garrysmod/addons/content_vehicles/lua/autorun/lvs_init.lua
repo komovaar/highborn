@@ -353,7 +353,6 @@ function LVS:CheckUpdates()
 
 				if CLIENT then 
 					timer.Simple(18, function() 
-						chat.AddText( Color( 255, 0, 0 ), "[LVS] - Framework: a newer version is available!" )
 					end)
 				end
 			end
