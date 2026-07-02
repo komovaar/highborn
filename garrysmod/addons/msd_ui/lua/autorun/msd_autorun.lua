@@ -1,10 +1,3 @@
--- ┏━┓┏━┳━━━┳━━━┓───────────────────────
--- ┃┃┗┛┃┃┏━┓┣┓┏┓┃───────────────────────
--- ┃┏┓┏┓┃┗━━┓┃┃┃┃──By MacTavish <3──────
--- ┃┃┃┃┃┣━━┓┃┃┃┃┃───────────────────────
--- ┃┃┃┃┃┃┗━┛┣┛┗┛┃───────────────────────
--- ┗┛┗┛┗┻━━━┻━━━┛───────────────────────
-
 -- MIT License
 
 -- Copyright (c) 2021 Ayden Mactavish
@@ -27,10 +20,10 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-if MSD and MSD.Version ~= "1.0.4" then MsgC( Color(255, 8, 0), "[MSD] Another version of MSD detacted\n" ) return end
+if MSD and MSD.Version ~= "1.0.2" then MsgC( Color(255, 8, 0), "[MSD] Another version of MSD detacted\n" ) return end
 
 MSD = {}
-MSD.Version = "1.0.4"
+MSD.Version = "1.0.2"
 MSD.Config = {}
 MSD.Modules = {}
 MSD.ModuleIds = {}

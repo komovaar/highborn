@@ -358,10 +358,7 @@ MSD.Language["en"] = {
 	rank = "Rank",
 	format = "Format",
 	file_list = "File list",
-	file_exist = "This save file is already exist",
-
-	show_team = "Display team name",
-	use_team_colors = "Use team colors"
+	file_exist = "This save file is already exist"
 }
 
 -- Other phrases
