@@ -1,8 +1,37 @@
 if SERVER then
+    local function MigrateWhitelistTable()
+    -- 1. Створюємо нову таблицю з правильним обмеженням (24 символи)
+    sql.Query([[
+        CREATE TABLE IF NOT EXISTS hb_whitelist_new(
+            steamid TEXT UNIQUE,
+            job INT,
+            rank TEXT CHECK(LENGTH(rank) <= 24),
+            can_stunstick INT DEFAULT 0,
+            can_ground_light INT DEFAULT 0,
+            can_ground_heavy INT DEFAULT 0,
+            can_air_light INT DEFAULT 0,
+            can_air_heavy INT DEFAULT 0
+        )
+    ]])
+
+    -- 2. Переносимо існуючі дані
+    sql.Query([[
+        INSERT INTO hb_whitelist_new 
+        SELECT * FROM hb_whitelist
+    ]])
+
+    -- 3. Видаляємо стару таблицю
+    sql.Query("DROP TABLE hb_whitelist")
+
+    -- 4. Перейменовуємо нову таблицю
+    sql.Query("ALTER TABLE hb_whitelist_new RENAME TO hb_whitelist")
+    
+    print("[Highborn] Whitelist table migrated to 24-character limit.")
+end
 
     -- Список оружия для стэнстика
     local stunstick_weapons = {"stunstick", "unarrest_stick", "arrest_stick", "weapon_cuff_elastic"}
-
+    MigrateWhitelistTable()
     -- Списки техники
     local HeavyAir = {
         ["lvs_repulsorlift_dropship"] = true,
@@ -41,7 +70,7 @@ if SERVER then
             CREATE TABLE IF NOT EXISTS hb_whitelist(
                 steamid TEXT UNIQUE,
                 job INT,
-                rank TEXT CHECK(LENGTH(rank) <= 12),
+                rank TEXT CHECK(LENGTH(rank) <= 24),
                 can_stunstick INT DEFAULT 0,
                 can_ground_light INT DEFAULT 0,
                 can_ground_heavy INT DEFAULT 0,
@@ -294,3 +323,4 @@ end)
 
 
 end
+
