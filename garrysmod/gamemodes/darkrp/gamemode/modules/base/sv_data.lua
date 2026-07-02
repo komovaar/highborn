@@ -547,14 +547,14 @@ local keyValueActions = {
     ["DarkRPCanLockpick"] = function(ent, val) ent.DarkRPCanLockpick = tobool(val) end
 }
 
-local function onKeyValue(ent, key, value)
-    if not ent:isDoor() then return end
+-- local function onKeyValue(ent, key, value)
+--     if not ent:isDoor() then return end
 
-    if keyValueActions[key] then
-        keyValueActions[key](ent, value)
-    end
-end
-hook.Add("EntityKeyValue", "darkrp_doors", onKeyValue)
+--     if keyValueActions[key] then
+--         keyValueActions[key](ent, value)
+--     end
+-- end
+-- hook.Add("EntityKeyValue", "darkrp_doors", onKeyValue)
 
 function DarkRP.storeTeamDoorOwnability(ent)
     if not ent:CreatedByMap() then return end

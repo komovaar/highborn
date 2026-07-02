@@ -1077,12 +1077,12 @@ function GM:InitPostEntity()
     -- This will fix the GM.Config.voiceradius not working
     game.ConsoleCommand("sv_alltalk 0\n")
 
-    if GAMEMODE.Config.unlockdoorsonstart then
-        for _, v in ipairs(ents.GetAll()) do
-            if not v:isDoor() then continue end
-            v:Fire("unlock", "", 0)
-        end
-    end
+    -- if GAMEMODE.Config.unlockdoorsonstart then
+    --     for _, v in ipairs(ents.GetAll()) do
+    --         if not v:isDoor() then continue end
+    --         v:Fire("unlock", "", 0)
+    --     end
+    -- end
 end
 timer.Simple(0.1, function()
     if not GAMEMODE.InitPostEntityCalled then
