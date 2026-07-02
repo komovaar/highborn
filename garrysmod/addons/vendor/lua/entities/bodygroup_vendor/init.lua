@@ -174,7 +174,7 @@ net.Receive("BGTrader.Remove", function(_, ply)
     if not bgKey then SendBGTraderState(ply) return end
 
     local jp = ply:GetNWEntity("Jetted")
-    if IsValid(jp) then
+    if IsValid(jp) and bgKey == "jetpack" then
         jp:Remove()
         ply:SetNWEntity("Jetted", NULL)
     end
