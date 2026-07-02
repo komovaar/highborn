@@ -815,7 +815,6 @@ Vendor.Models = {
     backpack = { id = 5, name = "Рюкзак", price = 3500, vip = false, default = 1 },
 },
 ["models/bobby/sega/sega.mdl"] = {
-    -- 3 - helmet
     antena = { id = 5, name = "Антена", price = 500, vip = false, default = 1 },
 },
 ["models/501st_trp/pm_501st_trp.mdl"] = {
