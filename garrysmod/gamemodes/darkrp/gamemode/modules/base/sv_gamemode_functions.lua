@@ -1015,7 +1015,7 @@ function GM:PlayerDisconnected(ply)
         ply.SleepRagdoll:Remove()
     end
 
-    ply:keysUnOwnAll()
+    -- ply:keysUnOwnAll()
     DarkRP.log(ply:Nick() .. " (" .. ply:SteamID() .. ") disconnected", Color(0, 130, 255))
 
     local agenda = ply:getAgendaTable()
