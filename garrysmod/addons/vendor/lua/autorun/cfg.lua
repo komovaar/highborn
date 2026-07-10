@@ -300,7 +300,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
+        jobs={"TEAM_SUNWAVE"}
     },
     {
         name = "DC-17m Sniper",
@@ -315,7 +315,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
+        jobs={"TEAM_SUNWAVE"}
     },
     {
         name = "Westar-M5",
@@ -361,7 +361,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
+        jobs={"TEAM_SUNWAVE"}
     },
         {
         name = "DC-17m Launcher",
@@ -376,7 +376,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_RCHowl", "TEAM_RCRedhood", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_SUNWAVE"}
+        jobs={"TEAM_SUNWAVE"}
     },
     {
         name = "DC-17s",
@@ -481,7 +481,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91ARF", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_RCHowl"}
+        jobs={"TEAM_91ARF"}
     },
     {
         name = "F-187 Fusion Cutter",
@@ -496,7 +496,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL", "TEAM_501PIL", "TEAM_RCHowl", "TEAM_RCSkoll"}
+        jobs={"TEAM_212PIL", "TEAM_91PIL", "TEAM_5PIL", "TEAM_501PIL"}
     },
     {
         name = "Bacta Grenade",
@@ -511,7 +511,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_SUNWAVE"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_SUNWAVE"}
     },
     {
         name = "Bacta Injector",
@@ -526,7 +526,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_RCShadow", "TEAM_RCSkoll", "TEAM_RCRedhood", "TEAM_RCHowl", "TEAM_SUNWAVE"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_SUNWAVE"}
     },
     {
         name = "Ammo Crate",
@@ -875,6 +875,18 @@ Vendor.Models = {
     straps = { id = 7, name = "Підсумки", price = 1500, vip = false, default = 0 },
     holsters = { id = 8, name = "Кобура", price = 1500, vip = false, default = 0 },
     belt = { id = 9, name = "Пояс", price = 1500, vip = false, default = 0 },
+},
+["models/player/budds/cgi_commandos/hope/blue/hope_commando_blue.mdl"] = {
+    visor              = { id = 4,  name = "Візор",                      price = 2500, vip = false, default = 1 },
+    antena_left        = { id = 5,  name = "Антена Ліва",                price = 500,  vip = false, default = 1 },
+    antena_right       = { id = 6,  name = "Антена Права",               price = 500,  vip = false, default = 1 },
+    backpack_off       = { id = 7,  name = "Доповнення рюкзаку",         price = 1500, vip = false, default = 0, off = 1 },
+    vibroblade         = { id = 8,  name = "Віброклінок",                price = 500,  vip = false, default = 1 },
+    thigh_left_grenade = { id = 9,  name = "Підсумок з Гранати Лівий",   price = 1000, vip = false, default = 1 },
+    thigh_left         = { id = 9,  name = "Підсумок Лівий",             price = 1000, vip = false, default = 2 },
+    thigh_right_grenade= { id = 10, name = "Підсумок Гранати Правий",    price = 1000, vip = false, default = 1 },
+    thigh_right        = { id = 10, name = "Підсумок Правий",            price = 1000, vip = false, default = 2 },
+    belt_off           = { id = 11, name = "Пояс",                       price = 1500, vip = false, default = 0, off = 1 },
 }
 }
 
