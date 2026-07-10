@@ -199,8 +199,11 @@ DarkRP.defineChatCommand("try", Try, true, 1.5)
 DarkRP.defineChatCommand("helmet", function(ply, args)
 
     local id = ply:FindBodygroupByName("helmet")
-    if id == -1 then 
+    if id == -1 then
         id = ply:FindBodygroupByName("helm")
+    end
+    if id == -1 then
+        id = ply:FindBodygroupByName("head")
     end
     if id == -1 then
         DarkRP.notify(ply, 1, 4, "У вас немає шолома")
