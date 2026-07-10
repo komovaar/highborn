@@ -31,8 +31,6 @@ player_manager.AddValidModel("Civilian Diver Female", "models/diver/pm_civ_diver
 list.Set("PlayerOptionsModel", "Civilian Diver Female", "models/diver/pm_civ_diver_human_female.mdl")
 player_manager.AddValidModel("Civilian Snowsuit Female", "models/snowsuit/pm_civ_snowsuit_human_female.mdl")
 list.Set("PlayerOptionsModel", "Civilian Snowsuit Female", "models/snowsuit/pm_civ_snowsuit_human_female.mdl")
-player_manager.AddValidModel("Civilian Chef Female", "models/chef/pm_civ_chef_human_female.mdl")
-list.Set("PlayerOptionsModel", "Civilian Chef Female", "models/chef/pm_civ_chef_human_female.mdl")
 
 
 player_manager.AddValidModel( "Civilian Gundark Female", "models/gundark/pm_civ_gundark_costume_female.mdl" );
@@ -42,8 +40,4 @@ list.Set( "PlayerOptionsModel",  "Civilian Wampa Female", "models/wampa/pm_civ_w
 player_manager.AddValidModel( "Civilian Clown Female", "models/clown/pm_civ_clown_costume_female.mdl" );
 list.Set( "PlayerOptionsModel",  "Civilian Clown Female", "models/clown/pm_civ_clown_costume_female.mdl" );
 
-player_manager.AddValidModel( "Civilian Festive Female", "models/festive/pm_civ_festive_human_female.mdl" );
-list.Set( "PlayerOptionsModel",  "Civilian Festive Female", "models/festive/pm_civ_festive_human_female.mdl" );
-player_manager.AddValidModel( "Civilian Mannequin Female", "models/mannequin/pm_civ_mannequin_costume_female.mdl" );
-list.Set( "PlayerOptionsModel",  "Civilian Mannequin Female", "models/mannequin/pm_civ_mannequin_costume_female.mdl" );
 
