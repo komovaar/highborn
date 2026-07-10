@@ -26,12 +26,7 @@ net.Receive("Katarn_RemoveSuit", function(_, ply)
     ply:RemoveExoSuit()
 end)
 
-local RC_JOBS = {
-    ["TEAM_RCShadow"] = true,
-    ["TEAM_RCRedhood"] = true,
-    ["TEAM_RCSkoll"] = true,
-    ["TEAM_RCHowl"] = true,
-}
+local RC_JOBS = {}
 
 hook.Add("PlayerSpawn", "KatarnAutoGive", function(ply)
     timer.Simple(0.3, function()
