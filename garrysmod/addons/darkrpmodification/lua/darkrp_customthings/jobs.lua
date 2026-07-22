@@ -1326,8 +1326,8 @@ TEAM_5PROT = DarkRP.createJob("5 | Клон Преторіанець", {
         ply:SetBodygroup(5, 0) -- backpack
         ply:SetBodygroup(6, 0) -- hair
         ply:SetBodygroup(7, 0) -- fhair
-        ply:SetArmor(30)
-        ply:SetMaxArmor(30)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
