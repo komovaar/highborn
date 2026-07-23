@@ -49,8 +49,22 @@ local function GiveVIP(ply, args)
         return ""
     end
 
-    local steamid, nameOrErr = resolveTarget(args[1])
-    local days = tonumber(args[2])
+    local full = table.concat(args, " ")
+
+    -- A SteamID may end up split across tokens, so look for it in the whole
+    -- argument string first and fall back to a nickname lookup.
+    local rawID = full:upper():match("STEAM_%d:%d:%d+")
+    local steamid, nameOrErr, days
+
+    if rawID then
+        local target = player.GetBySteamID(rawID)
+        steamid = rawID
+        nameOrErr = IsValid(target) and target:Nick() or rawID
+        days = tonumber((full:upper():gsub("STEAM_%d:%d:%d+", "")):match("(%d+%.?%d*)"))
+    else
+        steamid, nameOrErr = resolveTarget(args[1])
+        days = tonumber(args[2])
+    end
 
     if not steamid then
         DarkRP.notify(ply, 1, 4, nameOrErr)

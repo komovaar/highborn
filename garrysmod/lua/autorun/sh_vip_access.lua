@@ -103,7 +103,7 @@ client console, independently of the DarkRP chat pipeline.
     highborn_givevip <steamid> <days>   -- 0 days revokes
     highborn_viplist
 ---------------------------------------------------------------------------]]
-concommand.Add("highborn_givevip", function(ply, _, args)
+concommand.Add("highborn_givevip", function(ply, _, args, argStr)
     -- ply is NULL when the command comes from the server console.
     if IsValid(ply) and not ply:IsSuperAdmin() then return end
 
@@ -112,16 +112,24 @@ concommand.Add("highborn_givevip", function(ply, _, args)
         print("[HighbornVIP] " .. msg)
     end
 
-    local steamid = args[1]
-    local days = tonumber(args[2])
+    -- The console may split the arguments in unexpected ways, so search the
+    -- whole argument string instead of relying on the token boundaries.
+    argStr = argStr or table.concat(args, " ")
 
-    if not steamid or not steamid:match("^STEAM_%d:%d:%d+$") then
+    local steamid = argStr:upper():match("STEAM_%d:%d:%d+")
+
+    if not steamid then
+        reply("No SteamID found in: '" .. argStr .. "'")
         reply("Usage: highborn_givevip STEAM_0:0:000000 <days>   (0 days removes VIP)")
         return
     end
 
+    -- Strip the SteamID so its trailing digits are not mistaken for the days.
+    local rest = argStr:upper():gsub("STEAM_%d:%d:%d+", "")
+    local days = tonumber(rest:match("(%d+%.?%d*)"))
+
     if not days or days < 0 then
-        reply("Invalid days: " .. tostring(args[2]))
+        reply("No day count found in: '" .. argStr .. "'")
         return
     end
 
