@@ -95,7 +95,7 @@ if SERVER then
     end
 
     hook.Add("PlayerLoadout", "highborn_whitelist_autojob", function(ply)
-        if ply._WhitelistApplied then return end
+        local firstSpawn = not ply._WhitelistApplied
         ply._WhitelistApplied = true
 
         local row = sql.QueryRow(
@@ -120,7 +120,7 @@ if SERVER then
         ply:SetNWBool("HighbornCanAH", tonumber(row.can_air_heavy) == 1)
 
         local jobID = tonumber(row.job)
-        if jobID and ply:Team() ~= jobID then
+        if firstSpawn and jobID and ply:Team() ~= jobID then
             ply:changeTeam(jobID, true, true)
         end
 
