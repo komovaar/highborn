@@ -28,7 +28,12 @@ end
 
 local function load()
     local contents = file.Read(dataFile, "DATA")
-    if not contents then return end
+
+    if not contents then
+        -- Create the file on first run so it is visible and editable on disk.
+        save()
+        return
+    end
 
     HighbornVIP.Temp = util.JSONToTable(contents) or {}
 end
