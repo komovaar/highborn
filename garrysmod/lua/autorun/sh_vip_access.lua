@@ -95,3 +95,65 @@ timer.Create("HighbornVIP.Expire", 60, 0, function()
         refresh(ply)
     end
 end)
+
+--[[---------------------------------------------------------------------------
+Console commands. These work from the server console and from a superadmin's
+client console, independently of the DarkRP chat pipeline.
+
+    highborn_givevip <steamid> <days>   -- 0 days revokes
+    highborn_viplist
+---------------------------------------------------------------------------]]
+concommand.Add("highborn_givevip", function(ply, _, args)
+    -- ply is NULL when the command comes from the server console.
+    if IsValid(ply) and not ply:IsSuperAdmin() then return end
+
+    local function reply(msg)
+        if IsValid(ply) then ply:PrintMessage(HUD_PRINTCONSOLE, msg) end
+        print("[HighbornVIP] " .. msg)
+    end
+
+    local steamid = args[1]
+    local days = tonumber(args[2])
+
+    if not steamid or not steamid:match("^STEAM_%d:%d:%d+$") then
+        reply("Usage: highborn_givevip STEAM_0:0:000000 <days>   (0 days removes VIP)")
+        return
+    end
+
+    if not days or days < 0 then
+        reply("Invalid days: " .. tostring(args[2]))
+        return
+    end
+
+    if days == 0 then
+        reply(HighbornVIP.Revoke(steamid) and ("Removed VIP from " .. steamid) or (steamid .. " has no temporary VIP."))
+        return
+    end
+
+    HighbornVIP.Grant(steamid, math.Round(days * 86400))
+    reply("Gave VIP to " .. steamid .. " (" .. string.NiceTime(HighbornVIP.GetTimeLeft(steamid)) .. " left)")
+end)
+
+concommand.Add("highborn_viplist", function(ply)
+    if IsValid(ply) and not ply:IsSuperAdmin() then return end
+
+    local function reply(msg)
+        if IsValid(ply) then ply:PrintMessage(HUD_PRINTCONSOLE, msg) end
+        print("[HighbornVIP] " .. msg)
+    end
+
+    reply("Permanent VIPs:")
+    for steamid in pairs(HighbornVIP.SteamIDs) do
+        reply("  " .. steamid)
+    end
+
+    reply("Temporary VIPs:")
+    if table.IsEmpty(HighbornVIP.Temp) then
+        reply("  (none)")
+        return
+    end
+
+    for steamid in pairs(HighbornVIP.Temp) do
+        reply("  " .. steamid .. " - " .. string.NiceTime(HighbornVIP.GetTimeLeft(steamid)) .. " left")
+    end
+end)
