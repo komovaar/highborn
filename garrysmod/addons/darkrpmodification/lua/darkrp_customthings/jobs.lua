@@ -1356,9 +1356,9 @@ TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
     end
 })
 
-TEAM_SUNWAVE = DarkRP.createJob("501 | RC Санвейв", {
+TEAM_SUNWAVE = DarkRP.createJob("501 | Клон Ворон", {
     color = Color(0, 102, 204),
-    model = {"models/player/budds/cgi_commandos/hope/blue/hope_commando_blue.mdl"},
+    model = {"models/player/iciia/501_wendigo/501_wendigo.mdl"},
     description = "",
     weapons = {},
     max = 100,
@@ -1369,18 +1369,10 @@ TEAM_SUNWAVE = DarkRP.createJob("501 | RC Санвейв", {
     category = "501st",
     command="sunwave",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 0)  -- skin
-        ply:SetBodygroup(1, 0)  -- helmet/head
-        ply:SetBodygroup(2, 0)  -- hair
-        ply:SetBodygroup(3, 0)  -- facial hair
-        ply:SetBodygroup(4, 0)  -- helmet attachments front
-        ply:SetBodygroup(5, 0)  -- helmet attachments left
-        ply:SetBodygroup(6, 0)  -- helmet attachments right 
-        ply:SetBodygroup(7, 1)  -- backpack attachments
-        ply:SetBodygroup(8, 0)  -- vibroblade
-        ply:SetBodygroup(9, 0)  -- thigh attachment left
-        ply:SetBodygroup(10, 0)  -- thigh attachment right
-        ply:SetBodygroup(11, 1)  -- belt
+        ply:SetBodygroup(1, 1)  -- helmet/head
+        ply:SetBodygroup(2, 3)  -- helmet accessories
+        ply:SetBodygroup(3, 1)  -- medpack
+        ply:SetBodygroup(4, 0)  -- kama
         ply:SetArmor(100)
         ply:SetMaxArmor(100)
     end

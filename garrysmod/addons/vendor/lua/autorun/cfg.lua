@@ -876,17 +876,11 @@ Vendor.Models = {
     holsters = { id = 8, name = "Кобура", price = 1500, vip = false, default = 0 },
     belt = { id = 9, name = "Пояс", price = 1500, vip = false, default = 0 },
 },
-["models/player/budds/cgi_commandos/hope/blue/hope_commando_blue.mdl"] = {
-    visor              = { id = 4,  name = "Візор",                      price = 2500, vip = false, default = 1 },
-    antena_left        = { id = 5,  name = "Антена Ліва",                price = 500,  vip = false, default = 1 },
-    antena_right       = { id = 6,  name = "Антена Права",               price = 500,  vip = false, default = 1 },
-    backpack_off       = { id = 7,  name = "Доповнення рюкзаку",         price = 1500, vip = false, default = 0, off = 1 },
-    vibroblade         = { id = 8,  name = "Віброклінок",                price = 500,  vip = false, default = 1 },
-    thigh_left_grenade = { id = 9,  name = "Підсумок з Гранати Лівий",   price = 1000, vip = false, default = 1 },
-    thigh_left         = { id = 9,  name = "Підсумок Лівий",             price = 1000, vip = false, default = 2 },
-    thigh_right_grenade= { id = 10, name = "Підсумок Гранати Правий",    price = 1000, vip = false, default = 1 },
-    thigh_right        = { id = 10, name = "Підсумок Правий",            price = 1000, vip = false, default = 2 },
-    belt_off           = { id = 11, name = "Пояс",                       price = 1500, vip = false, default = 0, off = 1 },
+["models/player/iciia/501_wendigo/501_wendigo.mdl"] = {
+    helm_acc1 = { id = 2, name = "Візер(піднятий)", price = 1500, vip = false, default = 1},
+    helm_acc2 = { id = 2, name = "Візер(опущений)", price = 1500, vip = false, default = 2},
+    medpack = { id = 3, name = "Медичний набір", price = 500, vip = false, default = 0},
+    kama = { id = 4, name = "Кама", price = 10000, vip = false, default = 1}
 }
 }
 
