@@ -1217,9 +1217,9 @@ TEAM_RENFEMALE = DarkRP.createJob("Цивільні | Повстанка", {
     command="renfemale",
 })
 
-TEAM_RCSkoll = DarkRP.createJob("RC Shadow | Skoll", {
+TEAM_RCBoss = DarkRP.createJob("RC Delta | Boss", {
     color =  Color(70, 70, 70),
-    model = {"models/sample/sample/rc/rc.mdl"},
+    model = {"models/player/budds/cgi_commandos/delta/boss/delta_commando_boss.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1230,7 +1230,14 @@ TEAM_RCSkoll = DarkRP.createJob("RC Shadow | Skoll", {
     category = "RC",
     command="rcskoll",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 1)
+        ply:SetBodygroup(0, 0) -- Skin
+        ply:SetBodygroup(1, 0) -- Head
+        ply:SetBodygroup(2, 0) -- Hair
+        ply:SetBodygroup(3, 0) -- Fhair
+        ply:SetBodygroup(4, 0) -- Vibroblade
+        ply:SetBodygroup(5, 0) -- Attachment Left
+        ply:SetBodygroup(6, 0) -- Attachment Right
+
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
         ply:SetExoSuit("katarn") -- ✅
@@ -1239,9 +1246,9 @@ TEAM_RCSkoll = DarkRP.createJob("RC Shadow | Skoll", {
     end
 })
 
-TEAM_RCShadow = DarkRP.createJob("RC Shadow | Shadow", {
+TEAM_RCFixer = DarkRP.createJob("RC Delta | Fixer", {
     color = Color(70, 70, 70),
-    model = {"models/sample/sample/rc/rc.mdl"},
+    model = {"models/player/budds/cgi_commandos/delta/fixer/delta_commando_fixer.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1252,7 +1259,18 @@ TEAM_RCShadow = DarkRP.createJob("RC Shadow | Shadow", {
     category = "RC",
     command="rcshadow",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 1)
+        ply:SetBodygroup(0, 0) -- Skin
+        ply:SetBodygroup(1, 0) -- Head
+        ply:SetBodygroup(2, 0) -- Hair
+        ply:SetBodygroup(3, 0) -- Fhair
+        ply:SetBodygroup(4, 1) -- Helmet Ear Comms Left
+        ply:SetBodygroup(5, 0) -- Helmet Ear Comms Right
+        ply:SetBodygroup(6, 1) -- Backpack Attacment
+        ply:SetBodygroup(7, 0) -- Vibroblade
+        ply:SetBodygroup(8, 0) -- Attachment Left
+        ply:SetBodygroup(9, 0) -- Attachment Right
+
+
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
         ply:SetExoSuit("katarn") -- ✅
@@ -1261,9 +1279,9 @@ TEAM_RCShadow = DarkRP.createJob("RC Shadow | Shadow", {
     end
 })
 
-TEAM_RCRedhood = DarkRP.createJob("RC Shadow | Redhood", {
+TEAM_RCScorch = DarkRP.createJob("RC Delta | Scorch", {
     color = Color(70, 70, 70),
-    model = {"models/sample/sample/rc/rc.mdl"},
+    model = {"models/player/budds/cgi_commandos/delta/scorch/delta_commando_scorch.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1274,7 +1292,15 @@ TEAM_RCRedhood = DarkRP.createJob("RC Shadow | Redhood", {
     category = "RC",
     command="rcredhood",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 1)
+        ply:SetBodygroup(0, 0) -- Skin
+        ply:SetBodygroup(1, 0) -- Head
+        ply:SetBodygroup(2, 0) -- Hair
+        ply:SetBodygroup(3, 0) -- Fhair
+        ply:SetBodygroup(4, 1) -- Backpack Attachment
+        ply:SetBodygroup(5, 0) -- Vibroblade
+        ply:SetBodygroup(6, 0) -- Attachment Left
+        ply:SetBodygroup(7, 2) -- Attachment Right
+
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
         ply:SetExoSuit("katarn") -- ✅
@@ -1283,9 +1309,9 @@ TEAM_RCRedhood = DarkRP.createJob("RC Shadow | Redhood", {
     end
 })
 
-TEAM_RCHowl = DarkRP.createJob("RC Shadow | Howl", {
+TEAM_RCSev = DarkRP.createJob("RC Delta | Sev", {
     color = Color(70, 70, 70),
-    model = {"models/sample/sample/rc/rc.mdl"},
+    model = {"models/player/budds/cgi_commandos/delta/sev/delta_commando_sev.mdl"},
     description = "",
     weapons = {"rw_sw_dc17m"},
     max = 100,
@@ -1296,7 +1322,16 @@ TEAM_RCHowl = DarkRP.createJob("RC Shadow | Howl", {
     category = "RC",
     command="rchowl",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(0, 1)
+        ply:SetBodygroup(0, 0) -- Skin
+        ply:SetBodygroup(1, 0) -- Head
+        ply:SetBodygroup(2, 0) -- Hair
+        ply:SetBodygroup(3, 0) -- Fhair
+        ply:SetBodygroup(4, 0) -- Helmet Attachment Front
+        ply:SetBodygroup(5, 1) -- Right Sholder Attachment
+        ply:SetBodygroup(6, 0) -- Vibroblade
+        ply:SetBodygroup(7, 0) -- Attachment Left
+        ply:SetBodygroup(7, 0) -- Attachment Right
+
         ply:SetArmor(50)
         ply:SetMaxArmor(50)
         ply:SetExoSuit("katarn") -- ✅

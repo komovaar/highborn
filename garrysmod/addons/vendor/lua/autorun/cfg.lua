@@ -300,7 +300,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={"TEAM_RCBoss", "TEAM_RCFixer", "TEAM_RCScorch", "TEAM_RCSev"}
     },
     {
         name = "DC-17m Sniper",
@@ -315,7 +315,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={"TEAM_RCBoss", "TEAM_RCFixer", "TEAM_RCScorch", "TEAM_RCSev"}
     },
     {
         name = "Westar-M5",
@@ -361,7 +361,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={"TEAM_RCBoss", "TEAM_RCFixer", "TEAM_RCScorch", "TEAM_RCSev"}
     },
         {
         name = "DC-17m Launcher",
@@ -376,7 +376,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SUNWAVE"}
+        jobs={"TEAM_RCBoss", "TEAM_RCFixer", "TEAM_RCScorch", "TEAM_RCSev"}
     },
     {
         name = "DC-17s",
@@ -481,7 +481,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91ARF"}
+        jobs={"TEAM_91ARF", "TEAM_RCBoss", "TEAM_RCFixer", "TEAM_RCSev", "TEAM_RCScorch"}
     },
     {
         name = "F-187 Fusion Cutter",
@@ -511,7 +511,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_SUNWAVE"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_501MED", "TEAM_SUNWAVE", "TEAM_RCBoss"}
     },
     {
         name = "Bacta Injector",
@@ -526,7 +526,7 @@ Vendor.Weapons = {
         },
         category = "equipment",
         vip=false,
-        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_SUNWAVE"}
+        jobs={"TEAM_91MED", "TEAM_212MED", "TEAM_5MED", "TEAM_SUNWAVE", "TEAM_RCBoss"}
     },
     {
         name = "Ammo Crate",
