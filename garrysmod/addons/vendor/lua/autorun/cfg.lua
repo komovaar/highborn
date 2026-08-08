@@ -559,6 +559,21 @@ Vendor.Weapons = {
         jobs=nil
     },
     {
+        name = "S.L.A.M.",
+        class = "weapon_slam",
+        price = 1500,
+        model = "models/weapons/w_slam.mdl",
+        stats = {
+            damage = 100,
+            rpm = 0,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "equipment",
+        vip=false,
+        jobs={"TEAM_RCScorch", "TEAM_SUNWAVE"}
+    },
+    {
         name = "Impact Grenade",
         class = "rw_sw_nade_impact",
         price = 10000,
