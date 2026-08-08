@@ -1433,8 +1433,8 @@ TEAM_501PVT = DarkRP.createJob("501 | Клон Рядовий", {
         ply:SetBodygroup(4, 0)
         ply:SetBodygroup(5, 0)
         ply:SetBodygroup(6, 0)
-        ply:SetArmor(20)
-        ply:SetMaxArmor(20)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -1458,8 +1458,8 @@ TEAM_501SGT = DarkRP.createJob("501 | Клон Сержант", {
         ply:SetBodygroup(4, 0)
         ply:SetBodygroup(5, 0)
         ply:SetBodygroup(6, 0)
-        ply:SetArmor(30)
-        ply:SetMaxArmor(30)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -1488,8 +1488,8 @@ TEAM_501LT = DarkRP.createJob("501 | Клон Лейтенант", {
         ply:SetBodygroup(9, 0)
         ply:SetBodygroup(10, 0)
         ply:SetBodygroup(11, 0)
-        ply:SetArmor(40)
-        ply:SetMaxArmor(40)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -1518,8 +1518,8 @@ TEAM_501CMD = DarkRP.createJob("501 | Клон Командир", {
         ply:SetBodygroup(9, 0)
         ply:SetBodygroup(10, 0)
         ply:SetBodygroup(11, 0)
-        ply:SetArmor(50)
-        ply:SetMaxArmor(50)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -1543,8 +1543,8 @@ TEAM_501MED = DarkRP.createJob("501 | Клон Медик", {
         ply:SetBodygroup(4, 3)
         ply:SetBodygroup(5, 0)
         ply:SetBodygroup(6, 0)
-        ply:SetArmor(30)
-        ply:SetMaxArmor(30)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -1567,8 +1567,8 @@ TEAM_501PIL = DarkRP.createJob("501 | Клон Пілот", {
         ply:SetBodygroup(3, 0)
         ply:SetBodygroup(4, 0)
         ply:SetBodygroup(5, 0)
-        ply:SetArmor(30)
-        ply:SetMaxArmor(30)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
@@ -1595,8 +1595,8 @@ TEAM_501ARC = DarkRP.createJob("501 | Клон ARC", {
         ply:SetBodygroup(7, 1)
         ply:SetBodygroup(8, 0)
         ply:SetBodygroup(9, 0)
-        ply:SetArmor(50)
-        ply:SetMaxArmor(50)
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
     end
 })
 
