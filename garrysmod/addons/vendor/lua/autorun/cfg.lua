@@ -896,7 +896,42 @@ Vendor.Models = {
     helm_acc2 = { id = 2, name = "Візер(опущений)", price = 1500, vip = false, default = 2},
     medpack = { id = 3, name = "Медичний набір", price = 500, vip = false, default = 0},
     kama = { id = 4, name = "Кама", price = 10000, vip = false, default = 1}
-}
+},
+["models/player/budds/cgi_commandos/delta/boss/delta_commando_boss.mdl"] = {
+    vibroblade = { id = 4, name = "Віброклінок", price = 1500, vip = false, default = 1},
+    att_left1 = { id = 5, name = "Спорядження Зліва 1", price = 3000, vip = false, default = 1},
+    att_left2 = { id = 5, name = "Спорядження Зліва 2", price = 3000, vip = false, default = 2},
+    att_right1= { id = 6, name = "Спорядження Зправа 1", price = 3000, vip = false, default = 1},
+    att_right2 = { id = 6, name = "Спорядження Зправа 2", price = 3000, vip = false, default = 2},
+},
+["models/player/budds/cgi_commandos/delta/fixer/delta_commando_fixer.mdl"] = {
+    antena_left = { id = 4, name = "Антена Ліва", price = 1500, vip = false, default = 0},
+    antena_right = { id = 5, name = "Антена Права", price = 1500, vip = false, default = 1},
+    backpack = { id = 6, name = "Спорядження до рюкзака", price = 5000, vip = false, default = 0},
+    vibroblade = { id = 7, name = "Віброклінок", price = 1500, vip = false, default = 1},
+    att_left1 = { id = 8, name = "Спорядження Зліва 1", price = 3000, vip = false, default = 1},
+    att_left2 = { id = 8, name = "Спорядження Зліва 2", price = 3000, vip = false, default = 2},
+    att_right1= { id = 9, name = "Спорядження Зправа 1", price = 3000, vip = false, default = 1},
+    att_right2 = { id = 9, name = "Спорядження Зправа 2", price = 3000, vip = false, default = 2},
+},
+["models/player/budds/cgi_commandos/delta/scorch/delta_commando_scorch.mdl"] = {
+    backpack = { id = 4, name = "Спорядження до рюкзака", price = 5000, vip = false, default = 0},
+    vibroblade = { id = 5, name = "Віброклінок", price = 1500, vip = false, default = 1},
+    att_left1 = { id = 6, name = "Спорядження Зліва 1", price = 3000, vip = false, default = 1},
+    att_left2 = { id = 6, name = "Спорядження Зліва 2", price = 3000, vip = false, default = 2},
+    att_right1= { id = 7, name = "Спорядження Зправа 1", price = 3000, vip = false, default = 0},
+    att_right2 = { id = 7, name = "Спорядження Зправа 2", price = 3000, vip = false, default = 1},
+},
+["models/player/budds/cgi_commandos/delta/sev/delta_commando_sev.mdl"] = {
+    helmet_up = { id = 4, name = "Візор 1", price = 3000, vip = false, default = 1},
+    helmet_down = { id = 4, name = "Візор 2", price = 3000, vip = false, default = 2},
+    sholder_att = { id = 5, name = "Спорядження на плече", price = 1500, vip = false, default = 0},
+    vibroblade = { id = 6, name = "Віброклінок", price = 1500, vip = false, default = 1},
+    att_left1 = { id = 7, name = "Спорядження Зліва 1", price = 3000, vip = false, default = 1},
+    att_left2 = { id = 7, name = "Спорядження Зліва 2", price = 3000, vip = false, default = 2},
+    att_right1= { id = 8, name = "Спорядження Зправа 1", price = 3000, vip = false, default = 1},
+    att_right2 = { id = 8, name = "Спорядження Зправа 2", price = 3000, vip = false, default = 2},
+},
 }
 
 
