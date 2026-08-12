@@ -1628,7 +1628,7 @@ TEAM_ARCKomandos = DarkRP.createJob("Клон ARC Командос", {
 })
 
 TEAM_SPECTER = DarkRP.createJob("Specter", {
-    color = Color(102, 0, 102),
+    color = Color(102, 102, 255),
     model = {"models/kylejwest/clanskirata/cgiwalonvau/cgiwalonvau.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
