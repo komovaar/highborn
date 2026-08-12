@@ -111,7 +111,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={""}
+        jobs={"TEAM_SPECTER"}
     },
     {
         name = "Dual Westar-34",
@@ -126,7 +126,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={""}
+        jobs={"TEAM_SPECTER"}
     },
     {
         name = "Dual DC-17",
@@ -330,7 +330,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_501ARC", "TEAM_ARCKomandos"}
+        jobs={"TEAM_501ARC", "TEAM_ARCKomandos", "TEAM_SPECTER"}
     },
     {
         name = "Наручна Ракетниця",
@@ -345,7 +345,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={""}
+        jobs={"TEAM_SPECTER"}
     },
 
     {
@@ -932,6 +932,15 @@ Vendor.Models = {
     att_right1= { id = 8, name = "Спорядження Зправа 1", price = 3000, vip = false, default = 1},
     att_right2 = { id = 8, name = "Спорядження Зправа 2", price = 3000, vip = false, default = 2},
 },
+["models/kylejwest/clanskirata/cgiwalonvau/cgiwalonvau.mdl"] = {
+    belt = { id = 9, name = "Пояс", price = 2000, vip = false, default = 1},
+    jetpack = { id = 10, name = "Джетпак", price = 3500, vip = false, default = 0},
+    shoulder_left = { id = 11, name = "Лівий наплічник", price = 1500, vip = false, default = 0},
+    shoulder_right = { id = 12, name = "Правий наплічник", price = 1500, vip = false, default = 0},
+    kama = { id = 13, name = "Кама", price = 5000, vip = false, default = 0},
+    holster_left = { id = 14, name = "Кобура ліва", price = 1500, vip = false, default = 0},
+    holster_right = { id = 15, name = "Кобура права", price = 1500, vip = false, default = 0},
+}
 }
 
 

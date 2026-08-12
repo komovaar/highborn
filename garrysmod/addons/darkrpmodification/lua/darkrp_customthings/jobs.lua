@@ -1627,6 +1627,49 @@ TEAM_ARCKomandos = DarkRP.createJob("Клон ARC Командос", {
     end
 })
 
+TEAM_SPECTER = DarkRP.createJob("Specter", {
+    color = Color(102, 0, 102),
+    model = {"models/kylejwest/clanskirata/cgiwalonvau/cgiwalonvau.mdl"},
+    description = "",
+    weapons = {"rw_sw_dc15a_o"},
+    max = 100,
+    salary = 100,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    category = "CT",
+    command="specter",
+    PlayerLoadout = function(ply)
+        ply:SetBodygroup(0, 0)
+        ply:SetBodygroup(1, 0) -- Helmet
+        ply:SetBodygroup(2, 0) -- Bear
+        ply:SetBodygroup(3, 0) -- Collar
+        ply:SetBodygroup(4, 0) -- Backplate
+        ply:SetBodygroup(5, 0) -- Chest Left
+        ply:SetBodygroup(6, 0) -- Chest Right
+        ply:SetBodygroup(7, 0) -- Chest center
+        ply:SetBodygroup(8, 0) -- Stomach
+        ply:SetBodygroup(9, 0) -- Belt
+        ply:SetBodygroup(10, 1) -- Backpack
+        ply:SetBodygroup(11, 1) -- Shoulder Left
+        ply:SetBodygroup(12, 1) -- Shoulder Right
+        ply:SetBodygroup(13, 1) -- Kama
+        ply:SetBodygroup(14, 1) -- Holster Left
+        ply:SetBodygroup(15, 1) -- Holster Right
+        ply:SetBodygroup(16, 0) -- Crotchplate
+        ply:SetBodygroup(17, 0) -- Thigh Left
+        ply:SetBodygroup(18, 0) -- Thigh Right
+        ply:SetBodygroup(19, 0) -- Knee Left
+        ply:SetBodygroup(20, 0) -- Knee Right
+        ply:SetBodygroup(21, 0) -- Shin Left
+        ply:SetBodygroup(22, 0) -- Shin Right
+        ply:SetBodygroup(23, 0) -- Foot Left
+        ply:SetBodygroup(24, 0) -- Foot Right
+        ply:SetArmor(100)
+        ply:SetMaxArmor(100)
+    end
+})
+
 
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
