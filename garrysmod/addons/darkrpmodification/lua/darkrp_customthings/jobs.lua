@@ -1495,7 +1495,7 @@ TEAM_501LT = DarkRP.createJob("501 | Клон Лейтенант", {
 
 TEAM_501CMD = DarkRP.createJob("501 | Клон Командир", {
     color = Color(0, 102, 204),
-    model = {"models/501st_co/pm_501st_co.mdl"},
+    model = {"models/md/501st/501_jet3.mdl"},
     description = "",
     weapons = {"rw_sw_dc15a_o"},
     max = 100,
@@ -1507,17 +1507,14 @@ TEAM_501CMD = DarkRP.createJob("501 | Клон Командир", {
     command="501cmd",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 0)
-        ply:SetBodygroup(1, 0)
-        ply:SetBodygroup(2, 0)
-        ply:SetBodygroup(3, 0)
-        ply:SetBodygroup(4, 0)
-        ply:SetBodygroup(5, 1)
-        ply:SetBodygroup(6, 1)
-        ply:SetBodygroup(7, 2)
-        ply:SetBodygroup(8, 0)
-        ply:SetBodygroup(9, 0)
-        ply:SetBodygroup(10, 0)
-        ply:SetBodygroup(11, 0)
+        ply:SetBodygroup(1, 0) -- helmet
+        ply:SetBodygroup(2, 1) -- antena
+        ply:SetBodygroup(3, 1) -- kama
+        ply:SetBodygroup(4, 1) -- holster left
+        ply:SetBodygroup(5, 1) -- holster right
+        ply:SetBodygroup(6, 0) -- backpack
+        ply:SetBodygroup(7, 1) -- pauldron
+        ply:SetBodygroup(8, 1) -- sunvisor
         ply:SetArmor(100)
         ply:SetMaxArmor(100)
     end

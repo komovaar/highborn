@@ -940,6 +940,14 @@ Vendor.Models = {
     kama = { id = 13, name = "Кама", price = 5000, vip = false, default = 0},
     holster_left = { id = 14, name = "Кобура ліва", price = 1500, vip = false, default = 0},
     holster_right = { id = 15, name = "Кобура права", price = 1500, vip = false, default = 0},
+},
+["models/md/501st/501_jet3.mdl"] = {
+    antena = { id = 2, name = "Антена", price = 1500, vip = false, default = 0},
+    kama = { id = 3, name = "Кама", price = 15000, vip = false, default = 0},
+    holster_left = { id = 4, name = "Кобура ліва", price = 1500, vip = false, default = 0},
+    holster_right = { id = 5, name = "Кобура права", price = 1500, vip = false, default = 0},
+    pauldron = { id = 7, name = "Наплічник", price = 15000, vip = false, default = 0},
+    sunvisor = { id = 8, name = "Візор", price = 5000, vip = false, default = 0},
 }
 }
 
