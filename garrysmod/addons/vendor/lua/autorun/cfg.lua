@@ -347,7 +347,36 @@ Vendor.Weapons = {
         vip = false,
         jobs={"TEAM_SPECTER"}
     },
-
+    {
+        name = "Наручний Вогнеметй",
+        class = "rw_sw_wristflame",
+        price = 20000,
+        model = "models/cs574/weapons/arc_leftwrist.mdl",
+        stats = {
+            damage = 35,
+            rpm = 1000,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_SPECTER"}
+    },
+    {
+        name = "Наручний Бластер",
+        class = "rw_sw_wristblaster_heavy_blue",
+        price = 20000,
+        model = "models/cs574/weapons/arc_leftwrist.mdl",
+        stats = {
+            damage = 40,
+            rpm = 207,
+            accuracy = "High",
+            mode = "Auto"
+        },
+        category = "weapon",
+        vip = false,
+        jobs={"TEAM_SUNWAVE"}
+    },
     {
         name = "DC-17m Shotgun",
         class = "rw_sw_dc17m_shotgun",
