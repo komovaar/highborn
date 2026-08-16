@@ -1405,7 +1405,7 @@ TEAM_SUNWAVE = DarkRP.createJob("Джегер", {
     command="sunwave",
     PlayerLoadout = function(ply)
         ply:SetBodygroup(0, 1)  -- skin
-        ply:SetBodygroup(1, 1)  -- weapons
+        ply:SetBodygroup(1, 0)  -- weapons
         ply:SetArmor(100)
         ply:SetMaxArmor(100)
     end

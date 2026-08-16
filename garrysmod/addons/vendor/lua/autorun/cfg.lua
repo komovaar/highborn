@@ -978,9 +978,6 @@ Vendor.Models = {
     pauldron = { id = 7, name = "Наплічник", price = 15000, vip = false, default = 0},
     sunvisor = { id = 8, name = "Візор", price = 5000, vip = false, default = 0},
 },
-["models/jajoff/sps/alpha/tc13j/dreadnought_black1.mdl"] = {
-    weapons = { id = 1, name = "Зброя", price = 5000, vip = false, default = 0}
-}
 }
 
 
