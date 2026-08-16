@@ -345,7 +345,7 @@ Vendor.Weapons = {
         },
         category = "weapon",
         vip = false,
-        jobs={"TEAM_SPECTER"}
+        jobs={"TEAM_SPECTER", "TEAM_SUNWAVE"}
     },
     {
         name = "Наручний Вогнеметй",
