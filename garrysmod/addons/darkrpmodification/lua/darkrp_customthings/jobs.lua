@@ -1391,9 +1391,9 @@ TEAM_ADMIN = DarkRP.createJob("Адміністратор", {
     end
 })
 
-TEAM_SUNWAVE = DarkRP.createJob("501 | Клон Ворон", {
+TEAM_SUNWAVE = DarkRP.createJob("Джегер", {
     color = Color(0, 102, 204),
-    model = {"models/player/iciia/501_wendigo/501_wendigo.mdl"},
+    model = {"models/jajoff/sps/alpha/tc13j/dreadnought_black1.mdl"},
     description = "",
     weapons = {},
     max = 100,
@@ -1401,15 +1401,13 @@ TEAM_SUNWAVE = DarkRP.createJob("501 | Клон Ворон", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "501st",
+    category = "CT",
     command="sunwave",
     PlayerLoadout = function(ply)
-        ply:SetBodygroup(1, 1)  -- helmet/head
-        ply:SetBodygroup(2, 3)  -- helmet accessories
-        ply:SetBodygroup(3, 1)  -- medpack
-        ply:SetBodygroup(4, 0)  -- kama
+        ply:SetBodygroup(0, 1)  -- skin
+        ply:SetBodygroup(1, 1)  -- weapons
         ply:SetArmor(100)
-        ply:SetMaxArmor(100)
+        ply:SetMaxArmor(400)
     end
 })
 
