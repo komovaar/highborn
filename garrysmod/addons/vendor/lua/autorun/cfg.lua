@@ -348,7 +348,7 @@ Vendor.Weapons = {
         jobs={"TEAM_SPECTER", "TEAM_SUNWAVE"}
     },
     {
-        name = "Наручний Вогнеметй",
+        name = "Наручний Вогнемет",
         class = "rw_sw_wristflame",
         price = 20000,
         model = "models/cs574/weapons/arc_leftwrist.mdl",
